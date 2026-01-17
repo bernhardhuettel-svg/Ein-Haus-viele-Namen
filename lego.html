@@ -93,63 +93,97 @@
 
     function init3D() {
         const container = document.getElementById('container');
-        const errorDiv = document.getElementById('errorMsg');
-        errorDiv.innerHTML = '';
 
-        try {
-            if (typeof THREE === 'undefined') {
-                throw new Error('THREE nicht definiert – CDN hat nicht geladen. Internet/CDN prüfen?');
-            }
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xe0f0ff);
 
-            console.log('Three.js geladen – Revision:', THREE.REVISION);
+        camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 2000);
+        camera.position.set(0, 40, 80);
+        camera.lookAt(0, 0, 0);
 
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xe0f0ff);
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setClearColor(0x88cc88, 1);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
 
-            camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 2000);
-            camera.position.set(0, 40, 80);
-            camera.lookAt(0, 0, 0);
+        // Licht
+        scene.add(new THREE.AmbientLight(0xffffff, 1.0));
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+        dirLight.position.set(30, 60, 40);
+        scene.add(dirLight);
 
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setClearColor(0x88cc88, 1);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            container.appendChild(renderer.domElement);
+        // Grundstücksfläche
+        const plateSize = 60;
+        const groundGeo = new THREE.PlaneGeometry(plateSize, plateSize);
+        const groundMat = new THREE.MeshStandardMaterial({ color: 0x4CAF50 });
+        const ground = new THREE.Mesh(groundGeo, groundMat);
+        ground.rotation.x = -Math.PI / 2;
+        ground.position.y = 0;
+        scene.add(ground);
 
-            scene.add(new THREE.AmbientLight(0xffffff, 1.0));
-            const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-            dirLight.position.set(30, 60, 40);
-            scene.add(dirLight);
+        const grid = new THREE.GridHelper(plateSize, 50, 0x444444, 0xaaaaaa);
+        grid.position.y = 0.03;
+        scene.add(grid);
 
-            const plateSize = 60;
-            const geometry = new THREE.PlaneGeometry(plateSize, plateSize);
-            const material = new THREE.MeshStandardMaterial({ color: 0x4CAF50, roughness: 1.0, metalness: 0.0 });
-            const baseplate = new THREE.Mesh(geometry, material);
-            baseplate.rotation.x = -Math.PI / 2;
-            scene.add(baseplate);
+        // Haus-Umriss (Bungalow-Style, ca. 14x10 Meter skaliert)
+        const houseWidth = 14;
+        const houseDepth = 10;
+        const wallHeight = 4;   // Lego-Steinhöhe
+        const brickSize = 1;
 
-            const grid = new THREE.GridHelper(plateSize, 50, 0x444444, 0xaaaaaa);
-            grid.position.y = 0.03;
-            scene.add(grid);
+        const wallMaterial = new THREE.MeshStandardMaterial({ color: 0xffd700 }); // gelb
+        const roofMaterial  = new THREE.MeshStandardMaterial({ color: 0xb03030 }); // rot
 
-            console.log('Szene aufgebaut – Rendering läuft.');
+        // Vier Wände
+        const wallThickness = 0.4;
+        // Vorne
+        let wall = new THREE.Mesh(
+            new THREE.BoxGeometry(houseWidth, wallHeight, wallThickness),
+            wallMaterial
+        );
+        wall.position.set(0, wallHeight/2, -houseDepth/2);
+        scene.add(wall);
 
-            function animate() {
-                requestAnimationFrame(animate);
-                renderer.render(scene, camera);
-            }
-            animate();
+        // Hinten
+        wall = wall.clone();
+        wall.position.z = houseDepth/2;
+        scene.add(wall);
 
-            window.addEventListener('resize', () => {
-                camera.aspect = container.clientWidth / container.clientHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(container.clientWidth, container.clientHeight);
-            });
+        // Links
+        wall = new THREE.Mesh(
+            new THREE.BoxGeometry(wallThickness, wallHeight, houseDepth),
+            wallMaterial
+        );
+        wall.position.set(-houseWidth/2, wallHeight/2, 0);
+        scene.add(wall);
 
-        } catch (err) {
-            console.error('Init-Fehler:', err);
-            errorDiv.innerHTML = 'Fehler beim Starten: ' + err.message + '<br>Konsole prüfen oder in Chrome/Firefox testen.';
+        // Rechts
+        wall = wall.clone();
+        wall.position.x = houseWidth/2;
+        scene.add(wall);
+
+        // Dach (flach)
+        const roof = new THREE.Mesh(
+            new THREE.BoxGeometry(houseWidth + 1, 0.6, houseDepth + 1),
+            roofMaterial
+        );
+        roof.position.y = wallHeight + 0.3;
+        scene.add(roof);
+
+        console.log('Haus-Umriss hinzugefügt – Rendering läuft.');
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
         }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
     }
 </script>
 
