@@ -6,33 +6,80 @@
     <title>Bayreuth Lego-Haus – Ela & Bernhard</title>
     <style>
         body {
-            font-family: sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
             max-width: 800px;
-            margin: 40px auto;
-            line-height: 1.6;
+            margin: 60px auto 40px;
+            line-height: 1.7;
             padding: 0 20px;
+            color: #222;
         }
-        h1, h2, h3 {
+        h1 {
             text-align: center;
+            font-size: 2.4em;
+            margin-bottom: 0.2em;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 2.5em;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.4em;
+        }
+        details {
+            margin: 1.5em 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        summary {
+            padding: 1em 1.2em;
+            background: #f8f8f8;
+            cursor: pointer;
+            font-weight: 600;
+            user-select: none;
+        }
+        summary:hover {
+            background: #f0f0f0;
+        }
+        .content {
+            padding: 1.2em 1.5em;
+        }
+        img.profile {
+            display: block;
+            max-width: 180px;
+            border-radius: 50%;
+            margin: 1em auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+        blockquote {
+            border-left: 4px solid #ccc;
+            padding-left: 1.2em;
+            margin: 1.5em 0;
+            color: #555;
+            font-style: italic;
+        }
+        a.cta {
+            display: inline-block;
+            margin: 2em 0;
+            padding: 0.9em 1.8em;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        a.cta:hover {
+            background: #0055aa;
         }
         hr {
             border: 0;
-            border-top: 1px solid #ccc;
-            margin: 40px 0;
+            border-top: 1px solid #eee;
+            margin: 3em 0;
         }
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        ul li {
-            margin: 10px 0;
-        }
-        a {
-            color: #0066cc;
-            text-decoration: underline;
-        }
-        a:hover {
-            text-decoration: none;
+        footer {
+            text-align: center;
+            margin-top: 4em;
+            color: #777;
+            font-size: 0.95em;
         }
     </style>
 </head>
@@ -41,61 +88,81 @@
 <h1>Bayreuth Lego-Haus</h1>
 <h1>Ela & Bernhard</h1>
 
-<p>Ein Haus – viele Namen.<br>
-Ein reales Haus in Pirk bei Bayreuth, das wir gemeinsam mit der Community bauen und finanzieren.</p>
-
-<hr>
-
-<h2>Wer wir sind</h2>
-
-<h3>Bernhard</h3>
-<p>Ich bin Bernhard aus Pirk, Bayern. Technik-affin, kreativ und immer auf der Suche nach spannenden Community-Projekten. Das hier ist mein Traum: ein eigenes Haus, das nicht nur uns gehört, sondern von vielen mitgestaltet wurde.</p>
-
-<h3>Ela</h3>
-<p>Ich bin Ela, Bernhards Partnerin. Ich bringe die Wärme, die Ideen für ein gemütliches Zuhause und die Liebe zur Natur mit. Gemeinsam wollen wir etwas Bleibendes schaffen – mit euch.</p>
-
-<blockquote>
-„Ein Zuhause entsteht nicht aus Steinen allein – es entsteht aus Menschen, die daran glauben.“
-</blockquote>
-
-<hr>
-
-<h2>Die Idee</h2>
-
-<p>Wir bauen ein realistisches Haus: max. 1000 qm Grundstück + 140 qm Wohnfläche (Bungalow oder Einfamilienhaus – ihr entscheidet mit).<br>
-Alles wird digital als Lego-Bausatz dargestellt: Jeder Euro = ein virtueller Lego-Stein (1 € pro qm oder Bauteil). Dein Name wird sichtbar auf dem Stein platziert.</p>
-
-<p>Das gesammelte Geld fließt 1:1 in das reale Projekt: Grundstückskauf, Bau, Ausstattung.<br>
-Transparenz ist uns wichtig: Regelmäßige Updates, Abstimmungen über Design (Fassade, Küche, etc.) und offene Finanzübersicht.</p>
-
-<h3>Ziel</h3>
-<ul>
-    <li>700.000–800.000 € für Grundstück + schlüsselfertiges Haus in Pirk/Bayreuth</li>
-    <li>Jeder Beitrag zählt – egal ob 1 € oder 100 €</li>
-</ul>
-
-<hr>
-
-<h2>Wie kann man mitmachen?</h2>
-
-<ul>
-    <li>1 € → 1 qm Grundstück oder 1 Lego-Stein (Name sichtbar)</li>
-    <li>5 € → Ein Bauteil (z. B. Fenster, Tür)</li>
-    <li>25 € → Größeres Element (z. B. ein Zimmer-Bereich)</li>
-    <li>100 €+ → Besonderer Dank + Abstimmungs-Vorzug</li>
-</ul>
-
-<p>Alle Beiträge werden namentlich auf der digitalen Lego-Darstellung verewigt.<br>
-Und natürlich: Teilt das Projekt – je mehr Leute mitmachen, desto schneller wird es real.</p>
-
-<p><strong><a href="lego.html">Jetzt Teil des Projekts werden → Zum 3D Lego-Bausatz</a></strong></p>
-
-<hr>
-
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-© 2026 Ela & Bernhard | Pirk, Bayern<br>
-Fragen? Schreib uns gerne eine Nachricht.
+<p style="text-align:center; font-size:1.2em; margin:1.5em 0;">
+Ein reales Haus in Pirk bei Bayreuth – gemeinsam gebaut, finanziert und gestaltet.
 </p>
+
+<a href="lego.html" class="cta">Zum interaktiven 3D Lego-Bausatz →</a>
+
+<hr>
+
+<details>
+    <summary>Wer wir sind – Ela & Bernhard</summary>
+    <div class="content">
+
+        <img src="bernhard.png" alt="Bernhard" class="profile">
+        <h3>Bernhard</h3>
+        <p>Aus Pirk, technikbegeistert, kreativ und Community-orientiert. Ich liebe es, wenn aus einer verrückten Idee etwas Echtes entsteht – und genau das wollen wir hier machen.</p>
+
+        <img src="ela.png" alt="Ela" class="profile">
+        <h3>Ela</h3>
+        <p>Ich bin Ela, Bernhards Partnerin. Ich bringe die Wärme ins Projekt, die Ideen für ein gemütliches, nachhaltiges Zuhause und die Freude daran, mit vielen Menschen etwas zu schaffen.</p>
+
+        <blockquote>
+            „Ein Haus ist mehr als Wände und Dach – es ist das, was Menschen gemeinsam daraus machen.“
+        </blockquote>
+
+    </div>
+</details>
+
+<details>
+    <summary>Die Idee im Detail</summary>
+    <div class="content">
+        <p>Wir realisieren ein Haus mit max. 1000 qm Grundstück und ca. 140 qm Wohnfläche (Bungalow oder zweistöckiges Einfamilienhaus – ihr stimmt ab).</p>
+        <p>Das Ganze wird als digitales **Lego-Bausatz-Projekt** umgesetzt:</p>
+        <ul>
+            <li>1 € = 1 virtueller Lego-Stein (≡ 1 qm oder Bauteil)</li>
+            <li>Dein Name / Nachricht wird direkt auf dem Stein sichtbar</li>
+            <li>Abstimmungen über Design-Entscheidungen (Fassade, Grundriss, Küche, etc.)</li>
+            <li>100 % der Einnahmen fließen in das reale Projekt (Grundstück, Bau, Ausstattung)</li>
+        </ul>
+        <p>Zielsumme: 700.000–800.000 € – transparent, wöchentliche Updates.</p>
+    </div>
+</details>
+
+<details>
+    <summary>Wie kann ich mitmachen?</summary>
+    <div class="content">
+        <p>Einfach & direkt:</p>
+        <ul>
+            <li><strong>1 €</strong> → 1 qm Grundstück oder 1 Lego-Stein (Name sichtbar)</li>
+            <li><strong>5–10 €</strong> → Bauteil (Fenster, Tür, Möbelstück)</li>
+            <li><strong>25–100 €</strong> → Größerer Bereich + besonderer Dank</li>
+            <li>Teilen auf Social Media → je mehr Reichweite, desto schneller real</li>
+        </ul>
+        <p>Alle Beiträge werden namentlich auf der 3D-Darstellung verewigt.</p>
+        <p><strong>Nächster Schritt:</strong> Schau dir das Modell an und werde Teil davon.</p>
+    </div>
+</details>
+
+<details>
+    <summary>Transparenz & Updates</summary>
+    <div class="content">
+        <p>Wir teilen:</p>
+        <ul>
+            <li>Monatliche Finanzübersicht</li>
+            <li>Fotos vom realen Grundstücks-Suche / Baufortschritt</li>
+            <li>Abstimmungsergebnisse</li>
+            <li>Dank an alle Unterstützer</li>
+        </ul>
+        <p>Kontakt für Fragen: Schreib uns gerne eine Nachricht.</p>
+    </div>
+</details>
+
+<footer>
+    © 2026 Ela & Bernhard · Pirk, Bayern<br>
+    Ein Community-Projekt – von Menschen für Menschen.
+</footer>
 
 </body>
 </html>
