@@ -3,120 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Lego-Haus Bausatz – Ela & Bernhard</title>
+    <title>3D Lego-Grundstück – Ela & Bernhard</title>
     <style>
-        body { margin:0; font-family:system-ui, sans-serif; background:#f9f9f9; color:#222; }
-        header { padding:30px 20px; text-align:center; background:#fff; border-bottom:1px solid #ddd; }
-        #container { width:100%; height:70vh; min-height:500px; }
-        .info { max-width:800px; margin:30px auto; padding:0 20px; line-height:1.6; }
-        a.back { display:inline-block; margin:20px; padding:10px 20px; background:#0066cc; color:white; text-decoration:none; border-radius:6px; }
-        a.back:hover { background:#0055aa; }
+        body {
+            margin: 0;
+            font-family: system-ui, sans-serif;
+            background: #f9f9f9;
+            color: #222;
+            text-align: center;
+        }
+        header {
+            padding: 30px 20px;
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+        h1 {
+            margin: 0.4em 0;
+        }
+        #container {
+            width: 100%;
+            height: 70vh;
+            min-height: 500px;
+            border: 1px solid #ccc;
+            background: #eee;
+            margin: 20px 0;
+        }
+        button {
+            padding: 14px 32px;
+            font-size: 1.1em;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 20px;
+        }
+        button:hover {
+            background: #218838;
+        }
+        .info {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+            line-height: 1.6;
+        }
+        a.back {
+            display: inline-block;
+            margin: 30px 0;
+            padding: 10px 24px;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+        a.back:hover {
+            background: #0055aa;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/controls/OrbitControls.min.js"></script>
 </head>
 <body>
 
 <header>
-    <h1>3D Lego-Haus Bausatz</h1>
-    <p>Klicke unten, um das interaktive Modell zu laden. Du kannst mit der Maus drehen und zoomen.</p>
+    <h1>3D Lego-Grundstück</h1>
+    <p>Das ist der Start: eine saubere, flache 1000-qm-Grundstücksfläche als Lego-Baseplate.<br>
+    Klicke unten, um das 3D-Modell zu laden.</p>
 </header>
 
 <div id="container"></div>
 
 <div class="info">
-    <button onclick="init3D()" style="padding:14px 28px; font-size:1.1em; background:#28a745; color:white; border:none; border-radius:6px; cursor:pointer;">
-        3D-Modell laden & erkunden
-    </button>
+    <button onclick="init3D()">Grundstück laden</button>
 
-    <p style="margin-top:2em;">
-        Das ist unsere digitale Lego-Version des Hauses (ca. 140 qm). Jeder Stein steht für 1 € Spende. Später wird hier jeder Unterstützer-Name sichtbar.
-    </p>
+    <p>Später bauen wir hier das Haus Stein für Stein drauf.<br>
+    Jeder 1-€-Beitrag = ein virtueller Stein auf dieser Fläche.</p>
 
     <a href="index.html" class="back">← Zurück zur Hauptseite</a>
 </div>
 
 <script>
-    let scene, camera, renderer, controls;
+    let scene, camera, renderer;
 
     function init3D() {
         const container = document.getElementById('container');
 
-        // Szene
+        // Szene erstellen
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xf0f0f0);
+        scene.background = new THREE.Color(0xf0f8ff); // hellblauer Himmel
 
-        // Kamera
-        camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
-        camera.position.set(0, 8, 18);
+        // Kamera (statisch, leicht schräg von oben)
+        camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 2000);
+        camera.position.set(0, 25, 40);  // erhöht und zurückgezogen für guten Überblick
+        camera.lookAt(0, 0, 0);
 
         // Renderer
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
         container.appendChild(renderer.domElement);
 
         // Licht
-        const light = new THREE.DirectionalLight(0xffffff, 1.2);
-        light.position.set(10, 15, 10);
-        scene.add(light);
-        scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+        const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+        scene.add(ambient);
 
-        // Boden / Grundstück
-        const groundGeo = new THREE.PlaneGeometry(30, 30);
-        const groundMat = new THREE.MeshStandardMaterial({ color: 0x88aa66 });
-        const ground = new THREE.Mesh(groundGeo, groundMat);
-        ground.rotation.x = -Math.PI / 2;
-        ground.position.y = -0.1;
-        scene.add(ground);
+        const directional = new THREE.DirectionalLight(0xffffff, 1.1);
+        directional.position.set(20, 40, 30);
+        scene.add(directional);
 
-        // Lego-Haus (einfaches Modell – Bungalow-Style)
-        const brickSize = 1.2;
-        const material = new THREE.MeshStandardMaterial({ color: 0xffd700, metalness:0.1, roughness:0.7 });
+        // Große grüne Lego-Baseplate (Grundstück)
+        const plateSize = 40; // Größe in Einheiten (repräsentiert ~1000 qm skaliert)
+        const geometry = new THREE.PlaneGeometry(plateSize, plateSize);
+        const material = new THREE.MeshStandardMaterial({
+            color: 0x4CAF50,          // sattes Lego-Grün
+            roughness: 0.9,
+            metalness: 0.0
+        });
+        const baseplate = new THREE.Mesh(geometry, material);
+        baseplate.rotation.x = -Math.PI / 2; // flach legen
+        baseplate.position.y = -0.05;        // leicht unter Null für Schatten
+        scene.add(baseplate);
 
-        // Wände
-        for (let x = -6; x <= 6; x += 3) {
-            for (let z = -6; z <= 6; z += 3) {
-                if (Math.abs(x) === 6 || Math.abs(z) === 6) {
-                    const wall = new THREE.Mesh(
-                        new THREE.BoxGeometry(brickSize, brickSize*3, brickSize),
-                        material
-                    );
-                    wall.position.set(x, brickSize*1.5, z);
-                    scene.add(wall);
-                }
-            }
+        // Leichte Grid-Linien für "Studs"-Gefühl (optional, aber schön)
+        const gridHelper = new THREE.GridHelper(plateSize, 40, 0x888888, 0xaaaaaa);
+        gridHelper.position.y = 0.01;
+        scene.add(gridHelper);
+
+        // Erste Render + Animation-Loop (für Licht/Schatten, falls später)
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
         }
-
-        // Dach
-        const roof = new THREE.Mesh(
-            new THREE.BoxGeometry(16, 1, 16),
-            new THREE.MeshStandardMaterial({ color: 0xb03030 })
-        );
-        roof.position.y = brickSize*3 + 0.5;
-        scene.add(roof);
-
-        // Optionale Maus-Steuerung (drehen/zoomen)
-        controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-
         animate();
-    }
 
-    function animate() {
-        requestAnimationFrame(animate);
-        if (controls) controls.update();
-        renderer.render(scene, camera);
+        // Resize handhaben
+        window.addEventListener('resize', onWindowResize);
+        function onWindowResize() {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
     }
-
-    // Resize-Handling
-    window.addEventListener('resize', () => {
-        if (!renderer) return;
-        const container = document.getElementById('container');
-        camera.aspect = container.clientWidth / container.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(container.clientWidth, container.clientHeight);
-    });
 </script>
 
 </body>
