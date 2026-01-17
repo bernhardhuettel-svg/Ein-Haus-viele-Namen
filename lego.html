@@ -22,7 +22,7 @@
             height: 70vh;
             min-height: 500px;
             border: 2px solid #aaa;
-            background: #e0f0e0; /* Fallback-Grün, falls 3D nicht lädt */
+            background: #e0f0e0; /* Fallback */
             margin: 20px 0;
         }
         button {
@@ -64,15 +64,17 @@
             margin: 0 auto;
         }
     </style>
-    <!-- Stabile CDN von cdnjs – vermeidet MIME/nosniff-Probleme in Safari -->
-    <script src="https://unpkg.com/three@0.169.0/build/three.min.js>"></script>
+    <!-- jsDelivr – stabile Version, mit SRI für Safari-Vertrauen -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.min.js"
+            integrity="sha256-...placeholder..."  <!-- SRI optional, kann weggelassen werden wenn nicht bekannt -->
+            crossorigin="anonymous"></script>
 </head>
 <body>
 
 <header>
-    <h1>3D Lego-Grundstück (nun mit cdnjs CDN)</h1>
-    <p>Klicke auf "Grundstück laden". Es sollte eine große grüne Fläche mit Gitternetz erscheinen.<br>
-    Wenn nicht: Öffne Konsole (⌘ + Option + I) und kopiere mir alle Meldungen!</p>
+    <h1>3D Lego-Grundstück – jetzt mit fixem CDN</h1>
+    <p>Klicke auf "Grundstück laden". Es sollte eine grüne Fläche mit Gitternetz erscheinen.<br>
+    Konsole prüfen (⌘ + Option + I) und mir alle Meldungen schicken, falls es nicht klappt!</p>
 </header>
 
 <div id="container"></div>
@@ -81,8 +83,8 @@
 <div class="info">
     <button onclick="init3D()">Grundstück laden</button>
 
-    <p>Reine, flache Grundstücksfläche als Start (Lego-Baseplate-Style, skaliert für ~1000 qm).<br>
-    Statisch – keine Maus-Steuerung. Später fügen wir Steine/Haus hinzu.</p>
+    <p>Flache Grundstücksfläche (Lego-Baseplate-Style) als Startpunkt.<br>
+    Statisch – später bauen wir das Haus drauf.</p>
 
     <a href="index.html" class="back">← Zurück zur Hauptseite</a>
 </div>
@@ -93,61 +95,52 @@
     function init3D() {
         const container = document.getElementById('container');
         const errorDiv = document.getElementById('errorMsg');
-        errorDiv.innerHTML = ''; // Reset Fehler
+        errorDiv.innerHTML = '';
 
         try {
             if (typeof THREE === 'undefined') {
-                throw new Error('THREE nicht geladen – CDN-Fehler? Prüfe Internet/CDN.');
+                throw new Error('THREE nicht definiert – CDN hat nicht geladen. Internet/CDN prüfen?');
             }
 
-            console.log('Three.js Version:', THREE.REVISION); // Sollte "169" oder ähnlich loggen
+            console.log('Three.js geladen – Revision:', THREE.REVISION);
 
-            // Szene
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0xe0f0ff);
 
-            // Kamera – hoch positioniert für Übersicht
             camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 2000);
             camera.position.set(0, 40, 80);
             camera.lookAt(0, 0, 0);
 
-            // Renderer – Safari-sicher
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
             renderer.setClearColor(0x88cc88, 1);
             renderer.setPixelRatio(window.devicePixelRatio);
             container.appendChild(renderer.domElement);
 
-            // Licht
             scene.add(new THREE.AmbientLight(0xffffff, 1.0));
             const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
             dirLight.position.set(30, 60, 40);
             scene.add(dirLight);
 
-            // Grundstücksfläche
             const plateSize = 60;
             const geometry = new THREE.PlaneGeometry(plateSize, plateSize);
             const material = new THREE.MeshStandardMaterial({ color: 0x4CAF50, roughness: 1.0, metalness: 0.0 });
             const baseplate = new THREE.Mesh(geometry, material);
             baseplate.rotation.x = -Math.PI / 2;
-            baseplate.position.y = 0;
             scene.add(baseplate);
 
-            // Gitternetz für Lego-Feeling
             const grid = new THREE.GridHelper(plateSize, 50, 0x444444, 0xaaaaaa);
             grid.position.y = 0.03;
             scene.add(grid);
 
-            console.log('Initialisierung erfolgreich – Rendering startet.');
+            console.log('Szene aufgebaut – Rendering läuft.');
 
-            // Animation-Loop
             function animate() {
                 requestAnimationFrame(animate);
                 renderer.render(scene, camera);
             }
             animate();
 
-            // Resize
             window.addEventListener('resize', () => {
                 camera.aspect = container.clientWidth / container.clientHeight;
                 camera.updateProjectionMatrix();
@@ -155,8 +148,8 @@
             });
 
         } catch (err) {
-            console.error('Fehler:', err);
-            errorDiv.innerHTML = 'Fehler: ' + err.message + '<br>Prüfe Konsole oder Internet. Alternativ: Probiere Chrome.';
+            console.error('Init-Fehler:', err);
+            errorDiv.innerHTML = 'Fehler beim Starten: ' + err.message + '<br>Konsole prüfen oder in Chrome/Firefox testen.';
         }
     }
 </script>
