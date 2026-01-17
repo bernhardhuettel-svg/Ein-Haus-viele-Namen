@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Lego-Haus Bausatz</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #333; text-align: center; }
+        header { background: #ffcc00; color: #000; padding: 20px; border-bottom: 4px solid #000; }
+        #container { width: 800px; height: 600px; margin: 20px auto; border: 2px solid #000; background: #eee; }
+        button { background: #28a745; color: white; padding: 15px 30px; border: none; cursor: pointer; font-size: 18px; border-radius: 5px; margin: 20px; }
+        button:hover { background: #218838; }
+        footer { text-align: center; padding: 20px; background: #333; color: white; }
+    </style>
+    <script src="https://threejs.org/build/three.js"></script>
+</head>
+<body>
+    <header>
+        <h1>3D Lego-Haus Bausatz</h1>
+        <p>Klicke auf den Button, um das interaktive 3D-Modell zu laden und zu erkunden!</p>
+    </header>
+    <button id="loadModel">3D-Modell aktivieren</button>
+    <div id="container"></div>
+    <p>Hier siehst du unser digitales Lego-Haus: Baue mit Steinen (Würfel) ein Bungalow oder EFH. Kaufe Steine für 1 € und platziere deinen Namen!</p>
+    <a href="index.html" style="display: block; margin: 20px auto; text-decoration: none;" class="cta-button">Zurück zur Hauptseite</a>
+    <footer>
+        <p>© 2026 Ela & Bernhard's Lego-Haus-Projekt</p>
+    </footer>
+    <script>
+        document.getElementById('loadModel').addEventListener('click', function() {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 800/600, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize(800, 600);
+            document.getElementById('container').appendChild(renderer.domElement);
+
+            // Einfaches Lego-Haus: Basis, Wände, Dach
+            const geometry = new THREE.BoxGeometry(1, 1, 1);
+            const material = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
+
+            // Basis-Platte (Grundstück)
+            const base = new THREE.Mesh(new THREE.BoxGeometry(10, 0.2, 10), new THREE.MeshBasicMaterial({ color: 0x00ff00 }));
+            base.position.y = -0.1;
+            scene.add(base);
+
+            // Haus-Wände (z.B. für Bungalow)
+            for (let i = -4; i <= 4; i += 2) {
+                const brick = new THREE.Mesh(geometry, material);
+                brick.position.set(i, 1, -4);
+                scene.add(brick);
+            }
+            // Dach
+            const roof = new THREE.Mesh(new THREE.BoxGeometry(10, 1, 10), new THREE.MeshBasicMaterial({ color: 0xd00 }));
+            roof.position.y = 3;
+            scene.add(roof);
+
+            camera.position.z = 15;
+            const animate = function () {
+                requestAnimationFrame(animate);
+                renderer.render(scene, camera);
+            };
+            animate();
+        });
+    </script>
+</body>
+</html>
