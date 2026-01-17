@@ -17,15 +17,12 @@
             background: #fff;
             border-bottom: 1px solid #ddd;
         }
-        h1 {
-            margin: 0.4em 0;
-        }
         #container {
             width: 100%;
             height: 70vh;
             min-height: 500px;
-            border: 1px solid #ccc;
-            background: #eee;
+            border: 2px solid #aaa;
+            background: #e0f0e0; /* hellgrün als Fallback, falls WebGL komplett ausfällt */
             margin: 20px 0;
         }
         button {
@@ -65,9 +62,9 @@
 <body>
 
 <header>
-    <h1>3D Lego-Grundstück</h1>
-    <p>Das ist der Start: eine saubere, flache 1000-qm-Grundstücksfläche als Lego-Baseplate.<br>
-    Klicke unten, um das 3D-Modell zu laden.</p>
+    <h1>3D Lego-Grundstück (Safari-optimiert)</h1>
+    <p>Klicke auf "Grundstück laden". Es sollte eine große grüne Fläche mit Gitternetz erscheinen.<br>
+    Schau bitte in die Entwicklerkonsole (⌘ + Option + I in Safari) nach Fehlern!</p>
 </header>
 
 <div id="container"></div>
@@ -75,8 +72,8 @@
 <div class="info">
     <button onclick="init3D()">Grundstück laden</button>
 
-    <p>Später bauen wir hier das Haus Stein für Stein drauf.<br>
-    Jeder 1-€-Beitrag = ein virtueller Stein auf dieser Fläche.</p>
+    <p>Das ist der reine Start: eine flache 1000-qm-Grundstücksfläche (skaliert als Lego-Baseplate).<br>
+    Keine Rotation/Zoom – nur statisch betrachten. Später kommen Steine/Haus drauf.</p>
 
     <a href="index.html" class="back">← Zurück zur Hauptseite</a>
 </div>
@@ -87,60 +84,71 @@
     function init3D() {
         const container = document.getElementById('container');
 
-        // Szene erstellen
-        scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xf0f8ff); // hellblauer Himmel
+        try {
+            // Szene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xe0f0ff); // hellblau – hilft bei Safari-Compositing
 
-        // Kamera (statisch, leicht schräg von oben)
-        camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 2000);
-        camera.position.set(0, 25, 40);  // erhöht und zurückgezogen für guten Überblick
-        camera.lookAt(0, 0, 0);
+            // Kamera – etwas höher und weiter für bessere Sicht
+            camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 2000);
+            camera.position.set(0, 30, 60);
+            camera.lookAt(0, 0, 0);
 
-        // Renderer
-        renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        container.appendChild(renderer.domElement);
-
-        // Licht
-        const ambient = new THREE.AmbientLight(0xffffff, 0.8);
-        scene.add(ambient);
-
-        const directional = new THREE.DirectionalLight(0xffffff, 1.1);
-        directional.position.set(20, 40, 30);
-        scene.add(directional);
-
-        // Große grüne Lego-Baseplate (Grundstück)
-        const plateSize = 40; // Größe in Einheiten (repräsentiert ~1000 qm skaliert)
-        const geometry = new THREE.PlaneGeometry(plateSize, plateSize);
-        const material = new THREE.MeshStandardMaterial({
-            color: 0x4CAF50,          // sattes Lego-Grün
-            roughness: 0.9,
-            metalness: 0.0
-        });
-        const baseplate = new THREE.Mesh(geometry, material);
-        baseplate.rotation.x = -Math.PI / 2; // flach legen
-        baseplate.position.y = -0.05;        // leicht unter Null für Schatten
-        scene.add(baseplate);
-
-        // Leichte Grid-Linien für "Studs"-Gefühl (optional, aber schön)
-        const gridHelper = new THREE.GridHelper(plateSize, 40, 0x888888, 0xaaaaaa);
-        gridHelper.position.y = 0.01;
-        scene.add(gridHelper);
-
-        // Erste Render + Animation-Loop (für Licht/Schatten, falls später)
-        function animate() {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // Resize handhaben
-        window.addEventListener('resize', onWindowResize);
-        function onWindowResize() {
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
+            // Renderer – Safari-spezifische Settings
+            renderer = new THREE.WebGLRenderer({
+                antialias: false,          // manchmal stabiler auf iOS/Safari
+                alpha: false,              // kein transparent – vermeidet Bugs
+                powerPreference: 'default' // oder 'high-performance' testen
+            });
             renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setClearColor(0x88cc88, 1); // expliziter Hintergrund-Grün
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // Licht
+            scene.add(new THREE.AmbientLight(0xffffff, 1.0));
+            const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+            dirLight.position.set(20, 50, 30);
+            scene.add(dirLight);
+
+            // Grundstücksfläche (Plane)
+            const plateSize = 50; // größer für bessere Sichtbarkeit
+            const geometry = new THREE.PlaneGeometry(plateSize, plateSize);
+            const material = new THREE.MeshStandardMaterial({
+                color: 0x4CAF50,     // sattes Grün
+                roughness: 1.0,
+                metalness: 0.0,
+                side: THREE.DoubleSide // nur zur Sicherheit
+            });
+            const baseplate = new THREE.Mesh(geometry, material);
+            baseplate.rotation.x = -Math.PI / 2;
+            baseplate.position.y = 0;
+            scene.add(baseplate);
+
+            // Gitternetz für Struktur
+            const grid = new THREE.GridHelper(plateSize, 40, 0x333333, 0xaaaaaa);
+            grid.position.y = 0.02;
+            scene.add(grid);
+
+            console.log('Three.js init erfolgreich – Rendering startet...');
+
+            // Render-Loop
+            function animate() {
+                requestAnimationFrame(animate);
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+
+        } catch (err) {
+            console.error('Three.js Fehler in Safari:', err);
+            container.innerHTML = '<p style="color:red; padding:20px;">Fehler beim Laden des 3D-Modells. Bitte Konsole prüfen (⌘ + Option + I) oder einen anderen Browser testen.</p>';
         }
     }
 </script>
