@@ -22,7 +22,7 @@
             height: 70vh;
             min-height: 500px;
             border: 2px solid #aaa;
-            background: #e0f0e0; /* hellgrün als Fallback, falls WebGL komplett ausfällt */
+            background: #e0f0e0; /* Fallback-Farbe, falls 3D nicht lädt */
             margin: 20px 0;
         }
         button {
@@ -56,24 +56,31 @@
         a.back:hover {
             background: #0055aa;
         }
+        #errorMsg {
+            color: red;
+            padding: 20px;
+            font-weight: bold;
+        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js"></script>
+    <!-- Aktuelle, stabile Three.js-Version über jsDelivr (MIME-Probleme behoben) -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.min.js"></script>
 </head>
 <body>
 
 <header>
-    <h1>3D Lego-Grundstück (Safari-optimiert)</h1>
-    <p>Klicke auf "Grundstück laden". Es sollte eine große grüne Fläche mit Gitternetz erscheinen.<br>
-    Schau bitte in die Entwicklerkonsole (⌘ + Option + I in Safari) nach Fehlern!</p>
+    <h1>3D Lego-Grundstück (Safari-korrigiert)</h1>
+    <p>Klicke auf "Grundstück laden". Es sollte jetzt eine große grüne Fläche mit Gitternetz erscheinen.<br>
+    Falls nicht: Öffne die Konsole (⌘ + Option + I) und schick mir die neuen Fehlermeldungen!</p>
 </header>
 
 <div id="container"></div>
+<div id="errorMsg"></div>
 
 <div class="info">
     <button onclick="init3D()">Grundstück laden</button>
 
-    <p>Das ist der reine Start: eine flache 1000-qm-Grundstücksfläche (skaliert als Lego-Baseplate).<br>
-    Keine Rotation/Zoom – nur statisch betrachten. Später kommen Steine/Haus drauf.</p>
+    <p>Das ist der reine Start: eine flache Grundstücksfläche als Lego-Baseplate (skaliert für 1000 qm).<br>
+    Keine Maus-Interaktion – nur anschauen. Später kommen Steine und das Haus obendrauf.</p>
 
     <a href="index.html" class="back">← Zurück zur Hauptseite</a>
 </div>
@@ -83,54 +90,58 @@
 
     function init3D() {
         const container = document.getElementById('container');
+        const errorDiv = document.getElementById('errorMsg');
+        errorDiv.innerHTML = ''; // Alte Fehler löschen
 
         try {
+            if (typeof THREE === 'undefined') {
+                throw new Error('THREE nicht geladen – CDN-Problem?');
+            }
+
             // Szene
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xe0f0ff); // hellblau – hilft bei Safari-Compositing
+            scene.background = new THREE.Color(0xe0f0ff); // hellblau
 
-            // Kamera – etwas höher und weiter für bessere Sicht
+            // Kamera – hoch und zurück für guten Überblick
             camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 2000);
-            camera.position.set(0, 30, 60);
+            camera.position.set(0, 35, 70);
             camera.lookAt(0, 0, 0);
 
-            // Renderer – Safari-spezifische Settings
+            // Renderer – Safari-freundlich
             renderer = new THREE.WebGLRenderer({
-                antialias: false,          // manchmal stabiler auf iOS/Safari
-                alpha: false,              // kein transparent – vermeidet Bugs
-                powerPreference: 'default' // oder 'high-performance' testen
+                antialias: true,
+                alpha: false
             });
             renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setClearColor(0x88cc88, 1); // expliziter Hintergrund-Grün
-            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setClearColor(0x88cc88, 1); // grüner Hintergrund
+            renderer.setPixelRatio(window.devicePixelRatio || 1);
             container.appendChild(renderer.domElement);
 
             // Licht
             scene.add(new THREE.AmbientLight(0xffffff, 1.0));
             const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-            dirLight.position.set(20, 50, 30);
+            dirLight.position.set(30, 60, 40);
             scene.add(dirLight);
 
-            // Grundstücksfläche (Plane)
-            const plateSize = 50; // größer für bessere Sichtbarkeit
+            // Grundstücksfläche
+            const plateSize = 60; // groß genug sichtbar
             const geometry = new THREE.PlaneGeometry(plateSize, plateSize);
             const material = new THREE.MeshStandardMaterial({
-                color: 0x4CAF50,     // sattes Grün
+                color: 0x4CAF50,
                 roughness: 1.0,
-                metalness: 0.0,
-                side: THREE.DoubleSide // nur zur Sicherheit
+                metalness: 0.0
             });
             const baseplate = new THREE.Mesh(geometry, material);
             baseplate.rotation.x = -Math.PI / 2;
             baseplate.position.y = 0;
             scene.add(baseplate);
 
-            // Gitternetz für Struktur
-            const grid = new THREE.GridHelper(plateSize, 40, 0x333333, 0xaaaaaa);
-            grid.position.y = 0.02;
+            // Gitternetz
+            const grid = new THREE.GridHelper(plateSize, 50, 0x444444, 0xaaaaaa);
+            grid.position.y = 0.03;
             scene.add(grid);
 
-            console.log('Three.js init erfolgreich – Rendering startet...');
+            console.log('Three.js erfolgreich initialisiert – Rendering läuft.');
 
             // Render-Loop
             function animate() {
@@ -139,7 +150,7 @@
             }
             animate();
 
-            // Resize
+            // Resize-Handler
             window.addEventListener('resize', () => {
                 camera.aspect = container.clientWidth / container.clientHeight;
                 camera.updateProjectionMatrix();
@@ -147,8 +158,8 @@
             });
 
         } catch (err) {
-            console.error('Three.js Fehler in Safari:', err);
-            container.innerHTML = '<p style="color:red; padding:20px;">Fehler beim Laden des 3D-Modells. Bitte Konsole prüfen (⌘ + Option + I) oder einen anderen Browser testen.</p>';
+            console.error('Three.js Fehler:', err);
+            errorDiv.innerHTML = 'Fehler beim Laden: ' + err.message + '<br>Prüfe Konsole oder probiere Chrome/Firefox.';
         }
     }
 </script>
