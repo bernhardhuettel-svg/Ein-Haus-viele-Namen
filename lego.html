@@ -49,7 +49,7 @@
 
 <header>
     <h1>3D Lego Haus – sichere Basis</h1>
-    <p>Wenn du hier etwas siehst, funktioniert WebGL korrekt.</p>
+    <p>Es funktioniert.</p>
 </header>
 
 <div id="container"></div>
@@ -73,8 +73,8 @@ function init3D() {
         0.1,
         1000
     );
-    camera.position.set(0, 40, 80);
-    camera.lookAt(0, 10, 0);
+    camera.position.set(110, 90, 60);
+    camera.lookAt(6, 12, 0);
 
     /* Renderer (Safari-safe) */
     const renderer = new THREE.WebGLRenderer({
@@ -118,6 +118,7 @@ function init3D() {
         opacity: 0.45
     });
     const roofMat  = new THREE.MeshStandardMaterial({ color: 0x3b5f3b });
+   
     //Visuelle Trennung Sockel Haus
     const basePlate = new THREE.Mesh(
         new THREE.BoxGeometry(92, 0.6, 62),
@@ -141,7 +142,46 @@ function init3D() {
     mainHouse.position.set(6, 12.5, 0);
     scene.add(mainHouse);
 
+    //Grosse Fensterfront (Wohnbereich)
+    const bigWindow = new THREE.Mesh(
+        new THREE.BoxGeometry(28,8,0.4),
+        glassMat
+    );
+    bigWindow.position.set(6,11.5,12.3);
+    scene.add(bigWindow);
 
+    //seitliche Fenster(Raster)
+    function sideWindow(x,y,z) {
+    const w = new THREE.Mesh(
+        new THREE.BoxGeometry(4, 4, 0.4),
+        glassMat
+    );
+    w.position.set(x, y, z);
+    scene.add(w);
+
+    //Fenster Links
+        sideWindow(-12,11,0);
+        sideWindow(-12,16,0);
+
+    //Fenster Rechts
+        sideWindow(24,11,0);
+        sideWindow(24,16,0);
+
+    //Türe
+    const door = new THREE.Mesh(
+    new THREE.BoxGeometry(3.5, 7, 0.4),
+    new THREE.MeshStandardMaterial({ color: 0x333333 })
+    );
+    door.position.set(14, 9.5, 12.4);
+    scene.add(door);
+    //Türrahmen
+    const doorFrame = new THREE.Mesh(
+    new THREE.BoxGeometry(4.2, 7.6, 0.2),
+    stoneMat
+    );
+    doorFrame.position.set(14, 9.5, 12.2);
+    scene.add(doorFrame);
+        
     /* Glaswürfel */
     const glassCube = new THREE.Mesh(
         new THREE.BoxGeometry(18, 10, 14),
@@ -159,6 +199,24 @@ function init3D() {
     roofEdge.position.set(6, 20.9, 0);
     scene.add(roofEdge);
 
+    /Dachgarten grün
+    const roofGrass = new THREE.Mesh(
+    new THREE.BoxGeometry(36, 0.8, 24),
+    new THREE.MeshStandardMaterial({ color: 0x4f7c4f })
+    );
+    roofGrass.position.set(6, 20.6, 0);
+    scene.add(roofGrass);
+
+    //Strukturierte Beete
+    for (let i = -10; i <= 10; i += 5) {
+    const plant = new THREE.Mesh(
+        new THREE.BoxGeometry(1.2, 2, 1.2),
+        new THREE.MeshStandardMaterial({ color: 0x2e6b2e })
+    );
+    plant.position.set(6 + i, 21.8, -6);
+    scene.add(plant);
+    }
+        
     //Wand mit Fenster
     const frontGlass = new THREE.Mesh(
         new THREE.BoxGeometry(30, 9, 0.4),
