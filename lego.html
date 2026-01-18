@@ -118,7 +118,13 @@ function init3D() {
         opacity: 0.45
     });
     const roofMat  = new THREE.MeshStandardMaterial({ color: 0x3b5f3b });
-
+    //Visuelle Trennung Sockel Haus
+    const basePlate = new THREE.Mesh(
+        new THREE.BoxGeometry(92, 0.6, 62),
+        new THREE.MeshStandardMaterial({ color: 0x777777 })
+    );
+    basePlate.position.y = 6.3;
+    scene.add(basePlate);
     /* Sockel */
     const base = new THREE.Mesh(
         new THREE.BoxGeometry(90, 6, 60),
@@ -129,27 +135,37 @@ function init3D() {
 
     /* Hauptkubus */
     const mainHouse = new THREE.Mesh(
-        new THREE.BoxGeometry(32, 14, 22),
+        new THREE.BoxGeometry(36, 13, 24),
         woodMat
     );
-    mainHouse.position.set(0, 13, 0);
+    mainHouse.position.set(6, 12.5, 0);
     scene.add(mainHouse);
+
 
     /* Glaswürfel */
     const glassCube = new THREE.Mesh(
         new THREE.BoxGeometry(18, 10, 14),
         glassMat
     );
-    glassCube.position.set(-25, 16, 0);
+    glassCube.position.set(-28, 15, 0);
+    glassCube.material.opacity = 0.35;
     scene.add(glassCube);
 
     /* Dachgarten */
-    const roof = new THREE.Mesh(
-        new THREE.BoxGeometry(34, 1.6, 24),
-        roofMat
+    const roofEdge = new THREE.Mesh(
+        new THREE.BoxGeometry(40, 0.6, 28),
+        stoneMat
     );
-    roof.position.set(0, 21, 0);
-    scene.add(roof);
+    roofEdge.position.set(6, 20.9, 0);
+    scene.add(roofEdge);
+
+    //Wand mit Fenster
+    const frontGlass = new THREE.Mesh(
+        new THREE.BoxGeometry(30, 9, 0.4),
+        glassMat
+    );
+    frontGlass.position.set(6, 12.5, 12.3);
+    scene.add(frontGlass);
 
     /* Render Loop */
     function animate() {
