@@ -3,87 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Lego-Grundstück – Ela & Bernhard</title>
+    <title>3D Lego-Haus + Community-Bau – Ela & Bernhard</title>
     <style>
-        body {
-            margin: 0;
-            font-family: system-ui, sans-serif;
-            background: #f9f9f9;
-            color: #222;
-            text-align: center;
-        }
-        header {
-            padding: 30px 20px;
-            background: #fff;
-            border-bottom: 1px solid #ddd;
-        }
-        #container {
-            width: 100%;
-            height: 70vh;
-            min-height: 500px;
-            border: 2px solid #aaa;
-            background: #e0f0e0; /* Fallback */
-            margin: 20px 0;
-        }
-        button {
-            padding: 14px 32px;
-            font-size: 1.1em;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin: 20px;
-        }
-        button:hover {
-            background: #218838;
-        }
-        .info {
-            max-width: 800px;
-            margin: 0 auto 40px;
-            padding: 0 20px;
-            line-height: 1.6;
-        }
-        a.back {
-            display: inline-block;
-            margin: 30px 0;
-            padding: 10px 24px;
-            background: #0066cc;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-        }
-        a.back:hover {
-            background: #0055aa;
-        }
-        #errorMsg {
-            color: red;
-            padding: 20px;
-            font-weight: bold;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        body { margin: 0; font-family: system-ui, sans-serif; background: #f9f9f9; color: #222; text-align: center; }
+        header { padding: 30px 20px; background: #fff; border-bottom: 1px solid #ddd; }
+        #container { width: 100%; height: 70vh; min-height: 500px; border: 2px solid #aaa; background: #e0f0e0; margin: 20px 0; }
+        button { padding: 14px 32px; font-size: 1.1em; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer; margin: 20px; }
+        button:hover { background: #218838; }
+        .info { max-width: 800px; margin: 0 auto 40px; padding: 0 20px; line-height: 1.6; }
+        a.back { display: inline-block; margin: 30px 0; padding: 10px 24px; background: #0066cc; color: white; text-decoration: none; border-radius: 6px; }
+        a.back:hover { background: #0055aa; }
     </style>
-    <!-- jsDelivr – stabile Version, mit SRI für Safari-Vertrauen -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r169/three.min.js"></script>
 </head>
 <body>
 
 <header>
-    <h1>3D Lego-Grundstück – jetzt mit fixem CDN</h1>
-    <p>Klicke auf "Grundstück laden". Es sollte eine grüne Fläche mit Gitternetz erscheinen.<br>
-    Konsole prüfen (⌘ + Option + I) und mir alle Meldungen schicken, falls es nicht klappt!</p>
+    <h1>3D Lego-Projekt: Fertiges Haus + Community-Bau</h1>
+    <p>Links: Das fertige Haus (Bungalow).<br>Rechts: Der Community-Bereich, der von Spendern von Grund auf gebaut wird (aktuell Demo mit ein paar Steinen).</p>
 </header>
 
 <div id="container"></div>
-<div id="errorMsg"></div>
 
 <div class="info">
-    <button onclick="init3D()">Grundstück laden</button>
+    <button onclick="init3D()">Szene laden (Haus + Community-Bauplatz)</button>
 
-    <p>Flache Grundstücksfläche (Lego-Baseplate-Style) als Startpunkt.<br>
-    Statisch – später bauen wir das Haus drauf.</p>
+    <p>Der Community-Bereich startet leer/klein und wächst mit jedem 1-€-Stein.<br>
+    Nächste Schritte: Mehr Steine dynamisch, Namen einblenden, Fortschritts-Text?</p>
 
     <a href="index.html" class="back">← Zurück zur Hauptseite</a>
 </div>
@@ -97,8 +43,8 @@
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0xe0f0ff);
 
-        camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 2000);
-        camera.position.set(0, 40, 80);
+        camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 2000);
+        camera.position.set(0, 50, 100);  // Etwas weiter zurück für beide Objekte
         camera.lookAt(0, 0, 0);
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -110,68 +56,91 @@
         // Licht
         scene.add(new THREE.AmbientLight(0xffffff, 1.0));
         const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-        dirLight.position.set(30, 60, 40);
+        dirLight.position.set(40, 80, 60);
         scene.add(dirLight);
 
-        // Grundstücksfläche
-        const plateSize = 60;
+        // Gemeinsame Grundfläche
+        const plateSize = 100;
         const groundGeo = new THREE.PlaneGeometry(plateSize, plateSize);
         const groundMat = new THREE.MeshStandardMaterial({ color: 0x4CAF50 });
         const ground = new THREE.Mesh(groundGeo, groundMat);
         ground.rotation.x = -Math.PI / 2;
-        ground.position.y = 0;
+        ground.position.y = -0.1;
         scene.add(ground);
 
-        const grid = new THREE.GridHelper(plateSize, 50, 0x444444, 0xaaaaaa);
-        grid.position.y = 0.03;
+        const grid = new THREE.GridHelper(plateSize, 80, 0x444444, 0xaaaaaa);
+        grid.position.y = 0.01;
         scene.add(grid);
 
-        // Haus-Umriss (Bungalow-Style, ca. 14x10 Meter skaliert)
+        // --- Fertiges Haus (links) ---
+        const houseX = -25;  // Links positioniert
         const houseWidth = 14;
         const houseDepth = 10;
-        const wallHeight = 4;   // Lego-Steinhöhe
-        const brickSize = 1;
+        const wallHeight = 4;
+        const wallMat = new THREE.MeshStandardMaterial({ color: 0xffd700 }); // gelb
+        const roofMat  = new THREE.MeshStandardMaterial({ color: 0xb03030 }); // rot
 
-        const wallMaterial = new THREE.MeshStandardMaterial({ color: 0xffd700 }); // gelb
-        const roofMaterial  = new THREE.MeshStandardMaterial({ color: 0xb03030 }); // rot
-
-        // Vier Wände
-        const wallThickness = 0.4;
-        // Vorne
-        let wall = new THREE.Mesh(
-            new THREE.BoxGeometry(houseWidth, wallHeight, wallThickness),
-            wallMaterial
-        );
-        wall.position.set(0, wallHeight/2, -houseDepth/2);
+        // Wände
+        let wallGeo = new THREE.BoxGeometry(houseWidth, wallHeight, 0.4);
+        let wall = new THREE.Mesh(wallGeo, wallMat);
+        wall.position.set(houseX, wallHeight/2, -houseDepth/2);
         scene.add(wall);
 
-        // Hinten
         wall = wall.clone();
         wall.position.z = houseDepth/2;
         scene.add(wall);
 
-        // Links
-        wall = new THREE.Mesh(
-            new THREE.BoxGeometry(wallThickness, wallHeight, houseDepth),
-            wallMaterial
-        );
-        wall.position.set(-houseWidth/2, wallHeight/2, 0);
+        wallGeo = new THREE.BoxGeometry(0.4, wallHeight, houseDepth);
+        wall = new THREE.Mesh(wallGeo, wallMat);
+        wall.position.set(houseX - houseWidth/2, wallHeight/2, 0);
         scene.add(wall);
 
-        // Rechts
         wall = wall.clone();
-        wall.position.x = houseWidth/2;
+        wall.position.x = houseX + houseWidth/2;
         scene.add(wall);
 
-        // Dach (flach)
+        // Dach
         const roof = new THREE.Mesh(
             new THREE.BoxGeometry(houseWidth + 1, 0.6, houseDepth + 1),
-            roofMaterial
+            roofMat
         );
-        roof.position.y = wallHeight + 0.3;
+        roof.position.set(houseX, wallHeight + 0.3, 0);
         scene.add(roof);
 
-        console.log('Haus-Umriss hinzugefügt – Rendering läuft.');
+        // --- Community-Bauplatz (rechts) – von Grund auf ---
+        const communityX = 25;  // Rechts positioniert
+        const brickSize = 1.2;
+        const brickMat = new THREE.MeshStandardMaterial({ color: 0xffd700 }); // gelb wie Haus
+
+        // Basis-Platte für Community-Bereich
+        const base = new THREE.Mesh(
+            new THREE.BoxGeometry(12, 0.4, 12),
+            new THREE.MeshStandardMaterial({ color: 0x666666 })
+        );
+        base.position.set(communityX, 0.2, 0);
+        scene.add(base);
+
+        // Demo-Steine: Stapel von Grund auf (je höher = mehr Spenden simuliert)
+        for (let level = 0; level < 8; level++) {  // z. B. 8 Steine hoch als Demo
+            for (let x = -2; x <= 2; x += 2) {
+                for (let z = -2; z <= 2; z += 2) {
+                    if (Math.random() > 0.3) {  // etwas unregelmäßig für "echten Bau"-Look
+                        const brick = new THREE.Mesh(
+                            new THREE.BoxGeometry(brickSize, brickSize, brickSize),
+                            brickMat
+                        );
+                        brick.position.set(
+                            communityX + x,
+                            brickSize * level + brickSize/2 + 0.4,
+                            z
+                        );
+                        scene.add(brick);
+                    }
+                }
+            }
+        }
+
+        console.log('Szene mit Haus + Community-Bau geladen.');
 
         function animate() {
             requestAnimationFrame(animate);
