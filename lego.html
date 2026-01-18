@@ -173,6 +173,25 @@ function init3D() {
     }
     animate();
 
+    /* =========================
+       ANIMATION – KAMERA AUTO-ROTATION
+    ========================= */
+    let angle = 0;
+    
+    function animate() {
+        requestAnimationFrame(animate);
+    
+        // Kamera rotiert automatisch um das Haus
+        angle += 0.005; // Geschwindigkeit der Rotation
+        camera.position.x = 15 * Math.cos(angle);
+        camera.position.z = 15 * Math.sin(angle);
+        camera.position.y = 10; // Höhe bleibt konstant
+        camera.lookAt(0, 2, 0); // Blickpunkt auf Haus
+    
+        renderer.render(scene, camera);
+    }
+    animate();
+    
     /* Resize */
     window.addEventListener("resize", () => {
         camera.aspect = container.clientWidth / container.clientHeight;
