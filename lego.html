@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>3D Bungalow mit Details</title>
+<title>3D Bungalow Realistisch</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     body { margin: 0; background: #f0f0f0; font-family: system-ui, sans-serif; text-align: center; }
@@ -13,8 +13,8 @@
 <body>
 
 <header>
-    <h1>3D Bungalow – Realistische Details</h1>
-    <p>Ziegelstruktur, Garten, Terrasse, automatische Kamera</p>
+    <h1>3D Bungalow – Ziegel, Dach, Garten</h1>
+    <p>Automatische Kameradrehung, realistische Details</p>
 </header>
 
 <div id="container"></div>
@@ -52,18 +52,21 @@ function init3D() {
     const doorMat = new THREE.MeshStandardMaterial({ color: 0x333333 });
     const terraceMat = new THREE.MeshStandardMaterial({ color: 0xd2b48c });
     const pathMat = new THREE.MeshStandardMaterial({ color: 0x999999 });
+    const treeTrunkMat = new THREE.MeshStandardMaterial({ color: 0x663300 });
+    const treeLeavesMat = new THREE.MeshStandardMaterial({ color: 0x228822 });
 
     // Grundstück
     const ground = new THREE.Mesh(new THREE.PlaneGeometry(20, 40), groundMat);
     ground.rotation.x = -Math.PI/2;
     scene.add(ground);
 
-    // Hilfsfunktion: Wand aus Blöcken
-    function createWall(xStart, yStart, zStart, width, height, depth, material, blockSize=0.5) {
+    // Hilfsfunktion: Wand aus Blöcken/Ziegeln mit kleinen Lücken
+    function createWall(xStart, yStart, zStart, width, height, depth, material, blockSize=0.5, gap=0.02) {
         const group = new THREE.Group();
-        for(let i=0; i<width; i+=blockSize){
-            for(let j=0; j<height; j+=blockSize){
-                for(let k=0; k<depth; k+=blockSize){
+        const step = blockSize + gap;
+        for(let i=0; i<width; i+=step){
+            for(let j=0; j<height; j+=step){
+                for(let k=0; k<depth; k+=step){
                     const cube = new THREE.Mesh(new THREE.BoxGeometry(blockSize, blockSize, blockSize), material);
                     cube.position.set(xStart + i + blockSize/2, yStart + j + blockSize/2, zStart + k + blockSize/2);
                     group.add(cube);
@@ -78,15 +81,14 @@ function init3D() {
     const houseDepth = 12;
     const houseHeight = 3;
 
-    // Wände (Blockstruktur)
+    // Wände
     const frontWall = createWall(-houseWidth/2,0,houseDepth/2-0.1, houseWidth, houseHeight, 0.2, wallMat);
     const backWall  = createWall(-houseWidth/2,0,-houseDepth/2, houseWidth, houseHeight, 0.2, wallMat);
     const leftWall  = createWall(-houseWidth/2,0,-houseDepth/2, 0.2, houseHeight, houseDepth, wallMat);
     const rightWall = createWall(houseWidth/2-0.2,0,-houseDepth/2, 0.2, houseHeight, houseDepth, wallMat);
-
     scene.add(frontWall, backWall, leftWall, rightWall);
 
-    // Fenster an der Front
+    // Fenster vorne
     function addWindow(x, y, z) {
         const win = new THREE.Mesh(new THREE.BoxGeometry(2,2,0.2), windowMat);
         win.position.set(x, y, z);
@@ -100,9 +102,10 @@ function init3D() {
     door.position.set(0,1.25,houseDepth/2 + 0.1);
     scene.add(door);
 
-    // Flachdach
-    const roof = new THREE.Mesh(new THREE.BoxGeometry(houseWidth+0.5,0.5,houseDepth+0.5), roofMat);
-    roof.position.set(0,houseHeight+0.25,0);
+    // Leicht geneigtes Dach (Pyramiden-Dach)
+    const roof = new THREE.Mesh(new THREE.ConeGeometry(Math.sqrt(2)*houseWidth/2 +0.1, 1, 4), roofMat);
+    roof.rotation.y = Math.PI/4; // Quadroof korrekt ausrichten
+    roof.position.set(0, houseHeight + 0.5, 0);
     scene.add(roof);
 
     // Terrasse vorne
@@ -115,18 +118,19 @@ function init3D() {
     path.position.set(0,0.025,houseDepth/2 + 3.5);
     scene.add(path);
 
-    // Kleine Bäume/Garten (ein paar Kugeln)
+    // Bäume außerhalb des Hauses
     function addTree(x, z) {
-        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.2,1), wallMat);
+        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.2,1), treeTrunkMat);
         trunk.position.set(x,0.5,z);
         scene.add(trunk);
-        const leaves = new THREE.Mesh(new THREE.SphereGeometry(0.8,8,8), new THREE.MeshStandardMaterial({color:0x228822}));
+        const leaves = new THREE.Mesh(new THREE.SphereGeometry(0.8,8,8), treeLeavesMat);
         leaves.position.set(x,1.5,z);
         scene.add(leaves);
     }
-    addTree(-6, -5);
-    addTree(6, -5);
-    addTree(-5, 6);
+    addTree(-6, -10);
+    addTree(6, -10);
+    addTree(-6, 10);
+    addTree(6, 10);
 
     // Kamera-Auto-Rotation
     let angle = 0;
