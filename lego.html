@@ -74,22 +74,28 @@
 
         // Basis / Felsen-Unterbau  (x,z,y)
         const baseRock0 = new THREE.Mesh(
-            new THREE.BoxGeometry(50, 2, 50),
+            new THREE.BoxGeometry(50, 1, 50),
             stoneMat
         );
         // Basis / Felsen-Unterbau drüber
         const baseRock1 = new THREE.Mesh(
-            new THREE.BoxGeometry(20, 2, 20),
+            new THREE.BoxGeometry(40, 1, 45),
+            stoneMat
+        );
+        // Basis / Felsen-Unterbau drüber
+        const baseRock2 = new THREE.Mesh(
+            new THREE.BoxGeometry(30, 1, 35),
             stoneMat
         );
         
-        baseRock0.position.set(0, 2, 0);
+        baseRock0.position.set(0, 1, 0);
         scene.add(baseRock0);
 
-        baseRock1.position.set(0,4,0);
+        baseRock1.position.set(10,2,0);
         scene.add(baseRock1);
 
-        
+        baseRock2.position.set(20,3,0);
+        scene.add(baseRock2);
 
         // Hauptgebäude (hinten links)
         const mainHouse = new THREE.Group();
@@ -181,8 +187,8 @@
         }
 
         addTree(-30, 30);
-        addTree(35, 25);
-        addTree(25, 35);
+        addTree(-35, 25);
+        addTree(-25, 35);
 
         console.log('Moderner Lego-Bungalow geladen.');
 
