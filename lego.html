@@ -124,9 +124,16 @@
            // );
            // mainHouse.add(plant);
        // }
-
+        const mainHouse = new THREE.Group();
         scene.add(mainHouse);
 
+const testBox = new THREE.Mesh(
+    new THREE.BoxGeometry(10, 10, 10),
+    new THREE.MeshStandardMaterial({ color: 0xff0000 })
+);
+testBox.position.set(0, 5, 0);
+scene.add(testBox);
+        
         const frontGlass = new THREE.Mesh(
             new THREE.BoxGeometry(28, 10, 0.4),
             glassMat
