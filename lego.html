@@ -1,204 +1,173 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Lego-Projekt: Moderner Bungalow mit Dachgarten</title>
-    <style>
-        body { margin: 0; font-family: system-ui, sans-serif; background: #f9f9f9; color: #222; text-align: center; }
-        header { padding: 30px 20px; background: #fff; border-bottom: 1px solid #ddd; }
-        #container { width: 100%; height: 80vh; min-height: 600px; border: 2px solid #aaa; background: #e0f0e0; margin: 20px 0; }
-        button { padding: 14px 32px; font-size: 1.1em; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer; margin: 20px; }
-        button:hover { background: #218838; }
-        .info { max-width: 900px; margin: 0 auto 40px; padding: 0 20px; line-height: 1.6; }
-        a.back { display: inline-block; margin: 30px 0; padding: 10px 24px; background: #0066cc; color: white; text-decoration: none; border-radius: 6px; }
-        a.back:hover { background: #0055aa; }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
-    
+<meta charset="UTF-8">
+<title>3D Lego Haus – Debug & Basis</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: #f0f0f0;
+        text-align: center;
+    }
+
+    header {
+        padding: 20px;
+        background: #ffffff;
+        border-bottom: 1px solid #ccc;
+    }
+
+    #container {
+        width: 100%;
+        height: 600px;
+        background: #dddddd;
+        margin: 20px auto;
+    }
+
+    button {
+        padding: 14px 28px;
+        font-size: 16px;
+        background: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #218838;
+    }
+</style>
+
+<!-- THREE.JS -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 </head>
+
 <body>
+
 <header>
-    <h1>3D Lego-Projekt: Moderner Community-Bungalow mit Dachgarten</h1>
-    <p>Inspiriert vom modernen Lego-Haus mit Flachdach, grünem Dachgarten, großen Fenstern und naturnaher Umgebung.</p>
+    <h1>3D Lego Haus – sichere Basis</h1>
+    <p>Wenn du hier etwas siehst, funktioniert WebGL korrekt.</p>
 </header>
+
 <div id="container"></div>
-<div class="info">
-    <button onclick="init3D()">Szene laden (Moderner Bungalow)</button>
-    <p>Community-Bau: Derzeit statisch als Demo – kann später mit Spenden-Steinen wachsen (Fenster, Dach, Bäume...).</p>
-    <a href="index.html" class="back">← Zurück zur Hauptseite</a>
-</div>
+
+<button onclick="init3D()">Szene laden</button>
 
 <script>
-    let scene, camera, renderer;
-    function init3D() {
-        const container = document.getElementById('container');
-        scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xcceeff); // Heller Himmel
-        camera = new THREE.PerspectiveCamera(55, container.clientWidth / container.clientHeight, 0.1, 2000);
-        camera.position.set(60, 60, 100);
-        camera.lookAt(0, 10, 0);
-        renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        container.appendChild(renderer.domElement);
+function init3D() {
 
-        // Licht
-        scene.add(new THREE.AmbientLight(0xffffff, 0.9));
-        const dirLight = new THREE.DirectionalLight(0xffffff, 1.4);
-        dirLight.position.set(80, 120, 100);
-        scene.add(dirLight);
+    const container = document.getElementById("container");
+    container.innerHTML = "";
 
-        // Boden / Grundplatte
-        const ground = new THREE.Mesh(
-            new THREE.PlaneGeometry(200, 200),
-            new THREE.MeshStandardMaterial({ color: 0x88aa66 })
-        );
-        ground.rotation.x = -Math.PI / 2;
-        ground.position.y = -0.1;
-        scene.add(ground);
+    /* Szene */
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xcceeff);
 
-        const grid = new THREE.GridHelper(200, 100, 0x444444, 0x888888);
-        grid.position.y = 0.01;
-        scene.add(grid);
+    /* Kamera */
+    const camera = new THREE.PerspectiveCamera(
+        60,
+        container.clientWidth / container.clientHeight,
+        0.1,
+        1000
+    );
+    camera.position.set(0, 40, 80);
+    camera.lookAt(0, 10, 0);
 
-        // Materialien
-        const woodMat    = new THREE.MeshStandardMaterial({ color: 0xc19a6b }); // Holz braun-beige
-        const stoneMat   = new THREE.MeshStandardMaterial({ color: 0xaaaaaa }); // Grau Stein
-        const glassMat   = new THREE.MeshStandardMaterial({ color: 0x88ddff, transparent: true, opacity: 0.4 });
-        const roofGreenMat = new THREE.MeshStandardMaterial({ color: 0x4a7043 }); // Dunkelgrün Dachgarten
-        const plantMat   = new THREE.MeshStandardMaterial({ color: 0x228822 });
-        const waterMat   = new THREE.MeshStandardMaterial({ color: 0x3399ff, transparent: true, opacity: 0.7 });
-        const treeTrunkMat = new THREE.MeshStandardMaterial({ color: 0x8B4513 });
-        const treeLeafMat  = new THREE.MeshStandardMaterial({ color: 0x006600 });
-        
-        // Sockel / Podest (ruhige Basis)
-        const base = new THREE.Mesh(
-            new THREE.BoxGeometry(90, 6, 60),
-            stoneMat
-        );
-        base.position.y = 3;
-        scene.add(base);
+    /* Renderer (Safari-safe) */
+    const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        powerPreference: "high-performance"
+    });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
 
-        // Hauptkubus (Holz)
-        const houseCore = new THREE.Mesh(
-            new THREE.BoxGeometry(32, 14, 22),
-            woodMat
-        );
-        houseCore.position.y = 6 + 7; // Sockel + halbe Höhe
-        mainHouse.add(houseCore);
+    /* Licht */
+    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
 
-        // Auskragender Glaswürfel
-        const glassCube = new THREE.Mesh(
-            new THREE.BoxGeometry(18, 10, 14),
-            glassMat
-        );
-        glassCube.position.set(-25, 6 + 10, 0);
-        scene.add(glassCube);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    dirLight.position.set(50, 100, 50);
+    scene.add(dirLight);
 
-        
-        const roofBase = new THREE.Mesh(
-            new THREE.BoxGeometry(34, 1.6, 24),
-            roofGreenMat
-        );
-        roofBase.position.y = 6 + 14 + 0.8;
-        mainHouse.add(roofBase);
-        
-         const roofBorder = new THREE.Mesh(
-            new THREE.BoxGeometry(36, 0.8, 26),
-            stoneMat
-        );
-        roofBorder.position.y = roofBase.position.y + 0.8;
-        mainHouse.add(roofBorder);       
+    /* Boden */
+    const ground = new THREE.Mesh(
+        new THREE.PlaneGeometry(200, 200),
+        new THREE.MeshStandardMaterial({ color: 0x88aa66 })
+    );
+    ground.rotation.x = -Math.PI / 2;
+    scene.add(ground);
 
-        // Dachgarten-Dekoration (kleine Pflanzen)
-     //   for (let i = 0; i < 12; i++) {
-       //     const plant = new THREE.Mesh(
-         //       new THREE.BoxGeometry(1.2, Math.random()*3 + 1, 1.2),
-           //     plantMat
-           // );
-           // plant.position.set(
-            //    Math.random()*mainWidth - mainWidth/2 + 2,
-             //   wallHeight + 8 + 1 + Math.random()*2,
-              //  Math.random()*(mainDepth+12) - (mainDepth+12)/2 + 2
-           // );
-           // mainHouse.add(plant);
-       // }
-        const mainHouse = new THREE.Group();
-        scene.add(mainHouse);
+    /* ===== TESTOBJEKT (MUSS SICHTBAR SEIN) ===== */
+    const testCube = new THREE.Mesh(
+        new THREE.BoxGeometry(10, 10, 10),
+        new THREE.MeshStandardMaterial({ color: 0xff0000 })
+    );
+    testCube.position.set(0, 5, 0);
+    scene.add(testCube);
 
-const testBox = new THREE.Mesh(
-    new THREE.BoxGeometry(10, 10, 10),
-    new THREE.MeshStandardMaterial({ color: 0xff0000 })
-);
-testBox.position.set(0, 5, 0);
-scene.add(testBox);
-        
-        const frontGlass = new THREE.Mesh(
-            new THREE.BoxGeometry(28, 10, 0.4),
-            glassMat
-        );
-        frontGlass.position.set(0, 6 + 10, 11.3);
-        scene.add(frontGlass);
+    /* ===== ARCHITEKTUR – BASIS ===== */
 
-        const sideGlass = new THREE.Mesh(
-        new THREE.BoxGeometry(0.4, 8, 12),
+    const stoneMat = new THREE.MeshStandardMaterial({ color: 0xaaaaaa });
+    const woodMat  = new THREE.MeshStandardMaterial({ color: 0xc19a6b });
+    const glassMat = new THREE.MeshStandardMaterial({
+        color: 0x88ccff,
+        transparent: true,
+        opacity: 0.45
+    });
+    const roofMat  = new THREE.MeshStandardMaterial({ color: 0x3b5f3b });
+
+    /* Sockel */
+    const base = new THREE.Mesh(
+        new THREE.BoxGeometry(90, 6, 60),
+        stoneMat
+    );
+    base.position.y = 3;
+    scene.add(base);
+
+    /* Hauptkubus */
+    const mainHouse = new THREE.Mesh(
+        new THREE.BoxGeometry(32, 14, 22),
+        woodMat
+    );
+    mainHouse.position.set(0, 13, 0);
+    scene.add(mainHouse);
+
+    /* Glaswürfel */
+    const glassCube = new THREE.Mesh(
+        new THREE.BoxGeometry(18, 10, 14),
         glassMat
-        );
-        sideGlass.position.set(-34, 6 + 10, 0);
-        scene.add(sideGlass);
+    );
+    glassCube.position.set(-25, 16, 0);
+    scene.add(glassCube);
 
-        
+    /* Dachgarten */
+    const roof = new THREE.Mesh(
+        new THREE.BoxGeometry(34, 1.6, 24),
+        roofMat
+    );
+    roof.position.set(0, 21, 0);
+    scene.add(roof);
 
-        // Kleiner Kamin/Schornstein
-        const chimney = new THREE.Mesh(new THREE.BoxGeometry(3, 6, 3), stoneMat);
-        chimney.position.set(-mainWidth/2 + 5, wallHeight/2 + 8 + 3, -mainDepth/2 + 5);
-        scene.add(chimney);
-
-        // Kleiner Teich / Wasserbereich
-        const pond = new THREE.Mesh(
-            new THREE.BoxGeometry(25, 0.8, 30),
-            waterMat
-        );
-        pond.position.set(22, 0.4 + 4, -20); // Rechts unten
-        scene.add(pond);
-
-        // Einfache Bäume
-        function addTree(x, z) {
-            const trunk = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.8, 10, 8), treeTrunkMat);
-            trunk.position.set(x, 5 + 4, z);
-            scene.add(trunk);
-
-            const leaves = new THREE.Mesh(new THREE.ConeGeometry(5, 12, 8), treeLeafMat);
-            leaves.position.set(x, 10 + 8, z);
-            scene.add(leaves);
-
-            const leaves2 = leaves.clone();
-            leaves2.scale.set(0.7, 0.7, 0.7);
-            leaves2.position.y += 4;
-            scene.add(leaves2);
-        }
-
-        addTree(-30, 30);
-        addTree(-35, 25);
-        addTree(-25, 35);
-
-        console.log('Moderner Lego-Bungalow geladen.');
-
-        function animate() {
-            requestAnimationFrame(animate);
-            // Optional: leichte Rotation für Demo
-            // mainHouse.rotation.y += 0.001;
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        });
+    /* Render Loop */
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
     }
+    animate();
+
+    /* Resize */
+    window.addEventListener("resize", () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+    console.log("Szene erfolgreich geladen");
+}
 </script>
+
 </body>
 </html>
