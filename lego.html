@@ -3,209 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Lego-Haus + Community-Bau – Ela & Bernhard</title>
+    <title>3D Lego-Projekt: Moderner Bungalow mit Dachgarten</title>
     <style>
         body { margin: 0; font-family: system-ui, sans-serif; background: #f9f9f9; color: #222; text-align: center; }
         header { padding: 30px 20px; background: #fff; border-bottom: 1px solid #ddd; }
-        #container { width: 100%; height: 70vh; min-height: 500px; border: 2px solid #aaa; background: #e0f0e0; margin: 20px 0; }
+        #container { width: 100%; height: 80vh; min-height: 600px; border: 2px solid #aaa; background: #e0f0e0; margin: 20px 0; }
         button { padding: 14px 32px; font-size: 1.1em; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer; margin: 20px; }
         button:hover { background: #218838; }
-        .info { max-width: 800px; margin: 0 auto 40px; padding: 0 20px; line-height: 1.6; }
+        .info { max-width: 900px; margin: 0 auto 40px; padding: 0 20px; line-height: 1.6; }
         a.back { display: inline-block; margin: 30px 0; padding: 10px 24px; background: #0066cc; color: white; text-decoration: none; border-radius: 6px; }
         a.back:hover { background: #0055aa; }
     </style>
-   <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+    
 </head>
 <body>
-
 <header>
-    <h1>3D Lego-Projekt: Fertiges Haus + Community-Bau</h1>
-    <p>Links: Das fertige Haus (Bungalow).<br>Rechts: Der Community-Bereich, der von Spendern von Grund auf gebaut wird (aktuell Demo mit ein paar Steinen).</p>
+    <h1>3D Lego-Projekt: Moderner Community-Bungalow mit Dachgarten</h1>
+    <p>Inspiriert vom modernen Lego-Haus mit Flachdach, grünem Dachgarten, großen Fenstern und naturnaher Umgebung.</p>
 </header>
-
 <div id="container"></div>
-
 <div class="info">
-    <button onclick="init3D()">Szene laden (Haus + Community-Bauplatz)</button>
-
-    <p>Der Community-Bereich startet leer/klein und wächst mit jedem 1-€-Stein.<br>
-    Nächste Schritte: Mehr Steine dynamisch, Namen einblenden, Fortschritts-Text?</p>
-
+    <button onclick="init3D()">Szene laden (Moderner Bungalow)</button>
+    <p>Community-Bau: Derzeit statisch als Demo – kann später mit Spenden-Steinen wachsen (Fenster, Dach, Bäume...).</p>
     <a href="index.html" class="back">← Zurück zur Hauptseite</a>
 </div>
 
 <script>
     let scene, camera, renderer;
-
     function init3D() {
         const container = document.getElementById('container');
-
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xe0f0ff);
-
-        camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 2000);
-        camera.position.set(0, 50, 100);  // Etwas weiter zurück für beide Objekte
-        camera.lookAt(0, 0, 0);
-
+        scene.background = new THREE.Color(0xcceeff); // Heller Himmel
+        camera = new THREE.PerspectiveCamera(55, container.clientWidth / container.clientHeight, 0.1, 2000);
+        camera.position.set(60, 60, 100);
+        camera.lookAt(0, 10, 0);
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(container.clientWidth, container.clientHeight);
-        renderer.setClearColor(0x88cc88, 1);
         renderer.setPixelRatio(window.devicePixelRatio);
         container.appendChild(renderer.domElement);
 
         // Licht
-        scene.add(new THREE.AmbientLight(0xffffff, 1.0));
-        const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-        dirLight.position.set(40, 80, 60);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1.4);
+        dirLight.position.set(80, 120, 100);
         scene.add(dirLight);
 
-// Gemeinsame Grundfläche
-        const plateSize = 100;
-        const groundGeo = new THREE.PlaneGeometry(plateSize, plateSize);
-        const groundMat = new THREE.MeshStandardMaterial({ color: 0x4CAF50 });
-        const ground = new THREE.Mesh(groundGeo, groundMat);
+        // Boden / Grundplatte
+        const ground = new THREE.Mesh(
+            new THREE.PlaneGeometry(200, 200),
+            new THREE.MeshStandardMaterial({ color: 0x88aa66 })
+        );
         ground.rotation.x = -Math.PI / 2;
         ground.position.y = -0.1;
         scene.add(ground);
-        const grid = new THREE.GridHelper(plateSize, 80, 0x444444, 0xaaaaaa);
+
+        const grid = new THREE.GridHelper(200, 100, 0x444444, 0x888888);
         grid.position.y = 0.01;
         scene.add(grid);
-        // --- Community-Bau Bungalow (zentriert) – von Grund auf ---
-        const communityX = 0; // Zentriert
-        const houseWidth = 14;
-        const houseDepth = 10;
-        const wallHeight = 4;
-        const brickSize = 1.2;
-        const wallMat = new THREE.MeshStandardMaterial({ color: 0xffd700 }); // gelb
-        const roofMat = new THREE.MeshStandardMaterial({ color: 0xb03030 }); // rot
-        const doorMat = new THREE.MeshStandardMaterial({ color: 0x8B4513 }); // braun für Tür
-        const windowMat = new THREE.MeshStandardMaterial({ color: 0xadd8e6, transparent: true, opacity: 0.5 }); // hellblau transparent für Fenster
-        const poolMat = new THREE.MeshStandardMaterial({ color: 0x00bfff }); // blau für Pool
-        // Basis-Platte für Community-Bereich
-        const base = new THREE.Mesh(
-            new THREE.BoxGeometry(16, 0.4, 16), // Etwas größer für Pool
-            new THREE.MeshStandardMaterial({ color: 0x666666 })
+
+        // Materialien
+        const woodMat    = new THREE.MeshStandardMaterial({ color: 0xc19a6b }); // Holz braun-beige
+        const stoneMat   = new THREE.MeshStandardMaterial({ color: 0xaaaaaa }); // Grau Stein
+        const glassMat   = new THREE.MeshStandardMaterial({ color: 0x88ddff, transparent: true, opacity: 0.4 });
+        const roofGreenMat = new THREE.MeshStandardMaterial({ color: 0x4a7043 }); // Dunkelgrün Dachgarten
+        const plantMat   = new THREE.MeshStandardMaterial({ color: 0x228822 });
+        const waterMat   = new THREE.MeshStandardMaterial({ color: 0x3399ff, transparent: true, opacity: 0.7 });
+        const treeTrunkMat = new THREE.MeshStandardMaterial({ color: 0x8B4513 });
+        const treeLeafMat  = new THREE.MeshStandardMaterial({ color: 0x006600 });
+
+        // Basis / Felsen-Unterbau
+        const baseRock = new THREE.Mesh(
+            new THREE.BoxGeometry(40, 8, 50),
+            stoneMat
         );
-        base.position.set(communityX, 0.2, 0);
-        scene.add(base);
-        // Fundament: Demo-Steine als Basis (Stapel von Grund auf)
-        for (let level = 0; level < 2; level++) { // Niedriges Fundament als Start
-            for (let x = -houseWidth/2 + brickSize; x < houseWidth/2; x += brickSize * 2) {
-                for (let z = -houseDepth/2 + brickSize; z < houseDepth/2; z += brickSize * 2) {
-                    if (Math.random() > 0.1) { // Dicht, aber etwas variabel
-                        const brick = new THREE.Mesh(
-                            new THREE.BoxGeometry(brickSize, brickSize, brickSize),
-                            wallMat
-                        );
-                        brick.position.set(
-                            communityX + x,
-                            brickSize * level + brickSize/2 + 0.4,
-                            z
-                        );
-                        scene.add(brick);
-                    }
-                }
-            }
-        }
-        // Wände auf dem Fundament
-        const wallY = wallHeight / 2 + 2 * brickSize; // Über dem Fundament
-        let wallGeo = new THREE.BoxGeometry(houseWidth, wallHeight, 0.4);
-        let wall = new THREE.Mesh(wallGeo, wallMat);
-        wall.position.set(communityX, wallY, -houseDepth/2);
-        scene.add(wall);
-        wall = wall.clone();
-        wall.position.z = houseDepth/2;
-        scene.add(wall);
-        wallGeo = new THREE.BoxGeometry(0.4, wallHeight, houseDepth);
-        wall = new THREE.Mesh(wallGeo, wallMat);
-        wall.position.set(communityX - houseWidth/2, wallY, 0);
-        scene.add(wall);
-        wall = wall.clone();
-        wall.position.x = communityX + houseWidth/2;
-        scene.add(wall);
-        // Dach
+        baseRock.position.set(0, 4, 0);
+        scene.add(baseRock);
+
+        // Hauptgebäude (hinten links)
+        const mainHouse = new THREE.Group();
+        // Wände
+        const wallHeight = 12;
+        const mainWidth = 24;
+        const mainDepth = 18;
+
+        // Rückwand
+        let wall = new THREE.Mesh(new THREE.BoxGeometry(mainWidth, wallHeight, 1), woodMat);
+        wall.position.y = wallHeight/2 + 8;
+        mainHouse.add(wall);
+
+        // Linke Wand
+        wall = new THREE.Mesh(new THREE.BoxGeometry(1, wallHeight, mainDepth), woodMat);
+        wall.position.set(-mainWidth/2 + 0.5, wallHeight/2 + 8, 0);
+        mainHouse.add(wall);
+
+        // Rechte Wand (mit Versatz für L-Form)
+        wall = new THREE.Mesh(new THREE.BoxGeometry(1, wallHeight, mainDepth + 12), woodMat);
+        wall.position.set(mainWidth/2 - 0.5, wallHeight/2 + 8, -6);
+        mainHouse.add(wall);
+
+        // Vorderwand (teilweise)
+        wall = new THREE.Mesh(new THREE.BoxGeometry(mainWidth - 8, wallHeight, 1), woodMat);
+        wall.position.set(-4, wallHeight/2 + 8, mainDepth/2);
+        mainHouse.add(wall);
+
+        // Dach (Flachdach mit Grün)
         const roof = new THREE.Mesh(
-            new THREE.BoxGeometry(houseWidth + 1, 0.6, houseDepth + 1),
-            roofMat
+            new THREE.BoxGeometry(mainWidth + 2, 1.2, mainDepth + 14 + 2),
+            roofGreenMat
         );
-        roof.position.set(communityX, wallY + wallHeight / 2 + 0.3, 0);
-        scene.add(roof);
-        // Fenster (z.B. 2 auf Vorder- und Rückseite)
-        const windowGeo = new THREE.BoxGeometry(2, 2, 0.2);
-        const window = new THREE.Mesh(windowGeo, windowMat);
-        window.position.set(communityX - 4, wallY, -houseDepth/2 - 0.1); // Vorne links
-        scene.add(window);
-        window.position.set(communityX + 4, wallY, -houseDepth/2 - 0.1); // Vorne rechts
-        scene.add(window.clone());
-        window.position.set(communityX - 4, wallY, houseDepth/2 + 0.1); // Hinten links
-        scene.add(window.clone());
-        window.position.set(communityX + 4, wallY, houseDepth/2 + 0.1); // Hinten rechts
-        scene.add(window.clone());
-        // Tür (vorne mitte)
-        const doorGeo = new THREE.BoxGeometry(2.5, 3, 0.2);
-        const door = new THREE.Mesh(doorGeo, doorMat);
-        door.position.set(communityX, wallY - 0.5, -houseDepth/2 - 0.1);
-        scene.add(door);
-        // Pool (rechts neben dem Haus)
-        const pool = new THREE.Mesh(
-            new THREE.BoxGeometry(6, 0.5, 8),
-            poolMat
-        );
-        pool.position.set(communityX + houseWidth/2 + 5, 0.25 + 2 * brickSize, 0); // Neben dem Haus, auf Fundament-Höhe
-        scene.add(pool);
-        console.log('Szene mit Community-Bau Bungalow geladen.');
-        function animate() {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
-        }
-        animate();
-        window.addEventListener('resize', () => {
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        });
+        roof.position.y = wallHeight + 8 + 0.6;
+        mainHouse.add(roof);
 
-
-
-
-        
-        // --- Community-Bauplatz (rechts) – von Grund auf ---
-        const communityX = 25;  // Rechts positioniert
-        const brickSize = 1.2;
-        const brickMat = new THREE.MeshStandardMaterial({ color: 0xffd700 }); // gelb wie Haus
-
-        // Basis-Platte für Community-Bereich
-        const base = new THREE.Mesh(
-            new THREE.BoxGeometry(12, 0.4, 12),
-            new THREE.MeshStandardMaterial({ color: 0x666666 })
-        );
-        base.position.set(communityX, 0.2, 0);
-        scene.add(base);
-
-        // Demo-Steine: Stapel von Grund auf (je höher = mehr Spenden simuliert)
-        for (let level = 0; level < 8; level++) {  // z. B. 8 Steine hoch als Demo
-            for (let x = -2; x <= 2; x += 2) {
-                for (let z = -2; z <= 2; z += 2) {
-                    if (Math.random() > 0.3) {  // etwas unregelmäßig für "echten Bau"-Look
-                        const brick = new THREE.Mesh(
-                            new THREE.BoxGeometry(brickSize, brickSize, brickSize),
-                            brickMat
-                        );
-                        brick.position.set(
-                            communityX + x,
-                            brickSize * level + brickSize/2 + 0.4,
-                            z
-                        );
-                        scene.add(brick);
-                    }
-                }
-            }
+        // Dachgarten-Dekoration (kleine Pflanzen)
+        for (let i = 0; i < 12; i++) {
+            const plant = new THREE.Mesh(
+                new THREE.BoxGeometry(1.2, Math.random()*3 + 1, 1.2),
+                plantMat
+            );
+            plant.position.set(
+                Math.random()*mainWidth - mainWidth/2 + 2,
+                wallHeight + 8 + 1 + Math.random()*2,
+                Math.random()*(mainDepth+12) - (mainDepth+12)/2 + 2
+            );
+            mainHouse.add(plant);
         }
 
-        console.log('Szene mit Haus + Community-Bau geladen.');
+        scene.add(mainHouse);
+
+        // Große Fenster
+        const win1 = new THREE.Mesh(new THREE.BoxGeometry(10, 8, 0.4), glassMat);
+        win1.position.set(-6, 10 + 8, mainDepth/2 + 0.2);
+        scene.add(win1);
+
+        const win2 = new THREE.Mesh(new THREE.BoxGeometry(8, 10, 0.4), glassMat);
+        win2.position.set(mainWidth/2 - 4, 11 + 8, -6);
+        scene.add(win2);
+
+        // Kleiner Kamin/Schornstein
+        const chimney = new THREE.Mesh(new THREE.BoxGeometry(3, 6, 3), stoneMat);
+        chimney.position.set(-mainWidth/2 + 5, wallHeight/2 + 8 + 3, -mainDepth/2 + 5);
+        scene.add(chimney);
+
+        // Kleiner Teich / Wasserbereich
+        const pond = new THREE.Mesh(
+            new THREE.BoxGeometry(18, 0.8, 12),
+            waterMat
+        );
+        pond.position.set(22, 0.4 + 4, -10); // Rechts unten
+        scene.add(pond);
+
+        // Einfache Bäume
+        function addTree(x, z) {
+            const trunk = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.8, 10, 8), treeTrunkMat);
+            trunk.position.set(x, 5 + 4, z);
+            scene.add(trunk);
+
+            const leaves = new THREE.Mesh(new THREE.ConeGeometry(5, 12, 8), treeLeafMat);
+            leaves.position.set(x, 10 + 8, z);
+            scene.add(leaves);
+
+            const leaves2 = leaves.clone();
+            leaves2.scale.set(0.7, 0.7, 0.7);
+            leaves2.position.y += 4;
+            scene.add(leaves2);
+        }
+
+        addTree(-30, 30);
+        addTree(35, 25);
+        addTree(-25, -35);
+
+        console.log('Moderner Lego-Bungalow geladen.');
 
         function animate() {
             requestAnimationFrame(animate);
+            // Optional: leichte Rotation für Demo
+            // mainHouse.rotation.y += 0.001;
             renderer.render(scene, camera);
         }
         animate();
@@ -217,6 +190,5 @@
         });
     }
 </script>
-
 </body>
 </html>
