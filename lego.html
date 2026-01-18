@@ -72,13 +72,24 @@
         const treeTrunkMat = new THREE.MeshStandardMaterial({ color: 0x8B4513 });
         const treeLeafMat  = new THREE.MeshStandardMaterial({ color: 0x006600 });
 
-        // Basis / Felsen-Unterbau
-        const baseRock = new THREE.Mesh(
-            new THREE.BoxGeometry(40, 8, 50),
+        // Basis / Felsen-Unterbau  (x,z,y)
+        const baseRock0 = new THREE.Mesh(
+            new THREE.BoxGeometry(50, 2, 50),
             stoneMat
         );
-        baseRock.position.set(0, 4, 0);
-        scene.add(baseRock);
+        // Basis / Felsen-Unterbau drüber
+        const baseRock1 = new THREE.Mesh(
+            new THREE.BoxGeometry(20, 2, 20),
+            stoneMat
+        );
+        
+        baseRock0.position.set(0, 2, 0);
+        scene.add(baseRock0);
+
+        baseRock1.position.set(0,4,0);
+        scene.add(baseRock1);
+
+        
 
         // Hauptgebäude (hinten links)
         const mainHouse = new THREE.Group();
@@ -116,18 +127,18 @@
         mainHouse.add(roof);
 
         // Dachgarten-Dekoration (kleine Pflanzen)
-        for (let i = 0; i < 12; i++) {
-            const plant = new THREE.Mesh(
-                new THREE.BoxGeometry(1.2, Math.random()*3 + 1, 1.2),
-                plantMat
-            );
-            plant.position.set(
-                Math.random()*mainWidth - mainWidth/2 + 2,
-                wallHeight + 8 + 1 + Math.random()*2,
-                Math.random()*(mainDepth+12) - (mainDepth+12)/2 + 2
-            );
-            mainHouse.add(plant);
-        }
+     //   for (let i = 0; i < 12; i++) {
+       //     const plant = new THREE.Mesh(
+         //       new THREE.BoxGeometry(1.2, Math.random()*3 + 1, 1.2),
+           //     plantMat
+           // );
+           // plant.position.set(
+            //    Math.random()*mainWidth - mainWidth/2 + 2,
+             //   wallHeight + 8 + 1 + Math.random()*2,
+              //  Math.random()*(mainDepth+12) - (mainDepth+12)/2 + 2
+           // );
+           // mainHouse.add(plant);
+       // }
 
         scene.add(mainHouse);
 
@@ -147,10 +158,10 @@
 
         // Kleiner Teich / Wasserbereich
         const pond = new THREE.Mesh(
-            new THREE.BoxGeometry(18, 0.8, 12),
+            new THREE.BoxGeometry(25, 0.8, 30),
             waterMat
         );
-        pond.position.set(22, 0.4 + 4, -10); // Rechts unten
+        pond.position.set(22, 0.4 + 4, -20); // Rechts unten
         scene.add(pond);
 
         // Einfache Bäume
@@ -171,7 +182,7 @@
 
         addTree(-30, 30);
         addTree(35, 25);
-        addTree(-25, -35);
+        addTree(25, 35);
 
         console.log('Moderner Lego-Bungalow geladen.');
 
