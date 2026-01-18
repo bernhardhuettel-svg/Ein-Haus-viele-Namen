@@ -59,7 +59,7 @@
         dirLight.position.set(40, 80, 60);
         scene.add(dirLight);
 
-        // Gemeinsame Grundfläche
+// Gemeinsame Grundfläche
         const plateSize = 100;
         const groundGeo = new THREE.PlaneGeometry(plateSize, plateSize);
         const groundMat = new THREE.MeshStandardMaterial({ color: 0x4CAF50 });
@@ -67,46 +67,108 @@
         ground.rotation.x = -Math.PI / 2;
         ground.position.y = -0.1;
         scene.add(ground);
-
         const grid = new THREE.GridHelper(plateSize, 80, 0x444444, 0xaaaaaa);
         grid.position.y = 0.01;
         scene.add(grid);
-
-        // --- Fertiges Haus (links) ---
-        const houseX = -25;  // Links positioniert
-        const houseWidth = 30;
-        const houseDepth = 20;
+        // --- Community-Bau Bungalow (zentriert) – von Grund auf ---
+        const communityX = 0; // Zentriert
+        const houseWidth = 14;
+        const houseDepth = 10;
         const wallHeight = 4;
+        const brickSize = 1.2;
         const wallMat = new THREE.MeshStandardMaterial({ color: 0xffd700 }); // gelb
-        const roofMat  = new THREE.MeshStandardMaterial({ color: 0xb03030 }); // rot
-
-        // Wände
+        const roofMat = new THREE.MeshStandardMaterial({ color: 0xb03030 }); // rot
+        const doorMat = new THREE.MeshStandardMaterial({ color: 0x8B4513 }); // braun für Tür
+        const windowMat = new THREE.MeshStandardMaterial({ color: 0xadd8e6, transparent: true, opacity: 0.5 }); // hellblau transparent für Fenster
+        const poolMat = new THREE.MeshStandardMaterial({ color: 0x00bfff }); // blau für Pool
+        // Basis-Platte für Community-Bereich
+        const base = new THREE.Mesh(
+            new THREE.BoxGeometry(16, 0.4, 16), // Etwas größer für Pool
+            new THREE.MeshStandardMaterial({ color: 0x666666 })
+        );
+        base.position.set(communityX, 0.2, 0);
+        scene.add(base);
+        // Fundament: Demo-Steine als Basis (Stapel von Grund auf)
+        for (let level = 0; level < 2; level++) { // Niedriges Fundament als Start
+            for (let x = -houseWidth/2 + brickSize; x < houseWidth/2; x += brickSize * 2) {
+                for (let z = -houseDepth/2 + brickSize; z < houseDepth/2; z += brickSize * 2) {
+                    if (Math.random() > 0.1) { // Dicht, aber etwas variabel
+                        const brick = new THREE.Mesh(
+                            new THREE.BoxGeometry(brickSize, brickSize, brickSize),
+                            wallMat
+                        );
+                        brick.position.set(
+                            communityX + x,
+                            brickSize * level + brickSize/2 + 0.4,
+                            z
+                        );
+                        scene.add(brick);
+                    }
+                }
+            }
+        }
+        // Wände auf dem Fundament
+        const wallY = wallHeight / 2 + 2 * brickSize; // Über dem Fundament
         let wallGeo = new THREE.BoxGeometry(houseWidth, wallHeight, 0.4);
         let wall = new THREE.Mesh(wallGeo, wallMat);
-        wall.position.set(houseX, wallHeight/2, -houseDepth/2);
+        wall.position.set(communityX, wallY, -houseDepth/2);
         scene.add(wall);
-
         wall = wall.clone();
         wall.position.z = houseDepth/2;
         scene.add(wall);
-
         wallGeo = new THREE.BoxGeometry(0.4, wallHeight, houseDepth);
         wall = new THREE.Mesh(wallGeo, wallMat);
-        wall.position.set(houseX - houseWidth/2, wallHeight/2, 0);
+        wall.position.set(communityX - houseWidth/2, wallY, 0);
         scene.add(wall);
-
         wall = wall.clone();
-        wall.position.x = houseX + houseWidth/2;
+        wall.position.x = communityX + houseWidth/2;
         scene.add(wall);
-
         // Dach
         const roof = new THREE.Mesh(
             new THREE.BoxGeometry(houseWidth + 1, 0.6, houseDepth + 1),
             roofMat
         );
-        roof.position.set(houseX, wallHeight + 0.3, 0);
+        roof.position.set(communityX, wallY + wallHeight / 2 + 0.3, 0);
         scene.add(roof);
+        // Fenster (z.B. 2 auf Vorder- und Rückseite)
+        const windowGeo = new THREE.BoxGeometry(2, 2, 0.2);
+        const window = new THREE.Mesh(windowGeo, windowMat);
+        window.position.set(communityX - 4, wallY, -houseDepth/2 - 0.1); // Vorne links
+        scene.add(window);
+        window.position.set(communityX + 4, wallY, -houseDepth/2 - 0.1); // Vorne rechts
+        scene.add(window.clone());
+        window.position.set(communityX - 4, wallY, houseDepth/2 + 0.1); // Hinten links
+        scene.add(window.clone());
+        window.position.set(communityX + 4, wallY, houseDepth/2 + 0.1); // Hinten rechts
+        scene.add(window.clone());
+        // Tür (vorne mitte)
+        const doorGeo = new THREE.BoxGeometry(2.5, 3, 0.2);
+        const door = new THREE.Mesh(doorGeo, doorMat);
+        door.position.set(communityX, wallY - 0.5, -houseDepth/2 - 0.1);
+        scene.add(door);
+        // Pool (rechts neben dem Haus)
+        const pool = new THREE.Mesh(
+            new THREE.BoxGeometry(6, 0.5, 8),
+            poolMat
+        );
+        pool.position.set(communityX + houseWidth/2 + 5, 0.25 + 2 * brickSize, 0); // Neben dem Haus, auf Fundament-Höhe
+        scene.add(pool);
+        console.log('Szene mit Community-Bau Bungalow geladen.');
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        animate();
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
 
+
+
+
+        
         // --- Community-Bauplatz (rechts) – von Grund auf ---
         const communityX = 25;  // Rechts positioniert
         const brickSize = 1.2;
