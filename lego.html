@@ -24,16 +24,6 @@
         background: #dddddd;
         margin: 20px auto;
     }
-
-    button {
-        padding: 14px 28px;
-        font-size: 16px;
-        background: #28a745;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-    }
 </style>
 </head>
 
@@ -41,11 +31,10 @@
 
 <header>
     <h1>Architekturmodell – Fenster & Tür</h1>
-    <p>Schräge Draufsicht, saubere Volumen</p>
+    <p>Schräge Draufsicht, automatisch drehende Kamera</p>
 </header>
 
 <div id="container"></div>
-<button onclick="init3D()">Szene laden</button>
 
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js';
@@ -66,9 +55,7 @@ function init3D() {
         0.1,
         1000
     );
-    // Startposition wird jetzt passend zur Szene gesetzt
     camera.position.set(200, 120, 200);
-    camera.lookAt(0, 10, 0);
 
     /* Renderer */
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -110,7 +97,7 @@ function init3D() {
         new THREE.BoxGeometry(36, 13, 24),
         woodMat
     );
-    house.position.set(0, 12.5, 0); // Haus zentriert auf 0,0
+    house.position.set(0, 12.5, 0); // Haus zentriert
     scene.add(house);
 
     /* Dach */
@@ -138,7 +125,6 @@ function init3D() {
         w.position.set(x, y, z);
         scene.add(w);
     }
-
     addWindow(-20, 11, 0);
     addWindow(-20, 16, 0);
     addWindow(20, 11, 0);
@@ -161,19 +147,18 @@ function init3D() {
     scene.add(doorFrame);
 
     /* =========================
-       ANIMATION – KAMERA AUTO-ROTATION
+       ANIMATION – AUTO-ROTATION
     ========================= */
     let angle = 0;
-    const radius = 120; // Kamera weiter entfernt, damit alles sichtbar ist
+    const radius = 120; // Abstand Kamera
 
     function animate() {
         requestAnimationFrame(animate);
 
-        // Kamera rotiert automatisch um Haus (0,12,0)
         angle += 0.003;
         camera.position.x = 0 + radius * Math.cos(angle);
         camera.position.z = 0 + radius * Math.sin(angle);
-        camera.position.y = 80; // Höhe
+        camera.position.y = 80;
         camera.lookAt(0, 12, 0);
 
         renderer.render(scene, camera);
@@ -187,6 +172,9 @@ function init3D() {
         renderer.setSize(container.clientWidth, container.clientHeight);
     });
 }
+
+// Szene direkt beim Laden starten
+init3D();
 </script>
 
 </body>
