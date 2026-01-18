@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <title>Grundstück & Haus – Basis</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+
+<script type="module">
+/* =========================
+   BASIS: THREE SETUP
+========================= */
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js';
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xaec6cf);
+
+/* =========================
+   KAMERA (schräg von oben)
+========================= */
+const camera = new THREE.PerspectiveCamera(
+    60,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+);
+
+// Schräge Draufsicht
+camera.position.set(20, 20, 20);
+camera.lookAt(0, 0, 0);
+
+/* =========================
+   RENDERER
+========================= */
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+/* =========================
+   LICHT
+========================= */
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+
+const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+dirLight.position.set(20, 30, 10);
+scene.add(dirLight);
+
+/* =========================
+   GRUNDSTÜCK (grüne Fläche)
+========================= */
+const groundGeometry = new THREE.PlaneGeometry(40, 40);
+const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x2e8b57 });
+const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+ground.rotation.x = -Math.PI / 2;
+scene.add(ground);
+
+/* =========================
+   HAUS – BASISKÖRPER
+========================= */
+const houseGroup = new THREE.Group();
+
+// Hauskörper
+const houseGeometry = new THREE.BoxGeometry(8, 5, 6);
+const houseMaterial = new THREE.MeshStandardMaterial({ color: 0xb0b0b0 });
+const house = new THREE.Mesh(houseGeometry, houseMaterial);
+house.position.y = 2.5;
+houseGroup.add(house);
+
+// Tür
+const doorGeometry = new THREE.BoxGeometry(1.2, 2.2, 0.2);
+const doorMaterial = new THREE.MeshStandardMaterial({ color: 0x654321 });
+const door = new THREE.Mesh(doorGeometry, doorMaterial);
+door.position.set(0, 1.1, 3.1);
+houseGroup.add(door);
+
+// Fenster links
+const windowGeometry = new THREE.BoxGeometry(1.2, 1.2, 0.2);
+const windowMaterial = new THREE.MeshStandardMaterial({ color: 0x87cefa });
+
+const windowLeft = new THREE.Mesh(windowGeometry, windowMaterial);
+windowLeft.position.set(-2.5, 2.8, 3.1);
+houseGroup.add(windowLeft);
+
+// Fenster rechts
+const windowRight = windowLeft.clone();
+windowRight.position.x = 2.5;
+houseGroup.add(windowRight);
+
+scene.add(houseGroup);
+
+/* =========================
+   RENDER LOOP
+========================= */
+function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+}
+animate();
+
+/* =========================
+   RESIZE
+========================= */
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+/* ======================================================
+   ORBIT CONTROLS – SEPARATER BLOCK (DEBUG-FREUNDLICH)
+   -> NUR AKTIVIEREN, WENN ALLES OBEN LÄUFT
+====================================================== */
+
+/*
+import { OrbitControls } from
+'https://cdn.jsdelivr.net/npm/three@0.158/examples/jsm/controls/OrbitControls.js';
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 2, 0);
+controls.enableDamping = true;
+
+function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+}
+*/
+
+</script>
+</body>
+</html>
