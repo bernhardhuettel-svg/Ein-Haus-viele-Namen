@@ -88,49 +88,44 @@
             stoneMat
         );
         
-        baseRock0.position.set(0, 1, 0);
-        scene.add(baseRock0);
+        // Sockel / Podest (ruhige Basis)
+        const base = new THREE.Mesh(
+            new THREE.BoxGeometry(90, 6, 60),
+            stoneMat
+        );
+        base.position.y = 3;
+        scene.add(base);
 
-        baseRock1.position.set(10,2,0);
-        scene.add(baseRock1);
+        // Hauptkubus (Holz)
+        const houseCore = new THREE.Mesh(
+            new THREE.BoxGeometry(32, 14, 22),
+            woodMat
+        );
+        houseCore.position.y = 6 + 7; // Sockel + halbe Höhe
+        mainHouse.add(houseCore);
 
-        baseRock2.position.set(20,3,0);
-        scene.add(baseRock2);
+        // Auskragender Glaswürfel
+        const glassCube = new THREE.Mesh(
+            new THREE.BoxGeometry(18, 10, 14),
+            glassMat
+        );
+        glassCube.position.set(-25, 6 + 10, 0);
+        scene.add(glassCube);
 
-        // Hauptgebäude (hinten links)
-        const mainHouse = new THREE.Group();
-        // Wände
-        const wallHeight = 12;
-        const mainWidth = 24;
-        const mainDepth = 18;
-
-        // Rückwand
-        let wall = new THREE.Mesh(new THREE.BoxGeometry(mainWidth, wallHeight, 1), woodMat);
-        wall.position.y = wallHeight/2 + 8;
-        mainHouse.add(wall);
-
-        // Linke Wand
-        wall = new THREE.Mesh(new THREE.BoxGeometry(1, wallHeight, mainDepth), woodMat);
-        wall.position.set(-mainWidth/2 + 0.5, wallHeight/2 + 8, 0);
-        mainHouse.add(wall);
-
-        // Rechte Wand (mit Versatz für L-Form)
-        wall = new THREE.Mesh(new THREE.BoxGeometry(1, wallHeight, mainDepth + 12), woodMat);
-        wall.position.set(mainWidth/2 - 0.5, wallHeight/2 + 8, -6);
-        mainHouse.add(wall);
-
-        // Vorderwand (teilweise)
-        wall = new THREE.Mesh(new THREE.BoxGeometry(mainWidth - 8, wallHeight, 1), woodMat);
-        wall.position.set(-4, wallHeight/2 + 8, mainDepth/2);
-        mainHouse.add(wall);
-
-        // Dach (Flachdach mit Grün)
-        const roof = new THREE.Mesh(
-            new THREE.BoxGeometry(mainWidth + 2, 1.2, mainDepth + 14 + 2),
+        
+        const roofBase = new THREE.Mesh(
+            new THREE.BoxGeometry(34, 1.6, 24),
             roofGreenMat
         );
-        roof.position.y = wallHeight + 8 + 0.6;
-        mainHouse.add(roof);
+        roofBase.position.y = 6 + 14 + 0.8;
+        mainHouse.add(roofBase);
+        
+         const roofBorder = new THREE.Mesh(
+            new THREE.BoxGeometry(36, 0.8, 26),
+            stoneMat
+        );
+        roofBorder.position.y = roofBase.position.y + 0.8;
+        mainHouse.add(roofBorder);       
 
         // Dachgarten-Dekoration (kleine Pflanzen)
      //   for (let i = 0; i < 12; i++) {
@@ -148,14 +143,21 @@
 
         scene.add(mainHouse);
 
-        // Große Fenster
-        const win1 = new THREE.Mesh(new THREE.BoxGeometry(10, 8, 0.4), glassMat);
-        win1.position.set(-6, 10 + 8, mainDepth/2 + 0.2);
-        scene.add(win1);
+        const frontGlass = new THREE.Mesh(
+            new THREE.BoxGeometry(28, 10, 0.4),
+            glassMat
+        );
+        frontGlass.position.set(0, 6 + 10, 11.3);
+        scene.add(frontGlass);
 
-        const win2 = new THREE.Mesh(new THREE.BoxGeometry(8, 10, 0.4), glassMat);
-        win2.position.set(mainWidth/2 - 4, 11 + 8, -6);
-        scene.add(win2);
+        const sideGlass = new THREE.Mesh(
+        new THREE.BoxGeometry(0.4, 8, 12),
+        glassMat
+        );
+        sideGlass.position.set(-34, 6 + 10, 0);
+        scene.add(sideGlass);
+
+        
 
         // Kleiner Kamin/Schornstein
         const chimney = new THREE.Mesh(new THREE.BoxGeometry(3, 6, 3), stoneMat);
