@@ -143,12 +143,12 @@ function roofSlope(width, depth, slope, rotY) {
                 roofBlockMat
             );
 
-            /* Korrektur: Dach liegt auf den Blockwänden */
-            tile.position.set(
+           tile.position.set(
                 x,
                 houseHeight + y + 0.2,
-                z + depth / 2
-            );
+                -depth/2 + z   // <- verschiebt die Fläche korrekt nach vorne
+);
+
             group.add(tile);
         }
     }
@@ -157,10 +157,15 @@ function roofSlope(width, depth, slope, rotY) {
     scene.add(group);
 }
 
-roofSlope(houseWidth, houseDepth / 2, 0.15, Math.PI);
-roofSlope(houseWidth, houseDepth / 2, 0.15, 0);
+// vorne
+roofSlope(houseWidth, houseDepth / 2, 0.15, Math.PI); 
+// hinten
+roofSlope(houseWidth, houseDepth / 2, 0, Math.PI);   
+// links
 roofSlope(houseDepth, houseWidth / 2, 0.15, -Math.PI/2);
+// rechts
 roofSlope(houseDepth, houseWidth / 2, 0.15, Math.PI/2);
+
 
 /* ===================== TERRASSE ===================== */
 const terrace = new THREE.Mesh(new THREE.BoxGeometry(6,0.15,3),
