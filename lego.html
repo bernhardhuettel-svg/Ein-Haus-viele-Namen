@@ -79,14 +79,6 @@ scene.add(
     wallBlocks(5.6,-6,0.4,12,3)
 );
 
-/* Haus 2. Stock */
-scene.add(
-    wallBlocks(-3,-6,12,0.4,3),
-    wallBlocks(-3,5.6,12,0.4,3),
-    wallBlocks(-6,-3,0.4,12,3),
-    wallBlocks(5.6,-3,0.4,12,3)
-);
-
 /* ===================== Fenster ===================== */
 function createWindow(xStart, yStart, zStart, width, height, depth = 0.2){
     const group = new THREE.Group();
@@ -143,31 +135,31 @@ function roofSlopeAllSides(width, depth, slope) {
     }
     scene.add(back);
 
-    // LINKS
-    const left = new THREE.Group();
-    const leftX = -houseWidth/2;
-    for (let z=-width/2; z<width/2; z+=size+gap){
-        for (let x=0; x<depth; x+=size+gap){
-            const y = slope*x;
-            const tile = new THREE.Mesh(new THREE.BoxGeometry(size, size*0.4, size), matRoof);
-            tile.position.set(leftX + x, houseHeight + y + yOffset, z);
-            left.add(tile);
-        }
-    }
-    scene.add(left);
+//    // LINKS
+//    const left = new THREE.Group();
+//    const leftX = -houseWidth/2;
+//    for (let z=-width/2; z<width/2; z+=size+gap){
+//        for (let x=0; x<depth; x+=size+gap){
+//            const y = slope*x;
+//            const tile = new THREE.Mesh(new THREE.BoxGeometry(size, size*0.4, size), matRoof);
+//            tile.position.set(leftX + x, houseHeight + y + yOffset, z);
+//            left.add(tile);
+//        }
+//    }
+//    scene.add(left);
 
-    // RECHTS
-    const right = new THREE.Group();
-    const rightX = houseWidth/2;
-    for (let z=-width/2; z<width/2; z+=size+gap){
-        for (let x=0; x<depth; x+=size+gap){
-            const y = slope*x;
-            const tile = new THREE.Mesh(new THREE.BoxGeometry(size, size*0.4, size), matRoof);
-            tile.position.set(rightX - x, houseHeight + y + yOffset, z);
-            right.add(tile);
-        }
-    }
-    scene.add(right);
+//    // RECHTS
+//    const right = new THREE.Group();
+//    const rightX = houseWidth/2;
+//    for (let z=-width/2; z<width/2; z+=size+gap){
+//        for (let x=0; x<depth; x+=size+gap){
+//            const y = slope*x;
+//            const tile = new THREE.Mesh(new THREE.BoxGeometry(size, size*0.4, size), matRoof);
+//            tile.position.set(rightX - x, houseHeight + y + yOffset, z);
+//            right.add(tile);
+//        }
+//    }
+//    scene.add(right);
 }
 
 // Dach aufsetzen
