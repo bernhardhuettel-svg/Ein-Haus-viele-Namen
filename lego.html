@@ -128,44 +128,165 @@ const door = new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2), matWood);
 door.position.set(0,1.15,6.1);
 scene.add(door);
 
-/* ===================== WALMDACH ===================== */
-function roofSlope(width, depth, slope, rotY, offsetX, offsetZ) {
-    const group = new THREE.Group();
-    const size = 0.5;
-    const gap = 0.05;
+>
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
 
-    for (let x = 0; x < width; x += size + gap) {
-        for (let z = 0; z < depth; z += size + gap) {
-            const y = slope * z;
+/* ===================== Grundwerte ===================== */
+const houseWidth  = 12;
+const houseDepth  = 12;
+const houseHeight = 6;
 
-            const tile = new THREE.Mesh(
-                new THREE.BoxGeometry(size, size * 0.4, size),
-                roofBlockMat
-            );
+const container = document.getElementById("container");
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xcce6ff);
 
-            // Verschiebe jeden Block relativ zum Offset
-            tile.position.set(
-                x - width/2 + size/2 + offsetX,
-                houseHeight + y + 0.2,
-                z - depth/2 + size/2 + offsetZ
-            );
-            group.add(tile);
+/* ===================== Kamera ===================== */
+const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 500);
+camera.position.set(30, 18, 30);
+
+/* ===================== Renderer ===================== */
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(devicePixelRatio);
+container.appendChild(renderer.domElement);
+
+/* ===================== Licht ===================== */
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+const sun = new THREE.DirectionalLight(0xffffff, 1);
+sun.position.set(50,100,50);
+scene.add(sun);
+
+/* ===================== Materialien ===================== */
+const matGround = new THREE.MeshStandardMaterial({color:0x7fa86c});
+const matWall   = new THREE.MeshStandardMaterial({color:0xc7a17a});
+const matRoof   = new THREE.MeshStandardMaterial({color:0x8b3e2f});
+const matGlass  = new THREE.MeshStandardMaterial({color:0x99ccff, transparent:true, opacity:0.6});
+const matWood   = new THREE.MeshStandardMaterial({color:0x4a2e1b});
+
+/* ===================== Grundstück ===================== */
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(40,20), matGround);
+ground.rotation.x = -Math.PI/2;
+scene.add(ground);
+
+/* ===================== Wände ===================== */
+function wallBlocks(x0,z0,w,d,h){
+    const g = new THREE.Group();
+    const size = 0.4;
+    const gap = 0.03;
+
+    for(let x=0;x<w;x+=size+gap){
+        for(let y=0;y<h;y+=size+gap){
+            for(let z=0;z<d;z+=size+gap){
+                const b = new THREE.Mesh(new THREE.BoxGeometry(size,size,size), matWall);
+                b.position.set(x0 + x + size/2, y + size/2, z0 + z + size/2);
+                g.add(b);
+            }
         }
     }
+    return g;
+}
 
-    group.rotation.y = rotY;
+/* Haus Erdgeschoss */
+scene.add(
+    wallBlocks(-6,-6,12,0.4,3),
+    wallBlocks(-6,5.6,12,0.4,3),
+    wallBlocks(-6,-6,0.4,12,3),
+    wallBlocks(5.6,-6,0.4,12,3)
+);
+
+/* Haus 2. Stock */
+scene.add(
+    wallBlocks(-3,-6,12,0.4,3),
+    wallBlocks(-3,5.6,12,0.4,3),
+    wallBlocks(-6,-3,0.4,12,3),
+    wallBlocks(5.6,-3,0.4,12,3)
+);
+
+/* ===================== Fenster ===================== */
+function createWindow(xStart, yStart, zStart, width, height, depth = 0.2){
+    const group = new THREE.Group();
+    const size = 0.4;
+    const gap = 0.05;
+    for (let x = 0; x < width; x += size + gap){
+        for (let y = 0; y < height; y += size + gap){
+            const block = new THREE.Mesh(new THREE.BoxGeometry(size,size,depth), matGlass);
+            block.position.set(xStart + x + size/2, yStart + y + size/2, zStart);
+            group.add(block);
+        }
+    }
     scene.add(group);
 }
 
+// Fenster vorne
+createWindow(-4, 1.2, 6.1, 2.4, 1.6);
+createWindow( 1.6, 1.2, 6.1, 2.4, 1.6);
 
-// vorne
-roofSlope(houseWidth, houseDepth / 2, 0.15, 0, 0, houseDepth/2);
-// hinten
-roofSlope(houseWidth, houseDepth / 2, 0.15, Math.PI, 0, -houseDepth/2);
-// links
-roofSlope(houseDepth, houseWidth / 2, 0.15, Math.PI/2, -houseWidth/2, 0);
-// rechts
-roofSlope(houseDepth, houseWidth / 2, 0.15, -Math.PI/2, houseWidth/2, 0);
+/* ===================== Tür ===================== */
+const door = new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2), matWood);
+door.position.set(0,1.15,6.1);
+scene.add(door);
+
+/* ===================== Walmdach ===================== */
+function roofSlopeAllSides(width, depth, slope) {
+    const size = 0.5;
+    const gap = 0.05;
+    const yOffset = 0.2;
+
+    // VORNE
+    const front = new THREE.Group();
+    const frontZ = houseDepth / 2;
+    for (let x=-width/2;x<width/2;x+=size+gap){
+        for (let z=0; z<depth; z+=size+gap){
+            const y = slope*z;
+            const tile = new THREE.Mesh(new THREE.BoxGeometry(size, size*0.4, size), matRoof);
+            tile.position.set(x, houseHeight + y + yOffset, frontZ - z);
+            front.add(tile);
+        }
+    }
+    scene.add(front);
+
+    // HINTEN
+    const back = new THREE.Group();
+    const backZ = -houseDepth / 2;
+    for (let x=-width/2;x<width/2;x+=size+gap){
+        for (let z=0; z<depth; z+=size+gap){
+            const y = slope*z;
+            const tile = new THREE.Mesh(new THREE.BoxGeometry(size, size*0.4, size), matRoof);
+            tile.position.set(x, houseHeight + y + yOffset, backZ + z);
+            back.add(tile);
+        }
+    }
+    scene.add(back);
+
+    // LINKS
+    const left = new THREE.Group();
+    const leftX = -houseWidth/2;
+    for (let z=-width/2; z<width/2; z+=size+gap){
+        for (let x=0; x<depth; x+=size+gap){
+            const y = slope*x;
+            const tile = new THREE.Mesh(new THREE.BoxGeometry(size, size*0.4, size), matRoof);
+            tile.position.set(leftX + x, houseHeight + y + yOffset, z);
+            left.add(tile);
+        }
+    }
+    scene.add(left);
+
+    // RECHTS
+    const right = new THREE.Group();
+    const rightX = houseWidth/2;
+    for (let z=-width/2; z<width/2; z+=size+gap){
+        for (let x=0; x<depth; x+=size+gap){
+            const y = slope*x;
+            const tile = new THREE.Mesh(new THREE.BoxGeometry(size, size*0.4, size), matRoof);
+            tile.position.set(rightX - x, houseHeight + y + yOffset, z);
+            right.add(tile);
+        }
+    }
+    scene.add(right);
+}
+
+// Dach aufsetzen
+roofSlopeAllSides(houseWidth, houseDepth/2, 0.15);
 
 
 
@@ -196,17 +317,61 @@ tree(-15,7);
 tree(15,7);
 
 /* ===================== ANIMATION ===================== */
-let a=0;
-function animate(){
+let isMouseDown = false;
+let mouseX = 0;
+let targetRotation = 0;
+let targetRotationOnMouseDown = 0;
+
+window.addEventListener('mousedown', (event) => {
+    isMouseDown = true;
+    mouseX = event.clientX;
+    targetRotationOnMouseDown = targetRotation;
+});
+
+window.addEventListener('mousemove', (event) => {
+    if (isMouseDown) {
+        const deltaX = event.clientX - mouseX;
+        targetRotation = targetRotationOnMouseDown + deltaX * 0.005;
+    }
+});
+
+window.addEventListener('mouseup', () => {
+    isMouseDown = false;
+});
+
+window.addEventListener('wheel', (event) => {
+    camera.position.y -= event.deltaY * 0.01; // Höhe anpassen
+    camera.position.y = Math.max(5, Math.min(50, camera.position.y)); // Limits
+});
+
+function animate() {
     requestAnimationFrame(animate);
-    a+=0.002;
-    camera.position.x = 30*Math.cos(a);
-    camera.position.z = 30*Math.sin(a);
-    camera.lookAt(0,1.5,0);
-    renderer.render(scene,camera);
+
+    // Kamera um die Szene rotieren
+    const radius = 30;
+    camera.position.x = radius * Math.cos(targetRotation);
+    camera.position.z = radius * Math.sin(targetRotation);
+    camera.lookAt(0, 1.5, 0);
+
+    renderer.render(scene, camera);
 }
+
+    
+//let a=0;
+//function animate(){
+//    requestAnimationFrame(animate);
+//    a+=0.002;
+//    camera.position.x = 30*Math.cos(a);
+//    camera.position.z = 30*Math.sin(a);
+//    camera.lookAt(0,1.5,0);
+//    renderer.render(scene,camera);
+//}
 animate();
 
+
+
+
+    
 /* Resize */
 window.addEventListener("resize",()=>{
     camera.aspect = innerWidth/innerHeight;
