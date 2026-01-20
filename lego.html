@@ -5,7 +5,7 @@
 <title>3D Bungalow – Realistisch</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body { margin:0; background:#eef2f3; font-family:system-ui; }
+body { margin:0; background:#eef2f3; font-family:system-ui; overflow:hidden; }
 #container { width:100vw; height:100vh; }
 </style>
 </head>
@@ -14,121 +14,6 @@ body { margin:0; background:#eef2f3; font-family:system-ui; }
 <div id="container"></div>
 
 <script type="module">
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
-
-/* ===================== BASIS ===================== */
-const container = document.getElementById("container");
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xcce6ff);
-
-/* Haus-Parameter */
-const houseWidth  = 12;
-const houseDepth  = 12;
-const houseHeight = 6;
-
-/* Kamera */
-const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 500);
-camera.position.set(30, 18, 30);
-
-/* Renderer */
-const renderer = new THREE.WebGLRenderer({antialias:true});
-renderer.setSize(innerWidth, innerHeight);
-renderer.setPixelRatio(devicePixelRatio);
-container.appendChild(renderer.domElement);
-
-/* Licht */
-scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-const sun = new THREE.DirectionalLight(0xffffff, 1);
-sun.position.set(50,100,50);
-scene.add(sun);
-
-/* Materialien */
-const matGround = new THREE.MeshStandardMaterial({color:0x7fa86c});
-const matWall   = new THREE.MeshStandardMaterial({color:0xc7a17a});
-const matRoof   = new THREE.MeshStandardMaterial({color:0x8b3e2f});
-const matGlass  = new THREE.MeshStandardMaterial({color:0x99ccff, transparent:true, opacity:0.6});
-const matWood   = new THREE.MeshStandardMaterial({color:0x4a2e1b});
-const roofBlockMat = matRoof;
-
-/* ===================== GRUNDSTÜCK ===================== */
-const ground = new THREE.Mesh(new THREE.PlaneGeometry(40,20), matGround);
-ground.rotation.x = -Math.PI/2;
-scene.add(ground);
-
-/* ===================== ZIEGELWÄNDE ===================== */
-function wallBlocks(x0,z0,w,d,h) {
-    const g = new THREE.Group();
-    const size = 0.4;
-    const gap = 0.03;
-
-    for(let x=0;x<w;x+=size+gap){
-        for(let y=0;y<h;y+=size+gap){
-            for(let z=0;z<d;z+=size+gap){
-                const b = new THREE.Mesh(
-                    new THREE.BoxGeometry(size,size,size),
-                    matWall
-                );
-                b.position.set(
-                    x0 + x + size/2,
-                    y + size/2,
-                    z0 + z + size/2
-                );
-                g.add(b);
-            }
-        }
-    }
-    return g;
-}
-
-/* Erdgeschoss */
-scene.add(
-    wallBlocks(-6,-6,12,0.4,3),
-    wallBlocks(-6,5.6,12,0.4,3),
-    wallBlocks(-6,-6,0.4,12,3),
-    wallBlocks(5.6,-6,0.4,12,3)
-);
-
-/* Obergeschoss */
-//scene.add(
-//    wallBlocks(-6,-6,12,0.4,6),
-//    wallBlocks(-6,5.6,12,0.4,6),
-//    wallBlocks(-6,-6,0.4,12,6),
-//    wallBlocks(5.6,-6,0.4,12,6)
-//);
-
-/* ===================== FENSTER ===================== */
-function createWindow(xStart, yStart, zStart, width, height, depth = 0.2) {
-    const group = new THREE.Group();
-    const size = 0.4;
-    const gap = 0.05;
-
-    for (let x = 0; x < width; x += size + gap) {
-        for (let y = 0; y < height; y += size + gap) {
-            const block = new THREE.Mesh(
-                new THREE.BoxGeometry(size, size, depth),
-                matGlass
-            );
-            block.position.set(
-                xStart + x + size / 2,
-                yStart + y + size / 2,
-                zStart
-            );
-            group.add(block);
-        }
-    }
-    scene.add(group);
-}
-
-/* Frontfenster */
-createWindow(-4, 1.2, 6.01, 2.4, 1.6);
-createWindow( 1.6, 1.2, 6.01, 2.4, 1.6);
-
-/* ===================== TÜR ===================== */
-const door = new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2), matWood);
-door.position.set(0,1.15,6.1);
-scene.add(door);
-
->
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
 
 /* ===================== Grundwerte ===================== */
@@ -288,26 +173,20 @@ function roofSlopeAllSides(width, depth, slope) {
 // Dach aufsetzen
 roofSlopeAllSides(houseWidth, houseDepth/2, 0.15);
 
-
-
-/* ===================== TERRASSE ===================== */
-const terrace = new THREE.Mesh(new THREE.BoxGeometry(6,0.15,3),
+/* ===================== Terrasse ===================== */
+const terrace = new THREE.Mesh(
+    new THREE.BoxGeometry(6,0.15,3),
     new THREE.MeshStandardMaterial({color:0xd2b48c})
 );
 terrace.position.set(0,0.075,8);
 scene.add(terrace);
 
-/* ===================== BÄUME ===================== */
+/* ===================== Bäume ===================== */
 function tree(x,z){
-    const t = new THREE.Mesh(new THREE.CylinderGeometry(0.25,0.25,1.5),
-        new THREE.MeshStandardMaterial({color:0x5a3b1e})
-    );
+    const t = new THREE.Mesh(new THREE.CylinderGeometry(0.25,0.25,1.5), new THREE.MeshStandardMaterial({color:0x5a3b1e}));
     t.position.set(x,0.75,z);
     scene.add(t);
-
-    const c = new THREE.Mesh(new THREE.SphereGeometry(1),
-        new THREE.MeshStandardMaterial({color:0x2f7d32})
-    );
+    const c = new THREE.Mesh(new THREE.SphereGeometry(1), new THREE.MeshStandardMaterial({color:0x2f7d32}));
     c.position.set(x,2.2,z);
     scene.add(c);
 }
@@ -316,69 +195,49 @@ tree(15,-7);
 tree(-15,7);
 tree(15,7);
 
-/* ===================== ANIMATION ===================== */
+/* ===================== Maussteuerung ===================== */
 let isMouseDown = false;
 let mouseX = 0;
 let targetRotation = 0;
 let targetRotationOnMouseDown = 0;
 
-window.addEventListener('mousedown', (event) => {
+window.addEventListener('mousedown', (event)=>{
     isMouseDown = true;
     mouseX = event.clientX;
     targetRotationOnMouseDown = targetRotation;
 });
 
-window.addEventListener('mousemove', (event) => {
-    if (isMouseDown) {
+window.addEventListener('mousemove', (event)=>{
+    if (isMouseDown){
         const deltaX = event.clientX - mouseX;
-        targetRotation = targetRotationOnMouseDown + deltaX * 0.005;
+        targetRotation = targetRotationOnMouseDown + deltaX*0.005;
     }
 });
 
-window.addEventListener('mouseup', () => {
-    isMouseDown = false;
+window.addEventListener('mouseup', ()=>{ isMouseDown=false; });
+
+window.addEventListener('wheel', (event)=>{
+    camera.position.y -= event.deltaY*0.01;
+    camera.position.y = Math.max(5, Math.min(50, camera.position.y));
 });
 
-window.addEventListener('wheel', (event) => {
-    camera.position.y -= event.deltaY * 0.01; // Höhe anpassen
-    camera.position.y = Math.max(5, Math.min(50, camera.position.y)); // Limits
-});
-
-function animate() {
+/* ===================== Animation ===================== */
+function animate(){
     requestAnimationFrame(animate);
-
-    // Kamera um die Szene rotieren
     const radius = 30;
     camera.position.x = radius * Math.cos(targetRotation);
     camera.position.z = radius * Math.sin(targetRotation);
-    camera.lookAt(0, 1.5, 0);
-
-    renderer.render(scene, camera);
+    camera.lookAt(0,1.5,0);
+    renderer.render(scene,camera);
 }
-
-    
-//let a=0;
-//function animate(){
-//    requestAnimationFrame(animate);
-//    a+=0.002;
-//    camera.position.x = 30*Math.cos(a);
-//    camera.position.z = 30*Math.sin(a);
-//    camera.lookAt(0,1.5,0);
-//    renderer.render(scene,camera);
-//}
 animate();
 
-
-
-
-    
-/* Resize */
+/* ===================== Fensteranpassung bei Resize ===================== */
 window.addEventListener("resize",()=>{
     camera.aspect = innerWidth/innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(innerWidth,innerHeight);
 });
-
 </script>
 
 </body>
