@@ -41,8 +41,11 @@ const matGround = new THREE.MeshStandardMaterial({color:0x7fa86c});
 const matWall   = new THREE.MeshStandardMaterial({color:0xc7a17a});
 const matRoof   = new THREE.MeshStandardMaterial({color:0x8b3e2f});
 const matGlass  = new THREE.MeshStandardMaterial({color:0x99ccff, transparent:true, opacity:0.6});
-const matWood   = new THREE.MeshStandardMaterial({color:0x4a2e1b});
+const matWood   = new THREE.MeshStandardMaterial({color:0x4a2e1b});  
+const windowBlockMat = new THREE.MeshStandardMaterial({color: 0x99ccff, transparent:true, opacity: 0.6});
+const roofBlockMat = new THREE.MeshStandardMaterial({color: 0x8b3e2f});
 
+    
 /* Grundstück 800 m² (40 x 20) */
 const ground = new THREE.Mesh(new THREE.PlaneGeometry(40,20), matGround);
 ground.rotation.x = -Math.PI/2;
@@ -82,19 +85,40 @@ scene.add(
     wallBlocks(5.6,-6,0.4,12,H)
 );
 
+/* 2. Stock Haus (6x12 m, 75 m²) */
+const H = 6;
+scene.add(
+    wallBlocks(-3,-6,12,0.4,H),
+    wallBlocks(-3,5.6,12,0.4,H),
+    wallBlocks(-6,-3,0.4,12,H),
+    wallBlocks(5.6,-3,0.4,12,H)
+);
+
 /* Fenster */
-function windowBox(x,y,z,rx=0){
-    const w = new THREE.Mesh(
-        new THREE.BoxGeometry(2,1.6,0.2),
-        matGlass
-    );
-    w.position.set(x,y,z);
-    w.rotation.y = rx;
-    scene.add(w);
+function createWindow(xStart, yStart, zStart, width, height, depth = 0.2) {
+    const group = new THREE.Group();
+    const size = 0.4;
+    const gap = 0.05;
+
+    for (let x = 0; x < width; x += size + gap) {
+        for (let y = 0; y < height; y += size + gap) {
+            const block = new THREE.Mesh(
+                new THREE.BoxGeometry(size, size, depth),
+                windowBlockMat
+            );
+            block.position.set(
+                xStart + x + size / 2,
+                yStart + y + size / 2,
+                zStart
+            );
+            group.add(block);
+        }
+    }
+    scene.add(group);
 }
-windowBox(-3,1.4,6.1);
-windowBox(3,1.4,6.1);
-windowBox(-6.1,1.4,0,Math.PI/2);
+    
+createWindow(-4, 1.2, houseDepth / 2 + 0.15, 2.4, 1.6);
+createWindow( 1.6, 1.2, houseDepth / 2 + 0.15, 2.4, 1.6);
 
 /* Tür */
 const door = new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2), matWood);
@@ -102,19 +126,34 @@ door.position.set(0,1.15,6.1);
 scene.add(door);
 
 /* WALMDACH – 4 geneigte Flächen */
-function roofPlane(w,d,rotX,rotZ,y){
-    const p = new THREE.Mesh(
-        new THREE.PlaneGeometry(w,d),
-        matRoof
-    );
-    p.rotation.set(rotX,0,rotZ);
-    p.position.y = y;
-    scene.add(p);
+function roofSlope(width, depth, slope, rotY) {
+    const group = new THREE.Group();
+    const size = 0.5;
+    const gap = 0.05;
+
+    for (let x = -width/2; x < width/2; x += size + gap) {
+        for (let z = 0; z < depth; z += size + gap) {
+            const y = slope * z;
+
+            const tile = new THREE.Mesh(
+                new THREE.BoxGeometry(size, size * 0.4, size),
+                roofBlockMat
+            );
+
+            tile.position.set(x, houseHeight + y + 0.2, z - depth / 2);
+            group.add(tile);
+        }
+    }
+
+    group.rotation.y = rotY;
+    scene.add(group);
 }
-roofPlane(12,4,-Math.PI/6,0,3.4);
-roofPlane(12,4, Math.PI/6,0,3.4);
-roofPlane(12,4,0, Math.PI/6,3.4);
-roofPlane(12,4,0,-Math.PI/6,3.4);
+
+roofSlope(houseWidth, houseDepth / 2, 0.15, 0);
+roofSlope(houseWidth, houseDepth / 2, 0.15, Math.PI);
+
+roofSlope(houseDepth, houseWidth / 2, 0.15, Math.PI / 2);
+roofSlope(houseDepth, houseWidth / 2, 0.15, -Math.PI / 2);
 
 /* Terrasse */
 const terrace = new THREE.Mesh(
