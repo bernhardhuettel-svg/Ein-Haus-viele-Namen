@@ -143,11 +143,12 @@ function roofSlope(width, depth, slope, rotY) {
                 roofBlockMat
             );
 
-           tile.position.set(
-                x,
+            // Verschiebe jeden Block relativ zum Offset
+            tile.position.set(
+                x - width/2 + size/2 + offsetX,
                 houseHeight + y + 0.2,
-                -depth/2 + z   // <- verschiebt die Fläche korrekt nach vorne
-);
+                z - depth/2 + size/2 + offsetZ
+            );
 
             group.add(tile);
         }
@@ -158,13 +159,14 @@ function roofSlope(width, depth, slope, rotY) {
 }
 
 // vorne
-roofSlope(houseWidth, houseDepth / 2, 0.15, Math.PI); 
+roofSlope(houseWidth, houseDepth / 2, 0.15, 0, 0, houseDepth/2);
 // hinten
-roofSlope(houseWidth, houseDepth / 2, 0, Math.PI);   
+roofSlope(houseWidth, houseDepth / 2, 0.15, Math.PI, 0, -houseDepth/2);
 // links
-roofSlope(houseDepth, houseWidth / 2, 0.15, -Math.PI/2);
+roofSlope(houseDepth, houseWidth / 2, 0.15, Math.PI/2, -houseWidth/2, 0);
 // rechts
-roofSlope(houseDepth, houseWidth / 2, 0.15, Math.PI/2);
+roofSlope(houseDepth, houseWidth / 2, 0.15, -Math.PI/2, houseWidth/2, 0);
+
 
 
 /* ===================== TERRASSE ===================== */
