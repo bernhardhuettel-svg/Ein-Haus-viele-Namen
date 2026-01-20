@@ -73,10 +73,10 @@ function wallBlocks(x0,z0,w,d,h){
 
 /* Haus Erdgeschoss */
 scene.add(
-    wallBlocks(-6,-6,12,0.4,3),
-    wallBlocks(-6,5.6,12,0.4,3),
-    wallBlocks(-6,-6,0.4,12,3),
-    wallBlocks(5.6,-6,0.4,12,3)
+    wallBlocks(-6,-6,12,0.4,6),
+    wallBlocks(-6,5.6,12,0.4,6),
+    wallBlocks(-6,-6,0.4,12,6),
+    wallBlocks(5.6,-6,0.4,12,6)
 );
 
 /* ===================== Fenster ===================== */
@@ -170,7 +170,7 @@ const terrace = new THREE.Mesh(
     new THREE.BoxGeometry(6,0.15,3),
     new THREE.MeshStandardMaterial({color:0xd2b48c})
 );
-terrace.position.set(0,0.075,8);
+terrace.position.set(0,0,8);
 scene.add(terrace);
 
 /* ===================== Bäume ===================== */
