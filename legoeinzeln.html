@@ -19,7 +19,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.mod
 /* ===================== Grundwerte ===================== */
 const houseWidth  = 12;
 const houseDepth  = 12;
-const houseHeight = 6;
+const houseHeight = 3;
 
 const container = document.getElementById("container");
 const scene = new THREE.Scene();
@@ -82,7 +82,7 @@ function addNextBlock(){
     if(index < wallArray.length){
         scene.add(wallArray[index]);
         index++;
-        setTimeout(addNextBlock, 100); // alle 100ms ein Block
+        setTimeout(addNextBlock, 300); // alle 100ms ein Block
     }
 }
 addNextBlock();
