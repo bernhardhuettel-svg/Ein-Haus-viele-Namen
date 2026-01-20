@@ -16,12 +16,12 @@ body { margin:0; background:#eef2f3; font-family:system-ui; }
 <script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
 
-/* ================= GRUNDSETUP ================= */
+/* ===================== BASIS ===================== */
 const container = document.getElementById("container");
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xcce6ff);
 
-/* >>> FIX: fehlende Haus-Parameter <<< */
+/* Haus-Parameter */
 const houseWidth  = 12;
 const houseDepth  = 12;
 const houseHeight = 6;
@@ -46,23 +46,16 @@ scene.add(sun);
 const matGround = new THREE.MeshStandardMaterial({color:0x7fa86c});
 const matWall   = new THREE.MeshStandardMaterial({color:0xc7a17a});
 const matRoof   = new THREE.MeshStandardMaterial({color:0x8b3e2f});
-const matGlass  = new THREE.MeshStandardMaterial({
-    color:0x99ccff,
-    transparent:true,
-    opacity:0.6
-});
+const matGlass  = new THREE.MeshStandardMaterial({color:0x99ccff, transparent:true, opacity:0.6});
 const matWood   = new THREE.MeshStandardMaterial({color:0x4a2e1b});
 const roofBlockMat = matRoof;
 
-/* ================= GRUNDSTÜCK ================= */
-const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(40,20),
-    matGround
-);
+/* ===================== GRUNDSTÜCK ===================== */
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(40,20), matGround);
 ground.rotation.x = -Math.PI/2;
 scene.add(ground);
 
-/* ================= ZIEGELWÄNDE ================= */
+/* ===================== ZIEGELWÄNDE ===================== */
 function wallBlocks(x0,z0,w,d,h) {
     const g = new THREE.Group();
     const size = 0.4;
@@ -103,7 +96,7 @@ scene.add(
     wallBlocks(5.6,-3,0.4,12,6)
 );
 
-/* ================= FENSTER ================= */
+/* ===================== FENSTER ===================== */
 function createWindow(xStart, yStart, zStart, width, height, depth = 0.2) {
     const group = new THREE.Group();
     const size = 0.4;
@@ -126,19 +119,16 @@ function createWindow(xStart, yStart, zStart, width, height, depth = 0.2) {
     scene.add(group);
 }
 
-/* >>> FIX: feste Z-Position statt NaN <<< */
+/* Frontfenster */
 createWindow(-4, 1.2, 6.01, 2.4, 1.6);
 createWindow( 1.6, 1.2, 6.01, 2.4, 1.6);
 
-/* ================= TÜR ================= */
-const door = new THREE.Mesh(
-    new THREE.BoxGeometry(1.8,2.3,0.2),
-    matWood
-);
+/* ===================== TÜR ===================== */
+const door = new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2), matWood);
 door.position.set(0,1.15,6.1);
 scene.add(door);
 
-/* ================= WALMDACH ================= */
+/* ===================== WALMDACH ===================== */
 function roofSlope(width, depth, slope, rotY) {
     const group = new THREE.Group();
     const size = 0.5;
@@ -153,7 +143,7 @@ function roofSlope(width, depth, slope, rotY) {
                 roofBlockMat
             );
 
-            /* >>> FIX: Z-Richtung korrigiert <<< */
+            /* Korrektur: Dach liegt auf den Blockwänden */
             tile.position.set(
                 x,
                 houseHeight + y + 0.2,
@@ -169,28 +159,25 @@ function roofSlope(width, depth, slope, rotY) {
 
 roofSlope(houseWidth, houseDepth / 2, 0.15, 0);
 roofSlope(houseWidth, houseDepth / 2, 0.15, Math.PI);
-roofSlope(houseDepth, houseWidth / 2, 0.15, Math.PI / 2);
-roofSlope(houseDepth, houseWidth / 2, 0.15, -Math.PI / 2);
+roofSlope(houseDepth, houseWidth / 2, 0.15, Math.PI/2);
+roofSlope(houseDepth, houseWidth / 2, 0.15, -Math.PI/2);
 
-/* ================= TERRASSE ================= */
-const terrace = new THREE.Mesh(
-    new THREE.BoxGeometry(6,0.15,3),
+/* ===================== TERRASSE ===================== */
+const terrace = new THREE.Mesh(new THREE.BoxGeometry(6,0.15,3),
     new THREE.MeshStandardMaterial({color:0xd2b48c})
 );
 terrace.position.set(0,0.075,8);
 scene.add(terrace);
 
-/* ================= BÄUME ================= */
+/* ===================== BÄUME ===================== */
 function tree(x,z){
-    const t = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.25,0.25,1.5),
+    const t = new THREE.Mesh(new THREE.CylinderGeometry(0.25,0.25,1.5),
         new THREE.MeshStandardMaterial({color:0x5a3b1e})
     );
     t.position.set(x,0.75,z);
     scene.add(t);
 
-    const c = new THREE.Mesh(
-        new THREE.SphereGeometry(1),
+    const c = new THREE.Mesh(new THREE.SphereGeometry(1),
         new THREE.MeshStandardMaterial({color:0x2f7d32})
     );
     c.position.set(x,2.2,z);
@@ -201,7 +188,7 @@ tree(15,-7);
 tree(-15,7);
 tree(15,7);
 
-/* ================= KAMERA-ROTATION ================= */
+/* ===================== ANIMATION ===================== */
 let a=0;
 function animate(){
     requestAnimationFrame(animate);
@@ -219,6 +206,7 @@ window.addEventListener("resize",()=>{
     camera.updateProjectionMatrix();
     renderer.setSize(innerWidth,innerHeight);
 });
+
 </script>
 
 </body>
