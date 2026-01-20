@@ -157,10 +157,10 @@ function roofSlope(width, depth, slope, rotY) {
     scene.add(group);
 }
 
-roofSlope(houseWidth, houseDepth / 2, 0.15, 0);
 roofSlope(houseWidth, houseDepth / 2, 0.15, Math.PI);
-roofSlope(houseDepth, houseWidth / 2, 0.15, Math.PI/2);
+roofSlope(houseWidth, houseDepth / 2, 0.15, 0);
 roofSlope(houseDepth, houseWidth / 2, 0.15, -Math.PI/2);
+roofSlope(houseDepth, houseWidth / 2, 0.15, Math.PI/2);
 
 /* ===================== TERRASSE ===================== */
 const terrace = new THREE.Mesh(new THREE.BoxGeometry(6,0.15,3),
