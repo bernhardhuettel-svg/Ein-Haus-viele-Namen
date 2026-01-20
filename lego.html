@@ -2,10 +2,10 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>3D Bungalow – Realistisch</title>
+<title>3D Bungalow – korrektes Walmdach</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body { margin:0; background:#eef2f3; font-family:system-ui; }
+body { margin:0; background:#eef2f3; }
 #container { width:100vw; height:100vh; }
 </style>
 </head>
@@ -16,13 +16,20 @@ body { margin:0; background:#eef2f3; font-family:system-ui; }
 <script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
 
+/* ===================== BASIS ===================== */
 const container = document.getElementById("container");
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xcce6ff);
 
+/* Hausparameter – ZENTRAL */
+const houseWidth  = 12;
+const houseDepth  = 12;
+const houseHeight = 6;
+const roofHeight  = 2.5;
+
 /* Kamera */
 const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 500);
-camera.position.set(30, 18, 30);
+camera.position.set(28, 18, 28);
 
 /* Renderer */
 const renderer = new THREE.WebGLRenderer({antialias:true});
@@ -33,170 +40,151 @@ container.appendChild(renderer.domElement);
 /* Licht */
 scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 const sun = new THREE.DirectionalLight(0xffffff, 1);
-sun.position.set(50,100,50);
+sun.position.set(50,80,40);
 scene.add(sun);
 
-/* Materialien */
+/* ===================== MATERIALIEN ===================== */
 const matGround = new THREE.MeshStandardMaterial({color:0x7fa86c});
 const matWall   = new THREE.MeshStandardMaterial({color:0xc7a17a});
 const matRoof   = new THREE.MeshStandardMaterial({color:0x8b3e2f});
-const matGlass  = new THREE.MeshStandardMaterial({color:0x99ccff, transparent:true, opacity:0.6});
-const matWood   = new THREE.MeshStandardMaterial({color:0x4a2e1b});  
-const windowBlockMat = new THREE.MeshStandardMaterial({color: 0x99ccff, transparent:true, opacity: 0.6});
-const roofBlockMat = new THREE.MeshStandardMaterial({color: 0x8b3e2f});
+const matGlass  = new THREE.MeshStandardMaterial({
+    color:0x99ccff,
+    transparent:true,
+    opacity:0.6
+});
+const matWood   = new THREE.MeshStandardMaterial({color:0x4a2e1b});
 
-    
-/* Grundstück 800 m² (40 x 20) */
-const ground = new THREE.Mesh(new THREE.PlaneGeometry(40,20), matGround);
+/* ===================== GRUNDSTÜCK ===================== */
+const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(40,20),
+    matGround
+);
 ground.rotation.x = -Math.PI/2;
 scene.add(ground);
 
-/* Ziegelwand-Funktion */
-function wallBlocks(x0,z0,w,d,h) {
-    const g = new THREE.Group();
-    const size = 0.4;
-    const gap = 0.03;
+/* ===================== HAUSKÖRPER ===================== */
+const house = new THREE.Mesh(
+    new THREE.BoxGeometry(houseWidth, houseHeight, houseDepth),
+    matWall
+);
+house.position.y = houseHeight / 2;
+scene.add(house);
 
-    for(let x=0;x<w;x+=size+gap){
-        for(let y=0;y<h;y+=size+gap){
-            for(let z=0;z<d;z+=size+gap){
-                const b = new THREE.Mesh(
-                    new THREE.BoxGeometry(size,size,size),
-                    matWall
-                );
-                b.position.set(
-                    x0 + x + size/2,
-                    y + size/2,
-                    z0 + z + size/2
-                );
-                g.add(b);
-            }
-        }
-    }
-    return g;
+/* ===================== FENSTER ===================== */
+function windowPlane(x,y,z,w,h,rotY=0){
+    const geo = new THREE.PlaneGeometry(w,h);
+    const win = new THREE.Mesh(geo, matGlass);
+    win.position.set(x,y,z);
+    win.rotation.y = rotY;
+    scene.add(win);
 }
 
-/* Haus (12x12 m, 145 m²) */
-const H = 3;
-scene.add(
-    wallBlocks(-6,-6,12,0.4,H),
-    wallBlocks(-6,5.6,12,0.4,H),
-    wallBlocks(-6,-6,0.4,12,H),
-    wallBlocks(5.6,-6,0.4,12,H)
+/* Front */
+windowPlane(-2, 2.2, houseDepth/2 + 0.01, 2.4, 1.4);
+windowPlane( 2, 2.2, houseDepth/2 + 0.01, 2.4, 1.4);
+
+/* Seite */
+windowPlane(-houseWidth/2 - 0.01, 2.2, 0, 2.4, 1.4, Math.PI/2);
+
+/* ===================== TÜR ===================== */
+const door = new THREE.Mesh(
+    new THREE.PlaneGeometry(1.6, 2.2),
+    matWood
 );
-
-/* 2. Stock Haus (6x12 m, 75 m²) */
-const H = 6;
-scene.add(
-    wallBlocks(-3,-6,12,0.4,H),
-    wallBlocks(-3,5.6,12,0.4,H),
-    wallBlocks(-6,-3,0.4,12,H),
-    wallBlocks(5.6,-3,0.4,12,H)
-);
-
-/* Fenster */
-function createWindow(xStart, yStart, zStart, width, height, depth = 0.2) {
-    const group = new THREE.Group();
-    const size = 0.4;
-    const gap = 0.05;
-
-    for (let x = 0; x < width; x += size + gap) {
-        for (let y = 0; y < height; y += size + gap) {
-            const block = new THREE.Mesh(
-                new THREE.BoxGeometry(size, size, depth),
-                windowBlockMat
-            );
-            block.position.set(
-                xStart + x + size / 2,
-                yStart + y + size / 2,
-                zStart
-            );
-            group.add(block);
-        }
-    }
-    scene.add(group);
-}
-    
-createWindow(-4, 1.2, houseDepth / 2 + 0.15, 2.4, 1.6);
-createWindow( 1.6, 1.2, houseDepth / 2 + 0.15, 2.4, 1.6);
-
-/* Tür */
-const door = new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2), matWood);
-door.position.set(0,1.15,6.1);
+door.position.set(0,1.1,houseDepth/2 + 0.02);
 scene.add(door);
 
-/* WALMDACH – 4 geneigte Flächen */
-function roofSlope(width, depth, slope, rotY) {
-    const group = new THREE.Group();
-    const size = 0.5;
-    const gap = 0.05;
-
-    for (let x = -width/2; x < width/2; x += size + gap) {
-        for (let z = 0; z < depth; z += size + gap) {
-            const y = slope * z;
-
-            const tile = new THREE.Mesh(
-                new THREE.BoxGeometry(size, size * 0.4, size),
-                roofBlockMat
-            );
-
-            tile.position.set(x, houseHeight + y + 0.2, z - depth / 2);
-            group.add(tile);
-        }
-    }
-
-    group.rotation.y = rotY;
-    scene.add(group);
+/* ===================== WALMDACH ===================== */
+function roofPlane(w,d,rotX,rotZ,x,z){
+    const geo = new THREE.PlaneGeometry(w,d);
+    const roof = new THREE.Mesh(geo, matRoof);
+    roof.rotation.x = rotX;
+    roof.rotation.z = rotZ;
+    roof.position.set(x, houseHeight + roofHeight/2, z);
+    scene.add(roof);
 }
 
-roofSlope(houseWidth, houseDepth / 2, 0.15, 0);
-roofSlope(houseWidth, houseDepth / 2, 0.15, Math.PI);
+/* vorne / hinten */
+roofPlane(
+    houseWidth,
+    houseDepth/2,
+    -Math.PI/4,
+    0,
+    0,
+    houseDepth/4
+);
 
-roofSlope(houseDepth, houseWidth / 2, 0.15, Math.PI / 2);
-roofSlope(houseDepth, houseWidth / 2, 0.15, -Math.PI / 2);
+roofPlane(
+    houseWidth,
+    houseDepth/2,
+    Math.PI/4,
+    0,
+    0,
+    -houseDepth/4
+);
 
-/* Terrasse */
+/* links / rechts */
+roofPlane(
+    houseDepth,
+    houseWidth/2,
+    0,
+    Math.PI/4,
+    -houseWidth/4,
+    0
+);
+
+roofPlane(
+    houseDepth,
+    houseWidth/2,
+    0,
+    -Math.PI/4,
+    houseWidth/4,
+    0
+);
+
+/* ===================== TERRASSE ===================== */
 const terrace = new THREE.Mesh(
     new THREE.BoxGeometry(6,0.15,3),
     new THREE.MeshStandardMaterial({color:0xd2b48c})
 );
-terrace.position.set(0,0.075,8);
+terrace.position.set(0,0.075,houseDepth/2 + 1.8);
 scene.add(terrace);
 
-/* Bäume – sicher außerhalb */
+/* ===================== BÄUME ===================== */
 function tree(x,z){
-    const t = new THREE.Mesh(
+    const trunk = new THREE.Mesh(
         new THREE.CylinderGeometry(0.25,0.25,1.5),
         new THREE.MeshStandardMaterial({color:0x5a3b1e})
     );
-    t.position.set(x,0.75,z);
-    scene.add(t);
+    trunk.position.set(x,0.75,z);
+    scene.add(trunk);
 
-    const c = new THREE.Mesh(
-        new THREE.SphereGeometry(1),
+    const crown = new THREE.Mesh(
+        new THREE.SphereGeometry(1.1),
         new THREE.MeshStandardMaterial({color:0x2f7d32})
     );
-    c.position.set(x,2.2,z);
-    scene.add(c);
+    crown.position.set(x,2.3,z);
+    scene.add(crown);
 }
-tree(-15,-7);
-tree(15,-7);
-tree(-15,7);
-tree(15,7);
+tree(-14,-7);
+tree(14,-7);
+tree(-14,7);
+tree(14,7);
 
-/* Kamera-Rotation */
-let a=0;
+/* ===================== ANIMATION ===================== */
+let a = 0;
 function animate(){
     requestAnimationFrame(animate);
-    a+=0.002;
-    camera.position.x = 30*Math.cos(a);
-    camera.position.z = 30*Math.sin(a);
-    camera.lookAt(0,1.5,0);
+    a += 0.002;
+    camera.position.x = 28 * Math.cos(a);
+    camera.position.z = 28 * Math.sin(a);
+    camera.lookAt(0,2.5,0);
     renderer.render(scene,camera);
 }
 animate();
 
-window.addEventListener("resize",()=>{
+/* Resize */
+addEventListener("resize",()=>{
     camera.aspect = innerWidth/innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(innerWidth,innerHeight);
