@@ -13,6 +13,26 @@ body { margin:0; background:#eef2f3; font-family:system-ui; overflow:hidden; }
 
 <div id="container"></div>
 
+//Z+
+//
+//      +6
+//      ┌────────────┐
+//      │            │
+//      │    HAUS    │
+//      │            │
+//-6 ───└────────────┘─── +6   → X
+//      0
+//
+//Z-
+
+//Y  ↑   (Höhe)
+//   |
+//   |
+//   └────→ X  (links / rechts)
+//  /
+// Z
+//(vorne / hinten)
+    
 <script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
 
@@ -20,10 +40,12 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.mod
 const houseWidth  = 12;
 const houseDepth  = 12;
 const houseHeight = 3;
+const axes = new THREE.AxesHelper(10);
 
 const container = document.getElementById("container");
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xcce6ff);
+scene.add(axes);
 
 /* ===================== Kamera ===================== */
 const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 500);
@@ -255,7 +277,7 @@ const pool = new THREE.Mesh(
     new THREE.BoxGeometry(6, 0.5, 3),
     new THREE.MeshStandardMaterial({color:0x4da6ff, transparent:true, opacity:0.7})
 );
-pool.position.set(0, -0.25, 12); // vor der Terrasse
+pool.position.set(0, -0.25, -10); // vor der Terrasse
 scene.add(pool);    
     
 /* ===================== Bäume ===================== */
