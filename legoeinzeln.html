@@ -193,13 +193,7 @@ function roofSlopeAllSides(width, depth, slope) {
     }
     scene.add(back);
 
-/* ===================== Kamin ===================== */   
-const chimney = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 3, 1),
-    matWall
-);
-chimney.position.set(-4, houseHeight + 1.5, 2); // X,Y,Z nach Wunsch
-scene.add(chimney);
+
     
 //    // LINKS
 //    const left = new THREE.Group();
@@ -231,6 +225,16 @@ scene.add(chimney);
 // Dach aufsetzen
 roofSlopeAllSides(houseWidth, houseDepth/2, 0.15);
 
+
+/* ===================== Kamin ===================== */   
+const chimney = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 3, 1),
+    matWall
+);
+chimney.position.set(-4, houseHeight + 1.5, 2); // X,Y,Z nach Wunsch
+scene.add(chimney);
+
+    
 /* ===================== Terrasse ===================== */
 const terrace = new THREE.Mesh(
     new THREE.BoxGeometry(6,0.15,3),
