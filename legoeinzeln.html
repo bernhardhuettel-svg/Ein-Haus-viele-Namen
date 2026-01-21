@@ -256,7 +256,7 @@ function roofSlopeAllSides(width, depth, slope) {
     }
     houseGroup.add(backRoof);
 
-    // LINKS (X=0)
+/*    // LINKS (X=0)
     const leftRoof = new THREE.Group();
     for (let z = 0; z < depth; z += size + gap) {
         for (let x = 0; x < width/2; x += size + gap) {
@@ -285,7 +285,7 @@ function roofSlopeAllSides(width, depth, slope) {
         }
     }
     houseGroup.add(rightRoof);
-}
+}*/
 
 
 // Dach aufsetzen
@@ -298,7 +298,7 @@ const chimney = new THREE.Mesh(
     matWall
 );
 chimney.position.set(-4, houseHeight + 1.5, 2); // X,Y,Z nach Wunsch
-scene.add(chimney);
+houseGroup.add(chimney);
 
     
 /* ===================== Terrasse ===================== */
@@ -307,8 +307,9 @@ const terrace = new THREE.Mesh(
     new THREE.MeshStandardMaterial({color:0xd2b48c})
 );
 terrace.rotation.y = Math.PI / 2;
-terrace.position.set(6,0.075,0); // vorne an Haus anschließen
-scene.add(terrace);
+terrace.position.set(houseWidth, 0.075, houseDepth/2 - 2.5); // relativ zum Haus
+houseGroup.add(terrace);
+
 
 /* ===================== Pool ===================== */
 const pool = new THREE.Mesh(
@@ -316,8 +317,9 @@ const pool = new THREE.Mesh(
     new THREE.MeshStandardMaterial({color:0x4da6ff, transparent:true, opacity:0.7})
 );
 pool.rotation.y = Math.PI / 2;
-pool.position.set(16, -0.25, 0); // vor der Terrasse
-scene.add(pool);    
+pool.position.set(houseWidth + 10, -0.25, houseDepth/2 - 3); // vor Terrasse
+houseGroup.add(pool);
+
     
 /* ===================== Bäume ===================== */
 function tree(x,z){
@@ -328,10 +330,11 @@ function tree(x,z){
     c.position.set(x,2.2,z);
     scene.add(c);
 }
-tree(-15,-7);
-tree(15,-7);
-tree(-15,7);
-tree(15,7);
+tree(-5 + houseOffsetX, -5 + houseOffsetZ);
+tree(35 + houseOffsetX, -5 + houseOffsetZ);
+tree(-5 + houseOffsetX, 15 + houseOffsetZ);
+tree(35 + houseOffsetX, 15 + houseOffsetZ);
+
 
     
 /* ===================== Maussteuerung ===================== */
