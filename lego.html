@@ -11,8 +11,26 @@ body { margin:0; background:#eef2f3; font-family:system-ui; overflow:hidden; }
 </head>
 <body>
 
+<button id="btnLegogestapelt">legogestapelt</button>
+<button id="btnBack">Zurück</button>
+    
 <div id="container"></div>
-<a href="legoeinzeln.html" class="cta">Zum interaktiven 3D Lego-Bausatz →</a>
+
+<style>
+  body { margin:0; overflow:hidden; }
+
+  button {
+    position: fixed;
+    left: 20px;
+    padding: 8px 14px;
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  #btnLegogestapelt { top: 20px; }
+  #btnBack  { top: 60px; }
+</style>    
+    
 <script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
 
@@ -224,6 +242,15 @@ function animate(){
 }
 animate();
 
+/* BUTTON EVENTS – GANZ UNTEN */
+document.getElementById("btnLegogestapelt").onclick = () => {
+  window.location.href = "legoeinzeln.html";
+};
+
+document.getElementById("btnBack").onclick = () => {
+  history.back();
+};
+    
 /* ===================== Fensteranpassung bei Resize ===================== */
 window.addEventListener("resize",()=>{
     camera.aspect = innerWidth/innerHeight;
