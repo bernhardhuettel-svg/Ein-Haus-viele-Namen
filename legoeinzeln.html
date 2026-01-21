@@ -74,6 +74,11 @@ scene.add(axes);
 const houseGroup = new THREE.Group();
 scene.add(houseGroup);
 
+
+const houseOffsetX = 5;
+const houseOffsetZ = 4;
+houseGroup.position.set(houseOffsetX, 0, houseOffsetZ);
+
 /* ===================== Kamera ===================== */
 const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 500);
 camera.position.set(30, 18, 30);
@@ -216,44 +221,76 @@ houseGroup.add(door);
 
 
 /* ===================== Walmdach ===================== */
-function roofSlopeAllSides(width, depth, slope){
-    const size = 0.5;
+function roofSlopeAllSides(width, depth, slope) {
+    const size = 0.5;   // Dachblockgröße
     const gap = 0.05;
-    const yBase = houseHeight + 0.1;
+    const yBase = houseHeight; // Start Y = Wandoberkante
 
-    for(let x=0; x<width; x+=size+gap){
-        for(let z=0; z<depth/2; z+=size+gap){
+    // VORNE (Z=0)
+    const frontRoof = new THREE.Group();
+    for (let x = 0; x < width; x += size + gap) {
+        for (let z = 0; z < depth/2; z += size + gap) {
+            const y = yBase + z * slope;
             const tile = new THREE.Mesh(
                 new THREE.BoxGeometry(size, size*0.4, size),
                 matRoof
             );
-            tile.position.set(
-                x + size/2,
-                yBase + z*slope,
-                z
-            );
-            houseGroup.add(tile);
+            tile.position.set(x + size/2, y, z + size/2);
+            frontRoof.add(tile);
         }
     }
+    houseGroup.add(frontRoof);
 
-    for(let x=0; x<width; x+=size+gap){
-        for(let z=0; z<depth/2; z+=size+gap){
+    // HINTEN (Z = depth - 0.5)
+    const backRoof = new THREE.Group();
+    for (let x = 0; x < width; x += size + gap) {
+        for (let z = 0; z < depth/2; z += size + gap) {
+            const y = yBase + z * slope;
             const tile = new THREE.Mesh(
                 new THREE.BoxGeometry(size, size*0.4, size),
                 matRoof
             );
-            tile.position.set(
-                x + size/2,
-                yBase + z*slope,
-                depth - z
-            );
-            houseGroup.add(tile);
+            tile.position.set(x + size/2, y, depth - z - size/2);
+            backRoof.add(tile);
         }
     }
+    houseGroup.add(backRoof);
+
+    // LINKS (X=0)
+    const leftRoof = new THREE.Group();
+    for (let z = 0; z < depth; z += size + gap) {
+        for (let x = 0; x < width/2; x += size + gap) {
+            const y = yBase + x * slope;
+            const tile = new THREE.Mesh(
+                new THREE.BoxGeometry(size, size*0.4, size),
+                matRoof
+            );
+            tile.position.set(x + size/2, y, z + size/2);
+            leftRoof.add(tile);
+        }
+    }
+    houseGroup.add(leftRoof);
+
+    // RECHTS (X = width - 0.5)
+    const rightRoof = new THREE.Group();
+    for (let z = 0; z < depth; z += size + gap) {
+        for (let x = 0; x < width/2; x += size + gap) {
+            const y = yBase + x * slope;
+            const tile = new THREE.Mesh(
+                new THREE.BoxGeometry(size, size*0.4, size),
+                matRoof
+            );
+            tile.position.set(width - x - size/2, y, z + size/2);
+            rightRoof.add(tile);
+        }
+    }
+    houseGroup.add(rightRoof);
 }
 
+
 // Dach aufsetzen
-roofSlopeAllSides(houseWidth, houseDepth/2, 0.15);
+roofSlopeAllSides(houseWidth, houseDepth, 0.15);
+
 
 /* ===================== Kamin ===================== */   
 const chimney = new THREE.Mesh(
@@ -329,7 +366,7 @@ function animate(){
     const radius = 30;
     camera.position.x = radius * Math.cos(targetRotation);
     camera.position.z = radius * Math.sin(targetRotation);
-    camera.lookAt(houseWidth/2, 1.5, houseDepth/2);
+    camera.lookAt(houseOffsetX + houseWidth/2, 1.5, houseOffsetZ + houseDepth/2);
     renderer.render(scene,camera);
 }
 animate();
