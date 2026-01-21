@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>3D Bungalow – mit Pool </title>
+<title>3D Bungalow – mit Pool und in der nähe der Terrasse </title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body { margin:0; background:#eef2f3; font-family:system-ui; overflow:hidden; }
@@ -11,12 +11,10 @@ body { margin:0; background:#eef2f3; font-family:system-ui; overflow:hidden; }
 </head>
 <body>
 
-/* ===================== Buttons ===================== */
-<button id="btnIndex">Index</button>
+<button id="btnIndex">Startseite</button>
 <button id="btnBack">Zurück</button>
 <button id="btnHome">Home</button>
 
-    
 <div id="container"></div>
 
 //Z+
@@ -201,7 +199,7 @@ function createSlidingDoor(xStart, yStart, zStart, width, height, depth=0.2){
 
 // Beispiel rechte Hauswand
 //slidingDoor.rotation.x = Math.PI / 2;     
-const slidingDoor = createSlidingDoor(-5.7, 0.8, 6, 12, 3);
+const slidingDoor = createSlidingDoor(-5.7, 0.8, 6, 12, 0);
 scene.add(slidingDoor);
 
     
@@ -257,11 +255,11 @@ scene.add(chimney);
     
 /* ===================== Terrasse ===================== */
 const terrace = new THREE.Mesh(
-    new THREE.BoxGeometry(10, 0.15, 4),
+    new THREE.BoxGeometry(10, 0.15, 5),
     new THREE.MeshStandardMaterial({color:0xd2b48c})
 );
 terrace.rotation.y = Math.PI / 2;
-terrace.position.set(10,0.075,0); // vorne an Haus anschließen
+terrace.position.set(6,0.075,0); // vorne an Haus anschließen
 scene.add(terrace);
 
 /* ===================== Pool ===================== */
@@ -270,7 +268,7 @@ const pool = new THREE.Mesh(
     new THREE.MeshStandardMaterial({color:0x4da6ff, transparent:true, opacity:0.7})
 );
 pool.rotation.y = Math.PI / 2;
-pool.position.set(20, -0.25, 0); // vor der Terrasse
+pool.position.set(16, -0.25, 0); // vor der Terrasse
 scene.add(pool);    
     
 /* ===================== Bäume ===================== */
