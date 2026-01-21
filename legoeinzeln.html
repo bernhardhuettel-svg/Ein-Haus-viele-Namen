@@ -129,9 +129,6 @@ function wallBlocksArray(x0,z0,w,d,h){
     return blocks;
 }
 
-/* Block hinzufügen  */
-const wallArray = wallBlocksArray(-6,-6,12,0.4,3);
-
 let index = 0;
 function addNextBlock(){
     if(index < wallArray.length){
@@ -184,7 +181,7 @@ function createWindow(xStart, yStart, zStart, width, height, depth = 0.2){
             group.add(block);
         }
     }
-    scene.add(group);
+    housegroup.add(group);
 }
 
 // Fenster vorne
