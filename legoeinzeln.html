@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>3D Bungalow – neue gemacht</title>
+<title>3D Bungalow – mit Pool </title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body { margin:0; background:#eef2f3; font-family:system-ui; overflow:hidden; }
@@ -174,7 +174,7 @@ function createSlidingDoor(xStart, yStart, zStart, width, height, depth=0.2){
 }
 
 // Beispiel rechte Hauswand
-const slidingDoor = createSlidingDoor(5.7, 0.8, -6, 8, 2.2);
+const slidingDoor = createSlidingDoor(5.7, 0.8, 6, 8, 2.2);
 scene.add(slidingDoor);
 
     
@@ -274,10 +274,10 @@ scene.add(terrace);
 
 /* ===================== Pool ===================== */
 const pool = new THREE.Mesh(
-    new THREE.BoxGeometry(6, 0.5, 3),
+    new THREE.BoxGeometry(10, 0.5, 6),
     new THREE.MeshStandardMaterial({color:0x4da6ff, transparent:true, opacity:0.7})
 );
-pool.position.set(0, -0.25, -10); // vor der Terrasse
+pool.position.set(10, -0.25, 0); // vor der Terrasse
 scene.add(pool);    
     
 /* ===================== Bäume ===================== */
