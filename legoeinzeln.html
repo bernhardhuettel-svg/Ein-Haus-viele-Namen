@@ -261,6 +261,54 @@ tree(15,-7);
 tree(-15,7);
 tree(15,7);
 
+
+/* ===================== Buttons ===================== */
+    
+<style>
+  button {
+    position: fixed;
+    left: 20px;
+    padding: 10px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+
+  #btnIndex {
+    top: 20px;
+  }
+
+  #btnBack {
+    top: 70px;
+  }
+
+  #btnHome {
+    top: 120px;
+  }
+</style>   
+
+<button id="btnIndex">Zurück zu Index</button>
+<button id="btnBack">Eine Seite zurück</button>
+<button id="btnHome">Zur Startseite (hart)</button>
+
+    
+// Zurück zu index.html
+document.getElementById("btnIndex").addEventListener("click", () => {
+  window.location.href = "index.html";
+});
+
+// Browser-Zurück (history)
+document.getElementById("btnBack").addEventListener("click", () => {
+  history.back();
+});
+
+// Harte Navigation (erzwingt Reload von index.html)
+document.getElementById("btnHome").addEventListener("click", () => {
+  window.location.assign("index.html");
+});
+
+
+    
 /* ===================== Maussteuerung ===================== */
 let isMouseDown = false;
 let mouseX = 0;
