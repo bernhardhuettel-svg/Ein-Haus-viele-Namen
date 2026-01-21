@@ -71,6 +71,9 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xcce6ff);
 scene.add(axes);
 
+const houseGroup = new THREE.Group();
+scene.add(houseGroup);
+
 /* ===================== Kamera ===================== */
 const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 500);
 camera.position.set(30, 18, 30);
@@ -97,6 +100,7 @@ const matWood   = new THREE.MeshStandardMaterial({color:0x4a2e1b});
 /* ===================== Grundstück ===================== */
 const ground = new THREE.Mesh(new THREE.PlaneGeometry(40,20), matGround);
 ground.rotation.x = -Math.PI/2;
+ground.position.set(20, 0, 10); // Mittelpunkt bei positivem Raum
 scene.add(ground);
 
 /* ===================== Wände ===================== */
@@ -134,10 +138,11 @@ function addNextBlock(){
 addNextBlock();
 
 //Erdgeschoss
-const wallFrontArray  = wallBlocksArray(-6,5.6,12,0.4,3);
-const wallBackArray   = wallBlocksArray(-6,-6,12,0.4,3);
-const wallLeftArray   = wallBlocksArray(-6,-6,0.4,12,3);
-const wallRightArray  = wallBlocksArray(5.6,-6,0.4,12,3);
+const wallFrontArray = wallBlocksArray(0, 0, houseWidth, 0.4, houseHeight);
+const wallBackArray  = wallBlocksArray(0, houseDepth - 0.4, houseWidth, 0.4, houseHeight);
+const wallLeftArray  = wallBlocksArray(0, 0, 0.4, houseDepth, houseHeight);
+const wallRightArray = wallBlocksArray(houseWidth - 0.4, 0, 0.4, houseDepth, houseHeight);
+
 
 // Animation starten, z. B. nacheinander
 let arrays = [wallFrontArray, wallBackArray, wallLeftArray, wallRightArray];
@@ -148,7 +153,7 @@ function addNextWall(){
         let i = 0;
         function addBlock(){
             if(i < blocks.length){
-                scene.add(blocks[i]);
+                houseGroup.add(blocks[i]);
                 i++;
                 setTimeout(addBlock, 20);
             } else {
@@ -178,8 +183,9 @@ function createWindow(xStart, yStart, zStart, width, height, depth = 0.2){
 }
 
 // Fenster vorne
-createWindow(-4, 1.2, 6.1, 2.4, 1.6);
-createWindow( 1.6, 1.2, 6.1, 2.4, 1.6);
+createWindow(2, 1.2, 0.41, 2.4, 1.6);
+createWindow(7.6, 1.2, 0.41, 2.4, 1.6);
+
 
 
 function createSlidingDoor(xStart, yStart, zStart, width, height, depth=0.2){
@@ -198,47 +204,52 @@ function createSlidingDoor(xStart, yStart, zStart, width, height, depth=0.2){
 }
 
 // Beispiel rechte Hauswand
-//slidingDoor.rotation.x = Math.PI / 2;     
-const slidingDoor = createSlidingDoor(-5.7, 0.8, 6, 12, 0);
-scene.add(slidingDoor);
+const slidingDoor = createSlidingDoor(0.4, 0.3, houseDepth - 0.41, houseWidth - 0.8, 2.5);
+houseGroup.add(slidingDoor);
+
 
     
 /* ===================== Tür ===================== */
 const door = new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2), matWood);
-door.position.set(0,1.15,6.1);
-scene.add(door);
+door.position.set(5.1, 1.15, 0.41);
+houseGroup.add(door);
+
 
 /* ===================== Walmdach ===================== */
-function roofSlopeAllSides(width, depth, slope) {
+function roofSlopeAllSides(width, depth, slope){
     const size = 0.5;
     const gap = 0.05;
-    const yOffset = 0.2;
+    const yBase = houseHeight + 0.1;
 
-    // VORNE
-    const front = new THREE.Group();
-    const frontZ = houseDepth / 2;
-    for (let x=-width/2;x<width/2;x+=size+gap){
-        for (let z=0; z<depth; z+=size+gap){
-            const y = slope*z;
-            const tile = new THREE.Mesh(new THREE.BoxGeometry(size, size*0.4, size), matRoof);
-            tile.position.set(x, houseHeight + y + yOffset, frontZ - z);
-            front.add(tile);
+    for(let x=0; x<width; x+=size+gap){
+        for(let z=0; z<depth/2; z+=size+gap){
+            const tile = new THREE.Mesh(
+                new THREE.BoxGeometry(size, size*0.4, size),
+                matRoof
+            );
+            tile.position.set(
+                x + size/2,
+                yBase + z*slope,
+                z
+            );
+            houseGroup.add(tile);
         }
     }
-    scene.add(front);
 
-    // HINTEN
-    const back = new THREE.Group();
-    const backZ = -houseDepth / 2;
-    for (let x=-width/2;x<width/2;x+=size+gap){
-        for (let z=0; z<depth; z+=size+gap){
-            const y = slope*z;
-            const tile = new THREE.Mesh(new THREE.BoxGeometry(size, size*0.4, size), matRoof);
-            tile.position.set(x, houseHeight + y + yOffset, backZ + z);
-            back.add(tile);
+    for(let x=0; x<width; x+=size+gap){
+        for(let z=0; z<depth/2; z+=size+gap){
+            const tile = new THREE.Mesh(
+                new THREE.BoxGeometry(size, size*0.4, size),
+                matRoof
+            );
+            tile.position.set(
+                x + size/2,
+                yBase + z*slope,
+                depth - z
+            );
+            houseGroup.add(tile);
         }
     }
-    scene.add(back);
 }
 
 // Dach aufsetzen
@@ -318,7 +329,7 @@ function animate(){
     const radius = 30;
     camera.position.x = radius * Math.cos(targetRotation);
     camera.position.z = radius * Math.sin(targetRotation);
-    camera.lookAt(0,1.5,0);
+    camera.lookAt(houseWidth/2, 1.5, houseDepth/2);
     renderer.render(scene,camera);
 }
 animate();
