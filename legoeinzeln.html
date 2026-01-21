@@ -11,6 +11,12 @@ body { margin:0; background:#eef2f3; font-family:system-ui; overflow:hidden; }
 </head>
 <body>
 
+/* ===================== Buttons ===================== */
+<button id="btnIndex">Index</button>
+<button id="btnBack">Zurück</button>
+<button id="btnHome">Home</button>
+
+    
 <div id="container"></div>
 
 //Z+
@@ -32,6 +38,26 @@ body { margin:0; background:#eef2f3; font-family:system-ui; overflow:hidden; }
 //  /
 // Z
 //(vorne / hinten)
+
+       
+
+<style>
+  body { margin:0; overflow:hidden; }
+
+  button {
+    position: fixed;
+    left: 20px;
+    padding: 8px 14px;
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  #btnIndex { top: 20px; }
+  #btnBack  { top: 60px; }
+  #btnHome  { top: 100px; }
+</style>
+
+    
     
 <script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
@@ -234,7 +260,7 @@ const terrace = new THREE.Mesh(
     new THREE.BoxGeometry(10, 0.15, 4),
     new THREE.MeshStandardMaterial({color:0xd2b48c})
 );
-terrace.rotation.x = Math.PI / 2;
+terrace.rotation.y = Math.PI / 2;
 terrace.position.set(10,0.075,0); // vorne an Haus anschließen
 scene.add(terrace);
 
@@ -243,7 +269,7 @@ const pool = new THREE.Mesh(
     new THREE.BoxGeometry(10, 0.5, 6),
     new THREE.MeshStandardMaterial({color:0x4da6ff, transparent:true, opacity:0.7})
 );
-pool.rotation.x = Math.PI / 2;
+pool.rotation.y = Math.PI / 2;
 pool.position.set(20, -0.25, 0); // vor der Terrasse
 scene.add(pool);    
     
@@ -260,53 +286,6 @@ tree(-15,-7);
 tree(15,-7);
 tree(-15,7);
 tree(15,7);
-
-
-/* ===================== Buttons ===================== */
-    
-<style>
-  button {
-    position: fixed;
-    left: 20px;
-    padding: 10px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    z-index: 1000;
-  }
-
-  #btnIndex {
-    top: 20px;
-  }
-
-  #btnBack {
-    top: 70px;
-  }
-
-  #btnHome {
-    top: 120px;
-  }
-</style>   
-
-<button id="btnIndex">Zurück zu Index</button>
-<button id="btnBack">Eine Seite zurück</button>
-<button id="btnHome">Zur Startseite (hart)</button>
-
-    
-// Zurück zu index.html
-document.getElementById("btnIndex").addEventListener("click", () => {
-  window.location.href = "index.html";
-});
-
-// Browser-Zurück (history)
-document.getElementById("btnBack").addEventListener("click", () => {
-  history.back();
-});
-
-// Harte Navigation (erzwingt Reload von index.html)
-document.getElementById("btnHome").addEventListener("click", () => {
-  window.location.assign("index.html");
-});
-
 
     
 /* ===================== Maussteuerung ===================== */
@@ -345,6 +324,19 @@ function animate(){
     renderer.render(scene,camera);
 }
 animate();
+
+/* BUTTON EVENTS – GANZ UNTEN */
+document.getElementById("btnIndex").onclick = () => {
+  window.location.href = "index.html";
+};
+
+document.getElementById("btnBack").onclick = () => {
+  history.back();
+};
+
+document.getElementById("btnHome").onclick = () => {
+  window.location.assign("index.html");
+};
 
 /* ===================== Fensteranpassung bei Resize ===================== */
 window.addEventListener("resize",()=>{
