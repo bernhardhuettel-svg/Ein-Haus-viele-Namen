@@ -174,7 +174,7 @@ function createSlidingDoor(xStart, yStart, zStart, width, height, depth=0.2){
 }
 
 // Beispiel rechte Hauswand
-const slidingDoor = createSlidingDoor(5.7, 0.8, 6, 8, 2.2);
+const slidingDoor = createSlidingDoor(-5.7, 0.8, 6, 8, 2.2);
 scene.add(slidingDoor);
 
     
@@ -214,39 +214,10 @@ function roofSlopeAllSides(width, depth, slope) {
         }
     }
     scene.add(back);
-
-
-    
-//    // LINKS
-//    const left = new THREE.Group();
-//    const leftX = -houseWidth/2;
-//    for (let z=-width/2; z<width/2; z+=size+gap){
-//        for (let x=0; x<depth; x+=size+gap){
-//            const y = slope*x;
-//            const tile = new THREE.Mesh(new THREE.BoxGeometry(size, size*0.4, size), matRoof);
-//            tile.position.set(leftX + x, houseHeight + y + yOffset, z);
-//            left.add(tile);
-//        }
-//    }
-//    scene.add(left);
-
-//    // RECHTS
-//    const right = new THREE.Group();
-//    const rightX = houseWidth/2;
-//    for (let z=-width/2; z<width/2; z+=size+gap){
-//        for (let x=0; x<depth; x+=size+gap){
-//            const y = slope*x;
-//            const tile = new THREE.Mesh(new THREE.BoxGeometry(size, size*0.4, size), matRoof);
-//            tile.position.set(rightX - x, houseHeight + y + yOffset, z);
-//            right.add(tile);
-//        }
-//    }
-//    scene.add(right);
 }
 
 // Dach aufsetzen
 roofSlopeAllSides(houseWidth, houseDepth/2, 0.15);
-
 
 /* ===================== Kamin ===================== */   
 const chimney = new THREE.Mesh(
@@ -269,7 +240,7 @@ const terrace = new THREE.Mesh(
     new THREE.BoxGeometry(10, 0.15, 4),
     new THREE.MeshStandardMaterial({color:0xd2b48c})
 );
-terrace.position.set(20,0.075,8); // vorne an Haus anschließen
+terrace.position.set(10,0.075,0); // vorne an Haus anschließen
 scene.add(terrace);
 
 /* ===================== Pool ===================== */
@@ -277,7 +248,7 @@ const pool = new THREE.Mesh(
     new THREE.BoxGeometry(10, 0.5, 6),
     new THREE.MeshStandardMaterial({color:0x4da6ff, transparent:true, opacity:0.7})
 );
-pool.position.set(10, -0.25, 0); // vor der Terrasse
+pool.position.set(20, -0.25, 0); // vor der Terrasse
 scene.add(pool);    
     
 /* ===================== Bäume ===================== */
