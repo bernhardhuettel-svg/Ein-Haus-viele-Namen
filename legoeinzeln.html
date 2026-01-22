@@ -81,7 +81,7 @@ scene.add(ground);
 /* ===================== Wände ===================== */
 function wallBlocksArray(x0,z0,w,d,h){
     const blocks = [];
-    const size = 0.3;
+    const size = 0.4;
     const gap = 0.015;
     for(let x=0; x<w; x+=size+gap){
         for(let y=0; y<h; y+=size+gap){
@@ -174,8 +174,8 @@ houseGroup.add(door);
 
 /* ===================== Walmdach ===================== */
 function roofSlopeAllSides(width, depth, slope) {
-    const size = 0.3;   // Dachblockgröße
-    const gap = 0.05;
+    const size = 0.4;   // Dachblockgröße
+    const gap = 0.15;
     const yBase = houseHeight; // Start Y = Wandoberkante
 
     // VORNE (Z=0)
@@ -220,18 +220,19 @@ houseGroup.add(chimney);
     
 /* ===================== Terrasse ===================== */
 const terrace = new THREE.Mesh(
-    new THREE.BoxGeometry(10,0.15,5),
+    new THREE.BoxGeometry(5, 0.15, 10), // X und Z getauscht für Längsseite
     new THREE.MeshStandardMaterial({color:0xd2b48c})
 );
-terrace.position.set(houseWidth/2,0.075,-2.5); // direkt vorne am Haus
+terrace.position.set(houseWidth + 2.5, 0.075, houseDepth/2); // rechts an Haus-Längsseite
 houseGroup.add(terrace);
+
 
 /* ===================== Pool ===================== */
 const pool = new THREE.Mesh(
-    new THREE.BoxGeometry(10,0.5,6),
+    new THREE.BoxGeometry(6, 0.5, 10), // X und Z getauscht
     new THREE.MeshStandardMaterial({color:0x4da6ff, transparent:true, opacity:0.7})
 );
-pool.position.set(houseWidth/2,-0.25,-8); // direkt an Terrasse
+pool.position.set(houseWidth + 3, -0.25, houseDepth/2); // neben Terrasse
 houseGroup.add(pool);
 
     
@@ -244,10 +245,10 @@ function tree(x,z){
     c.position.set(x,2.2,z);
     scene.add(c);
 }
-tree(-5 + houseOffsetX, -5 + houseOffsetZ);
-tree(35 + houseOffsetX, -5 + houseOffsetZ);
-tree(-5 + houseOffsetX, 15 + houseOffsetZ);
-tree(35 + houseOffsetX, 15 + houseOffsetZ);
+tree(5 + houseOffsetX, -5 + houseOffsetZ);
+tree(45 + houseOffsetX, -5 + houseOffsetZ);
+tree(5 + houseOffsetX, 15 + houseOffsetZ);
+tree(45 + houseOffsetX, 15 + houseOffsetZ);
 
 
     
