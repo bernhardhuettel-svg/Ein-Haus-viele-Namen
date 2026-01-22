@@ -161,8 +161,7 @@ function createSlidingDoor(xStart, yStart, zStart, width, height, depth=0.2){
 
 // Glastür an Längsseite (rechte Seite)
 const slidingDoor = createSlidingDoor(0, 0.3, 3, 2.2, 4, 0.2); // X=0, Z=3
-slidingDoor.rotation.x = -Math.PI/2; // um 90° drehen
-alidingDoor.rotation.y = -Math.PI/2;
+slidingDoor.rotation.z = -Math.PI/2; // um 90° drehen
 slidingDoor.position.set(houseWidth, 0.3, houseDepth/2); // rechts ans Haus, mittig Z
 houseGroup.add(slidingDoor);
 
