@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>3D Bungalow – mit Pool test  </title>
+<title>3D Bungalow – mit Pool und Garten  </title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
 <style>
@@ -82,7 +82,7 @@ scene.add(ground);
 function wallBlocksArray(x0,z0,w,d,h){
     const blocks = [];
     const size = 0.4;
-    const gap = 0.015;
+    const gap = 0.03;
     for(let x=0; x<w; x+=size+gap){
         for(let y=0; y<h; y+=size+gap){
             for(let z=0; z<d; z+=size+gap){
@@ -159,8 +159,10 @@ function createSlidingDoor(xStart, yStart, zStart, width, height, depth=0.2){
     return group;
 }
 
-// Glastür mittig auf Terrasse
-const slidingDoor = createSlidingDoor(4,0.3,0,4,2.2);
+// Glastür an Längsseite (rechte Seite)
+const slidingDoor = createSlidingDoor(0, 0.3, 3, 2.2, 4, 0.2); // X=0, Z=3
+slidingDoor.rotation.y = -Math.PI/2; // um 90° drehen
+slidingDoor.position.set(houseWidth, 0.3, houseDepth/2); // rechts ans Haus, mittig Z
 houseGroup.add(slidingDoor);
 
 
@@ -229,27 +231,103 @@ houseGroup.add(terrace);
 
 /* ===================== Pool ===================== */
 const pool = new THREE.Mesh(
-    new THREE.BoxGeometry(6, 0.5, 10), // X und Z getauscht
+    new THREE.BoxGeometry(10, 0.5, 10), // X und Z getauscht
     new THREE.MeshStandardMaterial({color:0x4da6ff, transparent:true, opacity:0.7})
 );
-pool.position.set(houseWidth + 3, -0.25, houseDepth/2); // neben Terrasse
+pool.position.set(houseWidth + 5.5, -0.25, houseDepth/2); // neben Terrasse
 houseGroup.add(pool);
 
     
-/* ===================== Bäume ===================== */
-function tree(x,z){
-    const t = new THREE.Mesh(new THREE.CylinderGeometry(0.25,0.25,1.5), new THREE.MeshStandardMaterial({color:0x5a3b1e}));
-    t.position.set(x,0.75,z);
+/* ===================== Bäume (Garten) ===================== */
+function tree(x, z, height = 1.5, radius = 0.25, crownRadius = 1) {
+    // Stamm
+    const t = new THREE.Mesh(
+        new THREE.CylinderGeometry(radius, radius, height),
+        new THREE.MeshStandardMaterial({color:0x5a3b1e})
+    );
+    t.position.set(x, height/2, z);
     scene.add(t);
-    const c = new THREE.Mesh(new THREE.SphereGeometry(1), new THREE.MeshStandardMaterial({color:0x2f7d32}));
-    c.position.set(x,2.2,z);
+    
+    // Krone
+    const c = new THREE.Mesh(
+        new THREE.SphereGeometry(crownRadius, 16, 16),
+        new THREE.MeshStandardMaterial({color:0x2f7d32})
+    );
+    c.position.set(x, height + crownRadius*0.7, z);
     scene.add(c);
 }
-tree(5 + houseOffsetX, -5 + houseOffsetZ);
-tree(45 + houseOffsetX, -5 + houseOffsetZ);
-tree(5 + houseOffsetX, 15 + houseOffsetZ);
-tree(45 + houseOffsetX, 15 + houseOffsetZ);
 
+// Ecken (groß)
+tree(2 + houseOffsetX, 2 + houseOffsetZ, 3, 0.35, 2);
+tree(38 + houseOffsetX, 2 + houseOffsetZ, 3, 0.35, 2);
+tree(2 + houseOffsetX, 18 + houseOffsetZ, 3, 0.35, 2);
+tree(38 + houseOffsetX, 18 + houseOffsetZ, 3, 0.35, 2);
+
+// Mittig links/rechts (mittel)
+tree(10 + houseOffsetX, 10 + houseOffsetZ, 2, 0.25, 1.5);
+tree(30 + houseOffsetX, 10 + houseOffsetZ, 2, 0.25, 1.5);
+
+// Kleine Deko-Bäume vorne/hinten
+tree(15 + houseOffsetX, 5 + houseOffsetZ, 1.5, 0.2, 1);
+tree(25 + houseOffsetX, 15 + houseOffsetZ, 1.5, 0.2, 1);
+
+/* ===================== Blumenbeete ===================== */
+function flower(x, z, height = 0.3, radius = 0.2, color = 0xff5555) {
+    const f = new THREE.Mesh(
+        new THREE.CylinderGeometry(radius, radius, height),
+        new THREE.MeshStandardMaterial({color: color})
+    );
+    f.position.set(x, height/2, z);
+    scene.add(f);
+}
+
+// Blumen am Rande der Terrasse
+flower(houseWidth + 1, houseDepth/2 - 3, 0.3, 0.2, 0xff4444);
+flower(houseWidth + 1, houseDepth/2, 0.3, 0.2, 0xffcc44);
+flower(houseWidth + 1, houseDepth/2 + 3, 0.3, 0.2, 0xff88ff);
+
+// Blumen auf der Wiese verteilt
+flower(8 + houseOffsetX, 3 + houseOffsetZ, 0.25, 0.15, 0xffff44);
+flower(12 + houseOffsetX, 8 + houseOffsetZ, 0.25, 0.15, 0xff66aa);
+flower(28 + houseOffsetX, 12 + houseOffsetZ, 0.25, 0.15, 0x44ff44);
+flower(32 + houseOffsetX, 5 + houseOffsetZ, 0.25, 0.15, 0x44ccff);
+flower(18 + houseOffsetX, 15 + houseOffsetZ, 0.25, 0.15, 0xff4444);
+
+
+
+/* ===================== Grundstückszaun ===================== */
+function fence(startX, startZ, endX, endZ, height = 1.2, postWidth = 0.1, spacing = 0.5) {
+    const material = new THREE.MeshStandardMaterial({color:0x8b5a2b});
+    
+    // Zaun entlang X-Achse
+    if(startZ === endZ){
+        for(let x = startX; x <= endX; x += spacing){
+            const post = new THREE.Mesh(
+                new THREE.BoxGeometry(postWidth, height, postWidth),
+                material
+            );
+            post.position.set(x, height/2, startZ);
+            scene.add(post);
+        }
+    }
+    // Zaun entlang Z-Achse
+    if(startX === endX){
+        for(let z = startZ; z <= endZ; z += spacing){
+            const post = new THREE.Mesh(
+                new THREE.BoxGeometry(postWidth, height, postWidth),
+                material
+            );
+            post.position.set(startX, height/2, z);
+            scene.add(post);
+        }
+    }
+}
+
+// Grundstückgrenzen (rechteckig, gleiche Größe wie Ground)
+fence(0, 0, 40, 0);    // vorne
+fence(0, 20, 40, 20);  // hinten
+fence(0, 0, 0, 20);    // links
+fence(40, 0, 40, 20);  // rechts
 
     
 /* ===================== Maussteuerung ===================== */
