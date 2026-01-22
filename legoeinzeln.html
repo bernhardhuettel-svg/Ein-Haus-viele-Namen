@@ -17,29 +17,7 @@ body { margin:0; background:#eef2f3; font-family:system-ui; overflow:hidden; }
 
 <div id="container"></div>
 
-<!--
-Z+
-
-      +6
-      ┌────────────┐
-      │            │
-      │    HAUS    │
-      │            │
--6 ───└────────────┘─── +6   → X
-      0
-
-Z-
-
-Y  ↑   (Höhe)
-   |
-   |
-   └────→ X  (links / rechts)
-  /
- Z
-(vorne / hinten)
--->
-       
-
+      
 <style>
   body { margin:0; overflow:hidden; }
 
@@ -130,29 +108,44 @@ function wallBlocksArray(x0,z0,w,d,h){
     return blocks;
 }
 
-// Hausdimensionen
-const houseWidth  = 12;
-const houseDepth  = 12;
-const houseHeight = 3;
+// Wände
+function wallBlocksArray(x0,z0,w,d,h){
+    const blocks = [];
+    const size = 0.4;
+    const gap = 0.03;
+    for(let x=0; x<w; x+=size+gap){
+        for(let y=0; y<h; y+=size+gap){
+            for(let z=0; z<d; z+=size+gap){
+                const b = new THREE.Mesh(
+                    new THREE.BoxGeometry(size,size,size),
+                    matWall
+                );
+                b.position.set(x0 + x + size/2, y + size/2, z0 + z + size/2);
+                blocks.push(b);
+            }
+        }
+    }
+    return blocks;
+}
 
 // Wände
-const wallFrontArray = wallBlocksArray(0, 0, houseWidth, 0.4, houseHeight); // vorne
-const wallBackArray  = wallBlocksArray(0, houseDepth - 0.4, houseWidth, 0.4, houseHeight); // hinten
-const wallLeftArray  = wallBlocksArray(0, 0, 0.4, houseDepth, houseHeight); // links
-const wallRightArray = wallBlocksArray(houseWidth - 0.4, 0, 0.4, houseDepth, houseHeight); // rechts
+const wallFrontArray = wallBlocksArray(0, 0, houseWidth, 0.4, houseHeight);
+const wallBackArray  = wallBlocksArray(0, houseDepth-0.4, houseWidth, 0.4, houseHeight);
+const wallLeftArray  = wallBlocksArray(0, 0, 0.4, houseDepth, houseHeight);
+const wallRightArray = wallBlocksArray(houseWidth-0.4, 0, 0.4, houseDepth, houseHeight);
 
-// Alle Wände nacheinander hinzufügen
+// nacheinander hinzufügen
 let arrays = [wallFrontArray, wallBackArray, wallLeftArray, wallRightArray];
 let arrayIndex = 0;
 function addNextWall(){
     if(arrayIndex < arrays.length){
         let blocks = arrays[arrayIndex];
-        let i = 0;
+        let i=0;
         function addBlock(){
-            if(i < blocks.length){
+            if(i<blocks.length){
                 houseGroup.add(blocks[i]);
                 i++;
-                setTimeout(addBlock, 10);
+                setTimeout(addBlock,10);
             } else {
                 arrayIndex++;
                 addNextWall();
@@ -166,53 +159,50 @@ addNextWall();
 
 
 /* ===================== Fenster ===================== */
-function createWindow(xStart, yStart, zStart, width, height, depth = 0.2){
+/* ===================== Fenster ===================== */
+function createWindow(xStart, yStart, zStart, width, height, depth=0.2){
     const group = new THREE.Group();
-    const size = 0.4;
-    const gap = 0.05;
-    for (let x = 0; x < width; x += size + gap){
-        for (let y = 0; y < height; y += size + gap){
+    const size=0.4, gap=0.05;
+    for(let x=0;x<width;x+=size+gap){
+        for(let y=0;y<height;y+=size+gap){
             const block = new THREE.Mesh(new THREE.BoxGeometry(size,size,depth), matGlass);
-            block.position.set(xStart + x + size/2, yStart + y + size/2, zStart);
+            block.position.set(xStart+x+size/2, yStart+y+size/2, zStart);
             group.add(block);
         }
     }
-    houseGroup.add(group); // Korrektes houseGroup
+    houseGroup.add(group);
 }
 
-// Fenster vorne links und rechts
+// vorne links und rechts
 createWindow(2, 1.2, 0.41, 2.4, 1.6);
 createWindow(7.6, 1.2, 0.41, 2.4, 1.6);
 
-
-
+/* ===================== Glastür ===================== */
 function createSlidingDoor(xStart, yStart, zStart, width, height, depth=0.2){
     const group = new THREE.Group();
-    const size = 0.4;
-    const gap = 0.05;
-
-    for (let x = 0; x < width; x += size+gap){
-        for (let y = 0; y < height; y += size+gap){
+    const size=0.4, gap=0.05;
+    for(let x=0;x<width;x+=size+gap){
+        for(let y=0;y<height;y+=size+gap){
             const block = new THREE.Mesh(new THREE.BoxGeometry(size,size,depth), matGlass);
-            block.position.set(xStart + x + size/2, yStart + y + size/2, zStart);
+            block.position.set(xStart+x+size/2, yStart+y+size/2, zStart);
             group.add(block);
         }
     }
     return group;
 }
 
-// Beispiel rechte Hauswand
-const slidingDoor = createSlidingDoor(0.4, 0.3, houseDepth - 0.41, houseWidth - 0.8, 2.5);
+// Glastür mittig auf Terrasse
+const slidingDoor = createSlidingDoor(4,0.3,-2.3,4,2.2);
 houseGroup.add(slidingDoor);
+
 
 
     
 /* ===================== Tür ===================== */
 const door = new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2), matWood);
-// vorne mittig
-door.position.set(houseWidth/2, 1.15, 0.2);
+door.position.set(houseWidth/2, 1.15, 0.2); // vorne mittig
 houseGroup.add(door);
-
+      
 
 /* ===================== Walmdach ===================== */
 function roofSlopeAllSides(width, depth, slope) {
@@ -249,36 +239,6 @@ function roofSlopeAllSides(width, depth, slope) {
         }
     }
     houseGroup.add(backRoof);
-
-/*    // LINKS (X=0)
-    const leftRoof = new THREE.Group();
-    for (let z = 0; z < depth; z += size + gap) {
-        for (let x = 0; x < width/2; x += size + gap) {
-            const y = yBase + x * slope;
-            const tile = new THREE.Mesh(
-                new THREE.BoxGeometry(size, size*0.4, size),
-                matRoof
-            );
-            tile.position.set(x + size/2, y, z + size/2);
-            leftRoof.add(tile);
-        }
-    }
-    houseGroup.add(leftRoof);
-
-    // RECHTS (X = width - 0.5)
-    const rightRoof = new THREE.Group();
-    for (let z = 0; z < depth; z += size + gap) {
-        for (let x = 0; x < width/2; x += size + gap) {
-            const y = yBase + x * slope;
-            const tile = new THREE.Mesh(
-                new THREE.BoxGeometry(size, size*0.4, size),
-                matRoof
-            );
-            tile.position.set(width - x - size/2, y, z + size/2);
-            rightRoof.add(tile);
-        }
-    }
-    houseGroup.add(rightRoof);*/
 }
 
 
@@ -287,54 +247,25 @@ roofSlopeAllSides(houseWidth, houseDepth, 0.15);
 
 
 /* ===================== Kamin ===================== */
-const chimney = new THREE.Mesh(
-    new THREE.BoxGeometry(0.8, 2, 0.8),
-    matWall
-);
-// hinten links auf Dach
-chimney.position.set(2, houseHeight + 1, 2);
+const chimney = new THREE.Mesh(new THREE.BoxGeometry(0.8,2,0.8), matWall);
+chimney.position.set(2, houseHeight+1, 2); // relativ zu houseGroup
 houseGroup.add(chimney);
-
-
     
 /* ===================== Terrasse ===================== */
 const terrace = new THREE.Mesh(
-    new THREE.BoxGeometry(10, 0.15, 5),
+    new THREE.BoxGeometry(10,0.15,5),
     new THREE.MeshStandardMaterial({color:0xd2b48c})
 );
-// direkt am Haus vorne
-terrace.position.set(houseWidth/2, 0.075, -2.5);
+terrace.position.set(houseWidth/2,0.075,-2.5); // direkt vorne am Haus
 houseGroup.add(terrace);
-
-/* ===================== Glastür zur Terrasse ===================== */
-function createSlidingDoor(xStart, yStart, zStart, width, height, depth=0.2){
-    const group = new THREE.Group();
-    const size = 0.4;
-    const gap = 0.05;
-
-    for (let x = 0; x < width; x += size+gap){
-        for (let y = 0; y < height; y += size+gap){
-            const block = new THREE.Mesh(new THREE.BoxGeometry(size,size,depth), matGlass);
-            block.position.set(xStart + x + size/2, yStart + y + size/2, zStart);
-            group.add(block);
-        }
-    }
-    return group;
-}
-
-// Glastür mittig auf Terrasse (hinten zum Haus)
-const slidingDoor = createSlidingDoor(4, 0.3, -2.3, 4, 2.2);
-houseGroup.add(slidingDoor);
 
 /* ===================== Pool ===================== */
 const pool = new THREE.Mesh(
-    new THREE.BoxGeometry(10, 0.5, 6),
+    new THREE.BoxGeometry(10,0.5,6),
     new THREE.MeshStandardMaterial({color:0x4da6ff, transparent:true, opacity:0.7})
 );
-// direkt an Terrasse
-pool.position.set(houseWidth/2, -0.25, -8); 
+pool.position.set(houseWidth/2,-0.25,-8); // direkt an Terrasse
 houseGroup.add(pool);
-
 
     
 /* ===================== Bäume ===================== */
