@@ -81,7 +81,7 @@ scene.add(ground);
 /* ===================== Wände ===================== */
 function wallBlocksArray(x0,z0,w,d,h){
     const blocks = [];
-    const size = 0.1;
+    const size = 0.3;
     const gap = 0.015;
     for(let x=0; x<w; x+=size+gap){
         for(let y=0; y<h; y+=size+gap){
@@ -130,7 +130,7 @@ addNextWall();
 /* ===================== Fenster ===================== */
 function createWindow(xStart, yStart, zStart, width, height, depth=0.2){
     const group = new THREE.Group();
-    const size=0.4, gap=0.05;
+    const size=0.3, gap=0.05;
     for(let x=0;x<width;x+=size+gap){
         for(let y=0;y<height;y+=size+gap){
             const block = new THREE.Mesh(new THREE.BoxGeometry(size,size,depth), matGlass);
@@ -142,8 +142,8 @@ function createWindow(xStart, yStart, zStart, width, height, depth=0.2){
 }
 
 // vorne links und rechts
-createWindow(2, 1.2, 1, 2.4, 1.6);
-createWindow(7.6, 1.2, 1, 2.4, 1.6);
+createWindow(2, 1.2, 0, 2.4, 1.6);
+createWindow(7.6, 1.2, 0, 2.4, 1.6);
 
 /* ===================== Glastür ===================== */
 function createSlidingDoor(xStart, yStart, zStart, width, height, depth=0.2){
@@ -160,7 +160,7 @@ function createSlidingDoor(xStart, yStart, zStart, width, height, depth=0.2){
 }
 
 // Glastür mittig auf Terrasse
-const slidingDoor = createSlidingDoor(4,0.3,-2.3,4,2.2);
+const slidingDoor = createSlidingDoor(4,0.3,0,4,2.2);
 houseGroup.add(slidingDoor);
 
 
@@ -168,13 +168,13 @@ houseGroup.add(slidingDoor);
     
 /* ===================== Tür ===================== */
 const door = new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2), matWood);
-door.position.set(houseWidth/2, 1.15, 1); // vorne mittig
+door.position.set(houseWidth/2, 1.15, 0); // vorne mittig
 houseGroup.add(door);
       
 
 /* ===================== Walmdach ===================== */
 function roofSlopeAllSides(width, depth, slope) {
-    const size = 0.5;   // Dachblockgröße
+    const size = 0.3;   // Dachblockgröße
     const gap = 0.05;
     const yBase = houseHeight; // Start Y = Wandoberkante
 
