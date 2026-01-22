@@ -161,18 +161,14 @@ function createSlidingDoor(xStart, yStart, zStart, width, height, depth=0.2){
 
 // Glastür an Längsseite (rechte Seite)
 const slidingDoor = createSlidingDoor(0, 0.3, 3, 2.2, 4, 0.2); // X=0, Z=3
-slidingDoor.rotation.z = -Math.PI/2; // um 90° drehen
+//slidingDoor.rotation.y = -Math.PI/2; // um 90° drehen
 slidingDoor.position.set(houseWidth, 0.3, houseDepth/2); // rechts ans Haus, mittig Z
 houseGroup.add(slidingDoor);
-
-
-
     
 /* ===================== Tür ===================== */
 const door = new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2), matWood);
 door.position.set(houseWidth/2, 1.15, 0); // vorne mittig
 houseGroup.add(door);
-      
 
 /* ===================== Walmdach ===================== */
 function roofSlopeAllSides(width, depth, slope) {
