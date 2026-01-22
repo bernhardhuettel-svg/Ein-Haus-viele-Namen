@@ -161,7 +161,7 @@ function createSlidingDoor(xStart, yStart, zStart, width, height, depth=0.2){
 
 // Glastür an Längsseite (rechte Seite)
 const slidingDoor = createSlidingDoor(0, 0.3, 3, 2.2, 4, 0.2); // X=0, Z=3
-slidingDoor.rotation.y = -Math.PI/2; // um 90° drehen
+slidingDoor.rotation.x = -Math.PI/2; // um 90° drehen
 slidingDoor.position.set(houseWidth, 0.3, houseDepth/2); // rechts ans Haus, mittig Z
 houseGroup.add(slidingDoor);
 
@@ -238,96 +238,86 @@ pool.position.set(houseWidth + 5.5, -0.25, houseDepth/2); // neben Terrasse
 houseGroup.add(pool);
 
     
-/* ===================== Bäume (Garten) ===================== */
-function tree(x, z, height = 1.5, radius = 0.25, crownRadius = 1) {
-    // Stamm
+/* ===================== Bäume (Garten ums Haus) ===================== */
+function treeLocal(x, z, height = 1.5, radius = 0.25, crownRadius = 1) {
     const t = new THREE.Mesh(
         new THREE.CylinderGeometry(radius, radius, height),
         new THREE.MeshStandardMaterial({color:0x5a3b1e})
     );
     t.position.set(x, height/2, z);
-    scene.add(t);
-    
-    // Krone
+    houseGroup.add(t); // jetzt INS houseGroup, nicht scene
+
     const c = new THREE.Mesh(
         new THREE.SphereGeometry(crownRadius, 16, 16),
         new THREE.MeshStandardMaterial({color:0x2f7d32})
     );
     c.position.set(x, height + crownRadius*0.7, z);
-    scene.add(c);
+    houseGroup.add(c);
 }
 
-// Ecken (groß)
-tree(2 + houseOffsetX, 2 + houseOffsetZ, 3, 0.35, 2);
-tree(38 + houseOffsetX, 2 + houseOffsetZ, 3, 0.35, 2);
-tree(2 + houseOffsetX, 18 + houseOffsetZ, 3, 0.35, 2);
-tree(38 + houseOffsetX, 18 + houseOffsetZ, 3, 0.35, 2);
+// Ecken ums Haus (nicht über Terrasse/Pool)
+treeLocal(-1, -1, 3, 0.35, 2);       // vorne links
+treeLocal(houseWidth + 1, -1, 3, 0.35, 2);  // vorne rechts
+treeLocal(-1, houseDepth + 1, 3, 0.35, 2); // hinten links
+treeLocal(houseWidth + 1, houseDepth + 1, 3, 0.35, 2); // hinten rechts
 
-// Mittig links/rechts (mittel)
-tree(10 + houseOffsetX, 10 + houseOffsetZ, 2, 0.25, 1.5);
-tree(30 + houseOffsetX, 10 + houseOffsetZ, 2, 0.25, 1.5);
+// Mittig seitlich
+treeLocal(houseWidth/2 - 3, -2, 2, 0.25, 1.5);
+treeLocal(houseWidth/2 + 3, -2, 2, 0.25, 1.5);
 
-// Kleine Deko-Bäume vorne/hinten
-tree(15 + houseOffsetX, 5 + houseOffsetZ, 1.5, 0.2, 1);
-tree(25 + houseOffsetX, 15 + houseOffsetZ, 1.5, 0.2, 1);
 
-/* ===================== Blumenbeete ===================== */
-function flower(x, z, height = 0.3, radius = 0.2, color = 0xff5555) {
+/* ===================== Blumen ums Haus ===================== */
+function flowerLocal(x, z, height = 0.3, radius = 0.2, color = 0xff5555) {
     const f = new THREE.Mesh(
         new THREE.CylinderGeometry(radius, radius, height),
         new THREE.MeshStandardMaterial({color: color})
     );
     f.position.set(x, height/2, z);
-    scene.add(f);
+    houseGroup.add(f); // INS houseGroup
 }
 
-// Blumen am Rande der Terrasse
-flower(houseWidth + 1, houseDepth/2 - 3, 0.3, 0.2, 0xff4444);
-flower(houseWidth + 1, houseDepth/2, 0.3, 0.2, 0xffcc44);
-flower(houseWidth + 1, houseDepth/2 + 3, 0.3, 0.2, 0xff88ff);
+// Blumen rechts von Terrasse
+flowerLocal(houseWidth + 1, houseDepth/2 - 3, 0.3, 0.2, 0xff4444);
+flowerLocal(houseWidth + 1, houseDepth/2, 0.3, 0.2, 0xffcc44);
+flowerLocal(houseWidth + 1, houseDepth/2 + 3, 0.3, 0.2, 0xff88ff);
 
-// Blumen auf der Wiese verteilt
-flower(8 + houseOffsetX, 3 + houseOffsetZ, 0.25, 0.15, 0xffff44);
-flower(12 + houseOffsetX, 8 + houseOffsetZ, 0.25, 0.15, 0xff66aa);
-flower(28 + houseOffsetX, 12 + houseOffsetZ, 0.25, 0.15, 0x44ff44);
-flower(32 + houseOffsetX, 5 + houseOffsetZ, 0.25, 0.15, 0x44ccff);
-flower(18 + houseOffsetX, 15 + houseOffsetZ, 0.25, 0.15, 0xff4444);
+// Kleine Blumen vorne
+flowerLocal(houseWidth/2, -2, 0.25, 0.15, 0xffff44);
+flowerLocal(houseWidth/2 + 2, -2, 0.25, 0.15, 0xff66aa);
+flowerLocal(houseWidth/2 - 2, -2, 0.25, 0.15, 0x44ff44);
 
-
-
-/* ===================== Grundstückszaun ===================== */
-function fence(startX, startZ, endX, endZ, height = 1.2, postWidth = 0.1, spacing = 0.5) {
+      
+/* ===================== Zaun ums Haus ===================== */
+function fenceLocal(x0, z0, width, depth, height = 1.2, postWidth = 0.1, spacing = 0.5){
     const material = new THREE.MeshStandardMaterial({color:0x8b5a2b});
-    
-    // Zaun entlang X-Achse
-    if(startZ === endZ){
-        for(let x = startX; x <= endX; x += spacing){
-            const post = new THREE.Mesh(
-                new THREE.BoxGeometry(postWidth, height, postWidth),
-                material
-            );
-            post.position.set(x, height/2, startZ);
-            scene.add(post);
-        }
+
+    // X-Richtung vorne/hinten
+    for(let x = x0; x <= x0 + width; x += spacing){
+        // vorne
+        const postF = new THREE.Mesh(new THREE.BoxGeometry(postWidth, height, postWidth), material);
+        postF.position.set(x, height/2, z0);
+        houseGroup.add(postF);
+        // hinten
+        const postB = new THREE.Mesh(new THREE.BoxGeometry(postWidth, height, postWidth), material);
+        postB.position.set(x, height/2, z0 + depth);
+        houseGroup.add(postB);
     }
-    // Zaun entlang Z-Achse
-    if(startX === endX){
-        for(let z = startZ; z <= endZ; z += spacing){
-            const post = new THREE.Mesh(
-                new THREE.BoxGeometry(postWidth, height, postWidth),
-                material
-            );
-            post.position.set(startX, height/2, z);
-            scene.add(post);
-        }
+
+    // Z-Richtung links/rechts
+    for(let z = z0; z <= z0 + depth; z += spacing){
+        const postL = new THREE.Mesh(new THREE.BoxGeometry(postWidth, height, postWidth), material);
+        postL.position.set(x0, height/2, z);
+        houseGroup.add(postL);
+
+        const postR = new THREE.Mesh(new THREE.BoxGeometry(postWidth, height, postWidth), material);
+        postR.position.set(x0 + width, height/2, z);
+        houseGroup.add(postR);
     }
 }
 
-// Grundstückgrenzen (rechteckig, gleiche Größe wie Ground)
-fence(0, 0, 40, 0);    // vorne
-fence(0, 20, 40, 20);  // hinten
-fence(0, 0, 0, 20);    // links
-fence(40, 0, 40, 20);  // rechts
+// Zaun nur rund ums Haus (Hausbreite + etwas Abstand)
+fenceLocal(-2, -2, houseWidth + 4, houseDepth + 4);
+
 
     
 /* ===================== Maussteuerung ===================== */
