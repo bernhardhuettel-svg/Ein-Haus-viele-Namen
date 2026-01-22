@@ -17,26 +17,27 @@ body { margin:0; background:#eef2f3; font-family:system-ui; overflow:hidden; }
 
 <div id="container"></div>
 
-//Z+
-//
-//      +6
-//      ┌────────────┐
-//      │            │
-//      │    HAUS    │
-//      │            │
-//-6 ───└────────────┘─── +6   → X
-//      0
-//
-//Z-
+<!--
+Z+
 
-//Y  ↑   (Höhe)
-//   |
-//   |
-//   └────→ X  (links / rechts)
-//  /
-// Z
-//(vorne / hinten)
+      +6
+      ┌────────────┐
+      │            │
+      │    HAUS    │
+      │            │
+-6 ───└────────────┘─── +6   → X
+      0
 
+Z-
+
+Y  ↑   (Höhe)
+   |
+   |
+   └────→ X  (links / rechts)
+  /
+ Z
+(vorne / hinten)
+-->
        
 
 <style>
@@ -137,7 +138,7 @@ function addNextBlock(){
         setTimeout(addNextBlock, 100); // alle 100ms ein Block
     }
 }
-addNextBlock();
+//addNextBlock();
 
 //Erdgeschoss
 const wallFrontArray = wallBlocksArray(0, 0, houseWidth, 0.4, houseHeight);
@@ -181,7 +182,7 @@ function createWindow(xStart, yStart, zStart, width, height, depth = 0.2){
             group.add(block);
         }
     }
-    housegroup.add(group);
+    houseGroup.add(group);
 }
 
 // Fenster vorne
