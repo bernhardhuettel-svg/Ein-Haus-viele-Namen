@@ -35,6 +35,8 @@ const houseWidth  = 12;
 const houseDepth  = 12;
 const houseHeight = 3;
 const axes = new THREE.AxesHelper(10);
+axes.position.set(0, 0.02, 0); // Weltursprung sichtbar
+scene.add(axes);
 
 const container = document.getElementById("container");
 const scene = new THREE.Scene();
@@ -77,6 +79,17 @@ const ground = new THREE.Mesh(new THREE.PlaneGeometry(40,20), matGround);
 ground.rotation.x = -Math.PI/2;
 ground.position.set(20, 0, 10); // Mittelpunkt bei positivem Raum
 scene.add(ground);
+
+/* ===================== Grundstück Raster (Skizze) ===================== */
+const grid = new THREE.GridHelper(
+    40,   // Breite (X)
+    40,   // Unterteilungen
+    0x444444,
+    0x888888
+);
+grid.position.set(20, 0.01, 10); // exakt auf Grundstück zentrieren
+scene.add(grid);
+
 
 /* ===================== Wände ===================== */
 function wallBlocksArray(x0,z0,w,d,h){
