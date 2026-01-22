@@ -238,13 +238,13 @@ pool.position.set(houseWidth + 5.5, -0.25, houseDepth/2); // neben Terrasse
 houseGroup.add(pool);
 
     
-/* ===================== Garten-Gruppe für gesamtes Grundstück ===================== */
+//* ===================== Garten-Gruppe auf Grundstück ===================== */
 const gardenGroup = new THREE.Group();
-houseGroup.add(gardenGroup); // Garten gehört zum Haus, verschiebbar
+scene.add(gardenGroup); // nicht houseGroup, sondern direkt Szene
 
 const plotWidth = 40;
 const plotDepth = 20;
-const houseBuffer = 2; // Abstand vom Haus zu den Pflanzen
+const houseBuffer = 2; // Abstand vom Haus zu Pflanzen
 
 /* ===================== Bäume ===================== */
 function treePlot(x, z, height = 1.5, radius = 0.25, crownRadius = 1) {
@@ -269,7 +269,7 @@ treePlot(plotWidth - 1, 1, 3, 0.35, 2);
 treePlot(1, plotDepth - 1, 3, 0.35, 2);
 treePlot(plotWidth - 1, plotDepth - 1, 3, 0.35, 2);
 
-// Mittige Bäume an den Seiten (leicht versetzt)
+// Mittige Bäume an den Seiten
 treePlot(plotWidth/2, 1, 2.5, 0.3, 1.5);
 treePlot(plotWidth/2, plotDepth - 1, 2.5, 0.3, 1.5);
 treePlot(1, plotDepth/2, 2.5, 0.3, 1.5);
@@ -285,10 +285,18 @@ function flowerPlot(x, z, height = 0.3, radius = 0.2, color = 0xff5555) {
     gardenGroup.add(f);
 }
 
-// Einige Blumen verteilt im Garten
-for(let i=0; i<15; i++){
-    const x = houseBuffer + Math.random() * (plotWidth - 2*houseBuffer);
-    const z = houseBuffer + Math.random() * (plotDepth - 2*houseBuffer);
+// Blumen zufällig verteilt, aber **nicht über Haus/Terrasse/Pool**
+for(let i=0; i<20; i++){
+    let x, z;
+    do {
+        x = Math.random() * plotWidth;
+        z = Math.random() * plotDepth;
+        // Abstand zum Haus: keep free zone
+    } while (
+        x > houseOffsetX - houseBuffer && x < houseOffsetX + houseWidth + houseBuffer &&
+        z > houseOffsetZ - houseBuffer && z < houseOffsetZ + houseDepth + houseBuffer
+    );
+
     const colors = [0xff4444, 0xffcc44, 0xff88ff, 0xffff44, 0x44ff44, 0x44ccff];
     const color = colors[Math.floor(Math.random()*colors.length)];
     flowerPlot(x, z, 0.25 + Math.random()*0.1, 0.15 + Math.random()*0.05, color);
@@ -321,8 +329,9 @@ function fencePlot(x0, z0, width, depth, height = 1.2, postWidth = 0.1, spacing 
     }
 }
 
-// Zaun direkt an Grundstücksgrenzen
+// Zaun genau am Grundstück
 fencePlot(0, 0, plotWidth, plotDepth);
+
 
     
 /* ===================== Maussteuerung ===================== */
