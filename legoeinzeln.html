@@ -341,6 +341,35 @@ function fencePlot(x0, z0, width, depth, height = 1.2, postWidth = 0.1, spacing 
 fencePlot(0, 0, plotWidth, plotDepth);
 
 
+
+<!-- PayPal Spenden Button -->
+<form action="https://www.paypal.com/donate" method="post" target="_blank"
+      style="position: fixed; right: 20px; top: 20px; z-index: 1000;">
+  
+  <!-- DEINE PAYPAL MAIL -->
+  <input type="hidden" name="business" value="bernhardhuettel@aol.com">
+
+  <!-- Währung -->
+  <input type="hidden" name="currency_code" value="EUR">
+
+  <!-- Beschreibung -->
+ <input type="hidden" name="item_name" value="Unterstütze mein Projekt">
+
+
+  <button type="submit"
+    style="
+      padding: 12px 18px;
+      background: #ffc439;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    ">
+    💛 Spenden via PayPal
+  </button>
+
+
+      
     
 /* ===================== Maussteuerung ===================== */
 let isMouseDown = false;
