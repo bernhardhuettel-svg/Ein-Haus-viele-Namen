@@ -187,7 +187,16 @@ footer { text-align: center; padding: 40px 20px; background: #f8f8f8; color: #77
 let progress = 0;
 let spenderCount = 0;
 function updateProgress() {
-    progress += Math.random() * 2;
+        // Empfange Fortschritt vom iframe
+        window.addEventListener('message', function(event){
+            if(event.data.progress !== undefined){
+                document.getElementById('progress-bar').style.width = event.data.progress + '%';
+                document.getElementById('progress-bar').textContent = event.data.progress + '%';
+            }
+            if(event.data.spender !== undefined){
+                document.getElementById('spender-count').textContent = event.data.spender + ' Spender';
+            }
+        });
     if(progress > 100) progress = 100;
     document.getElementById('progress-bar').style.width = progress + '%';
     document.getElementById('progress-bar').textContent = Math.floor(progress) + '%';
