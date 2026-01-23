@@ -138,8 +138,14 @@ function updateProgressUI() {
   const p = Math.floor((BuildController.builtBlocks / BuildController.totalBlocks) * 100 || 0);
   document.getElementById("progressText").innerText =
     `Fortschritt: ${p}% (${BuildController.builtBlocks}/${BuildController.totalBlocks})`;
-  document.getElementById("progressBar").style.width = p + "%";
+
+  const progressBar = document.getElementById("progressBar");
+
+  // Sanfte Animation
+  progressBar.style.transition = "width 0.4s ease-out";
+  progressBar.style.width = p + "%";
 }
+
 
 /* ======================================================
    QUEUE SYSTEM
@@ -385,29 +391,34 @@ function buildNext() {
 /* ======================================================
    SPENDE SIMULIEREN + AUTO-BUILD
 ====================================================== */
-document.getElementById("btnDonate").onclick = () => {
+function startAutoBuild() {
   BuildController.donationConfirmed = true;
   saveProgress();
 
-  if(!BuildController.buildInterval){
-    let interval = 500;       // Startintervall 500ms
-    let acceleration = 0.95;  // Faktor, um das Tempo leicht zu steigern
-    BuildController.buildInterval = setInterval(() => {
-      buildNext();
+  let interval = 500;       // Startintervall 500ms
+  const acceleration = 0.95; // Faktor, um das Tempo leicht zu steigern
+  const minInterval = 50;    // Minimalintervall
 
-      // Wenn alle Blöcke gebaut sind, Stop
-      if(BuildController.currentIndex >= BuildController.queue.length){
-        clearInterval(BuildController.buildInterval);
-      } else {
-        // Dynamisch Intervall anpassen, schneller bauen
-        interval = Math.max(50, interval * acceleration);
-        clearInterval(BuildController.buildInterval);
-        BuildController.buildInterval = setInterval(arguments.callee, interval);
-      }
+  function step() {
+    buildNext();
 
-    }, interval);
+    if(BuildController.currentIndex < BuildController.queue.length){
+      interval = Math.max(minInterval, interval * acceleration);
+      setTimeout(step, interval);
+    }
   }
-};
+
+  step(); // Startet die Schleife
+}
+
+// Optional: Button kann weiterhin die Spende simulieren
+document.getElementById("btnDonate").onclick = startAutoBuild;
+
+// Automatisch starten beim Laden der Seite
+window.addEventListener("load", () => {
+  startAutoBuild();
+});
+
 
 
 /* ======================================================
