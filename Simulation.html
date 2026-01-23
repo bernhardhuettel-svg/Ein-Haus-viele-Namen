@@ -146,14 +146,18 @@ function enqueue(step) {
 /* ======================================================
    BAU-BASTEINE
 ====================================================== */
-// Grundstück
+
+// Grundstück als kleine Steine
 function enqueueGround() {
-  enqueue(() => {
-    const g = new THREE.Mesh(new THREE.PlaneGeometry(plotWidth, plotDepth), matGround);
-    g.rotation.x = -Math.PI/2;
-    g.position.set(plotWidth/2,0,plotDepth/2);
-    scene.add(g);
-  });
+  const size = 0.5, gap = 0.05;
+  for(let x=0;x<plotWidth;x+=size+gap)
+    for(let z=0;z<plotDepth;z+=size+gap){
+      enqueue(() => {
+        const b = new THREE.Mesh(new THREE.BoxGeometry(size,0.1,size), matGround);
+        b.position.set(x+size/2,0,z+size/2);
+        scene.add(b);
+      });
+    }
 }
 
 // Raster
@@ -172,27 +176,49 @@ function enqueueWall(x0,z0,w,d,h) {
     for(let y=0;y<h;y+=size+gap)
       for(let z=0;z<d;z+=size+gap)
         enqueue(() => {
-          const b = new THREE.Mesh(
-            new THREE.BoxGeometry(size,size,size), matWall
-          );
+          const b = new THREE.Mesh(new THREE.BoxGeometry(size,size,size), matWall);
           b.position.set(x0+x+size/2, y+size/2, z0+z+size/2);
           houseGroup.add(b);
         });
 }
 
-// Dach
+// Dach pro Seite einzeln
 function enqueueRoof() {
-  const size = 0.4, slope=0.15;
+  const size = 0.4, slope = 0.15;
+  // Front
   for(let x=0;x<houseWidth;x+=size)
-    for(let z=0;z<houseDepth/2;z+=size) {
+    for(let z=0;z<houseDepth/2;z+=size){
       enqueue(() => {
-        const tileFront = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
-        tileFront.position.set(x+size/2, houseHeight+z*slope, z+size/2);
-        houseGroup.add(tileFront);
-
-        const tileBack = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
-        tileBack.position.set(x+size/2, houseHeight+z*slope, houseDepth - z - size/2);
-        houseGroup.add(tileBack);
+        const tile = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
+        tile.position.set(x+size/2, houseHeight+z*slope, z+size/2);
+        houseGroup.add(tile);
+      });
+    }
+  // Back
+  for(let x=0;x<houseWidth;x+=size)
+    for(let z=0;z<houseDepth/2;z+=size){
+      enqueue(() => {
+        const tile = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
+        tile.position.set(x+size/2, houseHeight+z*slope, houseDepth - z - size/2);
+        houseGroup.add(tile);
+      });
+    }
+  // Left
+  for(let z=0;z<houseDepth;z+=size)
+    for(let x=0;x<houseWidth/2;x+=size){
+      enqueue(() => {
+        const tile = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
+        tile.position.set(x+size/2, houseHeight+x*slope, z+size/2);
+        houseGroup.add(tile);
+      });
+    }
+  // Right
+  for(let z=0;z<houseDepth;z+=size)
+    for(let x=0;x<houseWidth/2;x+=size){
+      enqueue(() => {
+        const tile = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
+        tile.position.set(houseWidth - x - size/2, houseHeight+x*slope, z+size/2);
+        houseGroup.add(tile);
       });
     }
 }
@@ -351,11 +377,15 @@ function buildNext() {
 }
 
 /* ======================================================
-   SPENDE SIMULIEREN
+   SPENDE SIMULIEREN + AUTO-BUILD
 ====================================================== */
 document.getElementById("btnDonate").onclick = () => {
   BuildController.donationConfirmed = true;
   saveProgress();
+  // Starte automatisches Bauen alle 500ms
+  if(!BuildController.buildInterval){
+    BuildController.buildInterval = setInterval(buildNext, 500);
+  }
 };
 
 /* ======================================================
@@ -412,8 +442,6 @@ window.addEventListener("resize",()=>{
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth,innerHeight);
 });
-
-window.addEventListener("click", buildNext);
 
 </script>
 </body>
