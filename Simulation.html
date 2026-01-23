@@ -69,6 +69,12 @@ function saveProgress() {
   }));
 }
 
+  // Fortschritt zurücksetzen beim Neuladen
+  BuildController.currentIndex = 0;
+  BuildController.builtBlocks = 0;
+  BuildController.queue = [];
+  BuildController.totalBlocks = 0;
+  
 function loadProgress() {
   const data = JSON.parse(localStorage.getItem("buildProgress"));
   if (!data) return;
@@ -382,11 +388,27 @@ function buildNext() {
 document.getElementById("btnDonate").onclick = () => {
   BuildController.donationConfirmed = true;
   saveProgress();
-  // Starte automatisches Bauen alle 500ms
+
   if(!BuildController.buildInterval){
-    BuildController.buildInterval = setInterval(buildNext, 500);
+    let interval = 500;       // Startintervall 500ms
+    let acceleration = 0.95;  // Faktor, um das Tempo leicht zu steigern
+    BuildController.buildInterval = setInterval(() => {
+      buildNext();
+
+      // Wenn alle Blöcke gebaut sind, Stop
+      if(BuildController.currentIndex >= BuildController.queue.length){
+        clearInterval(BuildController.buildInterval);
+      } else {
+        // Dynamisch Intervall anpassen, schneller bauen
+        interval = Math.max(50, interval * acceleration);
+        clearInterval(BuildController.buildInterval);
+        BuildController.buildInterval = setInterval(arguments.callee, interval);
+      }
+
+    }, interval);
   }
 };
+
 
 /* ======================================================
    MAUSSTEERUNG (DREHEN + ZOOM)
