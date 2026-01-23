@@ -8,7 +8,7 @@
 <style>
 body { margin:0; background:#eef2f3; font-family:system-ui; overflow:hidden; }
 #container { width:100vw; height:100vh; }
-
+  
 button {
   position: fixed;
   left: 20px;
@@ -44,14 +44,25 @@ button {
 
 <div id="container"></div>
 
-<script type="module">
+    <div id="blockTooltip" style="
+    position: fixed;
+    pointer-events: none;
+    padding: 2px 6px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    font-size: 12px;
+    border-radius: 4px;
+    display: none;
+    z-index: 20;
+"></div>
+  <script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
 
 /* ======================================================
    BUILD CONTROLLER
 ====================================================== */
 const BuildController = {
-  donationConfirmed: false,
+  donationConfirmed: true,   // Auto-Build immer aktiv
   queue: [],
   currentIndex: 0,
   builtBlocks: 0,
@@ -59,31 +70,20 @@ const BuildController = {
 };
 
 /* ======================================================
-   PERSISTENZ
+   RESET PROGRESS
 ====================================================== */
-function saveProgress() {
-  localStorage.setItem("buildProgress", JSON.stringify({
-    donationConfirmed: BuildController.donationConfirmed,
-    currentIndex: BuildController.currentIndex,
-    builtBlocks: BuildController.builtBlocks
-  }));
-}
-
-// Komplett zurücksetzen beim Seitenladen
-BuildController.donationConfirmed = false;
-BuildController.currentIndex = 0;
-BuildController.builtBlocks = 0;
-BuildController.queue = [];
-BuildController.totalBlocks = 0;
-
-// Optional: localStorage löschen, damit keine alten Werte geladen werden
 localStorage.removeItem("buildProgress");
 
-  
-function loadProgress() {
-  const data = JSON.parse(localStorage.getItem("buildProgress"));
-  if (!data) return;
-  Object.assign(BuildController, data);
+/* ======================================================
+   RANDOM NAME FUNKTION
+====================================================== */
+function randomName(length = 8) {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  let name = "";
+  for(let i = 0; i < length; i++){
+    name += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return name;
 }
 
 /* ======================================================
@@ -143,14 +143,8 @@ function updateProgressUI() {
   const p = Math.floor((BuildController.builtBlocks / BuildController.totalBlocks) * 100 || 0);
   document.getElementById("progressText").innerText =
     `Fortschritt: ${p}% (${BuildController.builtBlocks}/${BuildController.totalBlocks})`;
-
-  const progressBar = document.getElementById("progressBar");
-
-  // Sanfte Animation
-  progressBar.style.transition = "width 0.4s ease-out";
-  progressBar.style.width = p + "%";
+  document.getElementById("progressBar").style.width = p + "%";
 }
-
 
 /* ======================================================
    QUEUE SYSTEM
@@ -161,20 +155,19 @@ function enqueue(step) {
 }
 
 /* ======================================================
-   BAU-BASTEINE
+   BAU-BASTEINE (mit Random-Namen)
 ====================================================== */
-
-// Grundstück als kleine Steine
+// Grundstück
 function enqueueGround() {
-  const size = 0.5, gap = 0.05;
-  for(let x=0;x<plotWidth;x+=size+gap)
-    for(let z=0;z<plotDepth;z+=size+gap){
+  const size = 1;
+  for(let x=0;x<plotWidth;x+=size)
+    for(let z=0;z<plotDepth;z+=size)
       enqueue(() => {
-        const b = new THREE.Mesh(new THREE.BoxGeometry(size,0.1,size), matGround);
-        b.position.set(x+size/2,0,z+size/2);
-        scene.add(b);
+        const g = new THREE.Mesh(new THREE.BoxGeometry(size,0.1,size), matGround);
+        g.position.set(x+size/2,0,z+size/2);
+        g.userData.name = randomName();
+        scene.add(g);
       });
-    }
 }
 
 // Raster
@@ -182,6 +175,7 @@ function enqueueGrid() {
   enqueue(() => {
     const grid = new THREE.GridHelper(plotWidth, plotWidth, 0x444444, 0x888888);
     grid.position.set(plotWidth/2,0.01,plotDepth/2);
+    grid.userData.name = randomName();
     scene.add(grid);
   });
 }
@@ -193,51 +187,38 @@ function enqueueWall(x0,z0,w,d,h) {
     for(let y=0;y<h;y+=size+gap)
       for(let z=0;z<d;z+=size+gap)
         enqueue(() => {
-          const b = new THREE.Mesh(new THREE.BoxGeometry(size,size,size), matWall);
+          const b = new THREE.Mesh(
+            new THREE.BoxGeometry(size,size,size), matWall
+          );
           b.position.set(x0+x+size/2, y+size/2, z0+z+size/2);
+          b.userData.name = randomName();
           houseGroup.add(b);
         });
 }
 
-// Dach pro Seite einzeln
+// Dach pro Seite
 function enqueueRoof() {
-  const size = 0.4, slope = 0.15;
+  const size = 0.4, slope=0.15;
+
   // Front
   for(let x=0;x<houseWidth;x+=size)
-    for(let z=0;z<houseDepth/2;z+=size){
+    for(let z=0;z<houseDepth/2;z+=size)
       enqueue(() => {
-        const tile = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
-        tile.position.set(x+size/2, houseHeight+z*slope, z+size/2);
-        houseGroup.add(tile);
+        const tileFront = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
+        tileFront.position.set(x+size/2, houseHeight+z*slope, z+size/2);
+        tileFront.userData.name = randomName();
+        houseGroup.add(tileFront);
       });
-    }
+
   // Back
   for(let x=0;x<houseWidth;x+=size)
-    for(let z=0;z<houseDepth/2;z+=size){
+    for(let z=0;z<houseDepth/2;z+=size)
       enqueue(() => {
-        const tile = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
-        tile.position.set(x+size/2, houseHeight+z*slope, houseDepth - z - size/2);
-        houseGroup.add(tile);
+        const tileBack = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
+        tileBack.position.set(x+size/2, houseHeight+z*slope, houseDepth - z - size/2);
+        tileBack.userData.name = randomName();
+        houseGroup.add(tileBack);
       });
-    }
-  // Left
-  for(let z=0;z<houseDepth;z+=size)
-    for(let x=0;x<houseWidth/2;x+=size){
-      enqueue(() => {
-        const tile = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
-        tile.position.set(x+size/2, houseHeight+x*slope, z+size/2);
-        houseGroup.add(tile);
-      });
-    }
-  // Right
-  for(let z=0;z<houseDepth;z+=size)
-    for(let x=0;x<houseWidth/2;x+=size){
-      enqueue(() => {
-        const tile = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
-        tile.position.set(houseWidth - x - size/2, houseHeight+x*slope, z+size/2);
-        houseGroup.add(tile);
-      });
-    }
 }
 
 // Fenster
@@ -248,6 +229,7 @@ function enqueueWindow(xStart, yStart, zStart, width, height, depth=0.2){
       enqueue(() => {
         const block = new THREE.Mesh(new THREE.BoxGeometry(size,size,depth), matGlass);
         block.position.set(xStart+x+size/2, yStart+y+size/2, zStart);
+        block.userData.name = randomName();
         houseGroup.add(block);
       });
 }
@@ -257,6 +239,7 @@ function enqueueDoor(x, y, z) {
   enqueue(() => {
     const d = new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2), matWood);
     d.position.set(x, y, z);
+    d.userData.name = randomName();
     houseGroup.add(d);
   });
 }
@@ -266,6 +249,7 @@ function enqueueTerrace() {
   enqueue(() => {
     const t = new THREE.Mesh(new THREE.BoxGeometry(5,0.15,10), matTerrace);
     t.position.set(houseWidth+2.5,0.075,houseDepth/2);
+    t.userData.name = randomName();
     houseGroup.add(t);
   });
 }
@@ -275,19 +259,22 @@ function enqueuePool() {
   enqueue(() => {
     const p = new THREE.Mesh(new THREE.BoxGeometry(10,0.5,10), matPool);
     p.position.set(houseWidth+5.5,-0.25,houseDepth/2);
+    p.userData.name = randomName();
     houseGroup.add(p);
   });
 }
 
-// Garten – Bäume
+// Bäume
 function enqueueTree(x, z, height=1.5, radius=0.25, crownRadius=1) {
   enqueue(() => {
     const trunk = new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,height), matTreeTrunk);
     trunk.position.set(x,height/2,z);
+    trunk.userData.name = randomName();
     scene.add(trunk);
 
     const crown = new THREE.Mesh(new THREE.SphereGeometry(crownRadius,16,16), matTreeCrown);
     crown.position.set(x,height+crownRadius*0.7,z);
+    crown.userData.name = randomName();
     scene.add(crown);
   });
 }
@@ -298,6 +285,7 @@ function enqueueFlower(x,z,height=0.3,radius=0.2,color=0xff5555){
     const f = new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,height),
                              new THREE.MeshStandardMaterial({color:color}));
     f.position.set(x,height/2,z);
+    f.userData.name = randomName();
     scene.add(f);
   });
 }
@@ -308,11 +296,13 @@ function enqueueFence(x0, z0, width, depth, height = 1.2, postWidth = 0.1, spaci
     enqueue(() => { 
       const pf = new THREE.Mesh(new THREE.BoxGeometry(postWidth,height,postWidth), matFence);
       pf.position.set(x,height/2,z0);
+      pf.userData.name = randomName();
       scene.add(pf);
     });
     enqueue(() => { 
       const pb = new THREE.Mesh(new THREE.BoxGeometry(postWidth,height,postWidth), matFence);
       pb.position.set(x,height/2,z0+depth);
+      pb.userData.name = randomName();
       scene.add(pb);
     });
   }
@@ -320,11 +310,13 @@ function enqueueFence(x0, z0, width, depth, height = 1.2, postWidth = 0.1, spaci
     enqueue(() => {
       const pl = new THREE.Mesh(new THREE.BoxGeometry(postWidth,height,postWidth), matFence);
       pl.position.set(x0,height/2,z);
+      pl.userData.name = randomName();
       scene.add(pl);
     });
     enqueue(() => {
       const pr = new THREE.Mesh(new THREE.BoxGeometry(postWidth,height,postWidth), matFence);
       pr.position.set(x0+width,height/2,z);
+      pr.userData.name = randomName();
       scene.add(pr);
     });
   }
