@@ -184,8 +184,9 @@ footer { text-align: center; padding: 40px 20px; background: #f8f8f8; color: #77
 
 <script>
 
-// Empfange Fortschritt vom iframe
 window.addEventListener('message', function(event){
+    if(event.origin !== window.location.origin) return; // nur eigene Seite erlauben
+
     if(event.data.progress !== undefined){
         document.getElementById('progress-bar').style.width = event.data.progress + '%';
         document.getElementById('progress-bar').textContent = event.data.progress + '%';
@@ -194,7 +195,7 @@ window.addEventListener('message', function(event){
         document.getElementById('spender-count').textContent = event.data.spender + ' Spender';
     }
 });
-updateProgress();
+
 </script>
 
 </body>
