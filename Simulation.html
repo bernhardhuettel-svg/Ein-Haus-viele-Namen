@@ -140,7 +140,17 @@ const plotDepth = 20;
 let currentProgress = 0; // Für smooth Animation
 
 function updateProgressUI() {
-  const targetProgress = Math.floor((BuildController.builtBlocks / BuildController.totalBlocks) * 100 || 0);
+  if(BuildController.totalBlocks === 0) return;
+
+  const targetProgress = Math.floor((BuildController.builtBlocks / BuildController.totalBlocks) * 100);
+
+  // Sende Fortschritt
+  if(window.parent){
+      window.parent.postMessage({
+          progress: targetProgress,
+          spender: BuildController.builtBlocks
+      }, '*');
+  }
 
   // Smooth Animation
   const step = () => {
@@ -158,13 +168,6 @@ function updateProgressUI() {
       document.getElementById("progressBar").style.width = currentProgress + "%";
     }
   };
-
-        // Sende Fortschritt an die Hauptseite
-      if(window.parent){
-          window.parent.postMessage({
-              progress: Math.floor((BuildController.builtBlocks / BuildController.totalBlocks) * 100),
-              spender: BuildController.builtBlocks // oder eine andere Metrik für Spender
-        }, '*');
 
   step();
 }
