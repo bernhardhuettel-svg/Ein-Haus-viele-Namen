@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Community Build – Komplettes Grundstück</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body { margin:0; background:#eef2f3; font-family:system-ui; overflow:hidden; }
+#container { width:100vw; height:100vh; }
+
+button {
+  position: fixed;
+  left: 20px;
+  padding: 8px 14px;
+  z-index: 10;
+  cursor: pointer;
+}
+
+#progressBox {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  background: #ffffffcc;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<button id="btnDonate">Spende simulieren</button>
+
+<div id="progressBox">
+  <div id="progressText">Fortschritt: 0%</div>
+  <div style="width:200px;height:8px;background:#ddd;border-radius:4px;">
+    <div id="progressBar"
+         style="height:100%;width:0%;background:#4caf50;border-radius:4px;">
+    </div>
+  </div>
+</div>
+
+<div id="container"></div>
+
+<script type="module">
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
+
+/* ======================================================
+   BUILD CONTROLLER
+====================================================== */
+const BuildController = {
+  donationConfirmed: false,
+  queue: [],
+  currentIndex: 0,
+  builtBlocks: 0,
+  totalBlocks: 0
+};
+
+/* ======================================================
+   PERSISTENZ
+====================================================== */
+function saveProgress() {
+  localStorage.setItem("buildProgress", JSON.stringify({
+    donationConfirmed: BuildController.donationConfirmed,
+    currentIndex: BuildController.currentIndex,
+    builtBlocks: BuildController.builtBlocks
+  }));
+}
+
+function loadProgress() {
+  const data = JSON.parse(localStorage.getItem("buildProgress"));
+  if (!data) return;
+  Object.assign(BuildController, data);
+}
+
+/* ======================================================
+   THREE SETUP
+====================================================== */
+const container = document.getElementById("container");
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xcce6ff);
+
+const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 500);
+camera.position.set(30, 18, 30);
+
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(devicePixelRatio);
+container.appendChild(renderer.domElement);
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+const sun = new THREE.DirectionalLight(0xffffff, 1);
+sun.position.set(50,100,50);
+scene.add(sun);
+
+/* ======================================================
+   MATERIALIEN
+====================================================== */
+const matGround = new THREE.MeshStandardMaterial({color:0x7fa86c});
+const matWall   = new THREE.MeshStandardMaterial({color:0xc7a17a});
+const matRoof   = new THREE.MeshStandardMaterial({color:0x8b3e2f});
+const matGlass  = new THREE.MeshStandardMaterial({color:0x99ccff, transparent:true, opacity:0.6});
+const matWood   = new THREE.MeshStandardMaterial({color:0x4a2e1b});
+const matPool   = new THREE.MeshStandardMaterial({color:0x4da6ff, transparent:true, opacity:0.7});
+const matTerrace = new THREE.MeshStandardMaterial({color:0xd2b48c});
+const matFence = new THREE.MeshStandardMaterial({color:0x8b5a2b});
+const matTreeTrunk = new THREE.MeshStandardMaterial({color:0x5a3b1e});
+const matTreeCrown = new THREE.MeshStandardMaterial({color:0x2f7d32});
+
+/* ======================================================
+   HAUSGRUPPE
+====================================================== */
+const houseGroup = new THREE.Group();
+houseGroup.position.set(5,0,4);
+scene.add(houseGroup);
+
+/* ======================================================
+   PROJEKTUMFANG
+====================================================== */
+const houseWidth = 12;
+const houseDepth = 12;
+const houseHeight = 3;
+const plotWidth = 40;
+const plotDepth = 20;
+
+/* ======================================================
+   PROGRESS UI
+====================================================== */
+function updateProgressUI() {
+  const p = Math.floor((BuildController.builtBlocks / BuildController.totalBlocks) * 100 || 0);
+  document.getElementById("progressText").innerText =
+    `Fortschritt: ${p}% (${BuildController.builtBlocks}/${BuildController.totalBlocks})`;
+  document.getElementById("progressBar").style.width = p + "%";
+}
+
+/* ======================================================
+   QUEUE SYSTEM
+====================================================== */
+function enqueue(step) {
+  BuildController.queue.push(step);
+  BuildController.totalBlocks++;
+}
+
+/* ======================================================
+   BAU-BASTEINE
+====================================================== */
+// Grundstück
+function enqueueGround() {
+  enqueue(() => {
+    const g = new THREE.Mesh(new THREE.PlaneGeometry(plotWidth, plotDepth), matGround);
+    g.rotation.x = -Math.PI/2;
+    g.position.set(plotWidth/2,0,plotDepth/2);
+    scene.add(g);
+  });
+}
+
+// Raster
+function enqueueGrid() {
+  enqueue(() => {
+    const grid = new THREE.GridHelper(plotWidth, plotWidth, 0x444444, 0x888888);
+    grid.position.set(plotWidth/2,0.01,plotDepth/2);
+    scene.add(grid);
+  });
+}
+
+// Wände
+function enqueueWall(x0,z0,w,d,h) {
+  const size = 0.4, gap = 0.03;
+  for(let x=0;x<w;x+=size+gap)
+    for(let y=0;y<h;y+=size+gap)
+      for(let z=0;z<d;z+=size+gap)
+        enqueue(() => {
+          const b = new THREE.Mesh(
+            new THREE.BoxGeometry(size,size,size), matWall
+          );
+          b.position.set(x0+x+size/2, y+size/2, z0+z+size/2);
+          houseGroup.add(b);
+        });
+}
+
+// Dach
+function enqueueRoof() {
+  const size = 0.4, slope=0.15;
+  for(let x=0;x<houseWidth;x+=size)
+    for(let z=0;z<houseDepth/2;z+=size) {
+      enqueue(() => {
+        const tileFront = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
+        tileFront.position.set(x+size/2, houseHeight+z*slope, z+size/2);
+        houseGroup.add(tileFront);
+
+        const tileBack = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
+        tileBack.position.set(x+size/2, houseHeight+z*slope, houseDepth - z - size/2);
+        houseGroup.add(tileBack);
+      });
+    }
+}
+
+// Fenster
+function enqueueWindow(xStart, yStart, zStart, width, height, depth=0.2){
+  const size=0.3, gap=0.05;
+  for(let x=0;x<width;x+=size+gap)
+    for(let y=0;y<height;y+=size+gap)
+      enqueue(() => {
+        const block = new THREE.Mesh(new THREE.BoxGeometry(size,size,depth), matGlass);
+        block.position.set(xStart+x+size/2, yStart+y+size/2, zStart);
+        houseGroup.add(block);
+      });
+}
+
+// Türen
+function enqueueDoor(x, y, z) {
+  enqueue(() => {
+    const d = new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2), matWood);
+    d.position.set(x, y, z);
+    houseGroup.add(d);
+  });
+}
+
+// Terrasse
+function enqueueTerrace() {
+  enqueue(() => {
+    const t = new THREE.Mesh(new THREE.BoxGeometry(5,0.15,10), matTerrace);
+    t.position.set(houseWidth+2.5,0.075,houseDepth/2);
+    houseGroup.add(t);
+  });
+}
+
+// Pool
+function enqueuePool() {
+  enqueue(() => {
+    const p = new THREE.Mesh(new THREE.BoxGeometry(10,0.5,10), matPool);
+    p.position.set(houseWidth+5.5,-0.25,houseDepth/2);
+    houseGroup.add(p);
+  });
+}
+
+// Garten – Bäume
+function enqueueTree(x, z, height=1.5, radius=0.25, crownRadius=1) {
+  enqueue(() => {
+    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,height), matTreeTrunk);
+    trunk.position.set(x,height/2,z);
+    scene.add(trunk);
+
+    const crown = new THREE.Mesh(new THREE.SphereGeometry(crownRadius,16,16), matTreeCrown);
+    crown.position.set(x,height+crownRadius*0.7,z);
+    scene.add(crown);
+  });
+}
+
+// Blumen
+function enqueueFlower(x,z,height=0.3,radius=0.2,color=0xff5555){
+  enqueue(() => {
+    const f = new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,height),
+                             new THREE.MeshStandardMaterial({color:color}));
+    f.position.set(x,height/2,z);
+    scene.add(f);
+  });
+}
+
+// Zaun
+function enqueueFence(x0, z0, width, depth, height = 1.2, postWidth = 0.1, spacing = 0.5){
+  for(let x=x0;x<=x0+width;x+=spacing){
+    enqueue(() => { 
+      const pf = new THREE.Mesh(new THREE.BoxGeometry(postWidth,height,postWidth), matFence);
+      pf.position.set(x,height/2,z0);
+      scene.add(pf);
+    });
+    enqueue(() => { 
+      const pb = new THREE.Mesh(new THREE.BoxGeometry(postWidth,height,postWidth), matFence);
+      pb.position.set(x,height/2,z0+depth);
+      scene.add(pb);
+    });
+  }
+  for(let z=z0;z<=z0+depth;z+=spacing){
+    enqueue(() => {
+      const pl = new THREE.Mesh(new THREE.BoxGeometry(postWidth,height,postWidth), matFence);
+      pl.position.set(x0,height/2,z);
+      scene.add(pl);
+    });
+    enqueue(() => {
+      const pr = new THREE.Mesh(new THREE.BoxGeometry(postWidth,height,postWidth), matFence);
+      pr.position.set(x0+width,height/2,z);
+      scene.add(pr);
+    });
+  }
+}
+
+/* ======================================================
+   KOMPLETTE BAUABFOLGE
+====================================================== */
+function prepareBuildQueue() {
+  enqueueGround();
+  enqueueGrid();
+
+  enqueueWall(0,0,houseWidth,0.4,houseHeight);
+  enqueueWall(0,houseDepth-0.4,houseWidth,0.4,houseHeight);
+  enqueueWall(0,0,0.4,houseDepth,houseHeight);
+  enqueueWall(houseWidth-0.4,0,0.4,houseDepth,houseHeight);
+
+  enqueueRoof();
+
+  enqueueWindow(2,1.2,0,2.4,1.6);
+  enqueueWindow(7.6,1.2,0,2.4,1.6);
+
+  enqueueDoor(houseWidth/2,1.15,0);
+
+  enqueueTerrace();
+  enqueuePool();
+
+  // Bäume
+  enqueueTree(1,1,3,0.35,2);
+  enqueueTree(plotWidth-1,1,3,0.35,2);
+  enqueueTree(1,plotDepth-1,3,0.35,2);
+  enqueueTree(plotWidth-1,plotDepth-1,3,0.35,2);
+  enqueueTree(plotWidth/2,1,2.5,0.3,1.5);
+  enqueueTree(plotWidth/2,plotDepth-1,2.5,0.3,1.5);
+  enqueueTree(1,plotDepth/2,2.5,0.3,1.5);
+  enqueueTree(plotWidth-1,plotDepth/2,2.5,0.3,1.5);
+
+  // Blumen zufällig
+  for(let i=0;i<20;i++){
+    let x,z;
+    do {
+      x = Math.random()*plotWidth;
+      z = Math.random()*plotDepth;
+    } while (
+      x>5-2 && x<5+houseWidth+2 && z>4-2 && z<4+houseDepth+2
+    );
+    const colors = [0xff4444,0xffcc44,0xff88ff,0xffff44,0x44ff44,0x44ccff];
+    enqueueFlower(x,z,0.25+Math.random()*0.1,0.15+Math.random()*0.05, colors[Math.floor(Math.random()*colors.length)]);
+  }
+
+  enqueueFence(0,0,plotWidth,plotDepth);
+}
+
+/* ======================================================
+   BUILD STEP
+====================================================== */
+function buildNext() {
+  if (!BuildController.donationConfirmed) return;
+  if (BuildController.currentIndex >= BuildController.queue.length) return;
+
+  BuildController.queue[BuildController.currentIndex]();
+  BuildController.currentIndex++;
+  BuildController.builtBlocks++;
+
+  updateProgressUI();
+  saveProgress();
+}
+
+/* ======================================================
+   SPENDE SIMULIEREN
+====================================================== */
+document.getElementById("btnDonate").onclick = () => {
+  BuildController.donationConfirmed = true;
+  saveProgress();
+};
+
+/* ======================================================
+   MAUSSTEERUNG (DREHEN + ZOOM)
+====================================================== */
+let isMouseDown = false;
+let mouseX = 0;
+let targetRotation = 0;
+let targetRotationOnMouseDown = 0;
+
+window.addEventListener('mousedown', e => {
+  isMouseDown = true;
+  mouseX = e.clientX;
+  targetRotationOnMouseDown = targetRotation;
+});
+
+window.addEventListener('mousemove', e => {
+  if(!isMouseDown) return;
+  const deltaX = e.clientX - mouseX;
+  targetRotation = targetRotationOnMouseDown + deltaX*0.005;
+});
+
+window.addEventListener('mouseup', e => {
+  isMouseDown = false;
+});
+
+window.addEventListener('wheel', e => {
+  camera.position.y -= e.deltaY*0.01;
+  camera.position.y = Math.max(5, Math.min(50, camera.position.y));
+});
+
+/* ======================================================
+   START
+====================================================== */
+loadProgress();
+prepareBuildQueue();
+updateProgressUI();
+
+/* ======================================================
+   RENDER LOOP
+====================================================== */
+function animate() {
+  requestAnimationFrame(animate);
+  const radius = 30;
+  camera.position.x = radius * Math.cos(targetRotation);
+  camera.position.z = radius * Math.sin(targetRotation);
+  camera.lookAt(plotWidth/2,1.5,plotDepth/2);
+  renderer.render(scene,camera);
+}
+animate();
+
+window.addEventListener("resize",()=>{
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+
+window.addEventListener("click", buildNext);
+
+</script>
+</body>
+</html>
