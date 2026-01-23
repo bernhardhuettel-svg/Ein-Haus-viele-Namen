@@ -5,150 +5,98 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ein Haus – viele Namen – Ela & Bernhard</title>
 <style>
-    /* Grundlegendes Styling */
-    body {
-        font-family: system-ui, -apple-system, sans-serif;
-        margin: 0;
-        padding: 0;
-        color: #222;
-        line-height: 1.7;
-        background: #fefefe;
-    }
-    header {
-        text-align: center;
-        padding: 60px 20px 40px;
-        background: #e6f0ff;
-    }
-    header h1 {
-        font-size: 2.6em;
-        margin-bottom: 0.2em;
-    }
-    header h2 {
-        font-size: 1.5em;
-        margin-bottom: 1em;
-        font-weight: normal;
-    }
-    header p {
-        font-size: 1.2em;
-        max-width: 600px;
-        margin: 0 auto 20px;
-    }
-    .cta-button {
-        display: inline-block;
-        background: #0066cc;
-        color: #fff;
-        padding: 14px 28px;
-        font-weight: 600;
-        text-decoration: none;
-        border-radius: 6px;
-        margin-top: 10px;
-        transition: 0.2s;
-    }
-    .cta-button:hover {
-        background: #0055aa;
-    }
-
-    main {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 40px 20px;
-    }
-    h2 {
-        font-size: 2em;
-        margin-top: 2em;
-        border-bottom: 2px solid #ddd;
-        padding-bottom: 0.5em;
-    }
-    section {
-        margin-bottom: 3em;
-    }
-    details {
-        margin: 1.5em 0;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        overflow: hidden;
-    }
-    summary {
-        padding: 1em 1.2em;
-        background: #f8f8f8;
-        cursor: pointer;
-        font-weight: 600;
-    }
-    summary:hover {
-        background: #f0f0f0;
-    }
-    .content {
-        padding: 1.2em 1.5em;
-    }
-    img.profile {
-        display: block;
-        max-width: 160px;
-        border-radius: 50%;
-        margin: 1em auto;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    }
-    blockquote {
-        border-left: 4px solid #ccc;
-        padding-left: 1.2em;
-        margin: 1.5em 0;
-        color: #555;
-        font-style: italic;
-    }
-
-    /* Fortschrittsbalken */
-    .progress-container {
-        background: #eee;
-        border-radius: 6px;
-        overflow: hidden;
-        margin: 20px 0;
-    }
-    .progress-bar {
-        height: 24px;
-        background: #0066cc;
-        width: 0%;
-        line-height: 24px;
-        color: #fff;
-        text-align: center;
-        transition: width 0.5s ease;
-    }
-
-    footer {
-        text-align: center;
-        padding: 40px 20px;
-        background: #f8f8f8;
-        color: #777;
-        font-size: 0.95em;
-    }
-
-    /* Sticky PayPal Button */
-    .paypal-button {
-        position: fixed;
-        right: 20px;
-        top: 20px;
-        z-index: 1000;
-        padding: 12px 18px;
-        background: #ffc439;
-        border: none;
-        border-radius: 6px;
-        font-size: 14px;
-        cursor: pointer;
-    }
-    .paypal-button:hover {
-        background: #e6b72e;
-    }
+/* ====== Grundlegendes Styling ====== */
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #222;
+    line-height: 1.7;
+    background: #fefefe;
+}
+header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: #e6f0ff;
+}
+header h1 { font-size: 2.6em; margin-bottom: 0.2em; }
+header h2 { font-size: 1.5em; margin-bottom: 1em; font-weight: normal; }
+header p { font-size: 1.2em; max-width: 600px; margin: 0 auto 20px; }
+.cta-button {
+    display: inline-block;
+    background: #0066cc;
+    color: #fff;
+    padding: 14px 28px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-top: 10px;
+    transition: 0.2s;
+}
+.cta-button:hover { background: #0055aa; }
+main { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+h2 { font-size: 2em; margin-top: 2em; border-bottom: 2px solid #ddd; padding-bottom: 0.5em; }
+section { margin-bottom: 3em; }
+details { margin: 1.5em 0; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; }
+summary { padding: 1em 1.2em; background: #f8f8f8; cursor: pointer; font-weight: 600; }
+summary:hover { background: #f0f0f0; }
+.content { padding: 1.2em 1.5em; }
+img.profile { display: block; max-width: 160px; border-radius: 50%; margin: 1em auto; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+blockquote { border-left: 4px solid #ccc; padding-left: 1.2em; margin: 1.5em 0; color: #555; font-style: italic; }
+/* Fortschrittsbalken */
+.progress-container { background: #eee; border-radius: 6px; overflow: hidden; margin: 20px 0; }
+.progress-bar { height: 24px; background: #0066cc; width: 0%; line-height: 24px; color: #fff; text-align: center; transition: width 0.5s ease; }
+/* Footer */
+footer { text-align: center; padding: 40px 20px; background: #f8f8f8; color: #777; font-size: 0.95em; }
+/* Sticky PayPal Button */
+.paypal-button {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    z-index: 1000;
+    padding: 12px 18px;
+    background: #ffc439;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.paypal-button:hover { background: #e6b72e; }
+/* 3D Container */
+#simulation-container { width: 100%; height: 600px; background: #eef2f3; margin-top: 20px; border-radius: 8px; position: relative; }
+#blockTooltip {
+  position: absolute;
+  pointer-events: none;
+  padding: 2px 6px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 12px;
+  border-radius: 4px;
+  display: none;
+  z-index: 20;
+}
+#progressBox {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  background: #ffffffcc;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  z-index: 10;
+}
 </style>
 </head>
 <body>
 
 <header>
-    <h1>Ein Haus – viele Namen</h1>
-    <h2>Ela & Bernhard</h2>
-    <p>Ein reales Haus in Schirmitz bei Weiden – gemeinsam gebaut, finanziert und gestaltet. Jeder Beitrag sichtbar und wertvoll.</p>
-    <a href="#lego" class="cta-button">Zum interaktiven 3D Lego-Bausatz →</a>
+<h1>Ein Haus – viele Namen</h1>
+<h2>Ela & Bernhard</h2>
+<p>Ein reales Haus in Schirmitz bei Weiden – gemeinsam gebaut, finanziert und gestaltet. Jeder Beitrag sichtbar und wertvoll.</p>
+<a href="#lego-simulation" class="cta-button">Zum interaktiven 3D Bausatz →</a>
 </header>
 
 <main>
-
 <section id="projekt">
     <h2>Unsere Vision</h2>
     <p>Wir bauen gemeinsam ein Haus – sichtbar für jeden Spender. Jeder Euro wird in virtuelle Steine umgesetzt, die das digitale Haus wachsen lassen. Mit deiner Hilfe entsteht nicht nur ein Gebäude, sondern eine lebendige Gemeinschaft.</p>
@@ -162,14 +110,10 @@
             <img src="bernhard.png" alt="Bernhard" class="profile">
             <h3>Bernhard</h3>
             <p>Ich bin Bernhard, Projektleiter und Visionär hinter „Ein Haus – viele Namen“. Ich liebe es, Ideen digital und real zu verbinden und Menschen zusammenzubringen.</p>
-
             <img src="ela.png" alt="Ela" class="profile">
             <h3>Ela</h3>
             <p>Ich bin Ela und unterstütze Bernhard bei allen kreativen und organisatorischen Aufgaben. Für uns ist dieses Projekt eine Herzensangelegenheit, das Menschen verbindet.</p>
-
-            <blockquote>
-            „Ein Haus ist mehr als Wände und Dach – es ist das, was Menschen gemeinsam daraus machen. Unser Traum ist es, etwas zu schaffen, das Menschen zusammenbringt und jeden Beitrag sichtbar macht.“
-            </blockquote>
+            <blockquote>„Ein Haus ist mehr als Wände und Dach – es ist das, was Menschen gemeinsam daraus machen. Unser Traum ist es, etwas zu schaffen, das Menschen zusammenbringt und jeden Beitrag sichtbar macht.“</blockquote>
         </div>
     </details>
 </section>
@@ -203,7 +147,6 @@
                 <li>Teilen auf Social Media → mehr Reichweite = schnelleres Projekt</li>
             </ul>
             <p>Alle Beiträge werden namentlich auf der 3D-Darstellung verewigt.</p>
-            <a href="#lego" class="cta-button">Jetzt teilnehmen →</a>
         </div>
     </details>
 </section>
@@ -224,11 +167,12 @@
     </div>
 </section>
 
-<section id="lego">
-    <h2>Interaktiver 3D Lego-Bausatz</h2>
-    <p>Erlebe dein Mitwirken digital – jeder Stein sichtbar. Klicke unten und starte dein Erlebnis:</p>
-    <a href="lego.html" class="cta-button">Zum 3D Lego-Bausatz →</a>
+<section id="lego-simulation">
+    <h2>Interaktiver 3D Bausatz</h2>
+    <p>Erlebe dein Mitwirken direkt im digitalen Modell. Jeder Stein zeigt einen Unterstützer.</p>
+    <div id="simulation-container"></div>
 </section>
+</main>
 
 <!-- PayPal Spenden Button -->
 <form action="https://www.paypal.com/donate" method="post" target="_blank">
@@ -244,20 +188,140 @@
     <small>Hinweis: Alle Beiträge freiwillig, keine steuerlich absetzbare Spende.</small>
 </footer>
 
-<script>
-    // Beispiel: Fortschrittsbalken animieren
-    const progress = document.getElementById('progress-bar');
-    let width = 0;
-    // Simuliert Fortschritt (Später dynamisch ersetzen)
-    const interval = setInterval(() => {
-        if(width >= 65){ // Beispiel: 65% erreicht
-            clearInterval(interval);
-        } else {
-            width++;
-            progress.style.width = width + '%';
-            progress.innerText = width + '%';
-        }
-    }, 30);
+<!-- ====== 3D Simulation JS ====== -->
+<script type="module">
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
+
+// ========================= SETUP =========================
+const container = document.getElementById("simulation-container");
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xcce6ff);
+
+const camera = new THREE.PerspectiveCamera(60, container.clientWidth/container.clientHeight, 0.1, 500);
+camera.position.set(30,18,30);
+
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(container.clientWidth, container.clientHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+container.appendChild(renderer.domElement);
+
+scene.add(new THREE.AmbientLight(0xffffff,0.6));
+const sun = new THREE.DirectionalLight(0xffffff,1);
+sun.position.set(50,100,50);
+scene.add(sun);
+
+// Materialien
+const matGround = new THREE.MeshStandardMaterial({color:0x7fa86c});
+const matWall = new THREE.MeshStandardMaterial({color:0xc7a17a});
+const matRoof = new THREE.MeshStandardMaterial({color:0x8b3e2f});
+const matGlass = new THREE.MeshStandardMaterial({color:0x99ccff, transparent:true, opacity:0.6});
+const matWood = new THREE.MeshStandardMaterial({color:0x4a2e1b});
+const matPool = new THREE.MeshStandardMaterial({color:0x4da6ff, transparent:true, opacity:0.7});
+const matTerrace = new THREE.MeshStandardMaterial({color:0xd2b48c});
+const matFence = new THREE.MeshStandardMaterial({color:0x8b5a2b});
+const matTreeTrunk = new THREE.MeshStandardMaterial({color:0x5a3b1e});
+const matTreeCrown = new THREE.MeshStandardMaterial({color:0x2f7d32});
+
+// Haus Gruppe
+const houseGroup = new THREE.Group();
+houseGroup.position.set(5,0,4);
+scene.add(houseGroup);
+
+// Grundstücksgröße
+const houseWidth = 12, houseDepth=12, houseHeight=3, plotWidth=40, plotDepth=20;
+
+// Progress UI
+const progressText = document.getElementById("progressText");
+const progressBar = document.getElementById("progressBar");
+let BuildController = { queue:[], currentIndex:0, builtBlocks:0, totalBlocks:0 };
+let currentProgress=0;
+
+// Random Name Funktion
+function randomName(length=8){
+  const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  let name="";
+  for(let i=0;i<length;i++){name+=chars.charAt(Math.floor(Math.random()*chars.length));}
+  return name;
+}
+
+// ========================= BUILD QUEUE =========================
+function enqueue(step){BuildController.queue.push(step);BuildController.totalBlocks++;}
+function updateProgressUI(){
+  const targetProgress=Math.floor((BuildController.builtBlocks/BuildController.totalBlocks)*100||0);
+  const stepFunc = ()=>{
+    if(currentProgress<targetProgress){currentProgress+=Math.min(1,targetProgress-currentProgress);
+      progressText.innerText=`Fortschritt: ${Math.floor(currentProgress)}% (${BuildController.builtBlocks}/${BuildController.totalBlocks})`;
+      progressBar.style.width=currentProgress+"%";
+      requestAnimationFrame(stepFunc);
+    }else{
+      currentProgress=targetProgress;
+      progressText.innerText=`Fortschritt: ${Math.floor(currentProgress)}% (${BuildController.builtBlocks}/${BuildController.totalBlocks})`;
+      progressBar.style.width=currentProgress+"%";
+    }
+  }; stepFunc();
+}
+
+// ========= BAU-FUNKTIONEN =========
+function enqueueGround(){const size=1;for(let x=0;x<plotWidth;x+=size)for(let z=0;z<plotDepth;z+=size)enqueue(()=>{const g=new THREE.Mesh(new THREE.BoxGeometry(size,0.1,size),matGround);g.position.set(x+size/2,0,z+size/2);g.userData.name=randomName();scene.add(g);});}
+function enqueueWall(x0,z0,w,d,h){const size=0.4,gap=0.03;for(let x=0;x<w;x+=size+gap)for(let y=0;y<h;y+=size+gap)for(let z=0;z<d;z+=size+gap)enqueue(()=>{const b=new THREE.Mesh(new THREE.BoxGeometry(size,size,size),matWall);b.position.set(x0+x+size/2,y+size/2,z0+z+size/2);b.userData.name=randomName();houseGroup.add(b);});}
+function enqueueRoof(){const size=0.4,slope=0.15;for(let x=0;x<houseWidth;x+=size)for(let z=0;z<houseDepth/2;z+=size)enqueue(()=>{const tileFront=new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size),matRoof);tileFront.position.set(x+size/2,houseHeight+z*slope,z+size/2);tileFront.userData.name=randomName();houseGroup.add(tileFront);});for(let x=0;x<houseWidth;x+=size)for(let z=0;z<houseDepth/2;z+=size)enqueue(()=>{const tileBack=new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size),matRoof);tileBack.position.set(x+size/2,houseHeight+z*slope,houseDepth-z-size/2);tileBack.userData.name=randomName();houseGroup.add(tileBack);});}
+function enqueueWindow(xStart,yStart,zStart,width,height,depth=0.2){const size=0.3,gap=0.05;for(let x=0;x<width;x+=size+gap)for(let y=0;y<height;y+=size+gap)enqueue(()=>{const block=new THREE.Mesh(new THREE.BoxGeometry(size,size,depth),matGlass);block.position.set(xStart+x+size/2,yStart+y+size/2,zStart);block.userData.name=randomName();houseGroup.add(block);});}
+function enqueueDoor(x,y,z){enqueue(()=>{const d=new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2),matWood);d.position.set(x,y,z);d.userData.name=randomName();houseGroup.add(d);});}
+function enqueueTerrace(){enqueue(()=>{const t=new THREE.Mesh(new THREE.BoxGeometry(5,0.15,10),matTerrace);t.position.set(houseWidth+2.5,0.075,houseDepth/2);houseGroup.add(t);});}
+function enqueuePool(){enqueue(()=>{const p=new THREE.Mesh(new THREE.BoxGeometry(10,0.5,10),matPool);p.position.set(houseWidth+5.5,-0.25,houseDepth/2);houseGroup.add(p);});}
+function enqueueTree(x,z,height=1.5,radius=0.25,crownRadius=1){enqueue(()=>{const trunk=new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,height),matTreeTrunk);trunk.position.set(x,height/2,z);trunk.userData.name=randomName();scene.add(trunk);const crown=new THREE.Mesh(new THREE.SphereGeometry(crownRadius,16,16),matTreeCrown);crown.position.set(x,height+crownRadius*0.7,z);crown.userData.name=randomName();scene.add(crown);});}
+function enqueueFlower(x,z,height=0.3,radius=0.2,color=0xff5555){enqueue(()=>{const f=new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,height),new THREE.MeshStandardMaterial({color:color}));f.position.set(x,height/2,z);f.userData.name=randomName();scene.add(f);});}
+
+// ========= BAU-QUEUE =========
+function prepareBuildQueue(){
+enqueueGround();
+enqueueWall(0,0,houseWidth,0.4,houseHeight);
+enqueueWall(0,houseDepth-0.4,houseWidth,0.4,houseHeight);
+enqueueWall(0,0,0.4,houseDepth,houseHeight);
+enqueueWall(houseWidth-0.4,0,0.4,houseDepth,houseHeight);
+enqueueRoof();
+enqueueWindow(2,1.2,0,2.4,1.6);
+enqueueWindow(7.6,1.2,0,2.4,1.6);
+enqueueDoor(houseWidth/2,1.15,0);
+enqueueTerrace();
+enqueuePool();
+enqueueTree(1,1,3,0.35,2);
+enqueueTree(plotWidth-1,1,3,0.35,2);
+enqueueTree(1,plotDepth-1,3,0.35,2);
+enqueueTree(plotWidth-1,plotDepth-1,3,0.35,2);
+for(let i=0;i<20;i++){let x=Math.random()*plotWidth,z=Math.random()*plotDepth;enqueueFlower(x,z,0.25+Math.random()*0.1,0.15+Math.random()*0.05,[0xff4444,0xffcc44,0xff88ff,0xffff44,0x44ff44,0x44ccff][Math.floor(Math.random()*6)]);}
+}
+prepareBuildQueue();
+
+// ========= AUTO BUILD =========
+let buildInterval=900,minInterval=10,acceleration=5;
+function buildNext(){if(BuildController.currentIndex>=BuildController.queue.length)return;BuildController.queue[BuildController.currentIndex]();BuildController.currentIndex++;BuildController.builtBlocks++;updateProgressUI();}
+function autoBuild(){buildNext();buildInterval=Math.max(minInterval,buildInterval-acceleration);setTimeout(autoBuild,buildInterval);}
+autoBuild();
+
+// ========= MOUSE ROTATION =========
+let isMouseDown=false,mouseX=0,targetRotation=0,targetRotationOnMouseDown=0;
+window.addEventListener('mousedown', e=>{isMouseDown=true;mouseX=e.clientX;targetRotationOnMouseDown=targetRotation;});
+window.addEventListener('mousemove', e=>{if(!isMouseDown)return;targetRotation=targetRotationOnMouseDown+(e.clientX-mouseX)*0.005;});
+window.addEventListener('mouseup', e=>{isMouseDown=false;});
+window.addEventListener('wheel', e=>{camera.position.y-=e.deltaY*0.01;camera.position.y=Math.max(5,Math.min(50,camera.position.y));});
+
+// ========= TOOLTIP =========
+const raycaster=new THREE.Raycaster();
+const mouse=new THREE.Vector2();
+const tooltip=document.getElementById("blockTooltip");
+window.addEventListener("mousemove", (event)=>{
+    mouse.x = (event.clientX / container.clientWidth) * 2 - 1;
+    mouse.y = - (event.clientY / container.clientHeight) * 2 + 1;
+    raycaster.setFromCamera(mouse,camera);
+    const intersects = raycaster.intersectObjects(scene.children,true);
+    if(intersects.length>0){const obj=intersects[0].object;if(obj.userData.name){tooltip.style.display="block";tooltip.style.left=event.clientX+10+"px";tooltip.style.top=event.clientY+10+"px";tooltip.innerText=obj.userData.name;}else{tooltip.style.display="none";}}else{tooltip.style.display="none";}
+});
+
+// ========= ANIMATE =========
+function animate(){requestAnimationFrame(animate);const radius=30;camera.position.x=radius*Math.cos(targetRotation);camera.position.z=radius*Math.sin(targetRotation);camera.lookAt(plotWidth/2,1.5,plotDepth/2);renderer.render(scene,camera);}
+animate();
+window.addEventListener("resize",()=>{camera.aspect=container.clientWidth/container.clientHeight;camera.updateProjectionMatrix();renderer.setSize(container.clientWidth,container.clientHeight);});
 </script>
 
 </body>
