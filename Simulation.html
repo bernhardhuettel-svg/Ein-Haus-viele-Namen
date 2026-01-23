@@ -8,7 +8,7 @@
 <style>
 body { margin:0; background:#eef2f3; font-family:system-ui; overflow:hidden; }
 #container { width:100vw; height:100vh; }
-  
+
 button {
   position: fixed;
   left: 20px;
@@ -26,13 +26,22 @@ button {
   border-radius: 6px;
   font-size: 14px;
 }
+
+#blockTooltip {
+  position: fixed;
+  pointer-events: none;
+  padding: 2px 6px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 12px;
+  border-radius: 4px;
+  display: none;
+  z-index: 20;
+}
 </style>
 </head>
 
 <body>
-
-<button id="btnDonate">Spende simulieren</button>
-
 <div id="progressBox">
   <div id="progressText">Fortschritt: 0%</div>
   <div style="width:200px;height:8px;background:#ddd;border-radius:4px;">
@@ -43,26 +52,15 @@ button {
 </div>
 
 <div id="container"></div>
+<div id="blockTooltip"></div>
 
-    <div id="blockTooltip" style="
-    position: fixed;
-    pointer-events: none;
-    padding: 2px 6px;
-    background: rgba(0,0,0,0.7);
-    color: white;
-    font-size: 12px;
-    border-radius: 4px;
-    display: none;
-    z-index: 20;
-"></div>
-  <script type="module">
+<script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
 
 /* ======================================================
    BUILD CONTROLLER
 ====================================================== */
 const BuildController = {
-  donationConfirmed: true,   // Auto-Build immer aktiv
   queue: [],
   currentIndex: 0,
   builtBlocks: 0,
@@ -137,14 +135,33 @@ const plotWidth = 40;
 const plotDepth = 20;
 
 /* ======================================================
-   PROGRESS UI
+   PROGRESS UI (smooth)
 ====================================================== */
+let currentProgress = 0; // Für smooth Animation
+
 function updateProgressUI() {
-  const p = Math.floor((BuildController.builtBlocks / BuildController.totalBlocks) * 100 || 0);
-  document.getElementById("progressText").innerText =
-    `Fortschritt: ${p}% (${BuildController.builtBlocks}/${BuildController.totalBlocks})`;
-  document.getElementById("progressBar").style.width = p + "%";
+  const targetProgress = Math.floor((BuildController.builtBlocks / BuildController.totalBlocks) * 100 || 0);
+
+  // Smooth Animation
+  const step = () => {
+    if(currentProgress < targetProgress){
+      currentProgress += Math.min(1, targetProgress - currentProgress);
+      document.getElementById("progressText").innerText =
+        `Fortschritt: ${Math.floor(currentProgress)}% (${BuildController.builtBlocks}/${BuildController.totalBlocks})`;
+      document.getElementById("progressBar").style.width = currentProgress + "%";
+      requestAnimationFrame(step);
+    } else {
+      // Sicherstellen, dass Endwert gesetzt wird
+      currentProgress = targetProgress;
+      document.getElementById("progressText").innerText =
+        `Fortschritt: ${Math.floor(currentProgress)}% (${BuildController.builtBlocks}/${BuildController.totalBlocks})`;
+      document.getElementById("progressBar").style.width = currentProgress + "%";
+    }
+  };
+
+  step();
 }
+
 
 /* ======================================================
    QUEUE SYSTEM
@@ -157,7 +174,7 @@ function enqueue(step) {
 /* ======================================================
    BAU-BASTEINE (mit Random-Namen)
 ====================================================== */
-// Grundstück
+// Grundstück als einzelne Blöcke
 function enqueueGround() {
   const size = 1;
   for(let x=0;x<plotWidth;x+=size)
@@ -371,55 +388,39 @@ function prepareBuildQueue() {
 }
 
 /* ======================================================
-   BUILD STEP
+   BUILD NEXT (alle 500ms)
 ====================================================== */
 function buildNext() {
-  if (!BuildController.donationConfirmed) return;
-  if (BuildController.currentIndex >= BuildController.queue.length) return;
-
+  if(BuildController.currentIndex >= BuildController.queue.length) return;
   BuildController.queue[BuildController.currentIndex]();
   BuildController.currentIndex++;
   BuildController.builtBlocks++;
-
   updateProgressUI();
-  saveProgress();
 }
 
+prepareBuildQueue();
+updateProgressUI();
+  
 /* ======================================================
-   SPENDE SIMULIEREN + AUTO-BUILD
+   BUILD NEXT MIT BESCHLEUNIGUNG
 ====================================================== */
-function startAutoBuild() {
-  BuildController.donationConfirmed = true;
-  saveProgress();
-
-  let interval = 500;       // Startintervall 500ms
-  const acceleration = 0.95; // Faktor, um das Tempo leicht zu steigern
-  const minInterval = 10;    // Minimalintervall
-
-  function step() {
+let buildInterval = 900; // Startintervall in ms
+const minInterval = 10;   // schnellstes Intervall
+const acceleration = 5;   // wie stark das Intervall pro Block reduziert wird
+function autoBuild() {
     buildNext();
 
-    if(BuildController.currentIndex < BuildController.queue.length){
-      interval = Math.max(minInterval, interval * acceleration);
-      setTimeout(step, interval);
-    }
-  }
+    // Intervall reduzieren (beschleunigen)
+    buildInterval = Math.max(minInterval, buildInterval - acceleration);
 
-  step(); // Startet die Schleife
+    setTimeout(autoBuild, buildInterval);
 }
 
-// Optional: Button kann weiterhin die Spende simulieren
-document.getElementById("btnDonate").onclick = startAutoBuild;
-
-// Automatisch starten beim Laden der Seite
-window.addEventListener("load", () => {
-  startAutoBuild();
-});
-
+autoBuild(); // Start
 
 
 /* ======================================================
-   MAUSSTEERUNG (DREHEN + ZOOM)
+   MOUSE STEUERUNG
 ====================================================== */
 let isMouseDown = false;
 let mouseX = 0;
@@ -438,9 +439,7 @@ window.addEventListener('mousemove', e => {
   targetRotation = targetRotationOnMouseDown + deltaX*0.005;
 });
 
-window.addEventListener('mouseup', e => {
-  isMouseDown = false;
-});
+window.addEventListener('mouseup', e => { isMouseDown = false; });
 
 window.addEventListener('wheel', e => {
   camera.position.y -= e.deltaY*0.01;
@@ -448,11 +447,34 @@ window.addEventListener('wheel', e => {
 });
 
 /* ======================================================
-   START
+   TOOLTIP MIT RAYCASTER
 ====================================================== */
-loadProgress();
-prepareBuildQueue();
-updateProgressUI();
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+const tooltip = document.getElementById("blockTooltip");
+
+window.addEventListener("mousemove", (event) => {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    const intersects = raycaster.intersectObjects(scene.children, true);
+
+    if(intersects.length > 0){
+        const obj = intersects[0].object;
+        if(obj.userData.name){
+            tooltip.style.display = "block";
+            tooltip.style.left = event.clientX + 10 + "px";
+            tooltip.style.top = event.clientY + 10 + "px";
+            tooltip.innerText = obj.userData.name;
+        } else {
+            tooltip.style.display = "none";
+        }
+    } else {
+        tooltip.style.display = "none";
+    }
+});
 
 /* ======================================================
    RENDER LOOP
@@ -465,8 +487,8 @@ function animate() {
   camera.lookAt(plotWidth/2,1.5,plotDepth/2);
   renderer.render(scene,camera);
 }
-animate();
 
+animate();
 window.addEventListener("resize",()=>{
   camera.aspect = innerWidth/innerHeight;
   camera.updateProjectionMatrix();
