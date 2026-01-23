@@ -174,10 +174,280 @@ function enqueue(step) {
 }
 
 /* ======================================================
-   (DEIN KOMPLETTER BAU-CODE UNVERÄNDERT)
-   → aus Platzgründen hier nicht gekürzt
-   → alles exakt wie von dir geliefert
+   BAU-BASTEINE (mit Random-Namen)
 ====================================================== */
+// Grundstück als einzelne Blöcke
+function enqueueGround() {
+  const size = 1;
+  for(let x=0;x<plotWidth;x+=size)
+    for(let z=0;z<plotDepth;z+=size)
+      enqueue(() => {
+        const g = new THREE.Mesh(new THREE.BoxGeometry(size,0.1,size), matGround);
+        g.position.set(x+size/2,0,z+size/2);
+        g.userData.name = randomName();
+        scene.add(g);
+      });
+}
+/*
+// Raster
+function enqueueGrid() {
+  enqueue(() => {
+    const grid = new THREE.GridHelper(plotWidth, plotWidth, 0x444444, 0x888888);
+    grid.position.set(plotWidth/2,0.01,plotDepth/2);
+    grid.userData.name = randomName();
+    scene.add(grid);
+  });
+}
+*/
+// Wände
+function enqueueWall(x0,z0,w,d,h) {
+  const size = 0.4, gap = 0.03;
+  for(let x=0;x<w;x+=size+gap)
+    for(let y=0;y<h;y+=size+gap)
+      for(let z=0;z<d;z+=size+gap)
+        enqueue(() => {
+          const b = new THREE.Mesh(
+            new THREE.BoxGeometry(size,size,size), matWall
+          );
+          b.position.set(x0+x+size/2, y+size/2, z0+z+size/2);
+          b.userData.name = randomName();
+          houseGroup.add(b);
+        });
+}
+
+// Dach pro Seite
+function enqueueRoof() {
+  const size = 0.4, slope=0.15;
+
+  // Front
+  for(let x=0;x<houseWidth;x+=size)
+    for(let z=0;z<houseDepth/2;z+=size)
+      enqueue(() => {
+        const tileFront = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
+        tileFront.position.set(x+size/2, houseHeight+z*slope, z+size/2);
+        tileFront.userData.name = randomName();
+        houseGroup.add(tileFront);
+      });
+
+  // Back
+  for(let x=0;x<houseWidth;x+=size)
+    for(let z=0;z<houseDepth/2;z+=size)
+      enqueue(() => {
+        const tileBack = new THREE.Mesh(new THREE.BoxGeometry(size,size*0.4,size), matRoof);
+        tileBack.position.set(x+size/2, houseHeight+z*slope, houseDepth - z - size/2);
+        tileBack.userData.name = randomName();
+        houseGroup.add(tileBack);
+      });
+}
+
+// Fenster
+function enqueueWindow(xStart, yStart, zStart, width, height, depth=0.2){
+  const size=0.3, gap=0.05;
+  for(let x=0;x<width;x+=size+gap)
+    for(let y=0;y<height;y+=size+gap)
+      enqueue(() => {
+        const block = new THREE.Mesh(new THREE.BoxGeometry(size,size,depth), matGlass);
+        block.position.set(xStart+x+size/2, yStart+y+size/2, zStart);
+        block.userData.name = randomName();
+        houseGroup.add(block);
+      });
+}
+
+// Türen
+function enqueueDoor(x, y, z) {
+  enqueue(() => {
+    const d = new THREE.Mesh(new THREE.BoxGeometry(1.8,2.3,0.2), matWood);
+    d.position.set(x, y, z);
+    d.userData.name = randomName();
+    houseGroup.add(d);
+  });
+}
+
+// Terrasse
+function enqueueTerrace() {
+  enqueue(() => {
+    const t = new THREE.Mesh(new THREE.BoxGeometry(5,0.15,10), matTerrace);
+    t.position.set(houseWidth+2.5,0.075,houseDepth/2);
+    t.userData.name = randomName();
+    houseGroup.add(t);
+  });
+}
+
+// Pool
+function enqueuePool() {
+  enqueue(() => {
+    const p = new THREE.Mesh(new THREE.BoxGeometry(10,0.5,10), matPool);
+    p.position.set(houseWidth+5.5,-0.25,houseDepth/2);
+    p.userData.name = randomName();
+    houseGroup.add(p);
+  });
+}
+
+// Bäume
+function enqueueTree(x, z, height=1.5, radius=0.25, crownRadius=1) {
+  enqueue(() => {
+    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,height), matTreeTrunk);
+    trunk.position.set(x,height/2,z);
+    trunk.userData.name = randomName();
+    scene.add(trunk);
+
+    const crown = new THREE.Mesh(new THREE.SphereGeometry(crownRadius,16,16), matTreeCrown);
+    crown.position.set(x,height+crownRadius*0.7,z);
+    crown.userData.name = randomName();
+    scene.add(crown);
+  });
+}
+
+// Blumen
+function enqueueFlower(x,z,height=0.3,radius=0.2,color=0xff5555){
+  enqueue(() => {
+    const f = new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,height),
+                             new THREE.MeshStandardMaterial({color:color}));
+    f.position.set(x,height/2,z);
+    f.userData.name = randomName();
+    scene.add(f);
+  });
+}
+
+// Zaun
+function enqueueFence(x0, z0, width, depth, height = 1.2, postWidth = 0.1, spacing = 0.5){
+  for(let x=x0;x<=x0+width;x+=spacing){
+    enqueue(() => { 
+      const pf = new THREE.Mesh(new THREE.BoxGeometry(postWidth,height,postWidth), matFence);
+      pf.position.set(x,height/2,z0);
+      pf.userData.name = randomName();
+      scene.add(pf);
+    });
+    enqueue(() => { 
+      const pb = new THREE.Mesh(new THREE.BoxGeometry(postWidth,height,postWidth), matFence);
+      pb.position.set(x,height/2,z0+depth);
+      pb.userData.name = randomName();
+      scene.add(pb);
+    });
+  }
+  for(let z=z0;z<=z0+depth;z+=spacing){
+    enqueue(() => {
+      const pl = new THREE.Mesh(new THREE.BoxGeometry(postWidth,height,postWidth), matFence);
+      pl.position.set(x0,height/2,z);
+      pl.userData.name = randomName();
+      scene.add(pl);
+    });
+    enqueue(() => {
+      const pr = new THREE.Mesh(new THREE.BoxGeometry(postWidth,height,postWidth), matFence);
+      pr.position.set(x0+width,height/2,z);
+      pr.userData.name = randomName();
+      scene.add(pr);
+    });
+  }
+}
+
+/* ======================================================
+   KOMPLETTE BAUABFOLGE
+====================================================== */
+function prepareBuildQueue() {
+  enqueueGround();
+ // enqueueGrid();
+
+  enqueueWall(0,0,houseWidth,0.4,houseHeight);
+  enqueueWall(0,houseDepth-0.4,houseWidth,0.4,houseHeight);
+  enqueueWall(0,0,0.4,houseDepth,houseHeight);
+  enqueueWall(houseWidth-0.4,0,0.4,houseDepth,houseHeight);
+
+  enqueueRoof();
+
+  enqueueWindow(2,1.2,0,2.4,1.6);
+  enqueueWindow(7.6,1.2,0,2.4,1.6);
+
+  enqueueDoor(houseWidth/2,1.15,0);
+
+  enqueueTerrace();
+  enqueuePool();
+
+  // Bäume
+  enqueueTree(1,1,3,0.35,2);
+  enqueueTree(plotWidth-1,1,3,0.35,2);
+  enqueueTree(1,plotDepth-1,3,0.35,2);
+  enqueueTree(plotWidth-1,plotDepth-1,3,0.35,2);
+  enqueueTree(plotWidth/2,1,2.5,0.3,1.5);
+  enqueueTree(plotWidth/2,plotDepth-1,2.5,0.3,1.5);
+  enqueueTree(1,plotDepth/2,2.5,0.3,1.5);
+  enqueueTree(plotWidth-1,plotDepth/2,2.5,0.3,1.5);
+
+  // Blumen zufällig
+  for(let i=0;i<20;i++){
+    let x,z;
+    do {
+      x = Math.random()*plotWidth;
+      z = Math.random()*plotDepth;
+    } while (
+      x>5-2 && x<5+houseWidth+2 && z>4-2 && z<4+houseDepth+2
+    );
+    const colors = [0xff4444,0xffcc44,0xff88ff,0xffff44,0x44ff44,0x44ccff];
+    enqueueFlower(x,z,0.25+Math.random()*0.1,0.15+Math.random()*0.05, colors[Math.floor(Math.random()*colors.length)]);
+  }
+
+  enqueueFence(0,0,plotWidth,plotDepth);
+}
+
+/* ======================================================
+   BUILD NEXT (alle 500ms)
+====================================================== */
+function buildNext() {
+  if(BuildController.currentIndex >= BuildController.queue.length) return;
+  BuildController.queue[BuildController.currentIndex]();
+  BuildController.currentIndex++;
+  BuildController.builtBlocks++;
+  updateProgressUI();
+}
+
+prepareBuildQueue();
+updateProgressUI();
+  
+/* ======================================================
+   BUILD NEXT MIT BESCHLEUNIGUNG
+====================================================== */
+let buildInterval = 900; // Startintervall in ms
+const minInterval = 10;   // schnellstes Intervall
+const acceleration = 5;   // wie stark das Intervall pro Block reduziert wird
+function autoBuild() {
+    buildNext();
+
+    // Intervall reduzieren (beschleunigen)
+    buildInterval = Math.max(minInterval, buildInterval - acceleration);
+
+    setTimeout(autoBuild, buildInterval);
+}
+
+autoBuild(); // Start
+
+
+/* ======================================================
+   MOUSE STEUERUNG
+====================================================== */
+let isMouseDown = false;
+let mouseX = 0;
+let targetRotation = 0;
+let targetRotationOnMouseDown = 0;
+
+window.addEventListener('mousedown', e => {
+  isMouseDown = true;
+  mouseX = e.clientX;
+  targetRotationOnMouseDown = targetRotation;
+});
+
+window.addEventListener('mousemove', e => {
+  if(!isMouseDown) return;
+  const deltaX = e.clientX - mouseX;
+  targetRotation = targetRotationOnMouseDown + deltaX*0.005;
+});
+
+window.addEventListener('mouseup', e => { isMouseDown = false; });
+
+window.addEventListener('wheel', e => {
+  camera.position.y -= e.deltaY*0.01;
+  camera.position.y = Math.max(5, Math.min(50, camera.position.y));
+});
+  
 
 /* ======================================================
    MOUSE / RAYCASTER (iframe-korrekt)
