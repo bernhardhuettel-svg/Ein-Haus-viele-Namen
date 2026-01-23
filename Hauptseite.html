@@ -5,25 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ein Haus – viele Namen – Ela & Bernhard</title>
 <style>
+/* Grundlayout */
 body {
     font-family: system-ui, -apple-system, sans-serif;
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     color: #222;
-    line-height: 1.7;
     background: #fefefe;
+    line-height: 1.7;
 }
+
+/* Header / Hero */
 header {
     text-align: center;
-    padding: 60px 20px 60px;
+    padding: 80px 20px 60px;
     background: linear-gradient(135deg,#a0d4ff,#e6f0ff);
     color: #222;
 }
-header h1 { font-size: 3em; margin-bottom: 0.2em; }
-header h2 { font-size: 1.6em; margin-bottom: 1em; font-weight: 400; }
-header p { font-size: 1.25em; max-width: 700px; margin: 0 auto 30px; }
+header h1 {
+    font-size: 3em;
+    margin-bottom: 0.3em;
+}
+header h2 {
+    font-size: 1.7em;
+    font-weight: 400;
+    margin-bottom: 0.8em;
+}
+header p {
+    font-size: 1.3em;
+    max-width: 700px;
+    margin: 0 auto 30px;
+}
 
-/* CTA Button */
+/* Hero CTA Button */
 .header-cta {
     display: inline-block;
     background: #ff8c42;
@@ -33,8 +46,8 @@ header p { font-size: 1.25em; max-width: 700px; margin: 0 auto 30px; }
     font-size: 1.2em;
     text-decoration: none;
     border-radius: 10px;
-    transition: all 0.3s ease;
     box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
 }
 .header-cta:hover {
     background: #e67a23;
@@ -42,82 +55,62 @@ header p { font-size: 1.25em; max-width: 700px; margin: 0 auto 30px; }
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
-/* Main */
-main { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
-h2 { font-size: 2em; margin-top: 2em; border-bottom: 3px solid #ddd; padding-bottom: 0.5em; }
-section { margin-bottom: 3em; }
-
-/* Details */
-details { margin: 1.5em 0; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; background: #fafafa; }
-summary { padding: 1em 1.5em; background: #f0f4f8; cursor: pointer; font-weight: 600; font-size: 1.05em; }
-summary:hover { background: #e2e8f0; }
-.content { padding: 1.5em; font-size: 1em; color: #333; }
-
-/* Profilbilder & Blockquote */
-img.profile { display: block; max-width: 160px; border-radius: 50%; margin: 1em auto; box-shadow: 0 4px 14px rgba(0,0,0,0.25); }
-blockquote { border-left: 4px solid #ccc; padding-left: 1.2em; margin: 1.5em 0; color: #555; font-style: italic; background: #f5f5f5; padding: 1em; border-radius: 6px; }
-
-/* Mini Story Boxen */
-.story-box {
-    background: #fff3e6;
-    border-left: 5px solid #ff8c42;
-    padding: 16px 20px;
-    margin: 20px 0;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    transition: all 0.3s ease;
-}
-.story-box:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
-.story-box p { margin: 0.3em 0; }
-
 /* Fortschrittsbalken */
-.progress-container { background: #eee; border-radius: 8px; overflow: hidden; margin: 25px 0; height: 32px; position: relative; }
-.progress-bar { height: 32px; background: #ff8c42; width: 0%; line-height: 32px; color: #fff; text-align: center; font-weight: 700; font-size: 1.05em; transition: width 0.6s ease; }
-.spender-count { position: absolute; right: 12px; top: 0; height: 32px; line-height: 32px; font-size: 0.95em; font-weight: 600; color: #222; }
-
-/* Badges */
-.badge { display: inline-block; padding: 8px 16px; border-radius: 16px; margin: 4px; font-weight: 600; font-size: 0.95em; transition: all 0.3s ease; }
-.badge:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-.bronze { background: #cd7f32; color: #fff; }
-.silver { background: #c0c0c0; color: #fff; }
-.gold { background: #ffd700; color: #222; }
-.platin { background: #e5e4e2; color: #222; }
-
-/* Footer */
-footer { text-align: center; padding: 40px 20px; background: #f8f8f8; color: #777; font-size: 0.95em; }
-
-/* Sticky PayPal Button */
-.paypal-button {
-    position: fixed;
-    right: 20px;
-    top: 20px;
-    z-index: 1000;
-    padding: 14px 22px;
-    background: #ffc439;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    transition: all 0.3s ease;
+.progress-container {
+    background: #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 30px auto 0;
+    height: 32px;
+    max-width: 600px;
+    position: relative;
 }
-.paypal-button:hover { background: #e6b72e; transform: translateY(-2px); }
+.progress-bar {
+    height: 32px;
+    background: #ff8c42;
+    width: 0%;
+    line-height: 32px;
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.05em;
+    transition: width 0.6s ease;
+}
+.spender-count {
+    position: absolute;
+    right: 12px;
+    top: 0;
+    height: 32px;
+    line-height: 32px;
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #222;
+}
 
-/* 3D Container */
-#simulation-container { width: 100%; height: 600px; background: #eef2f3; margin-top: 30px; border-radius: 14px; position: relative; overflow: hidden; }
+/* Main */
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+h2 {
+    font-size: 2em;
+    margin-top: 2em;
+    border-bottom: 3px solid #ddd;
+    padding-bottom: 0.5em;
+}
+section {
+    margin-bottom: 3em;
+}
 
-/* Tooltip */
-#blockTooltip {
-  position: absolute;
-  pointer-events: none;
-  padding: 5px 10px;
-  background: rgba(0,0,0,0.75);
-  color: white;
-  font-size: 13px;
-  border-radius: 5px;
-  display: none;
-  z-index: 20;
+/* 3D Simulation Container */
+#simulation-container, iframe {
+    width: 100%;
+    height: 600px;
+    background: #eef2f3;
+    border-radius: 14px;
+    margin-top: 30px;
+    border: none;
 }
 </style>
 </head>
@@ -126,9 +119,10 @@ footer { text-align: center; padding: 40px 20px; background: #f8f8f8; color: #77
 <header>
 <h1>Ein Haus – viele Namen</h1>
 <h2>Ela & Bernhard</h2>
-<p><strong>Ein Haus entsteht aus Menschen, Ideen und Herzen.</strong><br>
-Jeder Stein zählt: Dein Beitrag wird sichtbar – 1 € = 1 Stein, Name darauf, Haus wächst live.</p>
+<p><strong>Jeder Stein erzählt eine Geschichte.</strong><br>
+Dein Beitrag wird sichtbar: 1 € = 1 Stein, Name darauf, das Haus wächst live und digital für alle Unterstützer.</p>
 <a href="#mitmachen" class="header-cta">Jetzt mitmachen & Stein setzen</a>
+
 <div class="progress-container">
     <div class="progress-bar" id="progress-bar">0%</div>
     <div class="spender-count" id="spender-count">0 Spender</div>
@@ -137,23 +131,26 @@ Jeder Stein zählt: Dein Beitrag wird sichtbar – 1 € = 1 Stein, Name darau
 
 <main>
 <section id="lego-simulation">
-    <h2>Dein Beitrag in Aktion</h2>
-    <p>Sieh, wie dein virtueller Stein das Haus wachsen lässt. Jeder Stein trägt einen Namen, jede Spende wird sichtbar – erlebe die Community in Echtzeit.</p>
-    <iframe src="Simulation.html" style="width:100%; height:600px; border:none; border-radius:12px;"></iframe>
+    <h2>Sieh deinen Beitrag in Aktion</h2>
+    <p>Jeder virtuelle Stein macht das Haus größer. Dein Name wird sichtbar, jede Spende schafft eine neue Geschichte.</p>
+    <iframe src="Simulation.html"></iframe>
 </section>
-
 <section id="projekt">
     <h2>Unsere Vision</h2>
-    <div class="story-box">
+
+    <!-- Mini Story Boxen für Social Proof -->
+    <div class="story-box" style="background:#fff3e6;border-left:5px solid #ff8c42;padding:16px 20px;margin:20px 0;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.08);">
         <p>„Als ich meinen ersten Stein gesetzt habe, fühlte es sich an, als würde ich wirklich Teil des Hauses werden.“ – Anna, Unterstützerin</p>
     </div>
-    <div class="story-box">
+    <div class="story-box" style="background:#fff3e6;border-left:5px solid #ff8c42;padding:16px 20px;margin:20px 0;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.08);">
         <p>„Jeder Beitrag erzählt eine Geschichte – und wir bauen gemeinsam etwas Einzigartiges.“ – Max, Unterstützer</p>
     </div>
+
     <details>
         <summary>Mehr erfahren</summary>
         <div class="content">
-            <p>Wir bauen ein Haus, das <strong>von Menschen für Menschen</strong> entsteht. Jeder Beitrag macht das Haus größer – eine sichtbare Geschichte für die Community.</p>
+            <p>Wir bauen ein Haus, das <strong>von Menschen für Menschen</strong> entsteht. Jeder Stein macht das Haus größer – eine sichtbare Geschichte für die Community.</p>
+            <p>Mit deiner Spende wirst du Teil eines Projekts, das Gemeinschaft, Kreativität und Nachhaltigkeit verbindet.</p>
         </div>
     </details>
 </section>
@@ -166,9 +163,11 @@ Jeder Stein zählt: Dein Beitrag wird sichtbar – 1 € = 1 Stein, Name darau
             <img src="bernhard.png" alt="Bernhard" class="profile">
             <h3>Bernhard</h3>
             <p>Visionär & Initiator – ich verbinde digitale Ideen mit realen Projekten. Jeder Stein erzählt eine Geschichte.</p>
+
             <img src="ela.png" alt="Ela" class="profile">
             <h3>Ela</h3>
             <p>Kreative Umsetzung & Organisation. Für uns stehen <strong>Gemeinschaft, Transparenz und Freude</strong> im Mittelpunkt.</p>
+
             <blockquote>„Ein Haus entsteht aus Menschen, Ideen und Herzen – jeder Beitrag hinterlässt Spuren.“</blockquote>
         </div>
     </details>
@@ -176,20 +175,22 @@ Jeder Stein zählt: Dein Beitrag wird sichtbar – 1 € = 1 Stein, Name darau
 
 <section id="idee">
     <h2>Die Idee im Detail</h2>
-    <div class="story-box">
+
+    <div class="story-box" style="background:#f0f8ff;border-left:5px solid #42aaff;padding:16px 20px;margin:20px 0;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.08);">
         <p>„Es ist unglaublich zu sehen, wie unser Haus wächst – Stein für Stein, Name für Name.“ – Lisa, Unterstützerin</p>
     </div>
+
     <details>
         <summary>Mehr erfahren</summary>
         <div class="content">
             <p>Wir verwandeln ein Grundstück in ein <strong>Haus voller Geschichten</strong>. Jeder kann digital mitbestimmen:</p>
             <ul>
                 <li>1 € = 1 virtueller Stein</li>
-                <li>Name oder Nachricht sichtbar auf dem Stein</li>
+                <li>Dein Name oder eine Nachricht auf dem Stein</li>
                 <li>Live-Abstimmungen: Fensterfarbe, Garten, Interior</li>
                 <li>100 % deiner Spende fließen direkt ins reale Projekt</li>
             </ul>
-            <p>Ziel: 500.000–600.000 € – wöchentliche Updates mit Fotos, Fortschritt & Finanzen.</p>
+            <p>Unser Ziel: 500.000–600.000 € – wöchentliche Updates mit Fotos, Fortschritt & Finanzen zeigen dir, wie jeder Stein wirkt.</p>
         </div>
     </details>
 </section>
@@ -201,7 +202,7 @@ Jeder Stein zählt: Dein Beitrag wird sichtbar – 1 € = 1 Stein, Name darau
         <span class="badge silver">Silber: Name + Mini-Update</span>
         <span class="badge gold">Gold: Name + Dankesvideo</span>
         <span class="badge platin">Platin: Einladung Richtfest</span>
-        <p>Wähle dein Level und erlebe, wie dein Beitrag sichtbar wird. Teile es mit Freunden und steigere die Community!</p>
+        <p>Wähle dein Level und werde Teil unserer wachsenden Community. Teile es mit Freunden und sieh, wie dein Beitrag das Haus sichtbar macht.</p>
         <a href="#paypal-donate" class="header-cta">Jetzt mitmachen & Stein setzen</a>
     </div>
 </section>
@@ -212,6 +213,7 @@ Jeder Stein zählt: Dein Beitrag wird sichtbar – 1 € = 1 Stein, Name darau
     <small>Alle Beiträge freiwillig, keine steuerlich absetzbare Spende. Wir übernehmen keine Haftung für Spenden und garantieren keine Gegenleistungen außer den oben genannten Belohnungen.</small>
 </footer>
 
+<!-- PayPal Button -->
 <form action="https://www.paypal.com/donate" method="post" target="_blank" id="paypal-donate">
   <input type="hidden" name="business" value="bernhardhuettel@aol.com">
   <input type="hidden" name="currency_code" value="EUR">
@@ -222,6 +224,7 @@ Jeder Stein zählt: Dein Beitrag wird sichtbar – 1 € = 1 Stein, Name darau
 <script>
 window.addEventListener('message', function(event){
     if(event.origin !== window.location.origin) return;
+
     if(event.data.progress !== undefined){
         document.getElementById('progress-bar').style.width = event.data.progress + '%';
         document.getElementById('progress-bar').textContent = event.data.progress + '%';
