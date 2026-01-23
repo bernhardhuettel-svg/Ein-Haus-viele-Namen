@@ -1,196 +1,264 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ein Haus – viele Namen – Ela & Bernhard</title>
-    <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            max-width: 800px;
-            margin: 60px auto 40px;
-            line-height: 1.7;
-            padding: 0 20px;
-            color: #222;
-        }
-        h1 {
-            text-align: center;
-            font-size: 2.4em;
-            margin-bottom: 0.2em;
-        }
-        h2 {
-            font-size: 1.8em;
-            margin-top: 2.5em;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 0.4em;
-        }
-        details {
-            margin: 1.5em 0;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-        summary {
-            padding: 1em 1.2em;
-            background: #f8f8f8;
-            cursor: pointer;
-            font-weight: 600;
-            user-select: none;
-        }
-        summary:hover {
-            background: #f0f0f0;
-        }
-        .content {
-            padding: 1.2em 1.5em;
-        }
-        img.profile {
-            display: block;
-            max-width: 180px;
-            border-radius: 50%;
-            margin: 1em auto;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-        }
-        blockquote {
-            border-left: 4px solid #ccc;
-            padding-left: 1.2em;
-            margin: 1.5em 0;
-            color: #555;
-            font-style: italic;
-        }
-        a.cta {
-            display: inline-block;
-            margin: 2em 0;
-            padding: 0.9em 1.8em;
-            background: #0066cc;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-        }
-        a.cta:hover {
-            background: #0055aa;
-        }
-        hr {
-            border: 0;
-            border-top: 1px solid #eee;
-            margin: 3em 0;
-        }
-        footer {
-            text-align: center;
-            margin-top: 4em;
-            color: #777;
-            font-size: 0.95em;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ein Haus – viele Namen – Ela & Bernhard</title>
+<style>
+    /* Grundlegendes Styling */
+    body {
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #222;
+        line-height: 1.7;
+        background: #fefefe;
+    }
+    header {
+        text-align: center;
+        padding: 60px 20px 40px;
+        background: #e6f0ff;
+    }
+    header h1 {
+        font-size: 2.6em;
+        margin-bottom: 0.2em;
+    }
+    header h2 {
+        font-size: 1.5em;
+        margin-bottom: 1em;
+        font-weight: normal;
+    }
+    header p {
+        font-size: 1.2em;
+        max-width: 600px;
+        margin: 0 auto 20px;
+    }
+    .cta-button {
+        display: inline-block;
+        background: #0066cc;
+        color: #fff;
+        padding: 14px 28px;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 6px;
+        margin-top: 10px;
+        transition: 0.2s;
+    }
+    .cta-button:hover {
+        background: #0055aa;
+    }
+
+    main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    h2 {
+        font-size: 2em;
+        margin-top: 2em;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 0.5em;
+    }
+    section {
+        margin-bottom: 3em;
+    }
+    details {
+        margin: 1.5em 0;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    summary {
+        padding: 1em 1.2em;
+        background: #f8f8f8;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    summary:hover {
+        background: #f0f0f0;
+    }
+    .content {
+        padding: 1.2em 1.5em;
+    }
+    img.profile {
+        display: block;
+        max-width: 160px;
+        border-radius: 50%;
+        margin: 1em auto;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    blockquote {
+        border-left: 4px solid #ccc;
+        padding-left: 1.2em;
+        margin: 1.5em 0;
+        color: #555;
+        font-style: italic;
+    }
+
+    /* Fortschrittsbalken */
+    .progress-container {
+        background: #eee;
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 20px 0;
+    }
+    .progress-bar {
+        height: 24px;
+        background: #0066cc;
+        width: 0%;
+        line-height: 24px;
+        color: #fff;
+        text-align: center;
+        transition: width 0.5s ease;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px 20px;
+        background: #f8f8f8;
+        color: #777;
+        font-size: 0.95em;
+    }
+
+    /* Sticky PayPal Button */
+    .paypal-button {
+        position: fixed;
+        right: 20px;
+        top: 20px;
+        z-index: 1000;
+        padding: 12px 18px;
+        background: #ffc439;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .paypal-button:hover {
+        background: #e6b72e;
+    }
+</style>
 </head>
 <body>
 
-<h1>Ein Haus – viele Namen</h1>
-<h1>Ela & Bernhard</h1>
+<header>
+    <h1>Ein Haus – viele Namen</h1>
+    <h2>Ela & Bernhard</h2>
+    <p>Ein reales Haus in Schirmitz bei Weiden – gemeinsam gebaut, finanziert und gestaltet. Jeder Beitrag sichtbar und wertvoll.</p>
+    <a href="#lego" class="cta-button">Zum interaktiven 3D Lego-Bausatz →</a>
+</header>
 
-<p style="text-align:center; font-size:1.2em; margin:1.5em 0;">
-Ein reales Haus in Schirmitz bei Weiden – gemeinsam gebaut, finanziert und gestaltet.
-</p>
+<main>
 
-<a href="lego.html" class="cta">Zum interaktiven 3D Lego-Bausatz →</a>
+<section id="projekt">
+    <h2>Unsere Vision</h2>
+    <p>Wir bauen gemeinsam ein Haus – sichtbar für jeden Spender. Jeder Euro wird in virtuelle Steine umgesetzt, die das digitale Haus wachsen lassen. Mit deiner Hilfe entsteht nicht nur ein Gebäude, sondern eine lebendige Gemeinschaft.</p>
+</section>
 
-<hr>
+<section id="wer-wir-sind">
+    <h2>Wer wir sind</h2>
+    <details>
+        <summary>Ela & Bernhard</summary>
+        <div class="content">
+            <img src="bernhard.png" alt="Bernhard" class="profile">
+            <h3>Bernhard</h3>
+            <p>Ich bin Bernhard, Projektleiter und Visionär hinter „Ein Haus – viele Namen“. Ich liebe es, Ideen digital und real zu verbinden und Menschen zusammenzubringen.</p>
 
-<details>
-    <summary>Wer wir sind – Ela & Bernhard</summary>
+            <img src="ela.png" alt="Ela" class="profile">
+            <h3>Ela</h3>
+            <p>Ich bin Ela und unterstütze Bernhard bei allen kreativen und organisatorischen Aufgaben. Für uns ist dieses Projekt eine Herzensangelegenheit, das Menschen verbindet.</p>
+
+            <blockquote>
+            „Ein Haus ist mehr als Wände und Dach – es ist das, was Menschen gemeinsam daraus machen. Unser Traum ist es, etwas zu schaffen, das Menschen zusammenbringt und jeden Beitrag sichtbar macht.“
+            </blockquote>
+        </div>
+    </details>
+</section>
+
+<section id="idee">
+    <h2>Die Idee im Detail</h2>
+    <details>
+        <summary>Projektbeschreibung</summary>
+        <div class="content">
+            <p>Max. 1000 qm Grundstück, ca. 140 qm Wohnfläche. Du entscheidest digital über Fassade, Grundriss und Einrichtung mit.</p>
+            <ul>
+                <li>1 € = 1 virtueller Lego-Stein</li>
+                <li>Name / Nachricht sichtbar auf dem Stein</li>
+                <li>Abstimmungen über Design-Entscheidungen</li>
+                <li>100 % der Einnahmen fließen in das reale Projekt</li>
+            </ul>
+            <p>Zielsumme: 500.000–600.000 € – wir berichten wöchentlich transparent über Fortschritte.</p>
+        </div>
+    </details>
+</section>
+
+<section id="mitmachen">
+    <h2>So kannst du mitmachen</h2>
+    <details>
+        <summary>Schritt für Schritt</summary>
+        <div class="content">
+            <ul>
+                <li><strong>1 €</strong> → 1 Lego-Stein / 1 qm Grundstück (Name sichtbar)</li>
+                <li><strong>5–10 €</strong> → Bauteil (Fenster, Tür, Möbelstück)</li>
+                <li><strong>25–100 €</strong> → Größerer Bereich + besonderer Dank</li>
+                <li>Teilen auf Social Media → mehr Reichweite = schnelleres Projekt</li>
+            </ul>
+            <p>Alle Beiträge werden namentlich auf der 3D-Darstellung verewigt.</p>
+            <a href="#lego" class="cta-button">Jetzt teilnehmen →</a>
+        </div>
+    </details>
+</section>
+
+<section id="fortschritt">
+    <h2>Transparenz & Fortschritt</h2>
     <div class="content">
-
-        <img src="bernhard.png" alt="Bernhard" class="profile">
-        <h3>Bernhard</h3>
-        <p>Ich bin Bernhard, Projektleiter und Visionär hinter „Ein Haus – viele Namen“. Ich liebe es, Ideen digital und real zu verbinden und Menschen zusammenzubringen.</p>
-
-        <img src="ela.png" alt="Ela" class="profile">
-        <h3>Ela</h3>
-        <p>Ich bin Ela und unterstütze Bernhard bei allen kreativen und organisatorischen Aufgaben. Für uns ist dieses Projekt eine Herzensangelegenheit, das Menschen verbindet.</p>
-
-        <blockquote>
-            „Ein Haus ist mehr als Wände und Dach – es ist das, was Menschen gemeinsam daraus machen. Unser Traum ist es, etwas zu schaffen, das Menschen zusammenbringt und jeden Beitrag sichtbar macht. Jeder Ziegel, jede Beteiligung zeigt: Gemeinsam können wir Großes erreichen. Wir laden dich ein, Teil dieser besonderen Reise zu sein und unser Haus mit Leben zu füllen.“
-        </blockquote>
-
-    </div>
-</details>
-
-<details>
-    <summary>Die Idee im Detail</summary>
-    <div class="content">
-        <p>Wir realisieren ein Haus mit max. 1000 qm Grundstück und ca. 140 qm Wohnfläche (Bungalow oder zweistöckiges Einfamilienhaus – ihr stimmt ab).</p>
-        <p>Das Ganze wird als erstes als digitales **Lego-Bausatz-Projekt** umgesetzt:</p>
-        <ul>
-            <li>1 € = 1 virtueller Lego-Stein (≡ 1 qm oder Bauteil)</li>
-            <li>Dein Name / Nachricht wird direkt auf dem Stein sichtbar</li>
-            <li>Abstimmungen über Design-Entscheidungen (Fassade, Grundriss, Küche, etc.)</li>
-            <li>100 % der Einnahmen fließen in das reale Projekt (Grundstück, Bau, Ausstattung)</li>
-        </ul>
-        <p>Zielsumme: 500.000–600.000 € – transparent, wöchentliche Updates.</p>
-    </div>
-</details>
-
-<details>
-    <summary>Wie kann ich mitmachen?</summary>
-    <div class="content">
-        <p>Einfach & direkt:</p>
-        <ul>
-            <li><strong>1 €</strong> → 1 qm Grundstück oder 1 Lego-Stein (Name sichtbar)</li>
-            <li><strong>5–10 €</strong> → Bauteil (Fenster, Tür, Möbelstück)</li>
-            <li><strong>25–100 €</strong> → Größerer Bereich + besonderer Dank</li>
-            <li>Teilen auf Social Media → je mehr Reichweite, desto schneller real</li>
-        </ul>
-        <p>Alle Beiträge werden namentlich auf der 3D-Darstellung verewigt.</p>
-        <p><strong>Nächster Schritt:</strong> Schau dir das Modell an und werde Teil davon.</p>
-    </div>
-</details>
-
-<details>
-    <summary>Transparenz & Updates</summary>
-    <div class="content">
-        <p>Wir teilen:</p>
+        <p>Jeder Beitrag wird sichtbar:</p>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar">0%</div>
+        </div>
         <ul>
             <li>Monatliche Finanzübersicht</li>
-            <li>Fotos vom realen Grundstücks-Suche / Baufortschritt</li>
+            <li>Fotos vom Grundstück / Baufortschritt</li>
             <li>Abstimmungsergebnisse</li>
             <li>Dank an alle Unterstützer</li>
         </ul>
-        <p>Kontakt für Fragen: Schreib uns gerne eine Nachricht.</p>
     </div>
-</details>
+</section>
+
+<section id="lego">
+    <h2>Interaktiver 3D Lego-Bausatz</h2>
+    <p>Erlebe dein Mitwirken digital – jeder Stein sichtbar. Klicke unten und starte dein Erlebnis:</p>
+    <a href="lego.html" class="cta-button">Zum 3D Lego-Bausatz →</a>
+</section>
 
 <!-- PayPal Spenden Button -->
-<form action="https://www.paypal.com/donate" method="post" target="_blank"
-      style="position: fixed; right: 20px; top: 20px; z-index: 1000;">
-  
-  <!-- DEINE PAYPAL MAIL -->
+<form action="https://www.paypal.com/donate" method="post" target="_blank">
   <input type="hidden" name="business" value="bernhardhuettel@aol.com">
-
-  <!-- Währung -->
   <input type="hidden" name="currency_code" value="EUR">
-
-  <!-- Beschreibung -->
- <input type="hidden" name="item_name" value="Unterstütze mein Projekt">
-
-
-  <button type="submit"
-    style="
-      padding: 12px 18px;
-      background: #ffc439;
-      border: none;
-      border-radius: 6px;
-      font-size: 14px;
-      cursor: pointer;
-    ">
-    💛 Spenden via PayPal
-  </button>
+  <input type="hidden" name="item_name" value="Unterstütze unser Haus-Projekt">
+  <button type="submit" class="paypal-button">💛 Spenden via PayPal</button>
 </form>
-
 
 <footer>
     © 2026 Ela & Bernhard · Schirmitz, Bayern<br>
-    Ein Community-Projekt – von Menschen für Menschen.
+    Ein Community-Projekt – von Menschen für Menschen.<br>
+    <small>Hinweis: Alle Beiträge freiwillig, keine steuerlich absetzbare Spende.</small>
 </footer>
+
+<script>
+    // Beispiel: Fortschrittsbalken animieren
+    const progress = document.getElementById('progress-bar');
+    let width = 0;
+    // Simuliert Fortschritt (Später dynamisch ersetzen)
+    const interval = setInterval(() => {
+        if(width >= 65){ // Beispiel: 65% erreicht
+            clearInterval(interval);
+        } else {
+            width++;
+            progress.style.width = width + '%';
+            progress.innerText = width + '%';
+        }
+    }, 30);
+</script>
 
 </body>
 </html>
