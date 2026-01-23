@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ein Haus – viele Namen – Ela & Bernhard</title>
 <style>
-/* ====== Grundlegendes Styling ====== */
 body {
     font-family: system-ui, -apple-system, sans-serif;
     margin: 0;
@@ -22,7 +21,6 @@ header {
 header h1 { font-size: 3em; margin-bottom: 0.2em; }
 header h2 { font-size: 1.6em; margin-bottom: 1em; font-weight: normal; }
 header p { font-size: 1.2em; max-width: 700px; margin: 0 auto 20px; }
-/* Hero CTA Button */
 .header-cta {
     display: inline-block;
     background: #ff8c42;
@@ -44,11 +42,22 @@ summary:hover { background: #f0f0f0; }
 .content { padding: 1.2em 1.5em; }
 img.profile { display: block; max-width: 160px; border-radius: 50%; margin: 1em auto; box-shadow: 0 2px 12px rgba(0,0,0,0.2); }
 blockquote { border-left: 4px solid #ccc; padding-left: 1.2em; margin: 1.5em 0; color: #555; font-style: italic; }
+
 /* Fortschrittsbalken */
-.progress-container { background: #eee; border-radius: 6px; overflow: hidden; margin: 20px 0; height: 28px; }
+.progress-container { background: #eee; border-radius: 6px; overflow: hidden; margin: 20px 0; height: 28px; position: relative; }
 .progress-bar { height: 28px; background: #ff8c42; width: 0%; line-height: 28px; color: #fff; text-align: center; font-weight: 600; transition: width 0.6s ease; }
+.spender-count { position: absolute; right: 10px; top: 0; height: 28px; line-height: 28px; font-size: 0.9em; font-weight: bold; color: #222; }
+
+/* Badges */
+.badge { display: inline-block; background: #eee; padding: 6px 12px; border-radius: 12px; margin: 4px; font-weight: 600; font-size: 0.9em; }
+.bronze { background: #cd7f32; color: #fff; }
+.silver { background: #c0c0c0; color: #fff; }
+.gold { background: #ffd700; color: #222; }
+.platin { background: #e5e4e2; color: #222; }
+
 /* Footer */
 footer { text-align: center; padding: 40px 20px; background: #f8f8f8; color: #777; font-size: 0.95em; }
+
 /* Sticky PayPal Button */
 .paypal-button {
     position: fixed;
@@ -65,8 +74,10 @@ footer { text-align: center; padding: 40px 20px; background: #f8f8f8; color: #77
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 .paypal-button:hover { background: #e6b72e; }
+
 /* 3D Container */
 #simulation-container { width: 100%; height: 600px; background: #eef2f3; margin-top: 30px; border-radius: 12px; position: relative; overflow: hidden; }
+
 /* Tooltip */
 #blockTooltip {
   position: absolute;
@@ -87,17 +98,18 @@ footer { text-align: center; padding: 40px 20px; background: #f8f8f8; color: #77
 <h1>Ein Haus – viele Namen</h1>
 <h2>Ela & Bernhard</h2>
 <p><strong>Ein Haus, gebaut von Menschen – sichtbar für jeden Spender.</strong><br>
-1 € = 1 Stein, dein Name darauf, das Haus wächst sofort.</p>
-<a href="#mitmachen" class="header-cta">Jetzt Stein setzen</a>
+1 € = 1 Stein, Name darauf, Haus wächst live.</p>
+<a href="#mitmachen" class="header-cta">Jetzt teilnehmen & gestalten</a>
 <div class="progress-container">
     <div class="progress-bar" id="progress-bar">0%</div>
+    <div class="spender-count" id="spender-count">0 Spender</div>
 </div>
 </header>
 
 <main>
 <section id="lego-simulation">
     <h2>Sieh, wie dein Beitrag wächst</h2>
-    <p>Jeder virtuelle Stein im 3D-Haus steht für eine Spende – mit deinem Namen darauf. Interagiere, entdecke andere Unterstützer und erlebe, wie Gemeinschaft das Haus entstehen lässt.</p>
+    <p>Jeder virtuelle Stein im 3D-Haus steht für eine Spende – mit deinem Namen. Interagiere, entdecke andere Unterstützer und erlebe, wie Gemeinschaft das Haus entstehen lässt.</p>
     <iframe src="Simulation.html" style="width:100%; height:600px; border:none; border-radius:12px;"></iframe>
 </section>
 
@@ -106,7 +118,7 @@ footer { text-align: center; padding: 40px 20px; background: #f8f8f8; color: #77
     <details>
         <summary>Mehr erfahren</summary>
         <div class="content">
-            <p>Wir bauen ein Haus, das <strong>von Menschen für Menschen entsteht</strong>. Jeder Euro wird in einen virtuellen Stein umgesetzt, der sofort im digitalen Modell erscheint – mit deinem Namen darauf. So wächst das Haus Stück für Stück und jeder Beitrag wird sichtbar.</p>
+            <p>Wir bauen ein Haus, das <strong>von Menschen für Menschen entsteht</strong>. Jeder Beitrag wird sichtbar, und das Haus wächst live – ein Gemeinschaftserlebnis für alle Unterstützer.</p>
         </div>
     </details>
 </section>
@@ -118,10 +130,10 @@ footer { text-align: center; padding: 40px 20px; background: #f8f8f8; color: #77
         <div class="content">
             <img src="bernhard.png" alt="Bernhard" class="profile">
             <h3>Bernhard</h3>
-            <p>Ich bin Bernhard, der kreative Kopf hinter diesem Projekt. Ich zeige, wie digitale Ideen echte Veränderungen erschaffen können. Jeder Beitrag macht unser Haus einzigartig.</p>
+            <p>Ich bin Bernhard, Visionär und Initiator des Projekts. Mit digitalen Ideen reale Veränderungen sichtbar machen – jeder Stein erzählt eine Geschichte.</p>
             <img src="ela.png" alt="Ela" class="profile">
             <h3>Ela</h3>
-            <p>Ich bin Ela und sorge dafür, dass unsere Vision Schritt für Schritt Realität wird. Für uns bedeutet dieses Projekt <strong>Gemeinschaft, Transparenz und Freude am Mitgestalten</strong>.</p>
+            <p>Ich unterstütze die Organisation und kreative Umsetzung. Für uns steht <strong>Gemeinschaft, Transparenz und Freude</strong> im Mittelpunkt.</p>
             <blockquote>„Ein Haus entsteht aus Menschen, Ideen und Herzen. Jeder Beitrag hinterlässt eine sichtbare Spur.“</blockquote>
         </div>
     </details>
@@ -135,34 +147,34 @@ footer { text-align: center; padding: 40px 20px; background: #f8f8f8; color: #77
             <p>Wir verwandeln ein Grundstück in ein <strong>Haus voller Geschichten</strong>. Jeder kann digital über Fassade, Grundriss und Einrichtung mitbestimmen.</p>
             <ul>
                 <li>1 € = 1 virtueller Stein</li>
-                <li>Dein Name / Nachricht erscheint auf dem Stein</li>
-                <li>Abstimmungen über wichtige Design-Entscheidungen</li>
+                <li>Name / Nachricht sichtbar auf dem Stein</li>
+                <li>Live-Abstimmungen über Fensterfarbe, Garten, Interior</li>
                 <li>100 % deiner Spende fließen direkt in das reale Projekt</li>
             </ul>
-            <p>Ziel: 500.000–600.000 € – wir berichten <strong>wöchentlich über Fortschritt, Finanzen und Fotos</strong>.</p>
+            <p>Ziel: 500.000–600.000 € – wöchentliche Updates über Fortschritt, Fotos und Finanzen.</p>
         </div>
     </details>
 </section>
 
 <section id="mitmachen">
-    <h2>So kannst du mitmachen</h2>
-    <details open>
-        <summary>Schritt für Schritt</summary>
-        <div class="content">
-            <ul>
-                <li><strong>1 €</strong> → Dein Stein / 1 qm Grundstück, sichtbar mit deinem Namen</li>
-                <li><strong>5–10 €</strong> → Bauteil (Fenster, Tür, Möbelstück)</li>
-                <li><strong>25–100 €</strong> → Größerer Bereich + besondere Dankesbotschaft</li>
-                <li>Teile deine Spende auf Social Media → <strong>mehr Sichtbarkeit, schnelleres Wachstum des Hauses</strong></li>
-            </ul>
-            <p>Jeder Beitrag wird namentlich im 3D-Modell verewigt – <strong>dein Name bleibt sichtbar</strong>.</p>
-            <a href="#paypal-donate" class="header-cta">Jetzt Stein setzen und mitgestalten</a>
-        </div>
-    </details>
+    <h2>Spendenlevels & Belohnungen</h2>
+    <div class="content">
+        <span class="badge bronze">Bronze: Name auf Stein</span>
+        <span class="badge silver">Silber: Name + Mini-Update</span>
+        <span class="badge gold">Gold: Name + Dankesvideo</span>
+        <span class="badge platin">Platin: Einladung Richtfest</span>
+        <p>Wähle dein Level und erlebe, wie dein Beitrag sichtbar wird. Teile es auf Social Media und steigere die Community!</p>
+        <a href="#paypal-donate" class="header-cta">Jetzt teilnehmen & gestalten</a>
+    </div>
 </section>
-</main>
 
-<!-- PayPal Spenden Button -->
+<footer>
+    © 2026 Ela & Bernhard · Schirmitz, Bayern<br>
+    Ein Community-Projekt – von Menschen für Menschen.<br>
+    <small>Alle Beiträge freiwillig, keine steuerlich absetzbare Spende. Wir übernehmen keine Haftung für Spenden und garantieren keine Gegenleistungen außer den oben genannten Belohnungen.</small>
+</footer>
+
+<!-- PayPal Button -->
 <form action="https://www.paypal.com/donate" method="post" target="_blank" id="paypal-donate">
   <input type="hidden" name="business" value="bernhardhuettel@aol.com">
   <input type="hidden" name="currency_code" value="EUR">
@@ -170,20 +182,19 @@ footer { text-align: center; padding: 40px 20px; background: #f8f8f8; color: #77
   <button type="submit" class="paypal-button">💛 Spenden via PayPal</button>
 </form>
 
-<footer>
-    © 2026 Ela & Bernhard · Schirmitz, Bayern<br>
-    Ein Community-Projekt – von Menschen für Menschen.<br>
-    <small>Hinweis: Alle Beiträge freiwillig, keine steuerlich absetzbare Spende.</small>
-</footer>
-
 <script>
-// Beispiel Progress Bar Animation
+// Fortschritt & Spenderanzahl simulieren
 let progress = 0;
+let spenderCount = 0;
 function updateProgress() {
-    progress += Math.random() * 2; // simulierte Zuwächse
+    progress += Math.random() * 2;
     if(progress > 100) progress = 100;
     document.getElementById('progress-bar').style.width = progress + '%';
     document.getElementById('progress-bar').textContent = Math.floor(progress) + '%';
+
+    spenderCount += Math.floor(Math.random()*2);
+    document.getElementById('spender-count').textContent = spenderCount + " Spender";
+
     if(progress < 100) setTimeout(updateProgress, 1000);
 }
 updateProgress();
