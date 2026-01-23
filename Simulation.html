@@ -69,11 +69,16 @@ function saveProgress() {
   }));
 }
 
-  // Fortschritt zurücksetzen beim Neuladen
-  BuildController.currentIndex = 0;
-  BuildController.builtBlocks = 0;
-  BuildController.queue = [];
-  BuildController.totalBlocks = 0;
+// Komplett zurücksetzen beim Seitenladen
+BuildController.donationConfirmed = false;
+BuildController.currentIndex = 0;
+BuildController.builtBlocks = 0;
+BuildController.queue = [];
+BuildController.totalBlocks = 0;
+
+// Optional: localStorage löschen, damit keine alten Werte geladen werden
+localStorage.removeItem("buildProgress");
+
   
 function loadProgress() {
   const data = JSON.parse(localStorage.getItem("buildProgress"));
@@ -397,7 +402,7 @@ function startAutoBuild() {
 
   let interval = 500;       // Startintervall 500ms
   const acceleration = 0.95; // Faktor, um das Tempo leicht zu steigern
-  const minInterval = 50;    // Minimalintervall
+  const minInterval = 10;    // Minimalintervall
 
   function step() {
     buildNext();
