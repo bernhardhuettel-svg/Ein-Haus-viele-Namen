@@ -144,14 +144,6 @@ function updateProgressUI() {
 
   const targetProgress = Math.floor((BuildController.builtBlocks / BuildController.totalBlocks) * 100);
 
-  // Sende Fortschritt
-  if(window.parent){
-      window.parent.postMessage({
-          progress: targetProgress,
-          spender: BuildController.builtBlocks
-      }, '*');
-  }
-
   // Smooth Animation
   const step = () => {
     if(currentProgress < targetProgress){
@@ -168,7 +160,13 @@ function updateProgressUI() {
       document.getElementById("progressBar").style.width = currentProgress + "%";
     }
   };
-
+  // Sende Fortschritt
+  if(window.parent){
+      window.parent.postMessage({
+          progress: targetProgress,
+          spender: BuildController.builtBlocks
+      }, '*');
+  }
   step();
 }
 
