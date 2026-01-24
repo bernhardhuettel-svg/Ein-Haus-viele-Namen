@@ -293,7 +293,13 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
 <section id="lego-simulation">
     <h2>Sieh deinen Beitrag in Aktion</h2>
     <p>Jeder virtuelle Stein macht das Haus größer. Dein Name wird sichtbar, jede Spende schafft eine neue Geschichte.</p>
-    <iframe src="Simulation.html"></iframe>
+   
+   <iframe 
+      src="Simulation.html"
+      sandbox="allow-scripts allow-same-origin"
+      loading="lazy">
+   </iframe>
+
 </section>
 <section id="projekt">
     <h2>Unsere Vision</h2>
@@ -419,17 +425,45 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
 </form>
 
 <script>
-window.addEventListener('message', function(event){
-    if(event.origin !== window.location.origin) return;
 
-    if(event.data.progress !== undefined){
-        document.getElementById('progress-bar').style.width = event.data.progress + '%';
-        document.getElementById('progress-bar').textContent = event.data.progress + '%';
-    }
-    if(event.data.spender !== undefined){
-        document.getElementById('spender-count').textContent = event.data.spender + ' Spender';
-    }
+<script>
+window.addEventListener("message", (event) => {
+
+  if (event.origin !== window.location.origin) return;
+  if (!event.data || event.data.type !== "HOUSE_PROGRESS") return;
+
+  const payload = event.data.payload || {};
+
+  if (Number.isFinite(payload.progress)) {
+    updateProgress(payload.progress);
+  }
+
+  if (Number.isInteger(payload.spender)) {
+    updateSpender(payload.spender);
+  }
 });
+
+function updateProgress(value) {
+  const progress = Math.min(100, Math.max(0, value));
+  const bar = document.getElementById("progress-bar");
+
+  bar.style.width = progress + "%";
+  bar.textContent = progress + "%";
+
+  updateStonesLeft(progress);
+}
+
+function updateSpender(count) {
+  document.getElementById("spender-count").textContent =
+    count + " Spender";
+}
+
+function updateStonesLeft(progress) {
+  const totalStones = 500000;
+  const current = Math.round((progress / 100) * totalStones);
+  document.getElementById("stones-left").textContent =
+    (totalStones - current).toLocaleString("de-DE");
+}   
 </script>
 
 </body>
