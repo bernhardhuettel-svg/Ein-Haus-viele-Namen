@@ -188,6 +188,38 @@ section:nth-child(even) {
   border-left: 6px solid var(--secondary);
 }
 
+/* =========================
+   TEAM / PROFILE
+========================= */
+.team {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.profile-card {
+  text-align: center;
+}
+
+.profile-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+}
+
+.profile-card h3 {
+  margin: 10px 0 6px;
+}
+
+.profile-card p {
+  font-size: 0.95em;
+}
+
+   
 @media (max-width: 768px) {
 
   header h1 { font-size: 2.2em; }
@@ -257,17 +289,20 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
     <h2>Wer wir sind</h2>
     <details>
         <summary>Mehr erfahren</summary>
-        <div class="content">
-            <img src="bernhard.png" alt="Bernhard" class="profile">
-            <h3>Bernhard</h3>
-            <p>Visionär & Initiator – ich verbinde digitale Ideen mit realen Projekten. Jeder Stein erzählt eine Geschichte.</p>
+        <div class="team">
+           <div class="profile-card">
+             <img src="bernhard.png" alt="Bernhard">
+             <h3>Bernhard</h3>
+             <p>Visionär & Initiator – verbindet digitale Ideen mit realen Projekten.</p>
+           </div>
+         
+           <div class="profile-card">
+             <img src="ela.png" alt="Ela">
+             <h3>Ela</h3>
+             <p>Kreative Umsetzung & Organisation – Gemeinschaft, Transparenz und Freude.</p>
+           </div>
+         </div>
 
-            <img src="ela.png" alt="Ela" class="profile">
-            <h3>Ela</h3>
-            <p>Kreative Umsetzung & Organisation. Für uns stehen <strong>Gemeinschaft, Transparenz und Freude</strong> im Mittelpunkt.</p>
-
-            <blockquote>„Ein Haus entsteht aus Menschen, Ideen und Herzen – jeder Beitrag hinterlässt Spuren.“</blockquote>
-        </div>
     </details>
 </section>
 
