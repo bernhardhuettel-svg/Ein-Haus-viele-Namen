@@ -70,7 +70,7 @@ const BuildController = {
 /* ======================================================
    RESET PROGRESS
 ====================================================== */
-localStorage.removeItem("buildProgress");
+//localStorage.removeItem("buildProgress");
 
 /* ======================================================
    RANDOM NAME FUNKTION
@@ -161,12 +161,16 @@ function updateProgressUI() {
     }
   };
   // Sende Fortschritt
-  if(window.parent){
-      window.parent.postMessage({
-          progress: targetProgress,
-          spender: BuildController.builtBlocks
-      }, '*');
+  if (window.parent) {
+    window.parent.postMessage({
+      type: "HOUSE_PROGRESS",
+      payload: {
+        progress: targetProgress,
+        spender: BuildController.builtBlocks
+      }
+    }, window.location.origin);
   }
+
   step();
 }
 
@@ -408,7 +412,18 @@ function buildNext() {
 
 prepareBuildQueue();
 updateProgressUI();
-  
+
+if (window.parent) {
+  window.parent.postMessage({
+    type: "HOUSE_PROGRESS",
+    payload: {
+      progress: Math.floor((BuildController.builtBlocks / BuildController.totalBlocks) * 100),
+      spender: BuildController.builtBlocks
+    }
+  }, window.location.origin);
+}
+
+
 /* ======================================================
    BUILD NEXT MIT BESCHLEUNIGUNG
 ====================================================== */
