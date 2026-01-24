@@ -6,22 +6,171 @@
 <title>Ein Haus – viele Namen – Ela & Bernhard</title>
 <style>
 
-/* =========================
-   DESIGN SYSTEM
-========================= */
+/* =========================================================
+   1. DESIGN TOKENS (Farben, Abstände, Effekte)
+========================================================= */
 :root {
   --primary: #ff8c42;
   --primary-soft: #fff3e6;
   --secondary: #42aaff;
+
   --bg-soft: #f7f9fc;
+  --bg-default: #fefefe;
+
   --text-dark: #222;
+
   --radius: 14px;
   --shadow: 0 8px 22px rgba(0,0,0,0.08);
 }
 
-/* =========================
-   SPENDENLEVELS
-========================= */
+
+/* =========================================================
+   2. BASE / RESET
+========================================================= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: var(--text-dark);
+  background: var(--bg-default);
+  line-height: 1.7;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+
+/* =========================================================
+   3. LAYOUT (Header, Main, Sections)
+========================================================= */
+header {
+  text-align: center;
+  padding: 80px 20px 60px;
+  background: linear-gradient(135deg,#a0d4ff,#e6f0ff);
+}
+
+header h1 {
+  font-size: 3em;
+  margin-bottom: 0.3em;
+}
+
+header h2 {
+  font-size: 1.7em;
+  font-weight: 400;
+  margin-bottom: 0.8em;
+}
+
+header p {
+  font-size: 1.3em;
+  max-width: 700px;
+  margin: 0 auto 30px;
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+section {
+  margin-bottom: 4em;
+  padding: 40px;
+  border-radius: var(--radius);
+}
+
+.section-soft {
+  background: var(--bg-soft);
+}
+
+h2 {
+  font-size: 2em;
+  margin-top: 0;
+  border-bottom: 3px solid #ddd;
+  padding-bottom: 0.5em;
+}
+
+
+/* =========================================================
+   4. CTA & BUTTONS
+========================================================= */
+.header-cta {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  padding: 18px 36px;
+  font-weight: 700;
+  font-size: 1.2em;
+  text-decoration: none;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.header-cta:hover {
+  background: #e67a23;
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   5. PROGRESS BAR
+========================================================= */
+.progress-container {
+  background: #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 30px auto 0;
+  height: 32px;
+  max-width: 600px;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--primary);
+  width: 0%;
+  color: #fff;
+  font-weight: 700;
+  line-height: 32px;
+  transition: width 0.6s ease;
+}
+
+.spender-count {
+  position: absolute;
+  right: 12px;
+  top: 0;
+  height: 32px;
+  line-height: 32px;
+  font-size: 0.95em;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   6. CARDS / BOX SYSTEM
+========================================================= */
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
+  margin: 22px 0;
+}
+
+.card.highlight {
+  background: var(--primary-soft);
+  border-left: 6px solid var(--primary);
+}
+
+
+/* =========================================================
+   7. SPENDENLEVELS
+========================================================= */
 .levels {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
@@ -37,10 +186,6 @@
   text-align: center;
 }
 
-.level h3 {
-  margin-bottom: 8px;
-}
-
 .level strong {
   display: block;
   margin-top: 10px;
@@ -52,145 +197,10 @@
 .level.gold   { border-top: 6px solid #ffd700; }
 .level.platin { border-top: 6px solid #8fd3f4; }
 
-    
-/* Grundlayout */
-body {
-    font-family: system-ui, -apple-system, sans-serif;
-    margin: 0; padding: 0;
-    color: #222;
-    background: #fefefe;
-    line-height: 1.7;
-}
 
-/* Header / Hero */
-header {
-    text-align: center;
-    padding: 80px 20px 60px;
-    background: linear-gradient(135deg,#a0d4ff,#e6f0ff);
-    color: #222;
-}
-header h1 {
-    font-size: 3em;
-    margin-bottom: 0.3em;
-}
-header h2 {
-    font-size: 1.7em;
-    font-weight: 400;
-    margin-bottom: 0.8em;
-}
-header p {
-    font-size: 1.3em;
-    max-width: 700px;
-    margin: 0 auto 30px;
-}
-
-/* Hero CTA Button */
-.header-cta {
-    display: inline-block;
-    background: #ff8c42;
-    color: #fff;
-    padding: 18px 36px;
-    font-weight: 700;
-    font-size: 1.2em;
-    text-decoration: none;
-    border-radius: 10px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    transition: all 0.3s ease;
-}
-.header-cta:hover {
-    background: #e67a23;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-}
-
-/* Fortschrittsbalken */
-.progress-container {
-    background: #eee;
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 30px auto 0;
-    height: 32px;
-    max-width: 600px;
-    position: relative;
-}
-.progress-bar {
-    height: 32px;
-    background: #ff8c42;
-    width: 0%;
-    line-height: 32px;
-    color: #fff;
-    text-align: center;
-    font-weight: 700;
-    font-size: 1.05em;
-    transition: width 0.6s ease;
-}
-.spender-count {
-    position: absolute;
-    right: 12px;
-    top: 0;
-    height: 32px;
-    line-height: 32px;
-    font-size: 0.95em;
-    font-weight: 600;
-    color: #222;
-}
-
-/* Main */
-main {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px 20px;
-}
-h2 {
-    font-size: 2em;
-    margin-top: 2em;
-    border-bottom: 3px solid #ddd;
-    padding-bottom: 0.5em;
-}
-section {
-  margin-bottom: 4em;
-  padding: 40px;
-  border-radius: var(--radius);
-}
-
-section:nth-child(even) {
-  background: var(--bg-soft);
-}
-
-/* 3D Simulation Container */
-#simulation-container, iframe {
-    width: 100%;
-    height: 600px;
-    background: #eef2f3;
-    border-radius: 14px;
-    margin-top: 30px;
-    border: none;
-}
-
-/* =========================
-   CARD / BOX SYSTEM
-========================= */
-.card {
-  background: #fff;
-  border-radius: var(--radius);
-  padding: 22px;
-  box-shadow: var(--shadow);
-  margin: 22px 0;
-}
-
-.card.highlight {
-  background: var(--primary-soft);
-  border-left: 6px solid var(--primary);
-}
-
-.card.info {
-  background: #eef6ff;
-  border-left: 6px solid var(--secondary);
-}
-
-/* =========================
-   TEAM / PROFILE
-========================= */
+/* =========================================================
+   8. TEAM / PROFILE
+========================================================= */
 .team {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -208,55 +218,56 @@ section:nth-child(even) {
   object-fit: cover;
   border-radius: 50%;
   box-shadow: var(--shadow);
-  margin-bottom: 12px;
+  margin: 0 auto 12px;
 }
 
-.profile-card h3 {
-  margin: 10px 0 6px;
-}
-
-.profile-card p {
-  font-size: 0.95em;
-}
-
-/* =========================
-   TEAM QUOTE
-========================= */
 .team-quote {
   margin-top: 40px;
   padding: 26px;
-  background: linear-gradient(135deg, #fff3e6, #ffffff);
+  background: linear-gradient(135deg, var(--primary-soft), #ffffff);
   border-left: 6px solid var(--primary);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  font-style: italic;
   text-align: center;
+  font-style: italic;
 }
 
-.team-quote span {
-  display: block;
-  margin-top: 12px;
-  font-style: normal;
-  font-weight: 600;
+
+/* =========================================================
+   9. SIMULATION / IFRAME
+========================================================= */
+/* Wichtig: stylt NUR den Rahmen, NICHT den Inhalt der Simulation */
+iframe {
+  width: 100%;
+  height: 600px;
+  border-radius: var(--radius);
+  border: none;
+  background: #eef2f3;
 }
 
-   
+
+/* =========================================================
+   10. RESPONSIVE
+========================================================= */
 @media (max-width: 768px) {
 
   header h1 { font-size: 2.2em; }
   header h2 { font-size: 1.3em; }
   header p  { font-size: 1.1em; }
 
-  iframe {
-    height: 380px;
-  }
-
   section {
     padding: 24px;
   }
+
+  iframe {
+    height: 380px;
+  }
 }
-    
+
 </style>
+
+
+   
 </head>
 <body>
 
