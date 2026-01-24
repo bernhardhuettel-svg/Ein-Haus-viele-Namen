@@ -5,6 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ein Haus – viele Namen – Ela & Bernhard</title>
 <style>
+
+/* =========================
+   DESIGN SYSTEM
+========================= */
+:root {
+  --primary: #ff8c42;
+  --primary-soft: #fff3e6;
+  --secondary: #42aaff;
+  --bg-soft: #f7f9fc;
+  --text-dark: #222;
+  --radius: 14px;
+  --shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   SPENDENLEVELS
+========================= */
+.levels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.level {
+  background: #fff;
+  padding: 22px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.level h3 {
+  margin-bottom: 8px;
+}
+
+.level strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 1.2em;
+}
+
+.level.bronze { border-top: 6px solid #cd7f32; }
+.level.silver { border-top: 6px solid #c0c0c0; }
+.level.gold   { border-top: 6px solid #ffd700; }
+.level.platin { border-top: 6px solid #8fd3f4; }
+
+    
 /* Grundlayout */
 body {
     font-family: system-ui, -apple-system, sans-serif;
@@ -100,7 +148,13 @@ h2 {
     padding-bottom: 0.5em;
 }
 section {
-    margin-bottom: 3em;
+  margin-bottom: 4em;
+  padding: 40px;
+  border-radius: var(--radius);
+}
+
+section:nth-child(even) {
+  background: var(--bg-soft);
 }
 
 /* 3D Simulation Container */
@@ -112,6 +166,43 @@ section {
     margin-top: 30px;
     border: none;
 }
+
+/* =========================
+   CARD / BOX SYSTEM
+========================= */
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
+  margin: 22px 0;
+}
+
+.card.highlight {
+  background: var(--primary-soft);
+  border-left: 6px solid var(--primary);
+}
+
+.card.info {
+  background: #eef6ff;
+  border-left: 6px solid var(--secondary);
+}
+
+@media (max-width: 768px) {
+
+  header h1 { font-size: 2.2em; }
+  header h2 { font-size: 1.3em; }
+  header p  { font-size: 1.1em; }
+
+  iframe {
+    height: 380px;
+  }
+
+  section {
+    padding: 24px;
+  }
+}
+    
 </style>
 </head>
 <body>
@@ -129,6 +220,11 @@ Dein Beitrag wird sichtbar: 1 € = 1 Stein, Name darauf, das Haus wächst liv
 </div>
 </header>
 
+<p style="margin-top:12px;font-weight:600;">
+Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
+</p>
+
+
 <main>
 <section id="lego-simulation">
     <h2>Sieh deinen Beitrag in Aktion</h2>
@@ -139,13 +235,6 @@ Dein Beitrag wird sichtbar: 1 € = 1 Stein, Name darauf, das Haus wächst liv
     <h2>Unsere Vision</h2>
 
     <!-- Mini Story Boxen für Social Proof -->
-    <div class="story-box" style="background:#fff3e6;border-left:5px solid #ff8c42;padding:16px 20px;margin:20px 0;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.08);">
-        <p>„Als ich meinen ersten Stein gesetzt habe, fühlte es sich an, als würde ich wirklich Teil des Hauses werden.“ – Anna, Unterstützerin</p>
-    </div>
-    <div class="story-box" style="background:#fff3e6;border-left:5px solid #ff8c42;padding:16px 20px;margin:20px 0;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.08);">
-        <p>„Jeder Beitrag erzählt eine Geschichte – und wir bauen gemeinsam etwas Einzigartiges.“ – Max, Unterstützer</p>
-    </div>
-
     <details>
         <summary>Mehr erfahren</summary>
         <div class="content">
@@ -153,6 +242,15 @@ Dein Beitrag wird sichtbar: 1 € = 1 Stein, Name darauf, das Haus wächst liv
             <p>Mit deiner Spende wirst du Teil eines Projekts, das Gemeinschaft, Kreativität und Nachhaltigkeit verbindet.</p>
         </div>
     </details>
+    
+    <div class="card highlight">
+          <p>„Als ich meinen ersten Stein gesetzt habe, fühlte es sich an, als würde ich wirklich Teil des Hauses werden.“ – Anna, Unterstützerin</p>
+    </div>
+
+    <div class="card highlight">
+        <p>„Jeder Beitrag erzählt eine Geschichte – und wir bauen gemeinsam etwas Einzigartiges.“ – Max, Unterstützer</p>
+    </div>
+    
 </section>
 
 <section id="wer-wir-sind">
@@ -176,7 +274,7 @@ Dein Beitrag wird sichtbar: 1 € = 1 Stein, Name darauf, das Haus wächst liv
 <section id="idee">
     <h2>Die Idee im Detail</h2>
 
-    <div class="story-box" style="background:#f0f8ff;border-left:5px solid #42aaff;padding:16px 20px;margin:20px 0;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.08);">
+    <div class="card highlight">
         <p>„Es ist unglaublich zu sehen, wie unser Haus wächst – Stein für Stein, Name für Name.“ – Lisa, Unterstützerin</p>
     </div>
 
@@ -196,16 +294,37 @@ Dein Beitrag wird sichtbar: 1 € = 1 Stein, Name darauf, das Haus wächst liv
 </section>
 
 <section id="mitmachen">
-    <h2>Spendenlevels & Belohnungen</h2>
-    <div class="content">
-        <span class="badge bronze">Bronze: Name auf Stein</span>
-        <span class="badge silver">Silber: Name + Mini-Update</span>
-        <span class="badge gold">Gold: Name + Dankesvideo</span>
-        <span class="badge platin">Platin: Einladung Richtfest</span>
-        <p>Wähle dein Level und werde Teil unserer wachsenden Community. Teile es mit Freunden und sieh, wie dein Beitrag das Haus sichtbar macht.</p>
-        <a href="#paypal-donate" class="header-cta">Jetzt mitmachen & Stein setzen</a>
-    </div>
+<h2>Spendenlevels & Belohnungen</h2>
+
+<div class="levels">
+  <div class="level bronze">
+    <h3>Bronze</h3>
+    <p>Name auf einem Stein</p>
+    <strong>ab 1 €</strong>
+  </div>
+
+  <div class="level silver">
+    <h3>Silber</h3>
+    <p>Name + Mini-Update</p>
+    <strong>ab 25 €</strong>
+  </div>
+
+  <div class="level gold">
+    <h3>Gold</h3>
+    <p>Name + Dankesvideo</p>
+    <strong>ab 100 €</strong>
+  </div>
+
+  <div class="level platin">
+    <h3>Platin</h3>
+    <p>Einladung zum Richtfest</p>
+    <strong>ab 500 €</strong>
+  </div>
+</div>
+
+<a href="#paypal-donate" class="header-cta">Jetzt mitmachen & Stein setzen</a>
 </section>
+
 
 <footer>
     © 2026 Ela & Bernhard · Schirmitz, Bayern<br>
