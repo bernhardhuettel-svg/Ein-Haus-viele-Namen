@@ -219,6 +219,27 @@ section:nth-child(even) {
   font-size: 0.95em;
 }
 
+/* =========================
+   TEAM QUOTE
+========================= */
+.team-quote {
+  margin-top: 40px;
+  padding: 26px;
+  background: linear-gradient(135deg, #fff3e6, #ffffff);
+  border-left: 6px solid var(--primary);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  font-style: italic;
+  text-align: center;
+}
+
+.team-quote span {
+  display: block;
+  margin-top: 12px;
+  font-style: normal;
+  font-weight: 600;
+}
+
    
 @media (max-width: 768px) {
 
@@ -286,25 +307,36 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
 </section>
 
 <section id="wer-wir-sind">
-    <h2>Wer wir sind</h2>
-    <details>
-        <summary>Mehr erfahren</summary>
-        <div class="team">
-           <div class="profile-card">
-             <img src="bernhard.png" alt="Bernhard">
-             <h3>Bernhard</h3>
-             <p>Visionär & Initiator – verbindet digitale Ideen mit realen Projekten.</p>
-           </div>
-         
-           <div class="profile-card">
-             <img src="ela.png" alt="Ela">
-             <h3>Ela</h3>
-             <p>Kreative Umsetzung & Organisation – Gemeinschaft, Transparenz und Freude.</p>
-           </div>
-         </div>
+  <h2>Wer wir sind</h2>
 
-    </details>
+  <p>
+    Wir sind Ela & Bernhard – zwei Menschen mit der Vision,
+    ein Haus nicht nur zu bauen, sondern <strong>gemeinsam mit einer Community wachsen zu lassen</strong>.
+  </p>
+
+  <div class="team">
+
+    <div class="profile-card">
+      <img src="bernhard.png" alt="Bernhard">
+      <h3>Bernhard</h3>
+      <p>Initiator & Visionär – Technik, Struktur und die Idee hinter dem Projekt.</p>
+    </div>
+
+    <div class="profile-card">
+      <img src="ela.png" alt="Ela">
+      <h3>Ela</h3>
+      <p>Kreative Seele & Organisation – Gemeinschaft, Transparenz und Herz.</p>
+    </div>
+
+  </div>
+
+  <div class="team-quote">
+    „Ein Haus entsteht nicht aus Steinen allein –
+    sondern aus Menschen, Ideen und Vertrauen.“
+    <span>– Ela & Bernhard</span>
+  </div>
 </section>
+
 
 <section id="idee">
     <h2>Die Idee im Detail</h2>
