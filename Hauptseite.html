@@ -152,6 +152,13 @@ h2{
   transition:.6s ease;
 }
 
+.progress-goal{
+  font-size:.9rem;
+  opacity:.85;
+  margin-top:6px;
+}
+
+
 .milestones{
   display:flex;
   justify-content:space-between;
@@ -299,13 +306,18 @@ iframe{
 
     <div class="progress-wrap">
       <div class="progress-info">
-         <strong id="progress-bar">0%</strong> erreicht
+         <strong id="progress-value">0%</strong> erreicht
       </div>
 
 
       <div class="progress-bar-box">
         <div class="progress-bar" id="progress-bar"></div>
       </div>
+
+      <p class="progress-goal">
+         Ziel: 500.000 Steine – jeder Beitrag zählt
+      </p>
+
 
       <div class="milestones">
         <span>0%</span>
@@ -457,7 +469,7 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
 <form action="https://www.paypal.com/donate" method="post" target="_blank" id="paypal-donate">
   <input type="hidden" name="business" value="bernhardhuettel@aol.com">
   <input type="hidden" name="currency_code" value="EUR">
-  <input type="hidden" name="item_name" value="Unterstütze unser Haus-Projekt">
+  <input type="hidden" name="item_name" value="Unterstuetze unser Haus-Projekt">
   <button type="submit" class="paypal-button">💛 Spenden via PayPal</button>
 </form>
 
@@ -481,13 +493,16 @@ window.addEventListener("message", (event) => {
 
 function updateProgress(value) {
   const progress = Math.min(100, Math.max(0, value));
+
   const bar = document.getElementById("progress-bar");
+  const label = document.getElementById("progress-value");
 
   bar.style.width = progress + "%";
-  bar.textContent = progress + "%";
+  label.textContent = progress + "%";
 
   updateStonesLeft(progress);
 }
+
 
 function updateSpender(count) {
   document.getElementById("spender-count").textContent =
