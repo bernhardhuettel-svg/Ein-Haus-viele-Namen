@@ -427,14 +427,14 @@ if (window.parent) {
 /* ======================================================
    BUILD NEXT MIT BESCHLEUNIGUNG
 ====================================================== */
-let buildInterval = 900; // Startintervall in ms
+let buildInterval = 400; // Startintervall in ms
 const minInterval = 10;   // schnellstes Intervall
-const acceleration = 5;   // wie stark das Intervall pro Block reduziert wird
+const acceleration = 0.80;   // wie stark das Intervall pro Block reduziert wird
 function autoBuild() {
     buildNext();
 
     // Intervall reduzieren (beschleunigen)
-    buildInterval = Math.max(minInterval, buildInterval - acceleration);
+    buildInterval = Math.max(minInterval, buildInterval * acceleration);
 
     setTimeout(autoBuild, buildInterval);
 }
