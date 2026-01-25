@@ -157,9 +157,9 @@ h2 {
 .card {
   background: #fff;
   border-radius: var(--radius);
-  padding: 22px;
+  padding: 32px;
   box-shadow: var(--shadow);
-  margin: 22px 0;
+  margin: 40px 0;
 }
 
 .card.highlight {
@@ -264,6 +264,95 @@ iframe {
   }
 }
 
+.hero {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(135deg,rgba(0,0,0,.45),rgba(0,0,0,.25)),
+    url("hero-house.jpg") center/cover no-repeat;
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.hero-content {
+  max-width: 760px;
+  backdrop-filter: blur(6px);
+  background: rgba(255,255,255,.12);
+  padding: 50px;
+  border-radius: 22px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.35);
+}
+
+.hero h1 {
+  font-size: 3.2rem;
+  margin-bottom: 10px;
+}
+
+.hero-sub {
+  font-size: 1.35rem;
+  opacity: .95;
+  margin-bottom: 35px;
+}
+
+.hero-cta {
+  background: #ff8c42;
+  padding: 18px 46px;
+  font-size: 1.2rem;
+  border-radius: 12px;
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 12px 28px rgba(0,0,0,.35);
+  transition: .3s;
+}
+
+.hero-cta:hover {
+  transform: translateY(-3px);
+}
+
+.progress-wrap {
+  margin-top: 35px;
+}
+
+.progress-bar-box {
+  background: rgba(255,255,255,.25);
+  border-radius: 14px;
+  overflow: hidden;
+  height: 26px;
+  margin: 10px 0;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg,#ff8c42,#ffb37a);
+  transition: .6s ease;
+}
+
+.milestones {
+  display: flex;
+  justify-content: space-between;
+  font-size: .8rem;
+  opacity: .85;
+}
+
+.floating-donate {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  background: #ff8c42;
+  padding: 14px 26px;
+  border-radius: 40px;
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
+  z-index: 1000;
+}
+   
 </style>
 
 
@@ -271,18 +360,39 @@ iframe {
 </head>
 <body>
 
-<header>
-<h1>Ein Haus – viele Namen</h1>
-<h2>Ela & Bernhard</h2>
-<p><strong>Jeder Stein erzählt eine Geschichte.</strong><br>
-Dein Beitrag wird sichtbar: 1 € = 1 Stein, Name darauf, das Haus wächst live und digital für alle Unterstützer.</p>
-<a href="#mitmachen" class="header-cta">Jetzt mitmachen & Stein setzen</a>
+<header class="hero">
+  <div class="hero-content">
+    <h1>Ein Haus – viele Namen</h1>
+    <p class="hero-sub">
+      Jeder Stein trägt eine Geschichte.  
+      Gemeinsam bauen wir unser Zuhause – sichtbar für alle.
+    </p>
 
-<div class="progress-container">
-    <div class="progress-bar" id="progress-bar">0%</div>
-    <div class="spender-count" id="spender-count">0 Spender</div>
-</div>
+   <a href="#mitmachen" class="hero-cta">Jetzt Stein setzen</a>
+   <a href="#mitmachen" class="floating-donate">💛 Spenden</a>
+
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <strong>Fortschritt:</strong> <span id="progress-value">0%</span>
+      </div>
+
+      <div class="progress-bar-box">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="milestones">
+        <span>0%</span>
+        <span>25%</span>
+        <span>50%</span>
+        <span>75%</span>
+        <span>100%</span>
+      </div>
+
+      <small id="spender-count">0 Unterstützer</small>
+    </div>
+  </div>
 </header>
+
 
 <p style="margin-top:12px;font-weight:600;">
 Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
