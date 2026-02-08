@@ -158,7 +158,6 @@ h2{
   margin-top:6px;
 }
 
-
 .milestones{
   display:flex;
   justify-content:space-between;
@@ -166,6 +165,21 @@ h2{
   opacity:.85;
 }
 
+/* ======================================================
+   PROJEKT-KONFIGURATION
+====================================================== */
+const TOTAL_STONES = 500000;
+
+const MILESTONES = [
+  { value: 0, label: "Start" },
+  { value: 50000, label: "Grundstücks-Reservierung" },
+  { value: 100000, label: "🚀 Start Realisierung" },
+  { value: 250000, label: "Rohbau" },
+  { value: 400000, label: "Innenausbau" },
+  { value: 500000, label: "🏡 Haus fertig" }
+];
+
+   
 /* =========================================================
    6. COMPONENTS
 ========================================================= */
@@ -318,14 +332,24 @@ iframe{
          Ziel: 500.000 Steine – jeder Beitrag zählt
       </p>
 
+   <p class="progress-goal">
+     🧱 Ziel: 500.000 € = 500.000 Steine<br>
+     🔒 Die Realisierung startet ab <strong>100.000 €</strong> – 
+     bis dahin fließen alle Beiträge in Planung, Grundstückssuche 
+     und Projektvorbereitung.
+   </p>
 
-      <div class="milestones">
-        <span>0%</span>
-        <span>25%</span>
-        <span>50%</span>
-        <span>75%</span>
-        <span>100%</span>
-      </div>
+       
+
+
+  <div class="milestones">
+     <span>0 €<br><small>Idee</small></span>
+     <span>50k €<br><small>Grundstück sichern</small></span>
+     <span><strong>100k €</strong><br><small>Start Bau</small></span>
+     <span>250k €<br><small>Rohbau</small></span>
+     <span>500k €<br><small>Haus fertig</small></span>
+   </div>
+
 
       <small id="spender-count">0 Unterstützer</small>
     </div>
@@ -510,11 +534,17 @@ function updateSpender(count) {
 }
 
 function updateStonesLeft(progress) {
-  const totalStones = 500000;
-  const current = Math.round((progress / 100) * totalStones);
+  const current = Math.round((progress / 100) * TOTAL_STONES);
+  const next = MILESTONES.find(m => m.value > current);
+
+  const left = next
+    ? next.value - current
+    : 0;
+
   document.getElementById("stones-left").textContent =
-    (totalStones - current).toLocaleString("de-DE");
-}   
+    left.toLocaleString("de-DE");
+}
+ 
 </script>
 
 </body>
