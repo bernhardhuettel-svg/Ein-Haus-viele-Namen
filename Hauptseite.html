@@ -364,20 +364,44 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
       </div>
     </div>
 
-    <!-- PAYMENT -->
-    <div class="card payment">
-      <h3>💳 Zahlungsarten</h3>
-      <div class="payment-buttons">
-        <button class="btn small" onclick="selectPayment('paypal')">PayPal</button>
-        <button class="btn small" onclick="selectPayment('sepa')">SEPA</button>
-        <button class="btn small" onclick="selectPayment('card')">Kreditkarte</button>
-      </div>
-      <div id="payment-info"></div>
-      <p class="payment-note">ℹ️ Freiwillige Unterstützung, keine steuerliche Absetzbarkeit.</p>
+<!-- PAYMENT -->
+<section id="mitmachen">
+  <h2>💳 Spenden & Stein setzen</h2>
+
+  <div class="card payment">
+    <h3>Wähle deine Zahlungsart</h3>
+    <div class="payment-buttons">
+      <!-- PayPal -->
+      <a href="https://www.paypal.com/donate?business=bernhardhuettel@aol.com&currency_code=EUR" 
+         target="_blank" class="btn">
+        💛 PayPal
+      </a>
+
+      <!-- Stripe für Apple/Google Pay + Kreditkarte -->
+      <button id="stripe-checkout-btn" class="btn">
+        💳 Apple/Google Pay & Kreditkarte
+      </button>
     </div>
 
-    <a href="#paypal-donate" class="btn">Jetzt mitmachen & Stein setzen</a>
-  </section>
+    <div id="payment-info"></div>
+    <p class="payment-note">
+      ℹ️ Freiwillige Unterstützung, keine steuerlich absetzbare Spende.
+    </p>
+  </div>
+</section>
+
+<script>
+// Stripe initialisieren
+const stripe = Stripe("DEIN_STRIPE_PUBLIC_KEY"); // hier deinen Key einsetzen
+
+document.getElementById("stripe-checkout-btn").addEventListener("click", function() {
+  fetch("/create-checkout-session", { method: "POST" })
+    .then(res => res.json())
+    .then(data => stripe.redirectToCheckout({ sessionId: data.id }))
+    .catch(err => console.error(err));
+});
+</script>
+
 
 </main>
 
