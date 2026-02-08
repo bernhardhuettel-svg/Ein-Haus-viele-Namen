@@ -13,8 +13,7 @@
 :root{
   --primary:#ff8c42;
   --primary-soft:#fff3e6;
-  --bg-default:#f0f0f0; /* einheitlicher Grauton */
-  --bg-soft:#f0f0f0;    /* gleiche Farbe für alle Sektionen */
+  --bg-color:#f0f0f0; /* einheitlicher Grauton für die ganze Seite */
 
   --text-dark:#222;
   --text-soft:#666;
@@ -36,7 +35,7 @@ body{
   margin:0;
   font-family:system-ui,-apple-system,sans-serif;
   color:var(--text-dark);
-  background:var(--bg-default);
+  background:var(--bg-color); /* GANZE Seite in Grauton */
   line-height:1.7;
 }
 
@@ -51,13 +50,14 @@ main{
   max-width:1000px;
   margin:0 auto;
   padding:80px 20px;
+  background:transparent; /* Grauton des Bodys durchscheint */
 }
 
 section{
   margin-bottom:120px;
   padding:60px;
   border-radius:var(--radius);
-  background:var(--bg-soft);
+  background:transparent; /* keine unterschiedlichen Sektionen */
 }
 
 h2{
@@ -107,7 +107,7 @@ h2{
   padding:50px;
   border-radius:var(--radius-lg);
   backdrop-filter:blur(6px);
-  background:rgba(240,240,240,0.25); /* Grauton, leicht transparent */
+  background:transparent; /* Grauton des Bodys sichtbar */
   border:1px solid rgba(0,0,0,.1);
   box-shadow:var(--shadow-lg);
 }
@@ -167,15 +167,15 @@ h2{
 /* =========================================================
    7. CARDS
 ========================================================= */
-.card{
-  background:var(--bg-soft); /* Grauton */
+.card,
+.card.highlight{
+  background:transparent; /* Grauton des Bodys sichtbar */
   padding:40px;
   border-radius:var(--radius);
   box-shadow:var(--shadow-md);
 }
 
 .card.highlight{
-  background:var(--bg-soft); /* gleich wie Card */
   border-left:6px solid var(--primary);
 }
 
@@ -205,7 +205,7 @@ h2{
 .team-quote{
   margin-top:40px;
   padding:26px;
-  background:var(--bg-soft); /* Grauton */
+  background:transparent; /* Grauton des Bodys sichtbar */
   border-left:6px solid var(--primary);
   border-radius:var(--radius);
   box-shadow:var(--shadow-md);
@@ -224,17 +224,33 @@ h2{
 }
 
 .level{
-  background:var(--bg-soft); /* Grauton */
-  padding:24px;
+  background:transparent; /* Grauton sichtbar */
+  padding:30px 20px;
   border-radius:var(--radius);
   box-shadow:var(--shadow-md);
   text-align:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:200px;
+}
+
+.level h3{
+  margin-top:0;
+  font-size:1.5rem;
+  color:var(--text-dark);
+}
+
+.level p{
+  font-size:1rem;
+  margin:10px 0 20px;
+  color:var(--text-dark);
 }
 
 .level strong{
   display:block;
-  margin-top:10px;
   font-size:1.2rem;
+  color:var(--primary);
 }
 
 .level.bronze{border-top:6px solid #cd7f32}
@@ -270,7 +286,7 @@ iframe{
   height:600px;
   border:none;
   border-radius:var(--radius);
-  background:var(--bg-soft);
+  background:transparent; /* Grauton sichtbar */
 }
 
 /* =========================================================
@@ -291,7 +307,7 @@ footer{
   padding:40px 20px;
   font-size:.85rem;
   color:var(--text-soft);
-  background:var(--bg-soft);
+  background:transparent; /* Grauton sichtbar */
 }
 
 /* =========================================================
@@ -303,6 +319,7 @@ footer{
   iframe{height:380px}
 }
 </style>
+
 
 </head>
 
@@ -441,27 +458,28 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
     <h2>Spendenlevels & Belohnungen</h2>
 
     <div class="levels">
-      <div class="level bronze">
-        <h3>Bronze</h3>
-        <p>Name auf einem Stein</p>
-        <strong>ab 1 €</strong>
-      </div>
-      <div class="level silver">
-        <h3>Silber</h3>
-        <p>Name + Mini-Update</p>
-        <strong>ab 25 €</strong>
-      </div>
-      <div class="level gold">
-        <h3>Gold</h3>
-        <p>Name + Dankesvideo</p>
-        <strong>ab 100 €</strong>
-      </div>
-      <div class="level platin">
-        <h3>Platin</h3>
-        <p>Einladung zum Richtfest</p>
-        <strong>ab 500 €</strong>
-      </div>
-    </div>
+  <div class="level bronze">
+    <h3>Bronze</h3>
+    <p>Name auf einem Stein</p>
+    <strong>1 – 24 €</strong>
+  </div>
+  <div class="level silver">
+    <h3>Silber</h3>
+    <p>Name + Mini-Update / Fortschrittsfoto</p>
+    <strong>25 – 99 €</strong>
+  </div>
+  <div class="level gold">
+    <h3>Gold</h3>
+    <p>Name + Dankesvideo</p>
+    <strong>100 – 499 €</strong>
+  </div>
+  <div class="level platin">
+    <h3>Platin</h3>
+    <p>Einladung zum Richtfest</p>
+    <strong>≥ 500 €</strong>
+  </div>
+</div>
+
 
     <!-- Payment -->
     <div class="card payment">
