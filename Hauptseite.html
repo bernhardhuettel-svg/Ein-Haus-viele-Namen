@@ -8,23 +8,23 @@
 
 <style>   
 /* =========================================================
-   1. DESIGN TOKENS & HERO VARIABLEN
+   1. DESIGN TOKENS & FARBEN
 ========================================================= */
 :root {
-  /* Grundfarben */
-  --primary: #FF6B35;
-  --primary-soft: #FFEDE1;
-  --accent: #FFD93D;
-  --bg-color: #F5F5F5;
-  --box-bg: #FFFFFF;
-  --text-dark: #1F1F1F;
-  --text-soft: #666666;
+  /* BASISFARBEN */
+  --primary: #FF6B35;          
+  --accent: #FFD93D;           
+  --primary-soft: #FFEDE1;     
+  --bg-color: #F5F5F5;         
+  --box-bg: #FFFFFF;            
+  --text-dark: #1F1F1F;        
+  --text-soft: #666666;        
 
-  /* Hero-Farben (einfach austauschbar) */
-  --hero-bg: url("hero-house.jpg");
-  --hero-overlay: rgba(0,0,0,0.4);
-  --hero-text: #FFFFFF;
-  --hero-box-bg: rgba(255,255,255,0.1);
+  /* HERO-SPEZIFISCH */
+  --hero-bg: url("hero-house.jpg");  
+  --hero-overlay: rgba(0,0,0,0.4);   
+  --hero-text: #FFFFFF;               
+  --hero-box-bg: rgba(255,255,255,0.1); 
 
   /* Radius & Schatten */
   --radius: 16px;
@@ -43,14 +43,14 @@ body {
   background: var(--bg-color);
   color: var(--text-dark);
   line-height: 1.7;
-  text-align: center; /* Alle Inhalte zentriert */
+  text-align: center;
 }
-img { max-width: 100%; display: block; border-radius: var(--radius); margin-left:auto; margin-right:auto; }
+img { max-width: 100%; display: block; margin-left:auto; margin-right:auto; border-radius: var(--radius);}
 a { text-decoration: none; color: inherit; }
 button { font-family: inherit; cursor: pointer; border: none; }
 
 /* =========================================================
-   3. HERO SECTIONS
+   3. HERO SECTION
 ========================================================= */
 .hero-section {
   min-height: 80vh;
@@ -67,8 +67,6 @@ button { font-family: inherit; cursor: pointer; border: none; }
   margin-bottom: 40px;
 }
 .hero-box {
-  position: relative;
-  z-index:1;
   max-width: 720px;
   padding: 50px 30px;
   background: var(--hero-box-bg);
@@ -92,34 +90,7 @@ button { font-family: inherit; cursor: pointer; border: none; }
 }
 
 /* =========================================================
-   4. SECTIONS / CARDS
-========================================================= */
-section {
-  background: var(--box-bg);
-  padding: 60px 30px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 60px;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center; /* Alle Sektionen zentriert */
-}
-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  border-bottom: 3px solid #eee;
-  padding-bottom: 0.5em;
-}
-section p, section li {
-  font-size: 1.1rem;
-  margin-bottom: 12px;
-  color: var(--text-dark);
-}
-section ul { padding-left: 20px; text-align:left; }
-
-/* =========================================================
-   5. BUTTONS
+   4. BUTTONS
 ========================================================= */
 .btn {
   display: inline-block;
@@ -133,6 +104,33 @@ section ul { padding-left: 20px; text-align:left; }
 }
 .btn:hover { transform: translateY(-3px); background: #FF824A; }
 .btn.small { padding: 12px 22px; font-size: 0.9rem; }
+
+/* =========================================================
+   5. SECTIONS / CARDS
+========================================================= */
+section {
+  background: var(--box-bg);
+  padding: 60px 30px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 60px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #eee;
+  padding-bottom: 0.5em;
+}
+section p, section li {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: var(--text-dark);
+}
+section ul { padding-left: 20px; text-align:left; }
 
 /* =========================================================
    6. PROGRESS BARS
