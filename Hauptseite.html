@@ -254,26 +254,28 @@ footer {
       Gemeinsam schaffen wir ein Zuhause, das für alle sichtbar wächst.
     </p>
 
-    <a href="#mitmachen" class="btn">💛 Jetzt Stein setzen</a>
-    <a href="#mitmachen" class="btn floating-cta">Spenden</a>
+     <!-- EIN EINZIGER BUTTON -->
+    <a href="#mitmachen" class="btn">💛 Stein setzen & Spenden</a>
 
     <div class="progress">
       <div class="progress-info">
         <strong id="progress-value">0%</strong> erreicht
       </div>
       <div class="progress-bar"><span id="progress-bar"></span></div>
-      <p class="progress-meta">
-        🧱 Ziel: 500.000 € = 500.000 Steine<br>
-        🔒 Realisierung ab <strong>100.000 €</strong>
-      </p>
+
       <div class="milestones">
         <span>0 €<br><small>Idee</small></span>
-        <span>50k €<br><small>Grundstück</small></span>
-        <span><strong>100k €</strong><br><small>Start Bau</small></span>
+        <span>50k €<br><small>Grundstück suche</small></span>
+        <span><strong>100k €</strong><br><small>Start (Grundstück kaufen)</small></span>
         <span>250k €<br><small>Rohbau</small></span>
         <span>500k €<br><small>Haus fertig</small></span>
       </div>
       <small id="spender-count">0 Unterstützer</small>
+    
+      <p class="progress-meta">
+        🧱 Ziel: 500.000 € = 500.000 Steine<br>
+        🔒 Realisierung ab <strong>100.000 €</strong>
+      </p>
     </div>
   </div>
 </header>
@@ -288,21 +290,16 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
   <!-- LEGO-SIMULATION -->
   <section id="lego-simulation">
     <h2>Sieh deinen Beitrag in Aktion</h2>
-    <p>Jeder virtuelle Stein lässt das Haus wachsen. Dein Name wird sichtbar, jede Spende schafft eine neue Geschichte.</p>
+    <p>Jeder virtuelle Stein lässt das Haus wachsen. Dein Name wird sichtbar, jede Spende schafft eine neue Geschichte.
+    Dies ist eine Simulation, wie es in der Theorie ausschauen wird. 
+    </p>
     <iframe src="Simulation.html" sandbox="allow-scripts allow-same-origin" loading="lazy"></iframe>
   </section>
 
   <!-- VISION -->
   <section id="projekt">
     <h2>Unsere Vision</h2>
-    <p>Wir bauen ein Haus, das <strong>von Menschen für Menschen</strong> entsteht. Jeder Stein macht das Haus größer – eine sichtbare Geschichte der Community.</p>
-
-    <div class="card highlight">
-      <p>„Als ich meinen ersten Stein gesetzt habe, fühlte ich mich wirklich Teil des Hauses.“ – Anna</p>
-    </div>
-    <div class="card highlight">
-      <p>„Jeder Beitrag erzählt eine Geschichte – wir bauen gemeinsam etwas Einzigartiges.“ – Max</p>
-    </div>
+    <p>Wir bauen ein Haus, das <strong>von Menschen für Menschen</strong> entsteht. Jeder Stein macht das Haus größer – eine sichtbare Geschichte der Community, die in der Realität umgesetzt wird.</p>
   </section>
 
   <!-- TEAM -->
@@ -345,22 +342,22 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
       <div class="level bronze">
         <h3>Bronze</h3>
         <p>Name auf einem Stein</p>
-        <strong>1–24 €</strong>
+        <strong>1 €</strong>
       </div>
       <div class="level silver">
         <h3>Silber</h3>
-        <p>Name + Mini-Update / Foto</p>
-        <strong>25–99 €</strong>
+        <p>Name auf einem gesamten Block</p>
+        <strong>101–499 €</strong>
       </div>
       <div class="level gold">
         <h3>Gold</h3>
         <p>Name + Dankesvideo</p>
-        <strong>100–499 €</strong>
+        <strong>499–999 €</strong>
       </div>
       <div class="level platin">
         <h3>Platin</h3>
-        <p>Einladung zum Richtfest</p>
-        <strong>≥ 500 €</strong>
+        <p>Name + Einladung zum Richtfest</p>
+        <strong>≥ 1000 €</strong>
       </div>
     </div>
 
@@ -380,6 +377,7 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
       <!-- Stripe für Apple/Google Pay + Kreditkarte -->
       <button id="stripe-checkout-btn" class="btn">
         💳 Apple/Google Pay & Kreditkarte
+         wird später hinzugefügt
       </button>
     </div>
 
@@ -416,7 +414,7 @@ document.getElementById("stripe-checkout-btn").addEventListener("click", functio
 <form action="https://www.paypal.com/donate" method="post" target="_blank" id="paypal-donate">
   <input type="hidden" name="business" value="bernhardhuettel@aol.com">
   <input type="hidden" name="currency_code" value="EUR">
-  <input type="hidden" name="item_name" value="Unterstütze unser Haus-Projekt">
+  <input type="hidden" name="item_name" value="Unterstuetze unser Haus-Projekt">
   <button type="submit" class="btn">💛 Spenden via PayPal</button>
 </form>
 
@@ -424,8 +422,8 @@ document.getElementById("stripe-checkout-btn").addEventListener("click", functio
 const TOTAL_STONES = 500000;
 const MILESTONES = [
   { value: 0, label: "Start" },
-  { value: 50000, label: "Grundstück" },
-  { value: 100000, label: "Start Bau" },
+  { value: 50000, label: "Grundstück suche" },
+  { value: 100000, label: "Start (Grundstück kaufen" },
   { value: 250000, label: "Rohbau" },
   { value: 400000, label: "Innenausbau" },
   { value: 500000, label: "Haus fertig" }
