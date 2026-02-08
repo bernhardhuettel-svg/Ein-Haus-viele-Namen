@@ -68,6 +68,12 @@ const BuildController = {
 };
 
 /* ======================================================
+   PROJEKT-KONFIGURATION
+====================================================== */
+const LOGICAL_STONES = 500000;   // echtes Ziel (Euro = Steine)
+const VISUAL_BLOCKS = 5000;      // wie viele Blöcke real gebaut werden
+
+/* ======================================================
    RESET PROGRESS
 ====================================================== */
 //localStorage.removeItem("buildProgress");
@@ -142,7 +148,7 @@ let currentProgress = 0; // Für smooth Animation
 function updateProgressUI() {
   if(BuildController.totalBlocks === 0) return;
 
-  const targetProgress = Math.floor((BuildController.builtBlocks / BuildController.totalBlocks) * 100);
+  const targetProgress = Math.floor((BuildController.builtBlocks / VISUAL_BLOCKS) * 100);
 
   // Smooth Animation
   const step = () => {
@@ -166,8 +172,10 @@ function updateProgressUI() {
       type: "HOUSE_PROGRESS",
       payload: {
         progress: targetProgress,
-        spender: BuildController.builtBlocks
-      }
+        spender: Math.round(
+                            (targetProgress / 100) * LOGICAL_STONES
+                          )
+              }
     }, window.location.origin);
   }
 
@@ -411,6 +419,9 @@ function buildNext() {
 }
 
 prepareBuildQueue();
+  // Begrenze visuelle Blöcke auf VISUAL_BLOCKS
+  BuildController.queue = BuildController.queue.slice(0, VISUAL_BLOCKS);
+  BuildController.totalBlocks = VISUAL_BLOCKS;
 updateProgressUI();
 
 if (window.parent) {
