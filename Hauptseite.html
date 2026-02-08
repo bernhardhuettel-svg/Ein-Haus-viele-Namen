@@ -13,8 +13,8 @@
 :root{
   --primary:#ff8c42;
   --primary-soft:#fff3e6;
-  --bg-soft:#f7f9fc;
-  --bg-default:#ffffff;
+  --bg-default:#f0f0f0; /* einheitlicher Grauton */
+  --bg-soft:#f0f0f0;    /* gleiche Farbe für alle Sektionen */
 
   --text-dark:#222;
   --text-soft:#666;
@@ -57,9 +57,6 @@ section{
   margin-bottom:120px;
   padding:60px;
   border-radius:var(--radius);
-}
-
-section:nth-child(even){
   background:var(--bg-soft);
 }
 
@@ -110,8 +107,8 @@ h2{
   padding:50px;
   border-radius:var(--radius-lg);
   backdrop-filter:blur(6px);
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.25);
+  background:rgba(240,240,240,0.25); /* Grauton, leicht transparent */
+  border:1px solid rgba(0,0,0,.1);
   box-shadow:var(--shadow-lg);
 }
 
@@ -171,14 +168,14 @@ h2{
    7. CARDS
 ========================================================= */
 .card{
-  background:#fff;
+  background:var(--bg-soft); /* Grauton */
   padding:40px;
   border-radius:var(--radius);
   box-shadow:var(--shadow-md);
 }
 
 .card.highlight{
-  background:var(--primary-soft);
+  background:var(--bg-soft); /* gleich wie Card */
   border-left:6px solid var(--primary);
 }
 
@@ -208,7 +205,7 @@ h2{
 .team-quote{
   margin-top:40px;
   padding:26px;
-  background:linear-gradient(135deg,var(--primary-soft),#fff);
+  background:var(--bg-soft); /* Grauton */
   border-left:6px solid var(--primary);
   border-radius:var(--radius);
   box-shadow:var(--shadow-md);
@@ -227,7 +224,7 @@ h2{
 }
 
 .level{
-  background:#fff;
+  background:var(--bg-soft); /* Grauton */
   padding:24px;
   border-radius:var(--radius);
   box-shadow:var(--shadow-md);
@@ -273,7 +270,7 @@ iframe{
   height:600px;
   border:none;
   border-radius:var(--radius);
-  background:#eef2f3;
+  background:var(--bg-soft);
 }
 
 /* =========================================================
@@ -294,6 +291,7 @@ footer{
   padding:40px 20px;
   font-size:.85rem;
   color:var(--text-soft);
+  background:var(--bg-soft);
 }
 
 /* =========================================================
@@ -305,6 +303,7 @@ footer{
   iframe{height:380px}
 }
 </style>
+
 </head>
 
 
