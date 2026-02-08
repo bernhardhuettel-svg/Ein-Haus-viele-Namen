@@ -8,19 +8,27 @@
 
 <style>   
 /* =========================================================
-   1. DESIGN TOKENS
+   1. DESIGN TOKENS & HERO VARIABLEN
 ========================================================= */
 :root {
-  --primary: #ff8c42;
-  --primary-soft: #fff3e6;
-  --bg-color: #f7f7f7;
-  --box-bg: #ffffff;
-  --text-dark: #222222;
-  --text-soft: #666666;
+  /* Grundfarben */
+  --primary: #FF6B35;
+  --primary-soft: #FFEDE1;
+  --accent: #FFD93D;
+  --bg-color: #F7F6F2;
+  --box-bg: #FFFFFF;
+  --text-dark: #2C2C2C;
+  --text-soft: #555555;
 
+  /* Hero-Farben (einfach austauschbar) */
+  --hero-bg: url("hero-house.jpg");
+  --hero-overlay: rgba(0,0,0,0.4);
+  --hero-text: #FFFFFF;
+  --hero-box-bg: rgba(255,255,255,0.1);
+
+  /* Radius & Schatten */
   --radius: 16px;
   --radius-lg: 22px;
-
   --shadow-sm: 0 6px 18px rgba(0,0,0,.08);
   --shadow-md: 0 12px 30px rgba(0,0,0,.12);
   --shadow-lg: 0 30px 80px rgba(0,0,0,.35);
@@ -35,8 +43,9 @@ body {
   background: var(--bg-color);
   color: var(--text-dark);
   line-height: 1.7;
+  text-align: center; /* Alle Inhalte zentriert */
 }
-img { max-width: 100%; display: block; border-radius: var(--radius); }
+img { max-width: 100%; display: block; border-radius: var(--radius); margin-left:auto; margin-right:auto; }
 a { text-decoration: none; color: inherit; }
 button { font-family: inherit; cursor: pointer; border: none; }
 
@@ -49,28 +58,25 @@ button { font-family: inherit; cursor: pointer; border: none; }
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-size: cover;
-  background-position: center;
-  color: #fff;
+  background:
+    linear-gradient(var(--hero-overlay), var(--hero-overlay)),
+    var(--hero-bg) center/cover no-repeat;
+  color: var(--hero-text);
   position: relative;
   padding: 60px 20px;
   margin-bottom: 40px;
-}
-.hero-section::after {
-  content:"";
-  position:absolute; inset:0;
-  background: rgba(0,0,0,0.4);
-  z-index:0;
 }
 .hero-box {
   position: relative;
   z-index:1;
   max-width: 720px;
   padding: 50px 30px;
-  background: rgba(255,255,255,0.1);
+  background: var(--hero-box-bg);
   backdrop-filter: blur(6px);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
+  margin-left:auto;
+  margin-right:auto;
 }
 .hero-box h1 {
   font-size: 3rem;
@@ -82,7 +88,7 @@ button { font-family: inherit; cursor: pointer; border: none; }
   margin-bottom: 30px;
 }
 .hero-box .btn {
-  margin: 5px;
+  margin: 5px auto;
 }
 
 /* =========================================================
@@ -97,6 +103,7 @@ section {
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
+  text-align: center; /* Alle Sektionen zentriert */
 }
 section h2 {
   font-size: 2.5rem;
@@ -109,7 +116,7 @@ section p, section li {
   margin-bottom: 12px;
   color: var(--text-dark);
 }
-section ul { padding-left: 20px; }
+section ul { padding-left: 20px; text-align:left; }
 
 /* =========================================================
    5. BUTTONS
@@ -124,16 +131,16 @@ section ul { padding-left: 20px; }
   box-shadow: var(--shadow-md);
   transition: transform 0.25s ease, background 0.3s ease;
 }
-.btn:hover { transform: translateY(-3px); background: #ff9b60; }
+.btn:hover { transform: translateY(-3px); background: #FF824A; }
 .btn.small { padding: 12px 22px; font-size: 0.9rem; }
 
 /* =========================================================
    6. PROGRESS BARS
 ========================================================= */
-.progress { margin-top: 35px; }
+.progress { margin-top: 35px; max-width: 600px; margin-left:auto; margin-right:auto; }
 .progress-info { font-size: 1.1rem; margin-bottom: 10px; }
 .progress-bar { height: 28px; background: rgba(0,0,0,0.1); border-radius: 14px; overflow: hidden; }
-.progress-bar span { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, #ff8c42, #ffb37a); transition: 0.6s ease; }
+.progress-bar span { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: 0.6s ease; }
 .progress-meta { font-size: 0.9rem; opacity: 0.85; margin-top: 6px; }
 .milestones { display: flex; justify-content: space-between; font-size: 0.75rem; opacity: 0.85; margin-top: 10px; }
 
