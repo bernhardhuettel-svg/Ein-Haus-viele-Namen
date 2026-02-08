@@ -7,320 +7,349 @@
 <title>Ein Haus – viele Namen | Ela & Bernhard</title>
 
 <style>
-
 /* =========================================================
    1. DESIGN TOKENS
 ========================================================= */
-:root{
-  --primary:#ff8c42;
-  --primary-soft:#fff3e6;
-  --bg-color:#f0f0f0; /* einheitlicher Grauton für die ganze Seite */
+:root {
+  --primary: #ff8c42;
+  --primary-soft: #fff3e6;
+  --bg-color: #f0f0f0;           /* Grauton als Seitenbasis */
+  --box-bg: #fafafa;              /* Einheitlicher Box-Hintergrund */
+  --text-dark: #222;
+  --text-soft: #666;
 
-  --text-dark:#222;
-  --text-soft:#666;
+  --radius: 16px;
+  --radius-lg: 22px;
 
-  --radius:16px;
-  --radius-lg:22px;
-
-  --shadow-sm:0 6px 18px rgba(0,0,0,.08);
-  --shadow-md:0 12px 30px rgba(0,0,0,.12);
-  --shadow-lg:0 30px 80px rgba(0,0,0,.35);
+  --shadow-sm: 0 6px 18px rgba(0,0,0,.08);
+  --shadow-md: 0 12px 30px rgba(0,0,0,.12);
+  --shadow-lg: 0 30px 80px rgba(0,0,0,.35);
 }
 
 /* =========================================================
    2. BASE
 ========================================================= */
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,sans-serif;
-  color:var(--text-dark);
-  background:var(--bg-color); /* GANZE Seite in Grauton */
-  line-height:1.7;
+* {
+  box-sizing: border-box;
 }
 
-img{max-width:100%;display:block}
-a{text-decoration:none;color:inherit}
-button{font-family:inherit}
-
-/* =========================================================
-   3. LAYOUT
-========================================================= */
-main{
-  max-width:1000px;
-  margin:0 auto;
-  padding:80px 20px;
-  background:transparent; /* Grauton des Bodys durchscheint */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: var(--text-dark);
+  background: var(--bg-color);
+  line-height: 1.7;
 }
 
-section{
-  margin-bottom:120px;
-  padding:60px;
-  border-radius:var(--radius);
-  background:transparent; /* keine unterschiedlichen Sektionen */
+img {
+  max-width: 100%;
+  display: block;
 }
 
-h2{
-  font-size:2rem;
-  margin-top:0;
-  border-bottom:3px solid #ddd;
-  padding-bottom:.5em;
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
 }
 
 /* =========================================================
-   4. BUTTON SYSTEM
+   3. LAYOUT & SECTIONS
 ========================================================= */
-.btn{
-  display:inline-block;
-  padding:16px 40px;
-  border-radius:12px;
-  font-weight:700;
-  background:var(--primary);
-  color:#fff;
-  border:none;
-  cursor:pointer;
-  box-shadow:var(--shadow-md);
-  transition:.25s ease;
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 80px 20px;
 }
 
-.btn:hover{transform:translateY(-3px)}
-.btn.small{padding:12px 22px;font-size:.9rem}
+section {
+  margin-bottom: 80px;
+  padding: 40px;
+  border-radius: var(--radius);
+  background: var(--box-bg);
+  box-shadow: var(--shadow-sm);
+}
+
+h2 {
+  font-size: 2rem;
+  margin-top: 0;
+  border-bottom: 3px solid #ddd;
+  padding-bottom: 0.5em;
+}
+
+/* =========================================================
+   4. BUTTONS
+========================================================= */
+.btn {
+  display: inline-block;
+  padding: 16px 40px;
+  border-radius: 12px;
+  font-weight: 700;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.25s ease;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+}
+
+.btn.small {
+  padding: 12px 22px;
+  font-size: 0.9rem;
+}
 
 /* =========================================================
    5. HERO
 ========================================================= */
-.hero{
-  min-height:90vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.hero {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background:
-    linear-gradient(135deg,rgba(0,0,0,.45),rgba(0,0,0,.25)),
+    linear-gradient(135deg, rgba(0,0,0,0.45), rgba(0,0,0,0.25)),
     url("hero-house.jpg") center/cover no-repeat;
-  color:#fff;
-  text-align:center;
-  padding:40px 20px;
+  color: #fff;
+  text-align: center;
+  padding: 40px 20px;
 }
 
-.hero-box{
-  max-width:760px;
-  padding:50px;
-  border-radius:var(--radius-lg);
-  backdrop-filter:blur(6px);
-  background:transparent; /* Grauton des Bodys sichtbar */
-  border:1px solid rgba(0,0,0,.1);
-  box-shadow:var(--shadow-lg);
+.hero-box {
+  max-width: 760px;
+  padding: 50px;
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(6px);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: var(--shadow-lg);
 }
 
-.hero h1{
-  font-size:3rem;
-  margin-bottom:10px;
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
 }
 
-.hero-sub{
-  font-size:1.3rem;
-  opacity:.95;
-  margin-bottom:30px;
+.hero-sub {
+  font-size: 1.3rem;
+  opacity: 0.95;
+  margin-bottom: 30px;
 }
 
 /* =========================================================
    6. PROGRESS
 ========================================================= */
-.progress{
-  margin-top:35px;
+.progress {
+  margin-top: 35px;
 }
 
-.progress-info{
-  font-size:1.1rem;
-  margin-bottom:10px;
+.progress-info {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
 }
 
-.progress-bar{
-  height:26px;
-  background:rgba(255,255,255,.3);
-  border-radius:14px;
-  overflow:hidden;
+.progress-bar {
+  height: 26px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 14px;
+  overflow: hidden;
 }
 
-.progress-bar span{
-  display:block;
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#ff8c42,#ffb37a);
-  transition:.6s ease;
+.progress-bar span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff8c42, #ffb37a);
+  transition: 0.6s ease;
 }
 
-.progress-meta{
-  font-size:.9rem;
-  opacity:.85;
-  margin-top:6px;
+.progress-meta {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin-top: 6px;
 }
 
-.milestones{
-  display:flex;
-  justify-content:space-between;
-  font-size:.75rem;
-  opacity:.85;
-  margin-top:10px;
+.milestones {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  opacity: 0.85;
+  margin-top: 10px;
 }
 
 /* =========================================================
-   7. CARDS
+   7. GENERISCHE BOX
 ========================================================= */
-.card,
-.card.highlight{
-  background:transparent; /* Grauton des Bodys sichtbar */
-  padding:40px;
-  border-radius:var(--radius);
-  box-shadow:var(--shadow-md);
+.box {
+  background: var(--box-bg);
+  padding: 30px 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 30px;
 }
 
-.card.highlight{
-  border-left:6px solid var(--primary);
+.box.highlight {
+  border-left: 6px solid var(--primary);
 }
 
 /* =========================================================
    8. TEAM
 ========================================================= */
-.team{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:30px;
-  margin-top:30px;
+.team {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
 }
 
-.profile-card{
-  text-align:center;
+.profile-card {
+  text-align: center;
 }
 
-.profile-card img{
-  width:120px;
-  height:120px;
-  object-fit:cover;
-  border-radius:50%;
-  margin:0 auto 12px;
-  box-shadow:var(--shadow-sm);
+.profile-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  box-shadow: var(--shadow-sm);
 }
 
-.team-quote{
-  margin-top:40px;
-  padding:26px;
-  background:transparent; /* Grauton des Bodys sichtbar */
-  border-left:6px solid var(--primary);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow-md);
-  text-align:center;
-  font-style:italic;
+.team-quote {
+  margin-top: 40px;
+  padding: 26px;
+  background: var(--box-bg);
+  border-left: 6px solid var(--primary);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  font-style: italic;
 }
 
 /* =========================================================
-   9. LEVELS
+   9. LEVELS / SPENDEN
 ========================================================= */
-.levels{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-  margin-top:30px;
+.levels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
 }
 
-.level{
-  background:transparent; /* Grauton sichtbar */
-  padding:30px 20px;
-  border-radius:var(--radius);
-  box-shadow:var(--shadow-md);
-  text-align:center;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  min-height:200px;
+.level {
+  background: var(--box-bg);
+  padding: 30px 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
 }
 
-.level h3{
-  margin-top:0;
-  font-size:1.5rem;
-  color:var(--text-dark);
+.level h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: var(--text-dark);
 }
 
-.level p{
-  font-size:1rem;
-  margin:10px 0 20px;
-  color:var(--text-dark);
+.level p {
+  font-size: 1rem;
+  margin: 10px 0 20px;
+  color: var(--text-dark);
 }
 
-.level strong{
-  display:block;
-  font-size:1.2rem;
-  color:var(--primary);
+.level strong {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--primary);
 }
 
-.level.bronze{border-top:6px solid #cd7f32}
-.level.silver{border-top:6px solid #c0c0c0}
-.level.gold{border-top:6px solid #ffd700}
-.level.platin{border-top:6px solid #8fd3f4}
+.level.bronze { border-top: 6px solid #cd7f32; }
+.level.silver { border-top: 6px solid #c0c0c0; }
+.level.gold { border-top: 6px solid #ffd700; }
+.level.platin { border-top: 6px solid #8fd3f4; }
 
 /* =========================================================
    10. PAYMENT
 ========================================================= */
-.payment{
-  text-align:center;
+.payment {
+  text-align: center;
 }
 
-.payment-buttons{
-  display:flex;
-  gap:14px;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin:20px 0;
+.payment-buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px 0;
 }
 
-.payment-note{
-  font-size:.8rem;
-  opacity:.7;
+.payment-note {
+  font-size: 0.8rem;
+  opacity: 0.7;
 }
 
 /* =========================================================
-   11. SIMULATION
+   11. SIMULATION / IFRAME
 ========================================================= */
-iframe{
-  width:100%;
-  height:600px;
-  border:none;
-  border-radius:var(--radius);
-  background:transparent; /* Grauton sichtbar */
+iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--box-bg);
+  box-shadow: var(--shadow-sm);
 }
 
 /* =========================================================
    12. FLOATING CTA
 ========================================================= */
-.floating-cta{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  z-index:1000;
+.floating-cta {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
 }
 
 /* =========================================================
    13. FOOTER
 ========================================================= */
-footer{
-  text-align:center;
-  padding:40px 20px;
-  font-size:.85rem;
-  color:var(--text-soft);
-  background:transparent; /* Grauton sichtbar */
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  background: var(--box-bg);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius);
 }
 
 /* =========================================================
    14. RESPONSIVE
 ========================================================= */
 @media(max-width:768px){
-  section{padding:40px 24px;margin-bottom:80px}
-  .hero h1{font-size:2.2rem}
-  iframe{height:380px}
+  section {
+    padding: 40px 24px;
+    margin-bottom: 60px;
+  }
+  .hero h1 { font-size: 2.2rem; }
+  iframe { height: 380px; }
 }
 </style>
 
+
+
+   
 </head>
 
 
