@@ -6,17 +6,17 @@
 
 <title>Ein Haus – viele Namen | Ela & Bernhard</title>
 
-<style>
+<style>   
 /* =========================================================
    1. DESIGN TOKENS
 ========================================================= */
 :root {
   --primary: #ff8c42;
   --primary-soft: #fff3e6;
-  --bg-color: #f0f0f0;           /* Grauton als Seitenbasis */
-  --box-bg: #fafafa;              /* Einheitlicher Box-Hintergrund */
-  --text-dark: #222;
-  --text-soft: #666;
+  --bg-color: #f7f7f7;
+  --box-bg: #ffffff;
+  --text-dark: #222222;
+  --text-soft: #666666;
 
   --radius: 16px;
   --radius-lg: 22px;
@@ -29,10 +29,7 @@
 /* =========================================================
    2. BASE
 ========================================================= */
-* {
-  box-sizing: border-box;
-}
-
+* { box-sizing: border-box; }
 body {
   margin: 0;
   font-family: system-ui, -apple-system, sans-serif;
@@ -40,44 +37,16 @@ body {
   background: var(--bg-color);
   line-height: 1.7;
 }
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-button {
-  font-family: inherit;
-}
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; }
 
 /* =========================================================
    3. LAYOUT & SECTIONS
 ========================================================= */
-main {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 80px 20px;
-}
-
-section {
-  margin-bottom: 80px;
-  padding: 40px;
-  border-radius: var(--radius);
-  background: var(--box-bg);
-  box-shadow: var(--shadow-sm);
-}
-
-h2 {
-  font-size: 2rem;
-  margin-top: 0;
-  border-bottom: 3px solid #ddd;
-  padding-bottom: 0.5em;
-}
+main { max-width: 1000px; margin: 0 auto; padding: 80px 20px; }
+section { margin-bottom: 80px; padding: 40px; border-radius: var(--radius); background: var(--box-bg); box-shadow: var(--shadow-sm); }
+h2 { font-size: 2rem; margin-top: 0; border-bottom: 3px solid #eee; padding-bottom: 0.5em; }
 
 /* =========================================================
    4. BUTTONS
@@ -90,28 +59,18 @@ h2 {
   background: var(--primary);
   color: #fff;
   border: none;
-  cursor: pointer;
   box-shadow: var(--shadow-md);
-  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, background 0.3s ease;
 }
-
-.btn:hover {
-  transform: translateY(-3px);
-}
-
-.btn.small {
-  padding: 12px 22px;
-  font-size: 0.9rem;
-}
+.btn:hover { transform: translateY(-3px); background: #ff9b60; }
+.btn.small { padding: 12px 22px; font-size: 0.9rem; }
 
 /* =========================================================
    5. HERO
 ========================================================= */
 .hero {
   min-height: 90vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   background:
     linear-gradient(135deg, rgba(0,0,0,0.45), rgba(0,0,0,0.25)),
     url("hero-house.jpg") center/cover no-repeat;
@@ -119,7 +78,6 @@ h2 {
   text-align: center;
   padding: 40px 20px;
 }
-
 .hero-box {
   max-width: 760px;
   padding: 50px;
@@ -129,151 +87,42 @@ h2 {
   border: 1px solid rgba(255,255,255,0.25);
   box-shadow: var(--shadow-lg);
 }
-
-.hero h1 {
-  font-size: 3rem;
-  margin-bottom: 10px;
-}
-
-.hero-sub {
-  font-size: 1.3rem;
-  opacity: 0.95;
-  margin-bottom: 30px;
-}
+.hero h1 { font-size: 3rem; margin-bottom: 10px; }
+.hero-sub { font-size: 1.3rem; opacity: 0.95; margin-bottom: 30px; }
 
 /* =========================================================
    6. PROGRESS
 ========================================================= */
-.progress {
-  margin-top: 35px;
-}
-
-.progress-info {
-  font-size: 1.1rem;
-  margin-bottom: 10px;
-}
-
-.progress-bar {
-  height: 26px;
-  background: rgba(0,0,0,0.1);
-  border-radius: 14px;
-  overflow: hidden;
-}
-
-.progress-bar span {
-  display: block;
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #ff8c42, #ffb37a);
-  transition: 0.6s ease;
-}
-
-.progress-meta {
-  font-size: 0.9rem;
-  opacity: 0.85;
-  margin-top: 6px;
-}
-
-.milestones {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  opacity: 0.85;
-  margin-top: 10px;
-}
+.progress { margin-top: 35px; }
+.progress-info { font-size: 1.1rem; margin-bottom: 10px; }
+.progress-bar { height: 26px; background: rgba(0,0,0,0.1); border-radius: 14px; overflow: hidden; }
+.progress-bar span { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, #ff8c42, #ffb37a); transition: 0.6s ease; }
+.progress-meta { font-size: 0.9rem; opacity: 0.85; margin-top: 6px; }
+.milestones { display: flex; justify-content: space-between; font-size: 0.75rem; opacity: 0.85; margin-top: 10px; }
 
 /* =========================================================
-   7. GENERISCHE BOX
+   7. GENERISCHE BOX & HIGHLIGHT
 ========================================================= */
-.box {
-  background: var(--box-bg);
-  padding: 30px 20px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-md);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-bottom: 30px;
-}
-
-.box.highlight {
-  border-left: 6px solid var(--primary);
-}
+.box, .card { background: var(--box-bg); padding: 30px 20px; border-radius: var(--radius); box-shadow: var(--shadow-md); margin-bottom: 30px; }
+.box.highlight, .card.highlight { border-left: 6px solid var(--primary); }
 
 /* =========================================================
    8. TEAM
 ========================================================= */
-.team {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 30px;
-  margin-top: 30px;
-}
-
-.profile-card {
-  text-align: center;
-}
-
-.profile-card img {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin: 0 auto 12px;
-  box-shadow: var(--shadow-sm);
-}
-
-.team-quote {
-  margin-top: 40px;
-  padding: 26px;
-  background: var(--box-bg);
-  border-left: 6px solid var(--primary);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-md);
-  text-align: center;
-  font-style: italic;
-}
+.team { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 30px; margin-top: 30px; }
+.profile-card { text-align: center; }
+.profile-card img { width: 120px; height: 120px; object-fit: cover; border-radius: 50%; margin: 0 auto 12px; box-shadow: var(--shadow-sm); }
+.team-quote { margin-top: 40px; padding: 26px; background: var(--box-bg); border-left: 6px solid var(--primary); border-radius: var(--radius); box-shadow: var(--shadow-md); text-align: center; font-style: italic; }
 
 /* =========================================================
    9. LEVELS / SPENDEN
 ========================================================= */
-.levels {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
-}
-
-.level {
-  background: var(--box-bg);
-  padding: 30px 20px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-md);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 220px;
-}
-
-.level h3 {
-  margin-top: 0;
-  font-size: 1.5rem;
-  color: var(--text-dark);
-}
-
-.level p {
-  font-size: 1rem;
-  margin: 10px 0 20px;
-  color: var(--text-dark);
-}
-
-.level strong {
-  display: block;
-  font-size: 1.2rem;
-  color: var(--primary);
-}
-
+.levels { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 20px; margin-top: 30px; }
+.level { background: var(--box-bg); padding: 30px 20px; border-radius: var(--radius); box-shadow: var(--shadow-md); text-align: center; display: flex; flex-direction: column; justify-content: space-between; min-height: 220px; transition: transform 0.3s ease; }
+.level:hover { transform: translateY(-5px); }
+.level h3 { margin-top: 0; font-size: 1.5rem; color: var(--text-dark); }
+.level p { font-size: 1rem; margin: 10px 0 20px; color: var(--text-dark); }
+.level strong { display: block; font-size: 1.2rem; color: var(--primary); }
 .level.bronze { border-top: 6px solid #cd7f32; }
 .level.silver { border-top: 6px solid #c0c0c0; }
 .level.gold { border-top: 6px solid #ffd700; }
@@ -282,74 +131,35 @@ h2 {
 /* =========================================================
    10. PAYMENT
 ========================================================= */
-.payment {
-  text-align: center;
-}
-
-.payment-buttons {
-  display: flex;
-  gap: 14px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 20px 0;
-}
-
-.payment-note {
-  font-size: 0.8rem;
-  opacity: 0.7;
-}
+.payment { text-align: center; }
+.payment-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin: 20px 0; }
+.payment-note { font-size: 0.8rem; opacity: 0.7; }
 
 /* =========================================================
-   11. SIMULATION / IFRAME
+   11. IFRAME / SIMULATION
 ========================================================= */
-iframe {
-  width: 100%;
-  height: 600px;
-  border: none;
-  border-radius: var(--radius);
-  background: var(--box-bg);
-  box-shadow: var(--shadow-sm);
-}
+iframe { width: 100%; height: 600px; border: none; border-radius: var(--radius); background: var(--box-bg); box-shadow: var(--shadow-sm); }
 
 /* =========================================================
    12. FLOATING CTA
 ========================================================= */
-.floating-cta {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  z-index: 1000;
-}
+.floating-cta { position: fixed; right: 20px; bottom: 20px; z-index: 1000; }
 
 /* =========================================================
    13. FOOTER
 ========================================================= */
-footer {
-  text-align: center;
-  padding: 40px 20px;
-  font-size: 0.85rem;
-  color: var(--text-soft);
-  background: var(--box-bg);
-  box-shadow: var(--shadow-sm);
-  border-radius: var(--radius);
-}
+footer { text-align: center; padding: 40px 20px; font-size: 0.85rem; color: var(--text-soft); background: var(--box-bg); box-shadow: var(--shadow-sm); border-radius: var(--radius); }
 
 /* =========================================================
    14. RESPONSIVE
 ========================================================= */
 @media(max-width:768px){
-  section {
-    padding: 40px 24px;
-    margin-bottom: 60px;
-  }
+  section { padding: 40px 24px; margin-bottom: 60px; }
   .hero h1 { font-size: 2.2rem; }
   iframe { height: 380px; }
 }
 </style>
 
-
-
-   
 </head>
 
 
@@ -360,19 +170,17 @@ footer {
 
 <body>
 
-<!-- =======================
-     HERO
-======================= -->
+<!-- HERO -->
 <header class="hero">
   <div class="hero-box">
     <h1>Ein Haus – viele Namen</h1>
     <p class="hero-sub">
-      Jeder Stein trägt eine Geschichte.<br>
-      Gemeinsam bauen wir unser Zuhause – sichtbar für alle.
+      Jeder Stein erzählt deine Geschichte.<br>
+      Gemeinsam schaffen wir ein Zuhause, das für alle sichtbar wächst.
     </p>
 
-    <a href="#mitmachen" class="btn">Jetzt Stein setzen</a>
-    <a href="#mitmachen" class="btn floating-cta">💛 Spenden</a>
+    <a href="#mitmachen" class="btn">💛 Jetzt Stein setzen</a>
+    <a href="#mitmachen" class="btn floating-cta">Spenden</a>
 
     <div class="progress">
       <div class="progress-info">
@@ -381,11 +189,11 @@ footer {
       <div class="progress-bar"><span id="progress-bar"></span></div>
       <p class="progress-meta">
         🧱 Ziel: 500.000 € = 500.000 Steine<br>
-        🔒 Die Realisierung startet ab <strong>100.000 €</strong>
+        🔒 Realisierung ab <strong>100.000 €</strong>
       </p>
       <div class="milestones">
         <span>0 €<br><small>Idee</small></span>
-        <span>50k €<br><small>Grundstück sichern</small></span>
+        <span>50k €<br><small>Grundstück</small></span>
         <span><strong>100k €</strong><br><small>Start Bau</small></span>
         <span>250k €<br><small>Rohbau</small></span>
         <span>500k €<br><small>Haus fertig</small></span>
@@ -399,118 +207,89 @@ footer {
 Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
 </p>
 
-<!-- =======================
-     MAIN CONTENT
-======================= -->
+<!-- MAIN -->
 <main>
 
   <!-- LEGO-SIMULATION -->
   <section id="lego-simulation">
     <h2>Sieh deinen Beitrag in Aktion</h2>
-    <p>Jeder virtuelle Stein macht das Haus größer. Dein Name wird sichtbar, jede Spende schafft eine neue Geschichte.</p>
+    <p>Jeder virtuelle Stein lässt das Haus wachsen. Dein Name wird sichtbar, jede Spende schafft eine neue Geschichte.</p>
     <iframe src="Simulation.html" sandbox="allow-scripts allow-same-origin" loading="lazy"></iframe>
   </section>
 
-  <!-- PROJEKT / VISION -->
+  <!-- VISION -->
   <section id="projekt">
     <h2>Unsere Vision</h2>
-
-    <details>
-      <summary>Mehr erfahren</summary>
-      <div class="content">
-        <p>Wir bauen ein Haus, das <strong>von Menschen für Menschen</strong> entsteht. Jeder Stein macht das Haus größer – eine sichtbare Geschichte für die Community.</p>
-        <p>Mit deiner Spende wirst du Teil eines Projekts, das Gemeinschaft, Kreativität und Nachhaltigkeit verbindet.</p>
-      </div>
-    </details>
+    <p>Wir bauen ein Haus, das <strong>von Menschen für Menschen</strong> entsteht. Jeder Stein macht das Haus größer – eine sichtbare Geschichte der Community.</p>
 
     <div class="card highlight">
-      <p>„Als ich meinen ersten Stein gesetzt habe, fühlte es sich an, als würde ich wirklich Teil des Hauses werden.“ – Anna, Unterstützerin</p>
+      <p>„Als ich meinen ersten Stein gesetzt habe, fühlte ich mich wirklich Teil des Hauses.“ – Anna</p>
     </div>
-
     <div class="card highlight">
-      <p>„Jeder Beitrag erzählt eine Geschichte – und wir bauen gemeinsam etwas Einzigartiges.“ – Max, Unterstützer</p>
+      <p>„Jeder Beitrag erzählt eine Geschichte – wir bauen gemeinsam etwas Einzigartiges.“ – Max</p>
     </div>
   </section>
 
   <!-- TEAM -->
   <section id="wer-wir-sind">
     <h2>Wer wir sind</h2>
-    <p>
-      Wir sind Ela & Bernhard – zwei Menschen mit der Vision,
-      ein Haus nicht nur zu bauen, sondern <strong>gemeinsam mit einer Community wachsen zu lassen</strong>.
-    </p>
-
+    <p>Wir sind Ela & Bernhard – zwei Menschen mit der Vision, ein Haus <strong>gemeinsam mit der Community wachsen zu lassen</strong>.</p>
     <div class="team">
       <div class="profile-card">
         <img src="bernhard.png" alt="Bernhard">
         <h3>Bernhard</h3>
-        <p>Initiator & Visionär – Technik, Struktur und die Idee hinter dem Projekt.</p>
+        <p>Initiator & Visionär – Technik, Struktur & Idee.</p>
       </div>
       <div class="profile-card">
         <img src="ela.png" alt="Ela">
         <h3>Ela</h3>
-        <p>Kreative Seele & Organisation – Gemeinschaft, Transparenz und Herz.</p>
+        <p>Kreative Seele – Gemeinschaft, Transparenz & Herz.</p>
       </div>
     </div>
-
     <div class="team-quote">
-      „Ein Haus entsteht nicht aus Steinen allein – sondern aus Menschen, Ideen und Vertrauen.“
-      <span>– Ela & Bernhard</span>
+      „Ein Haus entsteht nicht aus Steinen allein – sondern aus Menschen, Ideen und Vertrauen.“<br>
+      – Ela & Bernhard
     </div>
   </section>
 
   <!-- IDEE -->
   <section id="idee">
     <h2>Die Idee im Detail</h2>
-
-    <div class="card highlight">
-      <p>„Es ist unglaublich zu sehen, wie unser Haus wächst – Stein für Stein, Name für Name.“ – Lisa, Unterstützerin</p>
-    </div>
-
-    <details>
-      <summary>Mehr erfahren</summary>
-      <div class="content">
-        <p>Wir verwandeln ein Grundstück in ein <strong>Haus voller Geschichten</strong>. Jeder kann digital mitbestimmen:</p>
-        <ul>
-          <li>1 € = 1 virtueller Stein</li>
-          <li>Dein Name oder eine Nachricht auf dem Stein</li>
-          <li>Live-Abstimmungen: Fensterfarbe, Garten, Interior</li>
-          <li>100 % deiner Spende fließen direkt ins reale Projekt</li>
-        </ul>
-        <p>Unser Ziel: 500.000–600.000 € – wöchentliche Updates mit Fotos, Fortschritt & Finanzen zeigen dir, wie jeder Stein wirkt.</p>
-      </div>
-    </details>
+    <ul>
+      <li>1 € = 1 virtueller Stein</li>
+      <li>Name oder Nachricht auf deinem Stein</li>
+      <li>Live-Abstimmungen: Fensterfarbe, Garten, Interior</li>
+      <li>100 % deiner Spende fließt direkt ins reale Projekt</li>
+    </ul>
   </section>
 
-  <!-- MITMACHEN / SPENDEN -->
+  <!-- SPENDENLEVELS -->
   <section id="mitmachen">
     <h2>Spendenlevels & Belohnungen</h2>
-
     <div class="levels">
-  <div class="level bronze">
-    <h3>Bronze</h3>
-    <p>Name auf einem Stein</p>
-    <strong>1 – 24 €</strong>
-  </div>
-  <div class="level silver">
-    <h3>Silber</h3>
-    <p>Name + Mini-Update / Fortschrittsfoto</p>
-    <strong>25 – 99 €</strong>
-  </div>
-  <div class="level gold">
-    <h3>Gold</h3>
-    <p>Name + Dankesvideo</p>
-    <strong>100 – 499 €</strong>
-  </div>
-  <div class="level platin">
-    <h3>Platin</h3>
-    <p>Einladung zum Richtfest</p>
-    <strong>≥ 500 €</strong>
-  </div>
-</div>
+      <div class="level bronze">
+        <h3>Bronze</h3>
+        <p>Name auf einem Stein</p>
+        <strong>1–24 €</strong>
+      </div>
+      <div class="level silver">
+        <h3>Silber</h3>
+        <p>Name + Mini-Update / Foto</p>
+        <strong>25–99 €</strong>
+      </div>
+      <div class="level gold">
+        <h3>Gold</h3>
+        <p>Name + Dankesvideo</p>
+        <strong>100–499 €</strong>
+      </div>
+      <div class="level platin">
+        <h3>Platin</h3>
+        <p>Einladung zum Richtfest</p>
+        <strong>≥ 500 €</strong>
+      </div>
+    </div>
 
-
-    <!-- Payment -->
+    <!-- PAYMENT -->
     <div class="card payment">
       <h3>💳 Zahlungsarten</h3>
       <div class="payment-buttons">
@@ -519,9 +298,7 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
         <button class="btn small" onclick="selectPayment('card')">Kreditkarte</button>
       </div>
       <div id="payment-info"></div>
-      <p class="payment-note">
-        ℹ️ Freiwillige Unterstützung ohne Anspruch auf Gegenleistung.
-      </p>
+      <p class="payment-note">ℹ️ Freiwillige Unterstützung, keine steuerliche Absetzbarkeit.</p>
     </div>
 
     <a href="#paypal-donate" class="btn">Jetzt mitmachen & Stein setzen</a>
@@ -529,63 +306,49 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
 
 </main>
 
-<!-- =======================
-     FOOTER
-======================= -->
+<!-- FOOTER -->
 <footer>
   © 2026 Ela & Bernhard · Schirmitz, Bayern<br>
   Ein Community-Projekt – von Menschen für Menschen.<br>
-  <small>Alle Beiträge freiwillig, keine steuerlich absetzbare Spende. Wir übernehmen keine Haftung für Spenden und garantieren keine Gegenleistungen außer den oben genannten Belohnungen.</small>
+  <small>Alle Beiträge freiwillig, keine steuerlich absetzbare Spende.</small>
 </footer>
 
-<!-- =======================
-     PAYPAL FORM
-======================= -->
+<!-- PAYPAL -->
 <form action="https://www.paypal.com/donate" method="post" target="_blank" id="paypal-donate">
   <input type="hidden" name="business" value="bernhardhuettel@aol.com">
   <input type="hidden" name="currency_code" value="EUR">
-  <input type="hidden" name="item_name" value="Unterstuetze unser Haus-Projekt">
+  <input type="hidden" name="item_name" value="Unterstütze unser Haus-Projekt">
   <button type="submit" class="btn">💛 Spenden via PayPal</button>
 </form>
 
-<!-- =======================
-     JAVASCRIPT
-======================= -->
 <script>
-/* ====== KONFIGURATION ====== */
 const TOTAL_STONES = 500000;
 const MILESTONES = [
   { value: 0, label: "Start" },
-  { value: 50000, label: "Grundstücks-Reservierung" },
-  { value: 100000, label: "🚀 Start Realisierung" },
+  { value: 50000, label: "Grundstück" },
+  { value: 100000, label: "Start Bau" },
   { value: 250000, label: "Rohbau" },
   { value: 400000, label: "Innenausbau" },
-  { value: 500000, label: "🏡 Haus fertig" }
+  { value: 500000, label: "Haus fertig" }
 ];
 
-/* ====== EVENT LISTENER FÜR SIMULATION ====== */
 window.addEventListener("message", event => {
   if(event.origin !== window.location.origin) return;
   if(!event.data || event.data.type !== "HOUSE_PROGRESS") return;
-
   const { progress, spender } = event.data.payload || {};
-
   if(Number.isFinite(progress)) updateProgress(progress);
   if(Number.isInteger(spender)) updateSpender(spender);
 });
 
-/* ====== FUNKTIONEN ====== */
 function updateProgress(value){
   const progress = Math.min(100, Math.max(0, value));
   document.getElementById("progress-bar").style.width = progress+"%";
   document.getElementById("progress-value").textContent = progress+"%";
   updateStonesLeft(progress);
 }
-
 function updateSpender(count){
   document.getElementById("spender-count").textContent = count + " Unterstützer";
 }
-
 function updateStonesLeft(progress){
   const current = Math.round((progress/100)*TOTAL_STONES);
   const next = MILESTONES.find(m => m.value > current);
@@ -593,20 +356,15 @@ function updateStonesLeft(progress){
   document.getElementById("stones-left").textContent = left.toLocaleString("de-DE");
 }
 
-/* ====== PAYMENT INFO ====== */
 function selectPayment(method){
   const box = document.getElementById("payment-info");
   if(!box) return;
-
   switch(method){
     case "paypal":
       box.innerHTML = `🅿️ <strong>PayPal</strong><br><a href="#paypal-donate">Jetzt via PayPal spenden</a>`;
       break;
     case "sepa":
-      box.innerHTML = `🏦 <strong>SEPA-Überweisung</strong><br>
-        IBAN: <strong>DE00 XXXX XXXX XXXX XXXX XX</strong><br>
-        Empfänger: <strong>Ela & Bernhard</strong><br>
-        Verwendungszweck: <em>Hausprojekt – Steine</em>`;
+      box.innerHTML = `🏦 <strong>SEPA</strong><br>IBAN: <strong>DE00 XXXX XXXX XXXX XXXX XX</strong><br>Empfänger: <strong>Ela & Bernhard</strong>`;
       break;
     case "card":
       box.innerHTML = `💳 <strong>Kreditkarte</strong><br>Online-Zahlung folgt (Stripe geplant).`;
@@ -616,6 +374,7 @@ function selectPayment(method){
 </script>
 
 </body>
+
 </html>
 
 
