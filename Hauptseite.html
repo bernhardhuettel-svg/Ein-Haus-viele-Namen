@@ -165,20 +165,6 @@ h2{
   opacity:.85;
 }
 
-/* ======================================================
-   PROJEKT-KONFIGURATION
-====================================================== */
-const TOTAL_STONES = 500000;
-
-const MILESTONES = [
-  { value: 0, label: "Start" },
-  { value: 50000, label: "Grundstücks-Reservierung" },
-  { value: 100000, label: "🚀 Start Realisierung" },
-  { value: 250000, label: "Rohbau" },
-  { value: 400000, label: "Innenausbau" },
-  { value: 500000, label: "🏡 Haus fertig" }
-];
-
    
 /* =========================================================
    6. COMPONENTS
@@ -300,6 +286,45 @@ iframe{
 
   iframe{height:380px}
 }
+
+.payment-methods {
+  margin-top: 50px;
+  padding: 30px;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.payment-buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.payment-buttons button {
+  padding: 14px 22px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: var(--primary);
+  color: #fff;
+}
+
+.payment-info {
+  margin-top: 20px;
+  font-size: 0.95rem;
+}
+
+.payment-note {
+  margin-top: 18px;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+   
 </style>
 
 
@@ -479,6 +504,27 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
   </div>
 </div>
 
+
+/* =========================================================
+   Zahlungsarten
+========================================================= */    
+<div class="payment-methods">
+  <h3>💳 Zahlungsarten</h3>
+
+  <div class="payment-buttons">
+    <button onclick="selectPayment('paypal')">🅿️ PayPal</button>
+    <button onclick="selectPayment('sepa')">🏦 SEPA-Überweisung</button>
+    <button onclick="selectPayment('card')">💳 Kreditkarte</button>
+  </div>
+
+  <div id="payment-info" class="payment-info"></div>
+
+  <p class="payment-note">
+    ℹ️ Freiwillige Unterstützung ohne Anspruch auf Gegenleistung.
+  </p>
+</div>
+
+
 <a href="#paypal-donate" class="header-cta">Jetzt mitmachen & Stein setzen</a>
 </section>
 
@@ -499,6 +545,22 @@ Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
 
 
 <script>
+
+/* ======================================================
+   PROJEKT-KONFIGURATION
+====================================================== */
+const TOTAL_STONES = 500000;
+
+const MILESTONES = [
+  { value: 0, label: "Start" },
+  { value: 50000, label: "Grundstücks-Reservierung" },
+  { value: 100000, label: "🚀 Start Realisierung" },
+  { value: 250000, label: "Rohbau" },
+  { value: 400000, label: "Innenausbau" },
+  { value: 500000, label: "🏡 Haus fertig" }
+];
+
+
 window.addEventListener("message", (event) => {
 
   if (event.origin !== window.location.origin) return;
@@ -544,7 +606,40 @@ function updateStonesLeft(progress) {
   document.getElementById("stones-left").textContent =
     left.toLocaleString("de-DE");
 }
- 
+
+function selectPayment(method) {
+  const box = document.getElementById("payment-info");
+
+  if (!box) return;
+
+  switch (method) {
+    case "paypal":
+      box.innerHTML = `
+        🅿️ <strong>PayPal</strong><br>
+        <a href="#paypal-donate">Jetzt via PayPal spenden</a>
+      `;
+      break;
+
+    case "sepa":
+      box.innerHTML = `
+        🏦 <strong>SEPA-Überweisung</strong><br>
+        IBAN: <strong>DE00 XXXX XXXX XXXX XXXX XX</strong><br>
+        Empfänger: <strong>Ela & Bernhard</strong><br>
+        Verwendungszweck: <em>Hausprojekt – Steine</em>
+      `;
+      break;
+
+    case "card":
+      box.innerHTML = `
+        💳 <strong>Kreditkarte</strong><br>
+        Online-Zahlung folgt (Stripe geplant).
+      `;
+      break;
+  }
+}
+
+
+
 </script>
 
 </body>
