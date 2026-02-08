@@ -3,24 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ein Haus – viele Namen – Ela & Bernhard</title>
-<style>
 
+<title>Ein Haus – viele Namen | Ela & Bernhard</title>
+
+<style>
 /* =========================================================
    1. DESIGN TOKENS
 ========================================================= */
-:root {
+:root{
   --primary:#ff8c42;
   --primary-soft:#fff3e6;
-  --secondary:#42aaff;
-
   --bg-soft:#f7f9fc;
-  --bg-default:#fefefe;
+  --bg-default:#ffffff;
 
   --text-dark:#222;
+  --text-soft:#666;
 
-  --radius:14px;
-  --shadow:0 8px 22px rgba(0,0,0,.08);
+  --radius:16px;
+  --radius-lg:22px;
+
+  --shadow-sm:0 6px 18px rgba(0,0,0,.08);
+  --shadow-md:0 12px 30px rgba(0,0,0,.12);
+  --shadow-lg:0 30px 80px rgba(0,0,0,.35);
 }
 
 /* =========================================================
@@ -37,6 +41,8 @@ body{
 }
 
 img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit}
 
 /* =========================================================
    3. LAYOUT
@@ -44,28 +50,47 @@ img{max-width:100%;display:block}
 main{
   max-width:1000px;
   margin:0 auto;
-  padding:60px 20px;
+  padding:80px 20px;
 }
 
 section{
   margin-bottom:120px;
-  padding:70px 50px;
+  padding:60px;
   border-radius:var(--radius);
 }
 
-main section:nth-child(even){
+section:nth-child(even){
   background:var(--bg-soft);
 }
 
 h2{
-  font-size:2em;
+  font-size:2rem;
   margin-top:0;
   border-bottom:3px solid #ddd;
   padding-bottom:.5em;
 }
 
 /* =========================================================
-   4. HERO SYSTEM
+   4. BUTTON SYSTEM
+========================================================= */
+.btn{
+  display:inline-block;
+  padding:16px 40px;
+  border-radius:12px;
+  font-weight:700;
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  cursor:pointer;
+  box-shadow:var(--shadow-md);
+  transition:.25s ease;
+}
+
+.btn:hover{transform:translateY(-3px)}
+.btn.small{padding:12px 22px;font-size:.9rem}
+
+/* =========================================================
+   5. HERO
 ========================================================= */
 .hero{
   min-height:90vh;
@@ -80,79 +105,55 @@ h2{
   padding:40px 20px;
 }
 
-.hero-content{
-  position:relative;
+.hero-box{
   max-width:760px;
+  padding:50px;
+  border-radius:var(--radius-lg);
   backdrop-filter:blur(6px);
   background:rgba(255,255,255,.12);
-  padding:50px;
-  border-radius:22px;
   border:1px solid rgba(255,255,255,.25);
-  box-shadow:0 30px 80px rgba(0,0,0,.35);
-}
-
-.hero-content::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:22px;
-  background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);
-  pointer-events:none;
+  box-shadow:var(--shadow-lg);
 }
 
 .hero h1{
-  font-size:3.2rem;
+  font-size:3rem;
   margin-bottom:10px;
 }
 
 .hero-sub{
-  font-size:1.35rem;
+  font-size:1.3rem;
   opacity:.95;
-  margin-bottom:35px;
+  margin-bottom:30px;
 }
-
-.hero-cta{
-  background:var(--primary);
-  padding:18px 46px;
-  font-size:1.2rem;
-  border-radius:12px;
-  color:#fff;
-  font-weight:700;
-  text-decoration:none;
-  box-shadow:0 12px 28px rgba(0,0,0,.35);
-  transition:.3s;
-}
-
-.hero-cta:hover{transform:translateY(-3px)}
 
 /* =========================================================
-   5. PROGRESS SYSTEM
+   6. PROGRESS
 ========================================================= */
-.progress-wrap{margin-top:35px}
+.progress{
+  margin-top:35px;
+}
 
 .progress-info{
   font-size:1.1rem;
-  margin-bottom:8px;
-  letter-spacing:.3px;
-}
-
-.progress-bar-box{
-  background:rgba(255,255,255,.25);
-  border-radius:14px;
-  overflow:hidden;
-  height:26px;
-  margin:10px 0;
+  margin-bottom:10px;
 }
 
 .progress-bar{
+  height:26px;
+  background:rgba(255,255,255,.3);
+  border-radius:14px;
+  overflow:hidden;
+}
+
+.progress-bar span{
+  display:block;
   height:100%;
   width:0%;
   background:linear-gradient(90deg,#ff8c42,#ffb37a);
-  border-radius:14px;
   transition:.6s ease;
 }
 
-.progress-goal{
+.progress-meta{
   font-size:.9rem;
   opacity:.85;
   margin-top:6px;
@@ -161,19 +162,19 @@ h2{
 .milestones{
   display:flex;
   justify-content:space-between;
-  font-size:.8rem;
+  font-size:.75rem;
   opacity:.85;
+  margin-top:10px;
 }
 
-   
 /* =========================================================
-   6. COMPONENTS
+   7. CARDS
 ========================================================= */
 .card{
   background:#fff;
-  border-radius:18px;
-  padding:42px;
-  box-shadow:0 18px 45px rgba(0,0,0,.12);
+  padding:40px;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-md);
 }
 
 .card.highlight{
@@ -181,6 +182,43 @@ h2{
   border-left:6px solid var(--primary);
 }
 
+/* =========================================================
+   8. TEAM
+========================================================= */
+.team{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:30px;
+  margin-top:30px;
+}
+
+.profile-card{
+  text-align:center;
+}
+
+.profile-card img{
+  width:120px;
+  height:120px;
+  object-fit:cover;
+  border-radius:50%;
+  margin:0 auto 12px;
+  box-shadow:var(--shadow-sm);
+}
+
+.team-quote{
+  margin-top:40px;
+  padding:26px;
+  background:linear-gradient(135deg,var(--primary-soft),#fff);
+  border-left:6px solid var(--primary);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-md);
+  text-align:center;
+  font-style:italic;
+}
+
+/* =========================================================
+   9. LEVELS
+========================================================= */
 .levels{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -190,16 +228,16 @@ h2{
 
 .level{
   background:#fff;
-  padding:22px;
+  padding:24px;
   border-radius:var(--radius);
-  box-shadow:var(--shadow);
+  box-shadow:var(--shadow-md);
   text-align:center;
 }
 
 .level strong{
   display:block;
   margin-top:10px;
-  font-size:1.2em;
+  font-size:1.2rem;
 }
 
 .level.bronze{border-top:6px solid #cd7f32}
@@ -208,349 +246,268 @@ h2{
 .level.platin{border-top:6px solid #8fd3f4}
 
 /* =========================================================
-   7. TEAM
+   10. PAYMENT
 ========================================================= */
-.team{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:30px;
-  margin-top:30px;
-}
-
-.profile-card{text-align:center}
-
-.profile-card img{
-  width:120px;
-  height:120px;
-  object-fit:cover;
-  border-radius:50%;
-  box-shadow:var(--shadow);
-  margin:0 auto 12px;
-}
-
-.team-quote{
-  margin-top:40px;
-  padding:26px;
-  background:linear-gradient(135deg,var(--primary-soft),#fff);
-  border-left:6px solid var(--primary);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
+.payment{
   text-align:center;
-  font-style:italic;
+}
+
+.payment-buttons{
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin:20px 0;
+}
+
+.payment-note{
+  font-size:.8rem;
+  opacity:.7;
 }
 
 /* =========================================================
-   8. SIMULATION
+   11. SIMULATION
 ========================================================= */
 iframe{
   width:100%;
   height:600px;
-  border-radius:var(--radius);
   border:none;
+  border-radius:var(--radius);
   background:#eef2f3;
 }
 
 /* =========================================================
-   9. FLOATING CTA
+   12. FLOATING CTA
 ========================================================= */
-.floating-donate{
+.floating-cta{
   position:fixed;
   right:20px;
   bottom:20px;
-  background:var(--primary);
-  padding:14px 26px;
-  border-radius:40px;
-  color:#fff;
-  font-weight:700;
-  text-decoration:none;
-  box-shadow:0 10px 28px rgba(0,0,0,.35);
   z-index:1000;
 }
 
-.floating-donate:hover{
-  transform:scale(1.05);
+/* =========================================================
+   13. FOOTER
+========================================================= */
+footer{
+  text-align:center;
+  padding:40px 20px;
+  font-size:.85rem;
+  color:var(--text-soft);
 }
 
 /* =========================================================
-   10. RESPONSIVE
+   14. RESPONSIVE
 ========================================================= */
-@media (max-width:768px){
-
-  section{
-    padding:40px 24px;
-    margin-bottom:80px;
-  }
-
-  .hero h1{font-size:2.3rem}
-  .hero-sub{font-size:1.1rem}
-
+@media(max-width:768px){
+  section{padding:40px 24px;margin-bottom:80px}
+  .hero h1{font-size:2.2rem}
   iframe{height:380px}
 }
-
-.payment-methods {
-  margin-top: 50px;
-  padding: 30px;
-  background: #fff;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  text-align: center;
-}
-
-.payment-buttons {
-  display: flex;
-  gap: 14px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 20px 0;
-}
-
-.payment-buttons button {
-  padding: 14px 22px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  background: var(--primary);
-  color: #fff;
-}
-
-.payment-info {
-  margin-top: 20px;
-  font-size: 0.95rem;
-}
-
-.payment-note {
-  margin-top: 18px;
-  font-size: 0.8rem;
-  opacity: 0.7;
-}
-   
 </style>
+</head>
+
+
+
 
 
    
-</head>
+
 <body>
 
+<!-- =======================
+     HERO
+======================= -->
 <header class="hero">
-  <div class="hero-content">
+  <div class="hero-box">
     <h1>Ein Haus – viele Namen</h1>
     <p class="hero-sub">
-      Jeder Stein trägt eine Geschichte.  
+      Jeder Stein trägt eine Geschichte.<br>
       Gemeinsam bauen wir unser Zuhause – sichtbar für alle.
     </p>
 
-   <a href="#mitmachen" class="hero-cta">Jetzt Stein setzen</a>
-   <a href="#mitmachen" class="floating-donate">💛 Spenden</a>
+    <a href="#mitmachen" class="btn">Jetzt Stein setzen</a>
+    <a href="#mitmachen" class="btn floating-cta">💛 Spenden</a>
 
-    <div class="progress-wrap">
+    <div class="progress">
       <div class="progress-info">
-         <strong id="progress-value">0%</strong> erreicht
+        <strong id="progress-value">0%</strong> erreicht
       </div>
-
-
-      <div class="progress-bar-box">
-        <div class="progress-bar" id="progress-bar"></div>
-      </div>
-
-      <p class="progress-goal">
-         Ziel: 500.000 Steine – jeder Beitrag zählt
+      <div class="progress-bar"><span id="progress-bar"></span></div>
+      <p class="progress-meta">
+        🧱 Ziel: 500.000 € = 500.000 Steine<br>
+        🔒 Die Realisierung startet ab <strong>100.000 €</strong>
       </p>
-
-   <p class="progress-goal">
-     🧱 Ziel: 500.000 € = 500.000 Steine<br>
-     🔒 Die Realisierung startet ab <strong>100.000 €</strong> – 
-     bis dahin fließen alle Beiträge in Planung, Grundstückssuche 
-     und Projektvorbereitung.
-   </p>
-
-       
-
-
-  <div class="milestones">
-     <span>0 €<br><small>Idee</small></span>
-     <span>50k €<br><small>Grundstück sichern</small></span>
-     <span><strong>100k €</strong><br><small>Start Bau</small></span>
-     <span>250k €<br><small>Rohbau</small></span>
-     <span>500k €<br><small>Haus fertig</small></span>
-   </div>
-
-
+      <div class="milestones">
+        <span>0 €<br><small>Idee</small></span>
+        <span>50k €<br><small>Grundstück sichern</small></span>
+        <span><strong>100k €</strong><br><small>Start Bau</small></span>
+        <span>250k €<br><small>Rohbau</small></span>
+        <span>500k €<br><small>Haus fertig</small></span>
+      </div>
       <small id="spender-count">0 Unterstützer</small>
     </div>
   </div>
 </header>
 
-
-<p style="margin-top:12px;font-weight:600;">
+<p style="margin:12px 20px;font-weight:600;">
 Noch <span id="stones-left">5.000</span> Steine bis zum nächsten Meilenstein
 </p>
 
-
+<!-- =======================
+     MAIN CONTENT
+======================= -->
 <main>
-<section id="lego-simulation">
+
+  <!-- LEGO-SIMULATION -->
+  <section id="lego-simulation">
     <h2>Sieh deinen Beitrag in Aktion</h2>
     <p>Jeder virtuelle Stein macht das Haus größer. Dein Name wird sichtbar, jede Spende schafft eine neue Geschichte.</p>
-   
-   <iframe 
-      src="Simulation.html"
-      sandbox="allow-scripts allow-same-origin"
-      loading="lazy">
-   </iframe>
+    <iframe src="Simulation.html" sandbox="allow-scripts allow-same-origin" loading="lazy"></iframe>
+  </section>
 
-</section>
-<section id="projekt">
+  <!-- PROJEKT / VISION -->
+  <section id="projekt">
     <h2>Unsere Vision</h2>
 
-    <!-- Mini Story Boxen für Social Proof -->
     <details>
-        <summary>Mehr erfahren</summary>
-        <div class="content">
-            <p>Wir bauen ein Haus, das <strong>von Menschen für Menschen</strong> entsteht. Jeder Stein macht das Haus größer – eine sichtbare Geschichte für die Community.</p>
-            <p>Mit deiner Spende wirst du Teil eines Projekts, das Gemeinschaft, Kreativität und Nachhaltigkeit verbindet.</p>
-        </div>
+      <summary>Mehr erfahren</summary>
+      <div class="content">
+        <p>Wir bauen ein Haus, das <strong>von Menschen für Menschen</strong> entsteht. Jeder Stein macht das Haus größer – eine sichtbare Geschichte für die Community.</p>
+        <p>Mit deiner Spende wirst du Teil eines Projekts, das Gemeinschaft, Kreativität und Nachhaltigkeit verbindet.</p>
+      </div>
     </details>
-    
-    <div class="card highlight">
-          <p>„Als ich meinen ersten Stein gesetzt habe, fühlte es sich an, als würde ich wirklich Teil des Hauses werden.“ – Anna, Unterstützerin</p>
-    </div>
 
     <div class="card highlight">
-        <p>„Jeder Beitrag erzählt eine Geschichte – und wir bauen gemeinsam etwas Einzigartiges.“ – Max, Unterstützer</p>
-    </div>
-    
-</section>
-
-<section id="wer-wir-sind">
-  <h2>Wer wir sind</h2>
-
-  <p>
-    Wir sind Ela & Bernhard – zwei Menschen mit der Vision,
-    ein Haus nicht nur zu bauen, sondern <strong>gemeinsam mit einer Community wachsen zu lassen</strong>.
-  </p>
-
-  <div class="team">
-
-    <div class="profile-card">
-      <img src="bernhard.png" alt="Bernhard">
-      <h3>Bernhard</h3>
-      <p>Initiator & Visionär – Technik, Struktur und die Idee hinter dem Projekt.</p>
+      <p>„Als ich meinen ersten Stein gesetzt habe, fühlte es sich an, als würde ich wirklich Teil des Hauses werden.“ – Anna, Unterstützerin</p>
     </div>
 
-    <div class="profile-card">
-      <img src="ela.png" alt="Ela">
-      <h3>Ela</h3>
-      <p>Kreative Seele & Organisation – Gemeinschaft, Transparenz und Herz.</p>
+    <div class="card highlight">
+      <p>„Jeder Beitrag erzählt eine Geschichte – und wir bauen gemeinsam etwas Einzigartiges.“ – Max, Unterstützer</p>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="wer-wir-sind">
+    <h2>Wer wir sind</h2>
+    <p>
+      Wir sind Ela & Bernhard – zwei Menschen mit der Vision,
+      ein Haus nicht nur zu bauen, sondern <strong>gemeinsam mit einer Community wachsen zu lassen</strong>.
+    </p>
+
+    <div class="team">
+      <div class="profile-card">
+        <img src="bernhard.png" alt="Bernhard">
+        <h3>Bernhard</h3>
+        <p>Initiator & Visionär – Technik, Struktur und die Idee hinter dem Projekt.</p>
+      </div>
+      <div class="profile-card">
+        <img src="ela.png" alt="Ela">
+        <h3>Ela</h3>
+        <p>Kreative Seele & Organisation – Gemeinschaft, Transparenz und Herz.</p>
+      </div>
     </div>
 
-  </div>
+    <div class="team-quote">
+      „Ein Haus entsteht nicht aus Steinen allein – sondern aus Menschen, Ideen und Vertrauen.“
+      <span>– Ela & Bernhard</span>
+    </div>
+  </section>
 
-  <div class="team-quote">
-    „Ein Haus entsteht nicht aus Steinen allein –
-    sondern aus Menschen, Ideen und Vertrauen.“
-    <span>– Ela & Bernhard</span>
-  </div>
-</section>
-
-
-<section id="idee">
+  <!-- IDEE -->
+  <section id="idee">
     <h2>Die Idee im Detail</h2>
 
     <div class="card highlight">
-        <p>„Es ist unglaublich zu sehen, wie unser Haus wächst – Stein für Stein, Name für Name.“ – Lisa, Unterstützerin</p>
+      <p>„Es ist unglaublich zu sehen, wie unser Haus wächst – Stein für Stein, Name für Name.“ – Lisa, Unterstützerin</p>
     </div>
 
     <details>
-        <summary>Mehr erfahren</summary>
-        <div class="content">
-            <p>Wir verwandeln ein Grundstück in ein <strong>Haus voller Geschichten</strong>. Jeder kann digital mitbestimmen:</p>
-            <ul>
-                <li>1 € = 1 virtueller Stein</li>
-                <li>Dein Name oder eine Nachricht auf dem Stein</li>
-                <li>Live-Abstimmungen: Fensterfarbe, Garten, Interior</li>
-                <li>100 % deiner Spende fließen direkt ins reale Projekt</li>
-            </ul>
-            <p>Unser Ziel: 500.000–600.000 € – wöchentliche Updates mit Fotos, Fortschritt & Finanzen zeigen dir, wie jeder Stein wirkt.</p>
-        </div>
+      <summary>Mehr erfahren</summary>
+      <div class="content">
+        <p>Wir verwandeln ein Grundstück in ein <strong>Haus voller Geschichten</strong>. Jeder kann digital mitbestimmen:</p>
+        <ul>
+          <li>1 € = 1 virtueller Stein</li>
+          <li>Dein Name oder eine Nachricht auf dem Stein</li>
+          <li>Live-Abstimmungen: Fensterfarbe, Garten, Interior</li>
+          <li>100 % deiner Spende fließen direkt ins reale Projekt</li>
+        </ul>
+        <p>Unser Ziel: 500.000–600.000 € – wöchentliche Updates mit Fotos, Fortschritt & Finanzen zeigen dir, wie jeder Stein wirkt.</p>
+      </div>
     </details>
-</section>
+  </section>
 
-<section id="mitmachen">
-<h2>Spendenlevels & Belohnungen</h2>
+  <!-- MITMACHEN / SPENDEN -->
+  <section id="mitmachen">
+    <h2>Spendenlevels & Belohnungen</h2>
 
-<div class="levels">
-  <div class="level bronze">
-    <h3>Bronze</h3>
-    <p>Name auf einem Stein</p>
-    <strong>ab 1 €</strong>
-  </div>
+    <div class="levels">
+      <div class="level bronze">
+        <h3>Bronze</h3>
+        <p>Name auf einem Stein</p>
+        <strong>ab 1 €</strong>
+      </div>
+      <div class="level silver">
+        <h3>Silber</h3>
+        <p>Name + Mini-Update</p>
+        <strong>ab 25 €</strong>
+      </div>
+      <div class="level gold">
+        <h3>Gold</h3>
+        <p>Name + Dankesvideo</p>
+        <strong>ab 100 €</strong>
+      </div>
+      <div class="level platin">
+        <h3>Platin</h3>
+        <p>Einladung zum Richtfest</p>
+        <strong>ab 500 €</strong>
+      </div>
+    </div>
 
-  <div class="level silver">
-    <h3>Silber</h3>
-    <p>Name + Mini-Update</p>
-    <strong>ab 25 €</strong>
-  </div>
+    <!-- Payment -->
+    <div class="card payment">
+      <h3>💳 Zahlungsarten</h3>
+      <div class="payment-buttons">
+        <button class="btn small" onclick="selectPayment('paypal')">PayPal</button>
+        <button class="btn small" onclick="selectPayment('sepa')">SEPA</button>
+        <button class="btn small" onclick="selectPayment('card')">Kreditkarte</button>
+      </div>
+      <div id="payment-info"></div>
+      <p class="payment-note">
+        ℹ️ Freiwillige Unterstützung ohne Anspruch auf Gegenleistung.
+      </p>
+    </div>
 
-  <div class="level gold">
-    <h3>Gold</h3>
-    <p>Name + Dankesvideo</p>
-    <strong>ab 100 €</strong>
-  </div>
+    <a href="#paypal-donate" class="btn">Jetzt mitmachen & Stein setzen</a>
+  </section>
 
-  <div class="level platin">
-    <h3>Platin</h3>
-    <p>Einladung zum Richtfest</p>
-    <strong>ab 500 €</strong>
-  </div>
-</div>
+</main>
 
-
-/* =========================================================
-   Zahlungsarten
-========================================================= */    
-<div class="payment-methods">
-  <h3>💳 Zahlungsarten</h3>
-
-  <div class="payment-buttons">
-    <button onclick="selectPayment('paypal')">🅿️ PayPal</button>
-    <button onclick="selectPayment('sepa')">🏦 SEPA-Überweisung</button>
-    <button onclick="selectPayment('card')">💳 Kreditkarte</button>
-  </div>
-
-  <div id="payment-info" class="payment-info"></div>
-
-  <p class="payment-note">
-    ℹ️ Freiwillige Unterstützung ohne Anspruch auf Gegenleistung.
-  </p>
-</div>
-
-
-<a href="#paypal-donate" class="header-cta">Jetzt mitmachen & Stein setzen</a>
-</section>
-
-
+<!-- =======================
+     FOOTER
+======================= -->
 <footer>
-    © 2026 Ela & Bernhard · Schirmitz, Bayern<br>
-    Ein Community-Projekt – von Menschen für Menschen.<br>
-    <small>Alle Beiträge freiwillig, keine steuerlich absetzbare Spende. Wir übernehmen keine Haftung für Spenden und garantieren keine Gegenleistungen außer den oben genannten Belohnungen.</small>
+  © 2026 Ela & Bernhard · Schirmitz, Bayern<br>
+  Ein Community-Projekt – von Menschen für Menschen.<br>
+  <small>Alle Beiträge freiwillig, keine steuerlich absetzbare Spende. Wir übernehmen keine Haftung für Spenden und garantieren keine Gegenleistungen außer den oben genannten Belohnungen.</small>
 </footer>
 
-<!-- PayPal Button -->
+<!-- =======================
+     PAYPAL FORM
+======================= -->
 <form action="https://www.paypal.com/donate" method="post" target="_blank" id="paypal-donate">
   <input type="hidden" name="business" value="bernhardhuettel@aol.com">
   <input type="hidden" name="currency_code" value="EUR">
   <input type="hidden" name="item_name" value="Unterstuetze unser Haus-Projekt">
-  <button type="submit" class="paypal-button">💛 Spenden via PayPal</button>
+  <button type="submit" class="btn">💛 Spenden via PayPal</button>
 </form>
 
-
+<!-- =======================
+     JAVASCRIPT
+======================= -->
 <script>
-
-/* ======================================================
-   PROJEKT-KONFIGURATION
-====================================================== */
+/* ====== KONFIGURATION ====== */
 const TOTAL_STONES = 500000;
-
 const MILESTONES = [
   { value: 0, label: "Start" },
   { value: 50000, label: "Grundstücks-Reservierung" },
@@ -560,87 +517,63 @@ const MILESTONES = [
   { value: 500000, label: "🏡 Haus fertig" }
 ];
 
+/* ====== EVENT LISTENER FÜR SIMULATION ====== */
+window.addEventListener("message", event => {
+  if(event.origin !== window.location.origin) return;
+  if(!event.data || event.data.type !== "HOUSE_PROGRESS") return;
 
-window.addEventListener("message", (event) => {
+  const { progress, spender } = event.data.payload || {};
 
-  if (event.origin !== window.location.origin) return;
-  if (!event.data || event.data.type !== "HOUSE_PROGRESS") return;
-
-  const payload = event.data.payload || {};
-
-  if (Number.isFinite(payload.progress)) {
-    updateProgress(payload.progress);
-  }
-
-  if (Number.isInteger(payload.spender)) {
-    updateSpender(payload.spender);
-  }
+  if(Number.isFinite(progress)) updateProgress(progress);
+  if(Number.isInteger(spender)) updateSpender(spender);
 });
 
-function updateProgress(value) {
+/* ====== FUNKTIONEN ====== */
+function updateProgress(value){
   const progress = Math.min(100, Math.max(0, value));
-
-  const bar = document.getElementById("progress-bar");
-  const label = document.getElementById("progress-value");
-
-  bar.style.width = progress + "%";
-  label.textContent = progress + "%";
-
+  document.getElementById("progress-bar").style.width = progress+"%";
+  document.getElementById("progress-value").textContent = progress+"%";
   updateStonesLeft(progress);
 }
 
-
-function updateSpender(count) {
-  document.getElementById("spender-count").textContent =
-    count + " Spender";
+function updateSpender(count){
+  document.getElementById("spender-count").textContent = count + " Unterstützer";
 }
 
-function updateStonesLeft(progress) {
-  const current = Math.round((progress / 100) * TOTAL_STONES);
+function updateStonesLeft(progress){
+  const current = Math.round((progress/100)*TOTAL_STONES);
   const next = MILESTONES.find(m => m.value > current);
-
-  const left = next
-    ? next.value - current
-    : 0;
-
-  document.getElementById("stones-left").textContent =
-    left.toLocaleString("de-DE");
+  const left = next ? next.value - current : 0;
+  document.getElementById("stones-left").textContent = left.toLocaleString("de-DE");
 }
 
-function selectPayment(method) {
+/* ====== PAYMENT INFO ====== */
+function selectPayment(method){
   const box = document.getElementById("payment-info");
+  if(!box) return;
 
-  if (!box) return;
-
-  switch (method) {
+  switch(method){
     case "paypal":
-      box.innerHTML = `
-        🅿️ <strong>PayPal</strong><br>
-        <a href="#paypal-donate">Jetzt via PayPal spenden</a>
-      `;
+      box.innerHTML = `🅿️ <strong>PayPal</strong><br><a href="#paypal-donate">Jetzt via PayPal spenden</a>`;
       break;
-
     case "sepa":
-      box.innerHTML = `
-        🏦 <strong>SEPA-Überweisung</strong><br>
+      box.innerHTML = `🏦 <strong>SEPA-Überweisung</strong><br>
         IBAN: <strong>DE00 XXXX XXXX XXXX XXXX XX</strong><br>
         Empfänger: <strong>Ela & Bernhard</strong><br>
-        Verwendungszweck: <em>Hausprojekt – Steine</em>
-      `;
+        Verwendungszweck: <em>Hausprojekt – Steine</em>`;
       break;
-
     case "card":
-      box.innerHTML = `
-        💳 <strong>Kreditkarte</strong><br>
-        Online-Zahlung folgt (Stripe geplant).
-      `;
+      box.innerHTML = `💳 <strong>Kreditkarte</strong><br>Online-Zahlung folgt (Stripe geplant).`;
       break;
   }
 }
-
-
-
 </script>
 
 </body>
 </html>
+
+
+
+
+
+   
