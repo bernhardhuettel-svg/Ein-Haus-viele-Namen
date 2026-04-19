@@ -1,101 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js" type="module"></script>
-    <style>body { margin: 0; overflow: hidden; background: #fff; }</style>
+    <style>
+        body { margin: 0; overflow: hidden; background: #eef2f3; }
+        #canvas-container { width: 100vw; height: 100vh; }
+    </style>
 </head>
 <body>
-    <div id="container"></div>
+    <div id="canvas-container"></div>
+
     <script type="module">
         import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
 
-        // CONFIG
-        const RATIO = 50; // 1 Stein = 50€
-        const TOTAL_VISUAL = 10000;
-        let currentVisual = 2400; // Start bei 120.000€
+        // --- KONFIGURATION ---
+        // 800 qm = 40m x 20m Grundstück
+        const PLOT_WIDTH = 40; 
+        const PLOT_DEPTH = 20;
+        const RATIO = 50; // 1 visueller Stein = 50 Euro
+        let currentVisualStones = 1600; // Startwert (ca. 80.000€)
 
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xf5f5f7);
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(20, 15, 20);
-        camera.lookAt(0, 2, 0);
+        scene.background = new THREE.Color(0xcce6ff); // Schöner blauer Himmel
+
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+        // Kamera weiter weg, damit man das ganze 800qm Grundstück sieht
+        camera.position.set(35, 25, 35); 
+        camera.lookAt(0, 0, 0);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(window.devicePixelRatio);
         renderer.shadowMap.enabled = true;
-        document.getElementById('container').appendChild(renderer.domElement);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-        const sun = new THREE.DirectionalLight(0xffffff, 1);
-        sun.position.set(10, 20, 10);
+        // --- LICHT ---
+        scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+        const sun = new THREE.DirectionalLight(0xffffff, 1.2);
+        sun.position.set(20, 40, 20);
         sun.castShadow = true;
+        // Schatten-Bereich vergrößern für das große Grundstück
+        sun.shadow.camera.left = -30;
+        sun.shadow.camera.right = 30;
+        sun.shadow.camera.top = 30;
+        sun.shadow.camera.bottom = -30;
         scene.add(sun);
 
-        // ENGINE
-        const geometry = new THREE.BoxGeometry(0.3, 0.15, 0.15);
-        const material = new THREE.MeshStandardMaterial({ vertexColors: true });
-        const mesh = new THREE.InstancedMesh(geometry, material, TOTAL_VISUAL);
+        // --- DAS GRUNDSTÜCK (800 qm) ---
+        const groundGeo = new THREE.PlaneGeometry(PLOT_WIDTH, PLOT_DEPTH);
+        const groundMat = new THREE.MeshStandardMaterial({ color: 0x7db366 });
+        const ground = new THREE.Mesh(groundGeo, groundMat);
+        ground.rotation.x = -Math.PI / 2;
+        ground.receiveShadow = true;
+        scene.add(ground);
+
+        // Hilfs-Raster für den Bau-Vibe
+        const grid = new THREE.GridHelper(PLOT_WIDTH, 40, 0x000000, 0x000000);
+        grid.position.y = 0.01;
+        grid.material.opacity = 0.1;
+        grid.material.transparent = true;
+        scene.add(grid);
+
+        // --- STEIN-ENGINE ---
+        const stoneGeo = new THREE.BoxGeometry(0.4, 0.2, 0.2);
+        const mesh = new THREE.InstancedMesh(stoneGeo, new THREE.MeshStandardMaterial({ vertexColors: true }), 10000);
         mesh.castShadow = true;
+        mesh.receiveShadow = true;
         scene.add(mesh);
 
         const dummy = new THREE.Object3D();
-        const color = new THREE.Color();
+        const colorObj = new THREE.Color();
 
+        // --- LAYOUT BERECHNUNG ---
         function getLayout(i) {
             let x, y, z, col;
-            if (i < 3000) { // GRUNDSTÜCK
-                const grid = 55;
-                x = (i % grid) * 0.32 - 8.5;
-                z = Math.floor(i / grid) * 0.32 - 8.5;
-                y = 0;
-                col = "#7db366";
-            } else if (i < 8000) { // WÄNDE
-                const wI = i - 3000;
-                const layer = Math.floor(wI / 250);
-                const p = wI % 250;
-                y = layer * 0.16 + 0.15;
-                if(p < 75) { x = p * 0.3 - 5; z = -5; }
-                else if(p < 125) { x = 7.5; z = (p-75) * 0.3 - 5; }
-                else if (p < 200) { x = (p-125) * -0.3 + 7.5; z = 5; }
-                else { x = -5; z = (p-200) * 0.3 - 5; }
-                col = "#ffffff";
-            } else { // DACH
-                const dI = i - 8000;
-                const layer = Math.floor(dI / 100);
-                y = 3.4 + layer * 0.15;
-                x = (dI % 100) * 0.15 - 7.5;
-                z = (10 - layer) * 0.1;
-                col = "#333333";
-            }
+            
+            // Haus-Basis (Zentral auf dem Grundstück)
+            const wallI = i;
+            const layer = Math.floor(wallI / 200);
+            const pos = wallI % 200;
+            y = layer * 0.21 + 0.1;
+
+            // Ein schönes, langes Bungalow-Design
+            if (pos < 70) { x = pos * 0.4 - 14; z = -4; } // Rückwand
+            else if (pos < 100) { x = 14; z = (pos - 70) * 0.4 - 4; } // Seitenwand rechts
+            else if (pos < 170) { x = (pos - 100) * -0.4 + 14; z = 4; } // Vorderwand
+            else { x = -14; z = (pos - 170) * 0.4 - 4; } // Seitenwand links
+
+            col = (layer > 12) ? "#333333" : "#ffffff"; // Dach ab Schicht 13 dunkel
+            
             return { x, y, z, col };
         }
 
-        function build() {
-            for (let i = 0; i < TOTAL_VISUAL; i++) {
+        function update() {
+            for (let i = 0; i < 10000; i++) {
                 const data = getLayout(i);
-                if (i < currentVisual) {
+                if (i < currentVisualStones) {
                     dummy.position.set(data.x, data.y, data.z);
                 } else {
                     dummy.position.set(0, -20, 0);
                 }
                 dummy.updateMatrix();
                 mesh.setMatrixAt(i, dummy.matrix);
-                color.set(data.col);
-                mesh.setColorAt(i, color);
+                colorObj.set(data.col);
+                mesh.setColorAt(i, colorObj);
             }
             mesh.instanceMatrix.needsUpdate = true;
             if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
         }
 
+        // --- INTERAKTION ---
+        window.addEventListener('message', (e) => {
+            if (e.data.type === 'ADD_STONE') {
+                currentVisualStones += Math.ceil(e.data.amount / RATIO);
+                update();
+            }
+        });
+
         function animate() {
             requestAnimationFrame(animate);
-            mesh.rotation.y += 0.001;
+            // Langsame Drehung der gesamten Szene für Dynamik
+            scene.rotation.y += 0.001;
             renderer.render(scene, camera);
         }
 
-        build();
+        update();
         animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     </script>
 </body>
 </html>
