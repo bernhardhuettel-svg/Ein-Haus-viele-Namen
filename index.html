@@ -15,6 +15,7 @@
             color: #ffffff; 
             overflow-x: hidden; 
             margin: 0;
+            font-variant-numeric: tabular-nums; /* Verhindert, dass Zahlen beim Hochzählen wackeln */
         }
         
         .syncopate { font-family: 'Syncopate', sans-serif; }
@@ -69,6 +70,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        
+        .number-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .text-glow { text-shadow: 0 0 30px rgba(0, 242, 254, 0.6); }
         
         .bar-glow {
@@ -85,8 +93,12 @@
         }
         @keyframes glare { 0% { left: -100%; } 20%, 100% { left: 200%; } }
         
-        .timeline-dot { width: 16px; height: 16px; border-radius: 50%; background: #050510; border: 4px solid #4facfe; position: absolute; left: -8px; top: 0; transition: all 0.5s ease; }
-        .timeline-line { position: absolute; left: 0; top: 16px; bottom: -32px; width: 2px; background: rgba(255,255,255,0.1); transition: all 0.5s ease; }
+        .timeline-dot { width: 16px; height: 16px; border-radius: 50%; background: #050510; border: 4px solid #4facfe; position: absolute; left: -8px; top: 0; transition: all 0.5s ease; z-index: 10;}
+        .timeline-line { position: absolute; left: 0; top: 16px; bottom: -32px; width: 2px; background: rgba(255,255,255,0.1); transition: all 0.5s ease; z-index: 5;}
+
+        /* Dynamische Zahlengrößen */
+        .fluid-number-huge { font-size: clamp(2.5rem, 8vw, 6rem); line-height: 1; }
+        .fluid-number-box { font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1; }
     </style>
 </head>
 <body class="pb-20 px-4 md:px-0">
@@ -95,7 +107,7 @@
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
 
-    <nav class="fixed top-0 w-full z-50 p-6 flex justify-between items-center backdrop-blur-xl border-b border-white/10 bg-[#050510]/50">
+    <nav class="fixed top-0 w-full z-50 p-4 md:p-6 flex justify-between items-center backdrop-blur-xl border-b border-white/10 bg-[#050510]/50">
         <div class="flex items-center gap-3">
             <div class="w-8 h-8 rounded-full border border-cyan-400 flex items-center justify-center shadow-[0_0_15px_rgba(0,242,254,0.3)]">
                 <span class="syncopate text-[10px] font-black text-cyan-400">8</span>
@@ -109,9 +121,9 @@
         </div>
     </nav>
 
-    <div class="max-w-4xl mx-auto pt-36 space-y-20">
+    <div class="max-w-4xl mx-auto pt-32 md:pt-36 space-y-16 md:space-y-20">
         
-        <section class="text-center space-y-8">
+        <section class="text-center space-y-6 md:space-y-8">
             <div class="inline-block ultra-glass px-6 py-2 text-cyan-400 text-[10px] font-black tracking-[0.5em] uppercase shadow-2xl">
                 Schirmitz, Bayern
             </div>
@@ -127,48 +139,48 @@
         <section class="ultra-glass p-6 sm:p-8 md:p-12">
             <div class="grid md:grid-cols-12 gap-8 md:gap-10 items-center mb-10">
                 
-                <div class="md:col-span-7 space-y-6">
+                <div class="md:col-span-7 space-y-4 md:space-y-6">
                     <div>
-                        <p class="text-cyan-400 text-[10px] sm:text-[12px] font-bold uppercase tracking-[0.4em] flex items-center gap-2">
+                        <p class="text-cyan-400 text-[10px] sm:text-[12px] font-bold uppercase tracking-[0.4em] flex items-center gap-2 mb-2">
                             <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
                             Funding Status
                         </p>
-                        <h2 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black syncopate tracking-tighter text-white drop-shadow-lg whitespace-nowrap overflow-hidden text-ellipsis" id="total-amount">0€</h2>
+                        <h2 class="font-black tracking-tighter number-gradient drop-shadow-lg fluid-number-huge" id="total-amount">0 €</h2>
                     </div>
                     
-                    <div class="space-y-3">
+                    <div class="space-y-2 md:space-y-3">
                         <div class="flex justify-between text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400">
                             <span>Missions-Fortschritt</span>
                             <span id="percent-label" class="text-cyan-400 text-glow">0%</span>
                         </div>
-                        <div class="w-full bg-[#050510] h-5 sm:h-6 rounded-full border border-white/10 p-1 relative overflow-hidden shadow-[inset_0_4px_10px_rgba(0,0,0,0.5)]">
+                        <div class="w-full bg-[#050510] h-4 sm:h-6 rounded-full border border-white/10 p-1 relative overflow-hidden shadow-[inset_0_4px_10px_rgba(0,0,0,0.5)]">
                             <div id="progress-bar" class="bar-glow h-full w-[1%] rounded-full transition-all duration-1000 relative"></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="md:col-span-5 grid grid-cols-2 gap-3 sm:gap-4">
-                    <div class="ultra-glass p-4 sm:p-6 text-center border-white/10 overflow-hidden">
-                        <p class="text-[8px] sm:text-[9px] text-slate-400 uppercase font-black tracking-widest mb-1 sm:mb-2 whitespace-nowrap truncate">Gesetzte Steine</p>
-                        <p class="text-xl sm:text-2xl md:text-3xl font-black text-white syncopate whitespace-nowrap" id="stone-total">0</p>
+                    <div class="ultra-glass p-4 sm:p-6 text-center border-white/10 flex flex-col justify-center">
+                        <p class="text-[8px] sm:text-[9px] text-slate-400 uppercase font-black tracking-widest mb-1 sm:mb-2 truncate">Gesetzte Steine</p>
+                        <p class="font-black text-white tracking-tighter fluid-number-box" id="stone-total">0</p>
                     </div>
-                    <div class="ultra-glass p-4 sm:p-6 text-center border-white/10 overflow-hidden">
-                        <p class="text-[8px] sm:text-[9px] text-slate-400 uppercase font-black tracking-widest mb-1 sm:mb-2 whitespace-nowrap truncate">Shares</p>
-                        <p class="text-xl sm:text-2xl md:text-3xl font-black text-cyan-400 syncopate whitespace-nowrap" id="share-count">0</p>
+                    <div class="ultra-glass p-4 sm:p-6 text-center border-white/10 flex flex-col justify-center">
+                        <p class="text-[8px] sm:text-[9px] text-slate-400 uppercase font-black tracking-widest mb-1 sm:mb-2 truncate">Shares</p>
+                        <p class="font-black text-cyan-400 tracking-tighter fluid-number-box" id="share-count">0</p>
                     </div>
                 </div>
             </div>
 
-            <div class="relative w-full rounded-2xl bg-[#020205] border border-white/10 overflow-hidden shadow-inner flex flex-col items-center p-4">
-                <div class="absolute top-4 left-4 z-10 flex gap-2">
-                    <p class="text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] bg-cyan-400/10 px-2 py-1 rounded border border-cyan-400/20 shadow-lg backdrop-blur-md" id="canvas-phase-label">Phase 1: 830qm Land</p>
+            <div class="relative w-full rounded-2xl bg-[#020205] border border-white/10 overflow-hidden shadow-inner flex flex-col items-center p-2 sm:p-4">
+                <div class="absolute top-2 left-2 sm:top-4 sm:left-4 z-10 flex gap-2">
+                    <p class="text-cyan-400 text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.3em] bg-cyan-400/10 px-2 py-1 rounded border border-cyan-400/20 shadow-lg backdrop-blur-md" id="canvas-phase-label">Phase 1: 830qm Land</p>
                 </div>
                 <canvas id="blueprint-canvas" width="800" height="350" class="max-w-full h-auto opacity-90"></canvas>
             </div>
         </section>
 
-        <section class="grid md:grid-cols-2 gap-10 items-center">
-            <div class="ultra-glass p-2 relative h-[300px] md:h-[400px] flex items-center justify-center bg-white/5">
+        <section class="grid md:grid-cols-2 gap-8 md:gap-10 items-center">
+            <div class="ultra-glass p-2 relative h-[250px] md:h-[400px] flex items-center justify-center bg-white/5">
                 <div class="text-center p-6 space-y-4">
                     <span class="text-5xl md:text-6xl block">📹</span>
                     <p class="text-[10px] md:text-xs uppercase tracking-widest text-slate-400 font-bold leading-relaxed">
@@ -176,9 +188,9 @@
                     </p>
                 </div>
             </div>
-            <div class="space-y-6">
+            <div class="space-y-4 md:space-y-6">
                 <h3 class="text-2xl md:text-3xl font-black syncopate uppercase tracking-tighter text-glow">Der Wettlauf gegen die Zeit</h3>
-                <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
+                <div class="space-y-4 text-slate-300 text-xs sm:text-sm leading-relaxed">
                     <p>
                         Wir sind <strong class="text-white">Bernhard & Ela</strong>. In wenigen Monaten wird unsere Tochter <strong class="text-cyan-400">Emily</strong> das Licht der Welt erblicken. Und wir wollen ihr etwas bieten, das heute fast unmöglich geworden ist: Einen eigenen Garten.
                     </p>
@@ -192,64 +204,91 @@
             </div>
         </section>
 
-        <section class="ultra-glass p-6 sm:p-8 md:p-12 space-y-10">
+        <section class="ultra-glass p-6 sm:p-8 md:p-12 space-y-8 md:space-y-10">
             <div class="text-center">
                 <h3 class="text-xl md:text-2xl font-black syncopate uppercase tracking-tighter">Der Masterplan</h3>
                 <p class="text-xs md:text-sm text-slate-400 mt-2">Transparenz in Echtzeit. Die Meilensteine schalten sich automatisch frei.</p>
             </div>
 
-            <div class="relative pl-6 md:pl-10 space-y-12">
+            <div class="relative pl-6 md:pl-10 space-y-10 md:space-y-12">
                 <div class="relative" id="ms-1-container">
                     <div class="timeline-line" id="ms-1-line"></div>
                     <div class="timeline-dot" id="ms-1-dot"></div>
                     <div class="pl-6 md:pl-8 transition-opacity duration-500" id="ms-1-text">
-                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-1-badge">Ziel: 20.000 €</span>
-                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Startschuss & Notar</h4>
-                        <p class="text-xs md:text-sm text-slate-400 mt-2">Die ersten Steine. Puffer für Notar, Grundbuch und die finale Sicherung des 830qm Grundstücks. Der erste große Schritt!</p>
+                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-1-badge">Ziel: 2.500 €</span>
+                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Proof of Concept</h4>
+                        <p class="text-xs md:text-sm text-slate-400 mt-1 md:mt-2">Wir beweisen, dass die Idee funktioniert. Deckt die ersten Setup-Kosten und Vorgespräche ab.</p>
                     </div>
                 </div>
                 <div class="relative" id="ms-2-container">
                     <div class="timeline-line" id="ms-2-line"></div>
                     <div class="timeline-dot" id="ms-2-dot"></div>
                     <div class="pl-6 md:pl-8 transition-opacity duration-500" id="ms-2-text">
-                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-2-badge">Ziel: 160.000 €</span>
-                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Grundstück gesichert</h4>
-                        <p class="text-xs md:text-sm text-slate-400 mt-2">Wir kaufen das Land in Schirmitz. 100% Schuldenfrei. Sobald das erreicht ist, nehmen wir euch im Video mit aufs Grundstück.</p>
+                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-2-badge">Ziel: 25.000 €</span>
+                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Kaufnebenkosten gesichert</h4>
+                        <p class="text-xs md:text-sm text-slate-400 mt-1 md:mt-2">Notar, Grunderwerbsteuer und Makler-Sicherheit. Das administrative Fundament steht.</p>
                     </div>
                 </div>
                 <div class="relative" id="ms-3-container">
                     <div class="timeline-line" id="ms-3-line"></div>
                     <div class="timeline-dot" id="ms-3-dot"></div>
                     <div class="pl-6 md:pl-8 transition-opacity duration-500" id="ms-3-text">
-                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-3-badge">Ziel: 250.000 €</span>
-                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Baugenehmigung & Erdarbeiten</h4>
-                        <p class="text-xs md:text-sm text-slate-400 mt-2">Die Bagger rollen an! Wir gießen die Bodenplatte für das MassaHaus Lifestyle 16.01 W.</p>
+                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-3-badge">Ziel: 80.000 €</span>
+                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Halbzeit Grundstück</h4>
+                        <p class="text-xs md:text-sm text-slate-400 mt-1 md:mt-2">Die Hälfte des Bodens gehört virtuell der Community. Ein massiver psychologischer Meilenstein.</p>
                     </div>
                 </div>
                 <div class="relative" id="ms-4-container">
                     <div class="timeline-line" id="ms-4-line"></div>
                     <div class="timeline-dot" id="ms-4-dot"></div>
                     <div class="pl-6 md:pl-8 transition-opacity duration-500" id="ms-4-text">
-                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-4-badge">Ziel: 400.000 €</span>
-                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Rohbau & Digitales Richtfest</h4>
-                        <p class="text-xs md:text-sm text-slate-400 mt-2">Die Haus-Module werden gestellt und das Dach geschlossen. Wir feiern ein riesiges Fest mit der Community!</p>
+                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-4-badge">Ziel: 160.000 €</span>
+                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Grundstück gesichert</h4>
+                        <p class="text-xs md:text-sm text-slate-400 mt-1 md:mt-2">Wir kaufen das Land in Schirmitz. 100% Schuldenfrei. Das Grundstück gehört Emilys Zukunft.</p>
                     </div>
                 </div>
                 <div class="relative" id="ms-5-container">
+                    <div class="timeline-line" id="ms-5-line"></div>
                     <div class="timeline-dot" id="ms-5-dot"></div>
                     <div class="pl-6 md:pl-8 transition-opacity duration-500" id="ms-5-text">
-                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-5-badge">Ziel: 560.000 €</span>
+                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-5-badge">Ziel: 250.000 €</span>
+                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Baugenehmigung & Erdarbeiten</h4>
+                        <p class="text-xs md:text-sm text-slate-400 mt-1 md:mt-2">Die Bagger rollen an! Wir bereiten alles für das MassaHaus Lifestyle 16.01 W vor.</p>
+                    </div>
+                </div>
+                <div class="relative" id="ms-6-container">
+                    <div class="timeline-line" id="ms-6-line"></div>
+                    <div class="timeline-dot" id="ms-6-dot"></div>
+                    <div class="pl-6 md:pl-8 transition-opacity duration-500" id="ms-6-text">
+                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-6-badge">Ziel: 350.000 €</span>
+                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Bodenplatte & Erste Wände</h4>
+                        <p class="text-xs md:text-sm text-slate-400 mt-1 md:mt-2">Das Haus nimmt physisch Form an. Das Fundament ist gegossen, die Module kommen.</p>
+                    </div>
+                </div>
+                <div class="relative" id="ms-7-container">
+                    <div class="timeline-line" id="ms-7-line"></div>
+                    <div class="timeline-dot" id="ms-7-dot"></div>
+                    <div class="pl-6 md:pl-8 transition-opacity duration-500" id="ms-7-text">
+                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-7-badge">Ziel: 450.000 €</span>
+                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Rohbau & Digitales Richtfest</h4>
+                        <p class="text-xs md:text-sm text-slate-400 mt-1 md:mt-2">Das Dach ist zu. Wir feiern ein gigantisches digitales Richtfest mit allen Visionären!</p>
+                    </div>
+                </div>
+                <div class="relative" id="ms-8-container">
+                    <div class="timeline-dot" id="ms-8-dot"></div>
+                    <div class="pl-6 md:pl-8 transition-opacity duration-500" id="ms-8-text">
+                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-8-badge">Ziel: 560.000 €</span>
                         <h4 class="text-lg md:text-xl font-bold text-white mt-1">Innenausbau & Emilys Einzug</h4>
-                        <p class="text-xs md:text-sm text-slate-400 mt-2">Der letzte Pinselstrich. Emilys Zimmer ist fertig. Wir haben gemeinsam das Unmögliche möglich gemacht.</p>
+                        <p class="text-xs md:text-sm text-slate-400 mt-1 md:mt-2">Emilys Zimmer ist fertig. Der Systemausstieg ist geglückt. Eine Community hat ein Haus gebaut.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section class="grid md:grid-cols-2 gap-6">
-            <div class="ultra-glass p-8 flex flex-col justify-center items-center text-center space-y-6">
-                <div class="w-16 h-16 rounded-full border-2 border-dashed border-slate-500 flex items-center justify-center">
-                    <span class="text-2xl">📱</span>
+            <div class="ultra-glass p-6 md:p-8 flex flex-col justify-center items-center text-center space-y-6">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-full border-2 border-dashed border-slate-500 flex items-center justify-center">
+                    <span class="text-xl md:text-2xl">📱</span>
                 </div>
                 <div>
                     <h3 class="text-xl md:text-2xl font-black syncopate uppercase tracking-tighter">Support without Cash</h3>
@@ -260,15 +299,15 @@
                 </button>
             </div>
 
-            <div class="ultra-glass p-8 flex flex-col justify-center items-center text-center space-y-6 border-t border-cyan-400/50 bg-gradient-to-b from-cyan-900/20 to-transparent">
-                <div class="w-16 h-16 rounded-full bg-cyan-400 shadow-[0_0_30px_rgba(0,242,254,0.5)] flex items-center justify-center text-black">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <div class="ultra-glass p-6 md:p-8 flex flex-col justify-center items-center text-center space-y-6 border-t border-cyan-400/50 bg-gradient-to-b from-cyan-900/20 to-transparent">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cyan-400 shadow-[0_0_30px_rgba(0,242,254,0.5)] flex items-center justify-center text-black">
+                    <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
                 <div>
                     <h3 class="text-xl md:text-2xl font-black syncopate uppercase tracking-tighter text-glow">Setze dein Zeichen</h3>
                     <p class="text-slate-300 text-xs md:text-sm mt-2">Jeder Euro ist ein realer Baustein für das Haus in Schirmitz. Sei Teil der Wand.</p>
                 </div>
-                <a href="https://paypal.me/bernhardhuettel/1" target="_blank" class="glare-btn w-full py-5 bg-gradient-to-r from-[#00f2fe] to-[#4facfe] rounded-xl text-black font-black uppercase tracking-widest text-sm shadow-[0_0_20px_rgba(0,242,254,0.4)] hover:scale-105 transition transform text-center">
+                <a href="https://paypal.me/bernhardhuettel/1" target="_blank" class="glare-btn w-full py-4 md:py-5 bg-gradient-to-r from-[#00f2fe] to-[#4facfe] rounded-xl text-black font-black uppercase tracking-widest text-xs md:text-sm shadow-[0_0_20px_rgba(0,242,254,0.4)] hover:scale-105 transition transform text-center">
                     Jetzt Stein setzen (1€)
                 </a>
             </div>
@@ -277,19 +316,19 @@
         <section class="space-y-6">
             <h3 class="text-xl md:text-2xl font-black syncopate uppercase tracking-tighter text-center">Radikale Transparenz</h3>
             <div class="grid md:grid-cols-2 gap-4">
-                <div class="ultra-glass p-6">
+                <div class="ultra-glass p-5 md:p-6">
                     <h4 class="font-bold text-cyan-400 mb-2 text-sm md:text-base">Was passiert, wenn wir die 560k nicht erreichen?</h4>
                     <p class="text-[11px] md:text-xs text-slate-400 leading-relaxed">Wir bauen in Phasen. Erst das Grundstück. Sollte das Projekt vor Phase 1 stoppen, bleibt das Geld sicher und wir stimmen mit der Community in einem Video-Update über den weiteren Weg ab.</p>
                 </div>
-                <div class="ultra-glass p-6">
+                <div class="ultra-glass p-5 md:p-6">
                     <h4 class="font-bold text-cyan-400 mb-2 text-sm md:text-base">Warum schenke ich euch das Geld?</h4>
                     <p class="text-[11px] md:text-xs text-slate-400 leading-relaxed">Du schenkst es formell uns, aber ideell einer Idee. Wir beweisen gemeinsam, dass Crowdfunding mächtiger ist als Banken. Und du hilfst Emily, sich später einmal auf ihrem eigenen Rasen die Knie aufzuschlagen.</p>
                 </div>
-                <div class="ultra-glass p-6">
+                <div class="ultra-glass p-5 md:p-6">
                     <h4 class="font-bold text-cyan-400 mb-2 text-sm md:text-base">Geht das rechtlich?</h4>
                     <p class="text-[11px] md:text-xs text-slate-400 leading-relaxed">Ja. Es handelt sich um eine freiwillige, zweckgebundene private Schenkung an Bernhard Hüttel. Steuern (Schenkungssteuer) werden von uns ordnungsgemäß abgeführt, falls Freibeträge überschritten werden.</p>
                 </div>
-                <div class="ultra-glass p-6">
+                <div class="ultra-glass p-5 md:p-6">
                     <h4 class="font-bold text-cyan-400 mb-2 text-sm md:text-base">Wird mein Name verewigt?</h4>
                     <p class="text-[11px] md:text-xs text-slate-400 leading-relaxed">Absolut. Jeder Name, der in unserem Feed auftaucht, wird später in das "Buch der Visionäre" eingetragen, das in Emilys Zimmer einen Ehrenplatz bekommt.</p>
                 </div>
@@ -302,7 +341,7 @@
                 </div>
         </section>
 
-        <footer class="pt-20 border-t border-white/10 pb-10">
+        <footer class="pt-16 md:pt-20 border-t border-white/10 pb-10">
             <div class="ultra-glass p-6 md:p-10 grid md:grid-cols-2 gap-8 md:gap-10 items-center">
                 <div class="space-y-2 text-center md:text-left">
                     <p class="syncopate text-xs text-white uppercase tracking-[0.3em]">Hüttel Foundation</p>
@@ -319,8 +358,8 @@
                     </p>
                 </div>
             </div>
-            <div class="text-center mt-12 syncopate text-[8px] text-white/20 tracking-[1em]">
-                SYS.VERSION 3.5 // POWERED BY COMMUNITY
+            <div class="text-center mt-10 md:mt-12 syncopate text-[8px] text-white/20 tracking-[1em]">
+                SYS.VERSION 3.7 // POWERED BY COMMUNITY
             </div>
         </footer>
 
@@ -361,10 +400,10 @@
             const phaseLabel = document.getElementById('canvas-phase-label');
             if (hausPerc > 0) {
                 phaseLabel.innerText = "Phase 2: MassaHaus Aufbau";
-                phaseLabel.className = "text-white text-[10px] font-bold uppercase tracking-[0.3em] bg-blue-500/20 px-2 py-1 rounded border border-blue-400/30 shadow-lg backdrop-blur-md";
+                phaseLabel.className = "text-white text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.3em] bg-blue-500/20 px-2 py-1 rounded border border-blue-400/30 shadow-lg backdrop-blur-md";
             } else {
                 phaseLabel.innerText = "Phase 1: 830qm Land";
-                phaseLabel.className = "text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] bg-cyan-400/10 px-2 py-1 rounded border border-cyan-400/20 shadow-lg backdrop-blur-md";
+                phaseLabel.className = "text-cyan-400 text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.3em] bg-cyan-400/10 px-2 py-1 rounded border border-cyan-400/20 shadow-lg backdrop-blur-md";
             }
 
             const cols = 25; 
@@ -456,14 +495,17 @@
 
         renderPlot(0);
 
-        // MEILENSTEIN LOGIK UPDATE FUNKTION
+        // ERWEITERTE MEILENSTEIN LOGIK (8 Stufen)
         function updateMilestones(aktuell) {
             const milestones = [
-                { id: 1, target: 20000 },
-                { id: 2, target: 160000 },
-                { id: 3, target: 250000 },
-                { id: 4, target: 400000 },
-                { id: 5, target: 560000 }
+                { id: 1, target: 2500 },
+                { id: 2, target: 25000 },
+                { id: 3, target: 80000 },
+                { id: 4, target: 160000 },
+                { id: 5, target: 250000 },
+                { id: 6, target: 350000 },
+                { id: 7, target: 450000 },
+                { id: 8, target: 560000 }
             ];
 
             milestones.forEach((ms, index) => {
@@ -506,7 +548,8 @@
                 
                 if(perc > 100) perc = 100;
 
-                document.getElementById('total-amount').innerText = aktuell.toLocaleString('de-DE') + '€';
+                // Numbers updated via script
+                document.getElementById('total-amount').innerText = aktuell.toLocaleString('de-DE') + ' €';
                 document.getElementById('stone-total').innerText = aktuell.toLocaleString('de-DE');
                 document.getElementById('share-count').innerText = shares.toLocaleString('de-DE');
                 document.getElementById('percent-label').innerText = perc.toFixed(2) + '%';
@@ -514,7 +557,7 @@
                 document.getElementById('progress-bar').style.width = Math.max(perc, 1) + '%';
 
                 renderPlot(aktuell);
-                updateMilestones(aktuell); // Hier schaltet der Masterplan dynamisch um!
+                updateMilestones(aktuell);
             }
         });
 
@@ -530,8 +573,8 @@
                         <div class="w-10 h-10 md:w-12 md:h-12 rounded-full border border-cyan-400/50 flex items-center justify-center bg-[#050510] shadow-[inset_0_0_10px_rgba(0,242,254,0.2)]">
                             <span class="text-cyan-400 text-base md:text-lg">💎</span>
                         </div>
-                        <div>
-                            <p class="text-xs md:text-sm font-black uppercase tracking-widest text-white truncate max-w-[120px] md:max-w-[200px]">${sp.name || "Unknown Visionary"}</p>
+                        <div class="overflow-hidden">
+                            <p class="text-xs md:text-sm font-black uppercase tracking-widest text-white truncate max-w-[120px] sm:max-w-[150px] md:max-w-[200px]">${sp.name || "Unknown Visionary"}</p>
                             <p class="text-[8px] md:text-[9px] text-slate-400 uppercase tracking-widest">Neuer Meilenstein gesetzt</p>
                         </div>
                     </div>
