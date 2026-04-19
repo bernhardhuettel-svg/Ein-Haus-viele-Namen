@@ -1,92 +1,144 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js" type="module"></script>
     <style>
-        body { margin: 0; overflow: hidden; background: #eef2f3; }
+        body { margin: 0; overflow: hidden; background: #f5f5f7; }
         #canvas-container { width: 100vw; height: 100vh; }
     </style>
 </head>
 <body>
     <div id="canvas-container"></div>
+
     <script type="module">
         import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
 
+        // --- KONFIGURATION ---
+        const VISUAL_STONES_MAX = 10000; // 10k Steine sind perfekt für Performance
+        const RATIO = 50; // 1 Stein = 50 Euro
+        let currentVisualStones = 2400; // Start bei ca. 120.000€
+
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0xf5f5f7);
-        const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(15, 12, 15);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(18, 14, 18);
         camera.lookAt(0, 2, 0);
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(10, 20, 10);
-        scene.add(light);
+        // --- LICHT (Apple-Style Studio Lighting) ---
+        const ambient = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambient);
 
-        // Geometrien für die Instanzen
-        const geo = new THREE.BoxGeometry(0.14, 0.08, 0.08);
-        const matGround = new THREE.MeshStandardMaterial({ color: 0x7db366 }); // GRÜN
-        const matWall = new THREE.MeshStandardMaterial({ color: 0xffffff });   // WEISS
-        const matRoof = new THREE.MeshStandardMaterial({ color: 0x333333 });   // ANTHRAZIT
+        const sun = new THREE.DirectionalLight(0xffffff, 1);
+        sun.position.set(10, 20, 10);
+        sun.castShadow = true;
+        scene.add(sun);
 
-        const mesh = new THREE.InstancedMesh(geo, matWall, 500000);
+        // --- MATERIALIEN & GEOMETRIE ---
+        const stoneGeo = new THREE.BoxGeometry(0.28, 0.15, 0.15);
+        const mesh = new THREE.InstancedMesh(stoneGeo, new THREE.MeshStandardMaterial({ vertexColors: true }), VISUAL_STONES_MAX);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
         scene.add(mesh);
 
         const dummy = new THREE.Object3D();
-        let currentCount = 120000; // Startwert
+        const colors = [];
+        const colorObj = new THREE.Color();
 
-        function getPos(i) {
-            const step = 0.16;
-            if (i < 80000) { // Grundstück
-                return { x: (i % 282) * step - 22, y: 0, z: Math.floor(i / 282) * step - 22, type: 'ground' };
+        // --- HAUS-DESIGN ALGORITHMUS ---
+        // Wir definieren Zonen: Garten, EG, OG, Dach
+        function getBrickData(i) {
+            let x, y, z, col;
+
+            // 1. GARTEN / GRUNDSTÜCK (Die ersten 3000 Steine)
+            if (i < 3000) {
+                const grid = 55; 
+                x = (i % grid) * 0.3 - 8;
+                z = Math.floor(i / grid) * 0.3 - 8;
+                y = 0;
+                col = "#4CAF50"; // Grün
+            } 
+            // 2. HAUS-STRUKTUR (L-Form)
+            else if (i < 8500) {
+                const wallI = i - 3000;
+                const layer = Math.floor(wallI / 300);
+                const pos = wallI % 300;
+                y = layer * 0.16 + 0.15;
+                
+                // L-Form Logik
+                if (pos < 100) { x = pos * 0.3 - 4; z = -4; } // Nordwand
+                else if (pos < 150) { x = 6; z = (pos - 100) * 0.3 - 4; } // Ostwand
+                else if (pos < 250) { x = (pos - 150) * -0.3 + 6; z = 2; } // Innenwand
+                else { x = -4; z = (pos - 250) * 0.3 - 4; } // Westwand
+                
+                col = "#ffffff"; // Weiß
+            } 
+            // 3. DACH (Spitzdach)
+            else {
+                const roofI = i - 8500;
+                const rLayer = Math.floor(roofI / 200);
+                const rPos = roofI % 200;
+                y = 3.5 + rLayer * 0.15;
+                x = rPos * 0.1 - 4;
+                z = (15 - rLayer) * 0.1; // Schräge
+                col = "#333333"; // Anthrazit
             }
-            const wallI = i - 80000;
-            const layer = Math.floor(wallI / 1200);
-            const side = wallI % 1200;
-            let x=0, z=0;
-            if(side < 300) { x = side * step - 8; z = -8; }
-            else if(side < 600) { x = 8; z = (side-300) * step - 8; }
-            else if(side < 900) { x = (side-600) * step - 8; z = 8; }
-            else { x = -8; z = (side-900) * step - 8; }
-            return { x, y: layer * 0.09 + 0.1, z, type: layer > 15 ? 'roof' : 'wall' };
+            return { x, y, z, col };
         }
 
-        function updateMesh() {
-            for (let i = 0; i < currentCount; i++) {
-                const p = getPos(i);
-                dummy.position.set(p.x, p.y, p.z);
+        function updateSimulation() {
+            for (let i = 0; i < VISUAL_STONES_MAX; i++) {
+                const data = getBrickData(i);
+                
+                if (i < currentVisualStones) {
+                    dummy.position.set(data.x, data.y, data.z);
+                } else {
+                    dummy.position.set(0, -10, 0); // Verstecken unter der Erde
+                }
+                
                 dummy.updateMatrix();
                 mesh.setMatrixAt(i, dummy.matrix);
                 
-                // Farbe setzen (Instanced Colors)
-                let col = new THREE.Color(0xffffff);
-                if(p.type === 'ground') col.set(0x7db366);
-                if(p.type === 'roof') col.set(0x333333);
-                mesh.setColorAt(i, col);
+                colorObj.set(data.col);
+                mesh.setColorAt(i, colorObj);
             }
             mesh.instanceMatrix.needsUpdate = true;
-            if(mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+            if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
         }
 
+        // --- KOMMUNIKATION MIT INDEX.HTML ---
         window.addEventListener('message', (e) => {
-            if(e.data.type === 'ADD_STONE') {
-                currentCount += e.data.amount;
-                updateMesh();
+            if (e.data.type === 'ADD_STONE') {
+                // Wir rechnen Euro in visuelle Steine um
+                const newStones = Math.ceil(e.data.amount / RATIO);
+                currentVisualStones = Math.min(VISUAL_STONES_MAX, currentVisualStones + newStones);
+                updateSimulation();
             }
         });
 
         function animate() {
             requestAnimationFrame(animate);
-            mesh.rotation.y += 0.001;
+            mesh.rotation.y += 0.001; // Langsame, edle Drehung
             renderer.render(scene, camera);
         }
-        updateMesh();
+
+        // Initialer Build
+        updateSimulation();
         animate();
+
+        // Responsive Resizing
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     </script>
 </body>
 </html>
