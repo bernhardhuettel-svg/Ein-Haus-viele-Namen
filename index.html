@@ -86,7 +86,6 @@
         }
         @keyframes glare { 0% { left: -100%; } 20%, 100% { left: 200%; } }
         
-        /* Zeitleisten-CSS */
         .timeline-dot { width: 16px; height: 16px; border-radius: 50%; background: #050510; border: 4px solid #4facfe; position: absolute; left: -8px; top: 0; }
         .timeline-line { position: absolute; left: 0; top: 16px; bottom: -32px; width: 2px; background: rgba(255,255,255,0.1); }
     </style>
@@ -106,9 +105,8 @@
             <div class="syncopate text-[10px] tracking-[0.4em] font-bold text-white hidden md:block">PROJECT_830QM</div>
         </div>
         <div class="flex items-center gap-4">
-             <div id="live-status" class="hidden flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600/20 border border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.4)]">
-                <span class="w-2 h-2 bg-white rounded-full animate-ping"></span>
-                <span class="text-[10px] font-black text-red-500 uppercase tracking-widest">Live Cam</span>
+             <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-white/5 px-3 py-1 rounded-full border border-white/10">
+                <span id="user-count" class="text-cyan-400 font-black">1</span> Observer
             </div>
         </div>
     </nav>
@@ -121,10 +119,10 @@
             </div>
             <h1 class="syncopate text-5xl md:text-8xl font-black leading-none tracking-tighter uppercase text-white drop-shadow-2xl">
                 BUILD<br>
-                <span class="text-gradient text-glow">THE IMPOSSIBLE.</span>
+                <span class="text-gradient text-glow">HER FUTURE.</span>
             </h1>
             <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed backdrop-blur-sm bg-black/10 p-4 rounded-2xl">
-                Der Wohnungsmarkt ist kaputt. Also haben wir beschlossen, unsere eigenen Regeln zu machen. Wir finanzieren ein Haus für unsere Tochter Emily – gemeinsam mit dem Internet.
+                Der Wohnungsmarkt ist kaputt. Also machen wir unsere eigenen Regeln. Wir finanzieren das Zuhause für unsere ungeborene Tochter Emily – gemeinsam mit dem Internet.
             </p>
         </section>
 
@@ -134,7 +132,7 @@
                     <div>
                         <p class="text-cyan-400 text-[12px] font-bold uppercase tracking-[0.4em] flex items-center gap-2">
                             <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
-                            Live Funding Status
+                            Funding Status
                         </p>
                         <h2 class="text-6xl md:text-8xl font-black syncopate tracking-tighter text-white drop-shadow-lg" id="total-amount">0€</h2>
                     </div>
@@ -170,22 +168,24 @@
 
         <section class="grid md:grid-cols-2 gap-10 items-center">
             <div class="ultra-glass p-2 relative h-[400px] flex items-center justify-center bg-white/5">
-                <div class="text-center p-6">
-                    <span class="text-6xl block mb-4">📸</span>
-                    <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">[ Hier kommt ein emotionales Foto von Bernhard, Ela & Emily hin ]</p>
+                <div class="text-center p-6 space-y-4">
+                    <span class="text-6xl block">📹</span>
+                    <p class="text-xs uppercase tracking-widest text-slate-400 font-bold leading-relaxed">
+                        [ Hier kommt euer Video-Tagebuch & Updates rein. Keine Live-Streams, sondern gut kuratierte Einblicke ins Projekt! ]
+                    </p>
                 </div>
             </div>
             <div class="space-y-6">
-                <h3 class="text-3xl font-black syncopate uppercase tracking-tighter text-glow">Warum machen wir das?</h3>
+                <h3 class="text-3xl font-black syncopate uppercase tracking-tighter text-glow">Der Wettlauf gegen die Zeit</h3>
                 <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
                     <p>
-                        Jeden Tag hören wir, dass der Traum vom Eigenheim für normale Familien gestorben ist. Hohe Zinsen, extreme Baukosten, unerreichbares Eigenkapital. Wir standen genau vor dieser Wand.
+                        Wir sind <strong class="text-white">Bernhard & Ela</strong>. In wenigen Monaten wird unsere Tochter <strong class="text-cyan-400">Emily</strong> das Licht der Welt erblicken. Und wir wollen ihr etwas bieten, das heute fast unmöglich geworden ist: Einen eigenen Garten.
                     </p>
                     <p>
-                        Aber wir wollten nicht akzeptieren, dass unsere Tochter <strong class="text-white">Emily</strong> ohne eigenen Garten aufwächst. Wenn das alte System nicht funktioniert, müssen wir ein neues bauen. Die Idee: <strong class="text-cyan-400">Crowdfunded Living.</strong>
+                        Hohe Zinsen, extreme Baukosten, unerreichbares Eigenkapital. Das alte Bankensystem hat uns die Tür vor der Nase zugeschlagen. Also haben wir beschlossen, unsere eigene Tür zu bauen.
                     </p>
                     <p>
-                        Jeder Baustein auf dieser Seite kostet genau <strong class="text-white">1 Euro</strong>. Wir rufen nicht zu Almosen auf, wir rufen zu einem Statement auf. Wenn Tausende Menschen sich zusammentun, können wir zeigen, dass Community-Power Bank-Kredite ersetzen kann. 
+                        Wir setzen auf <strong class="text-white">Crowdfunded Living.</strong> Jeder virtuelle Baustein kostet 1 Euro. Wir rufen nicht zu Almosen auf, wir rufen zu einem Statement auf. Gemeinsam beweisen wir Emily, dass Community-Power jedes System schlagen kann.
                     </p>
                 </div>
             </div>
@@ -194,7 +194,7 @@
         <section class="ultra-glass p-8 md:p-12 space-y-10">
             <div class="text-center">
                 <h3 class="text-2xl font-black syncopate uppercase tracking-tighter">Der Masterplan</h3>
-                <p class="text-sm text-slate-400 mt-2">Wir bauen transparent. Jeder Euro hat einen klaren Bestimmungsort.</p>
+                <p class="text-sm text-slate-400 mt-2">Volle Transparenz per Video-Tagebuch. Jeder Euro hat ein Ziel.</p>
             </div>
 
             <div class="relative pl-6 md:pl-10 space-y-12">
@@ -204,7 +204,7 @@
                     <div class="pl-8">
                         <span class="text-[10px] font-bold text-cyan-400 uppercase tracking-widest">Phase 1 (Aktiv)</span>
                         <h4 class="text-xl font-bold text-white mt-1">Sicherung des Grundstücks</h4>
-                        <p class="text-sm text-slate-400 mt-2">830qm in Schirmitz. Kaufpreis: ca. 160.000€. Sobald diese Summe steht, gehen wir live auf TikTok mit euch zum Notar.</p>
+                        <p class="text-sm text-slate-400 mt-2">830qm in Schirmitz. Kaufpreis: ca. 160.000€. Sobald das Ziel erreicht ist, nehmen wir euch in unserem Video-Update mit zum Notar.</p>
                     </div>
                 </div>
                 <div class="relative">
@@ -213,15 +213,15 @@
                     <div class="pl-8">
                         <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Phase 2</span>
                         <h4 class="text-xl font-bold text-white mt-1">Architektur & Baugenehmigung</h4>
-                        <p class="text-sm text-slate-400 mt-2">Planung des MassaHaus Lifestyle 16.01 W, Einreichen der Unterlagen und Bodenarbeiten.</p>
+                        <p class="text-sm text-slate-400 mt-2">Planung des MassaHaus Lifestyle 16.01 W, Einreichen der Unterlagen und Beginn der Bodenarbeiten.</p>
                     </div>
                 </div>
                 <div class="relative">
                     <div class="timeline-dot border-slate-600"></div>
                     <div class="pl-8">
                         <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Phase 3</span>
-                        <h4 class="text-xl font-bold text-white mt-1">Hausaufbau & Richtfest</h4>
-                        <p class="text-sm text-slate-400 mt-2">Die Module werden geliefert. Wir veranstalten ein riesiges digitales Richtfest für alle, die einen Stein gespendet haben!</p>
+                        <h4 class="text-xl font-bold text-white mt-1">Das Nest wird gebaut</h4>
+                        <p class="text-sm text-slate-400 mt-2">Die Haus-Module werden geliefert. Wir veranstalten ein großes digitales Richtfest für alle, die das Fundament für Emily gelegt haben!</p>
                     </div>
                 </div>
             </div>
@@ -260,11 +260,11 @@
             <div class="grid md:grid-cols-2 gap-4">
                 <div class="ultra-glass p-6">
                     <h4 class="font-bold text-cyan-400 mb-2">Was passiert, wenn wir die 560k nicht erreichen?</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">Wir bauen in Phasen. Erst das Grundstück. Sollte das Projekt vor Phase 1 stoppen, bleibt das Geld auf dem PayPal Konto und wir stimmen mit der Community über den weiteren Weg ab.</p>
+                    <p class="text-xs text-slate-400 leading-relaxed">Wir bauen in Phasen. Erst das Grundstück. Sollte das Projekt vor Phase 1 stoppen, bleibt das Geld sicher und wir stimmen mit der Community in einem Video-Update über den weiteren Weg ab.</p>
                 </div>
                 <div class="ultra-glass p-6">
                     <h4 class="font-bold text-cyan-400 mb-2">Warum schenke ich euch das Geld?</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">Du schenkst es formell uns, aber ideell einer Idee. Wir beweisen gemeinsam, dass Crowdfunding mächtiger ist als Banken. Und du hilfst einer Familie, sich ihren Lebenstraum zu erfüllen.</p>
+                    <p class="text-xs text-slate-400 leading-relaxed">Du schenkst es formell uns, aber ideell einer Idee. Wir beweisen gemeinsam, dass Crowdfunding mächtiger ist als Banken. Und du hilfst Emily, sich später einmal auf ihrem eigenen Rasen die Knie aufzuschlagen.</p>
                 </div>
                 <div class="ultra-glass p-6">
                     <h4 class="font-bold text-cyan-400 mb-2">Geht das rechtlich?</h4>
@@ -272,7 +272,7 @@
                 </div>
                 <div class="ultra-glass p-6">
                     <h4 class="font-bold text-cyan-400 mb-2">Wird mein Name verewigt?</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">Absolut. Jeder Name, der in unserem Live-Feed auftaucht, wird später in das digitale und physische "Buch der Visionäre" eingetragen, das im Haus einen Ehrenplatz bekommt.</p>
+                    <p class="text-xs text-slate-400 leading-relaxed">Absolut. Jeder Name, der in unserem Feed auftaucht, wird später in das "Buch der Visionäre" eingetragen, das in Emilys Zimmer einen Ehrenplatz bekommt.</p>
                 </div>
             </div>
         </section>
@@ -301,7 +301,7 @@
                 </div>
             </div>
             <div class="text-center mt-12 syncopate text-[8px] text-white/20 tracking-[1em]">
-                SYS.VERSION 3.1 // POWERED BY COMMUNITY
+                SYS.VERSION 3.2 // POWERED BY COMMUNITY
             </div>
         </footer>
 
@@ -323,6 +323,11 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        // SIMULATION USER COUNT (kleines dynamisches Element statt Live-Cam)
+        setInterval(() => {
+            document.getElementById('user-count').innerText = Math.floor(Math.random() * 8) + 2;
+        }, 15000);
+
         db.collection("projektDaten").doc("stand").onSnapshot((doc) => {
             if (doc.exists) {
                 const data = doc.data();
@@ -337,12 +342,6 @@
                 document.getElementById('percent-label').innerText = perc.toFixed(2) + '%';
                 
                 document.getElementById('progress-bar').style.width = Math.max(perc, 1) + '%';
-
-                if(data.isLive) {
-                    document.getElementById('live-status').classList.remove('hidden');
-                } else {
-                    document.getElementById('live-status').classList.add('hidden');
-                }
             }
         });
 
@@ -373,7 +372,7 @@
         });
 
         function shareForSteine() {
-            const text = "Bernhard, Ela & Emily brechen das System. Hausbau komplett ohne Bank. Sei dabei und setze deinen Stein für 1€: https://hausprojekt-4aa29.firebaseapp.com";
+            const text = "Bernhard & Ela brechen das System. Hausbau für ihr Baby komplett ohne Bank. Sei dabei und setze deinen Stein für 1€: https://hausprojekt-4aa29.firebaseapp.com";
             navigator.clipboard.writeText(text);
             alert("🚀 Link in die Zwischenablage kopiert! Teile ihn auf TikTok, Insta oder WhatsApp. 1 Share = 10 Steine Power für Emily!");
         }
