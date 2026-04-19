@@ -55,18 +55,22 @@
         .blob-2 { width: 500px; height: 500px; background: rgba(79, 172, 254, 0.1); bottom: -20%; right: -10%; animation-delay: -5s; }
         @keyframes float-blob { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(100px, 50px) scale(1.2); } 100% { transform: translate(-50px, 150px) scale(0.8); } }
 
-        /* 3D GLASS CARDS */
+        /* 3D GLASS CARDS (Optimiert für Mobile) */
         .ultra-glass {
             background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             border: 1px solid rgba(255, 255, 255, 0.08); border-top: 1px solid rgba(255, 255, 255, 0.2); border-left: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.02);
             border-radius: 2rem; position: relative; overflow: hidden;
-            transform-style: preserve-3d;
             transition: box-shadow 0.4s ease, border-top 0.4s ease, transform 0.2s ease-out;
+            will-change: transform;
         }
-        .ultra-glass:hover {
-            box-shadow: 0 30px 60px -12px rgba(0, 242, 254, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.05);
-            border-top: 1px solid rgba(0, 242, 254, 0.5);
+        
+        @media (hover: hover) and (pointer: fine) {
+            .ultra-glass { transform-style: preserve-3d; }
+            .ultra-glass:hover {
+                box-shadow: 0 30px 60px -12px rgba(0, 242, 254, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.05);
+                border-top: 1px solid rgba(0, 242, 254, 0.5);
+            }
         }
 
         /* TIER CARDS */
@@ -99,6 +103,14 @@
 
         .fluid-number-huge { font-size: clamp(2.5rem, 8vw, 6rem); line-height: 1; }
         .fluid-number-box { font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1; }
+        
+        /* Render Canvas fix für Laptops/Smartphones */
+        #blueprint-canvas {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            display: block;
+        }
     </style>
 </head>
 <body class="pb-20 px-4 md:px-0">
@@ -118,13 +130,13 @@
     <div class="blob blob-2"></div>
 
     <nav class="fixed top-0 w-full z-50 p-4 md:p-6 flex justify-between items-center backdrop-blur-xl border-b border-white/10 bg-[#050510]/50">
-        <div class="flex items-center gap-3 tilt-element">
+        <div class="flex items-center gap-3">
             <div class="w-8 h-8 rounded-full border border-cyan-400 flex items-center justify-center shadow-[0_0_15px_rgba(0,242,254,0.3)]">
                 <span class="syncopate text-[10px] font-black text-cyan-400">8</span>
             </div>
             <div class="syncopate text-[10px] tracking-[0.4em] font-bold text-white hidden md:block">PROJECT_830QM</div>
         </div>
-        <div class="flex items-center gap-4 tilt-element">
+        <div class="flex items-center gap-4">
              <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-white/5 px-3 py-1 rounded-full border border-white/10 flex items-center gap-2">
                 <span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
                 <span id="user-count" class="text-cyan-400 font-black">1</span> Live Nodes
@@ -134,7 +146,7 @@
 
     <div class="max-w-4xl mx-auto pt-32 md:pt-36 space-y-16 md:space-y-20">
         
-        <section class="text-center space-y-6 md:space-y-8 tilt-element">
+        <section class="text-center space-y-6 md:space-y-8">
             <div class="inline-flex items-center gap-3 ultra-glass px-6 py-2 text-cyan-400 text-[10px] font-black tracking-[0.5em] uppercase shadow-2xl">
                 <span class="w-2 h-2 bg-cyan-400 rounded-full animate-ping"></span>
                 System Live // Phase 1
@@ -149,7 +161,7 @@
         </section>
 
         <section class="ultra-glass p-6 sm:p-8 md:p-12 3d-card">
-            <div class="grid md:grid-cols-12 gap-8 md:gap-10 items-center mb-10" style="transform: translateZ(30px);">
+            <div class="grid md:grid-cols-12 gap-8 md:gap-10 items-center mb-10 card-content">
                 
                 <div class="md:col-span-7 space-y-4 md:space-y-6">
                     <div>
@@ -183,17 +195,17 @@
                 </div>
             </div>
 
-            <div class="relative w-full rounded-2xl bg-[#020205] border border-white/10 overflow-hidden shadow-inner flex flex-col items-center p-2 sm:p-4" style="transform: translateZ(20px);">
-                <div class="absolute top-2 left-2 sm:top-4 sm:left-4 z-10 flex gap-2">
+            <div class="relative w-full rounded-2xl bg-[#020205] border border-white/10 overflow-hidden shadow-inner flex flex-col items-center p-2 sm:p-4 z-10">
+                <div class="absolute top-2 left-2 sm:top-4 sm:left-4 z-20 flex gap-2">
                     <p class="text-cyan-400 text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.3em] bg-cyan-400/10 px-2 py-1 rounded border border-cyan-400/20 shadow-lg backdrop-blur-md" id="canvas-phase-label">Phase 1: 830qm Land</p>
                 </div>
-                <canvas id="blueprint-canvas" width="800" height="350" class="max-w-full h-auto opacity-90"></canvas>
+                <canvas id="blueprint-canvas"></canvas>
             </div>
         </section>
 
         <section class="ultra-glass p-6 md:p-10 bg-gradient-to-r from-[#050510] to-[#1a1a2e] border-l-4 border-cyan-400 3d-card relative overflow-hidden">
             <div class="absolute right-0 top-0 w-64 h-64 bg-cyan-500/10 rounded-full filter blur-3xl"></div>
-            <div class="grid md:grid-cols-12 gap-8 items-center" style="transform: translateZ(30px);">
+            <div class="grid md:grid-cols-12 gap-8 items-center card-content">
                 <div class="md:col-span-8 space-y-4">
                     <span class="text-cyan-400 text-[10px] font-bold uppercase tracking-[0.5em] bg-cyan-400/10 px-2 py-1 rounded">Das Vermächtnis</span>
                     <h3 class="text-2xl md:text-3xl font-black syncopate uppercase tracking-tighter text-white">Wir vergraben das Internet.</h3>
@@ -209,7 +221,7 @@
             </div>
         </section>
 
-        <section class="space-y-8 tilt-element pt-10">
+        <section class="space-y-8">
             <div class="text-center">
                 <h3 class="text-2xl md:text-3xl font-black syncopate uppercase tracking-tighter text-glow">Wähle dein Level</h3>
                 <p class="text-slate-400 text-sm mt-2">Von der digitalen Koordinate bis zur physischen Plakette.</p>
@@ -287,13 +299,32 @@
             </div>
         </section>
 
+        <section class="grid md:grid-cols-2 gap-8 md:gap-10 items-center">
+            <div class="ultra-glass p-2 relative h-[250px] md:h-[400px] flex items-center justify-center bg-white/5 3d-card">
+                <div class="text-center p-6 space-y-4 card-content">
+                    <span class="text-5xl md:text-6xl block">📹</span>
+                    <p class="text-[10px] md:text-xs uppercase tracking-widest text-slate-400 font-bold leading-relaxed">
+                        [ Hier kommt euer Video-Tagebuch & Updates rein. Keine Live-Streams, sondern gut kuratierte Einblicke ins Projekt! ]
+                    </p>
+                </div>
+            </div>
+            <div class="space-y-4 md:space-y-6">
+                <h3 class="text-2xl md:text-3xl font-black syncopate uppercase tracking-tighter text-glow">Der Wettlauf gegen die Zeit</h3>
+                <div class="space-y-4 text-slate-300 text-xs sm:text-sm leading-relaxed">
+                    <p>Wir sind <strong class="text-white">Bernhard & Ela</strong>. In wenigen Monaten wird unsere Tochter <strong class="text-cyan-400">Emily</strong> das Licht der Welt erblicken. Und wir wollen ihr etwas bieten, das heute fast unmöglich geworden ist: Einen eigenen Garten.</p>
+                    <p>Hohe Zinsen, extreme Baukosten, unerreichbares Eigenkapital. Das alte Bankensystem hat uns die Tür vor der Nase zugeschlagen. Also haben wir beschlossen, unsere eigene Tür zu bauen.</p>
+                    <p>Wir setzen auf <strong class="text-white">Crowdfunded Living.</strong> Jeder virtuelle Baustein kostet 1 Euro. Wir rufen nicht zu Almosen auf, wir rufen zu einem Statement auf. Gemeinsam beweisen wir Emily, dass Community-Power jedes System schlagen kann.</p>
+                </div>
+            </div>
+        </section>
+
         <section class="ultra-glass p-6 sm:p-8 md:p-12 space-y-8 md:space-y-10 3d-card mt-16">
-            <div class="text-center" style="transform: translateZ(20px);">
+            <div class="text-center card-content">
                 <h3 class="text-xl md:text-2xl font-black syncopate uppercase tracking-tighter">Roadmap Log</h3>
                 <p class="text-xs md:text-sm text-slate-400 mt-2">Live-Tracking der Projektphasen. Auto-Unlock aktiviert.</p>
             </div>
 
-            <div class="relative pl-6 md:pl-10 space-y-10 md:space-y-12" style="transform: translateZ(30px);">
+            <div class="relative pl-6 md:pl-10 space-y-10 md:space-y-12 card-content">
                 <div class="relative" id="ms-1-container">
                     <div class="timeline-line" id="ms-1-line"></div>
                     <div class="timeline-dot" id="ms-1-dot"></div>
@@ -368,7 +399,7 @@
             </div>
         </section>
 
-        <section class="space-y-8 tilt-element">
+        <section class="space-y-8">
             <div class="text-center">
                 <h3 class="text-2xl md:text-3xl font-black syncopate uppercase tracking-tighter text-glow">Wall of Visionaries</h3>
                 <p class="text-slate-400 text-sm mt-2">Die Top 3. Für immer physisch im Fundament verankert.</p>
@@ -412,33 +443,33 @@
 
         <section class="grid md:grid-cols-2 gap-6 mt-16">
             <div class="ultra-glass 3d-card p-6 md:p-8 flex flex-col justify-center items-center text-center space-y-6">
-                <div class="w-14 h-14 md:w-16 md:h-16 rounded-full border-2 border-dashed border-slate-500 flex items-center justify-center" style="transform: translateZ(40px);">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-full border-2 border-dashed border-slate-500 flex items-center justify-center card-content">
                     <span class="text-xl md:text-2xl">📱</span>
                 </div>
-                <div style="transform: translateZ(30px);">
+                <div class="card-content">
                     <h3 class="text-xl md:text-2xl font-black syncopate uppercase tracking-tighter">Netzwerk vergrößern</h3>
                     <p class="text-slate-400 text-xs md:text-sm mt-2">Du hast kein Geld? Ein Share ist genauso mächtig. Hilf uns, den Algorithmus zu brechen.</p>
                 </div>
-                <button onclick="shareForSteine()" class="w-full py-4 border border-cyan-400/50 text-cyan-400 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-cyan-400 hover:text-black transition duration-300" style="transform: translateZ(20px);">
+                <button onclick="shareForSteine()" class="w-full py-4 border border-cyan-400/50 text-cyan-400 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-cyan-400 hover:text-black transition duration-300 card-content">
                     Mission Teilen (+10 Pixel)
                 </button>
             </div>
 
             <div class="ultra-glass 3d-card p-6 md:p-8 flex flex-col justify-center items-center text-center space-y-6 border-t border-cyan-400/50 bg-gradient-to-b from-cyan-900/20 to-transparent">
-                <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cyan-400 shadow-[0_0_30px_rgba(0,242,254,0.5)] flex items-center justify-center text-black" style="transform: translateZ(40px);">
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cyan-400 shadow-[0_0_30px_rgba(0,242,254,0.5)] flex items-center justify-center text-black card-content">
                     <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
-                <div style="transform: translateZ(30px);">
+                <div class="card-content">
                     <h3 class="text-xl md:text-2xl font-black syncopate uppercase tracking-tighter text-glow">Initiiere Upload</h3>
                     <p class="text-slate-300 text-xs md:text-sm mt-2">Bereit, Geschichte zu schreiben? Jeder Euro loggt deinen Namen ins Fundament ein.</p>
                 </div>
-                <a href="https://paypal.me/bernhardhuettel/1" target="_blank" class="glare-btn w-full py-4 md:py-5 bg-gradient-to-r from-[#00f2fe] to-[#4facfe] rounded-xl text-black font-black uppercase tracking-widest text-xs md:text-sm shadow-[0_0_20px_rgba(0,242,254,0.4)] hover:scale-105 transition transform text-center" style="transform: translateZ(20px);">
+                <a href="https://paypal.me/bernhardhuettel/1" target="_blank" class="glare-btn w-full py-4 md:py-5 bg-gradient-to-r from-[#00f2fe] to-[#4facfe] rounded-xl text-black font-black uppercase tracking-widest text-xs md:text-sm shadow-[0_0_20px_rgba(0,242,254,0.4)] hover:scale-105 transition transform text-center card-content">
                     Jetzt Namen verewigen
                 </a>
             </div>
         </section>
 
-        <section class="space-y-6 tilt-element pt-10">
+        <section class="space-y-6 pt-10">
             <h3 class="text-xl md:text-2xl font-black syncopate uppercase tracking-tighter text-center">System Transparenz</h3>
             <div class="grid md:grid-cols-2 gap-4">
                 <div class="ultra-glass p-5 md:p-6">
@@ -478,7 +509,7 @@
                 </div>
             </div>
             <div class="text-center mt-10 md:mt-12 mono text-[8px] text-white/20 tracking-[0.5em]">
-                > SYS.VERSION 6.0 // THE MATRIX UPDATE // SECURE CONNECTION
+                > SYS.VERSION 6.1 // PERFORMANCE & STABILITY OPTIMIZED
             </div>
         </footer>
 
@@ -497,7 +528,7 @@
                 bootText.innerText = "BYPASSING BANKS... COMPILING LEDGER...";
                 setTimeout(() => {
                     bootText.innerText = "ACCESS GRANTED. WELCOME VISIONARY.";
-                    bootText.style.color = "#4ade80"; // Grün
+                    bootText.style.color = "#4ade80"; 
                     setTimeout(() => {
                         bootScreen.style.opacity = '0';
                         setTimeout(() => bootScreen.style.visibility = 'hidden', 800);
@@ -509,8 +540,13 @@
         // BACKGROUND PARTICLE ENGINE
         const pCanvas = document.getElementById('particle-canvas');
         const pCtx = pCanvas.getContext('2d');
-        pCanvas.width = window.innerWidth;
-        pCanvas.height = window.innerHeight;
+        
+        function resizeParticles() {
+            pCanvas.width = window.innerWidth;
+            pCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeParticles);
+        resizeParticles();
         
         const particles = [];
         for(let i=0; i<50; i++) {
@@ -520,7 +556,7 @@
                 radius: Math.random() * 2,
                 vx: (Math.random() - 0.5) * 0.5,
                 vy: (Math.random() - 0.5) * 0.5,
-                color: Math.random() > 0.8 ? '#fbbf24' : '#00f2fe' // Gold oder Cyan
+                color: Math.random() > 0.8 ? '#fbbf24' : '#00f2fe'
             });
         }
         
@@ -539,27 +575,35 @@
         }
         animateParticles();
 
-        window.addEventListener('resize', () => {
-            pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight;
-        });
-
-        // 3D TILT EFFECT LOGIC
-        document.querySelectorAll('.3d-card').forEach(card => {
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -10;
-                const rotateY = ((x - centerX) / centerX) * 10;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        // INTELLIGENTER 3D TILT EFFECT (Deaktiviert auf Handys, um Rendering-Bugs zu verhindern)
+        if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+            document.querySelectorAll('.3d-card').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -10;
+                    const rotateY = ((x - centerX) / centerX) * 10;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                    
+                    // Kinder-Elemente mit Parallax
+                    const contents = card.querySelectorAll('.card-content');
+                    contents.forEach(content => {
+                        content.style.transform = `translateZ(30px)`;
+                    });
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+                    const contents = card.querySelectorAll('.card-content');
+                    contents.forEach(content => {
+                        content.style.transform = `translateZ(0px)`;
+                    });
+                });
             });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
-            });
-        });
+        }
 
         const firebaseConfig = {
             apiKey: "AIzaSyBXXNrbhTnRaWrm1KezV7M7ME1Az14FS70",
@@ -575,12 +619,28 @@
 
         setInterval(() => { document.getElementById('user-count').innerText = Math.floor(Math.random() * 12) + 4; }, 12000);
 
-        // 3D BLUEPRINT LOGIC
+        // 3D BLUEPRINT LOGIC (Retina-Optimiert & Gestochen scharf)
         const canvas = document.getElementById('blueprint-canvas');
         const ctx = canvas.getContext('2d');
+        
+        // Feste interne Auflösung definieren, die per CSS auf die Box gequetscht wird (Sorgt für Schärfe)
+        const internalWidth = 800;
+        const internalHeight = 350;
+
+        function setupCanvas() {
+            // High-DPI Display Check
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = internalWidth * dpr;
+            canvas.height = internalHeight * dpr;
+            ctx.scale(dpr, dpr);
+            
+            // Verhindert Lücken zwischen Pfaden
+            ctx.lineJoin = 'miter'; 
+        }
+        setupCanvas();
 
         function renderPlot(aktuell) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, internalWidth, internalHeight);
             
             const zielLand = 160000;
             const zielHaus = 400000;
@@ -604,14 +664,16 @@
             const totalTiles = cols * rows;
             const filledTiles = Math.floor(landPerc * totalTiles);
 
-            const startX = canvas.width / 2;
+            const startX = internalWidth / 2;
             const startY = 80;
 
             let count = 0;
+            // Isometrischer Zeichnungs-Loop
             for(let y = 0; y < rows; y++) {
                 for(let x = 0; x < cols; x++) {
-                    let isoX = startX + (x - y) * (tileW / 2);
-                    let isoY = startY + (x + y) * (tileH / 2);
+                    // +0.5 verhindert Anti-Aliasing Blurring auf machen Monitoren
+                    let isoX = Math.round(startX + (x - y) * (tileW / 2)) + 0.5;
+                    let isoY = Math.round(startY + (x + y) * (tileH / 2)) + 0.5;
 
                     ctx.beginPath();
                     ctx.moveTo(isoX, isoY);
@@ -621,11 +683,11 @@
                     ctx.closePath();
 
                     if(count < filledTiles) {
-                        ctx.fillStyle = 'rgba(0, 242, 254, 0.4)'; 
-                        ctx.strokeStyle = 'rgba(0, 242, 254, 0.8)';
+                        ctx.fillStyle = 'rgba(0, 242, 254, 0.5)'; 
+                        ctx.strokeStyle = 'rgba(0, 242, 254, 0.9)';
                     } else {
                         ctx.fillStyle = 'rgba(255, 255, 255, 0.02)'; 
-                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
                     }
                     ctx.lineWidth = 1;
                     ctx.fill();
@@ -634,6 +696,7 @@
                 }
             }
 
+            // Haus Rendering Logik
             if (hausPerc > 0) {
                 let hWidth = 8 * tileW;
                 let hLength = 6 * tileW;
@@ -643,37 +706,41 @@
                 let centerX = startX;
                 let centerY = startY + (rows/2 + cols/2) * (tileH/2) - (rows/2 * tileH) + 20;
 
+                // Linke Wand
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.lineTo(centerX - hWidth/2, centerY + hWidth/4);
                 ctx.lineTo(centerX - hWidth/2, centerY + hWidth/4 - currentHeight);
                 ctx.lineTo(centerX, centerY - currentHeight);
                 ctx.closePath();
-                ctx.fillStyle = 'rgba(79, 172, 254, 0.7)'; 
+                ctx.fillStyle = 'rgba(79, 172, 254, 0.8)'; 
                 ctx.fill();
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
                 ctx.stroke();
 
+                // Rechte Wand
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.lineTo(centerX + hLength/2, centerY + hLength/4);
                 ctx.lineTo(centerX + hLength/2, centerY + hLength/4 - currentHeight);
                 ctx.lineTo(centerX, centerY - currentHeight);
                 ctx.closePath();
-                ctx.fillStyle = 'rgba(0, 242, 254, 0.5)';
+                ctx.fillStyle = 'rgba(0, 242, 254, 0.6)';
                 ctx.fill();
                 ctx.stroke();
 
+                // Dach
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY - currentHeight);
                 ctx.lineTo(centerX - hWidth/2, centerY + hWidth/4 - currentHeight);
                 ctx.lineTo(centerX - hWidth/2 + hLength/2, centerY + hWidth/4 + hLength/4 - currentHeight);
                 ctx.lineTo(centerX + hLength/2, centerY + hLength/4 - currentHeight);
                 ctx.closePath();
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
                 ctx.fill();
                 ctx.stroke();
                 
+                // Hologramm-Prozenttext über dem Haus
                 ctx.fillStyle = "#fff";
                 ctx.font = "bold 14px Syncopate";
                 ctx.textAlign = "center";
@@ -684,6 +751,7 @@
             }
         }
 
+        // Initiale Render
         renderPlot(0);
 
         function updateMilestones(aktuell) {
@@ -752,7 +820,6 @@
             snap.forEach((doc) => {
                 const sp = doc.data();
                 
-                // Befülle die Hall of Fame
                 if (rank === 1) {
                     document.getElementById('top-1-name').innerText = sp.name || "Anonym";
                     document.getElementById('top-1-amount').innerText = sp.steine || 0;
@@ -763,7 +830,6 @@
                     document.getElementById('top-3-name').innerText = sp.name || "Anonym";
                     document.getElementById('top-3-amount').innerText = sp.steine || 0;
                 } 
-                // Befülle den Matrix Log ab Platz 4
                 else if (rank <= 8) { 
                     const div = document.createElement('div');
                     let isVIP = (sp.steine >= 190);
