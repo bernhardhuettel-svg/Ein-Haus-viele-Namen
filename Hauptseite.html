@@ -3,166 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>500.000 Steine für ein Zuhause | Ela & Bernhard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <title>Das 500.000 Steine Haus | Ela & Bernhard</title>
     <script src="https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js" type="module"></script>
-    
     <style>
-        :root {
-            --primary: #FF6B35;
-            --accent: #FFD93D;
-            --apple-bg: #f5f5f7;
-            --glass: rgba(255, 255, 255, 0.8);
+        :root { --primary: #FF6B35; --apple-bg: #f5f5f7; }
+        body { margin: 0; font-family: -apple-system, sans-serif; background: var(--apple-bg); overflow: hidden; }
+        
+        #ui-layer {
+            position: absolute; z-index: 10; width: 400px; height: 100vh;
+            background: rgba(255,255,255,0.8); backdrop-filter: blur(20px);
+            padding: 40px; display: flex; flex-direction: column; box-shadow: 10px 0 30px rgba(0,0,0,0.05);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--apple-bg);
-            color: #1d1d1f;
-            overflow-x: hidden;
+        .stats { margin-top: auto; padding-bottom: 20px; }
+        .bar { width: 100%; height: 8px; background: #ddd; border-radius: 4px; margin: 10px 0; overflow: hidden; }
+        #fill { width: 0%; height: 100%; background: var(--primary); transition: width 0.5s; }
+        
+        #canvas-container { position: absolute; right: 0; top: 0; width: calc(100% - 400px); height: 100vh; }
+        
+        .btn-donate {
+            background: var(--primary); color: white; border: none; padding: 15px;
+            border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s;
         }
-
-        /* 3D CANVAS (Hintergrund fixiert) */
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 50vw;
-            height: 100vh;
-            z-index: 1;
-        }
-
-        /* CONTENT (Links scrollbar) */
-        .scroll-container {
-            position: relative;
-            z-index: 2;
-            width: 50vw;
-            pointer-events: none;
-        }
-
-        section {
-            min-height: 100vh;
-            padding: 10vh 5%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            pointer-events: auto;
-        }
-
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 40px;
-            border: 1px solid rgba(255,255,255,0.4);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
-        }
-
-        h1 { font-size: 4rem; font-weight: 900; line-height: 0.9; margin-bottom: 20px; letter-spacing: -0.05em; }
-        p { font-size: 1.2rem; color: #424245; margin-bottom: 20px; line-height: 1.5; }
-
-        /* Progress Bar */
-        .progress-fixed {
-            position: fixed;
-            bottom: 40px;
-            left: 40px;
-            width: 40vw;
-            z-index: 100;
-            background: var(--glass);
-            padding: 20px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .bar-wrap { height: 10px; background: rgba(0,0,0,0.05); border-radius: 5px; overflow: hidden; margin: 10px 0; }
-        #bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #FF6B35, #FFD93D); transition: width 0.5s ease; }
-
-        /* Team Profil */
-        .team-row { display: flex; gap: 20px; margin-top: 20px; }
-        .member { flex: 1; text-align: center; }
-        .member img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid white; }
-
-        .btn-apple {
-            background: #1d1d1f;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-block;
-            transition: all 0.2s;
-        }
-        .btn-apple:hover { transform: scale(1.05); background: #434344; }
-
-        @media (max-width: 1024px) {
-            #canvas-container { width: 100vw; height: 50vh; top: 0; }
-            .scroll-container { width: 100vw; margin-top: 50vh; }
-            .progress-fixed { width: 90vw; left: 5vw; bottom: 20px; }
-        }
+        .btn-donate:hover { transform: scale(1.02); background: #e55a2b; }
     </style>
 </head>
 <body>
 
+    <div id="ui-layer">
+        <h1>Ein Haus,<br>viele Namen.</h1>
+        <p>Jeder Stein erzählt eine Geschichte. Wir bauen gemeinsam mit euch das reale Projekt in Schirmitz.</p>
+        
+        <div style="margin: 20px 0;">
+            <div style="display:flex; gap: 10px; align-items: center;">
+                <img src="ela.png" style="width:50px; border-radius:50%;" alt="Ela">
+                <img src="bernhard.png" style="width:50px; border-radius:50%;" alt="Bernhard">
+                <span><b>Ela & Bernhard</b></span>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div style="display:flex; justify-content: space-between; font-weight: bold;">
+                <span id="counter">0</span> Steine
+                <span id="percent">0%</span>
+            </div>
+            <div class="bar"><div id="fill"></div></div>
+            <button class="btn-donate" onclick="donateStone()">Jetzt 1€ spenden (1 Stein)</button>
+        </div>
+    </div>
+
     <div id="canvas-container"></div>
-
-    <div class="scroll-container">
-        <section>
-            <h1>500.000<br>Steine.</h1>
-            <p>Jeder Euro setzt exakt einen physischen Baustein in diesem Projekt. Deine Unterstützung ist das Fundament für Ela & Bernhards Vision.</p>
-            <a href="#mitmachen" class="btn-apple">💛 Stein setzen</a>
-        </section>
-
-        <section>
-            <div class="glass-card">
-                <h2>Das Team hinter dem Bau</h2>
-                <p>Wir bauen nicht nur ein Haus, wir bauen eine Zukunft. Transparenz und Gemeinschaft stehen für uns an erster Stelle.</p>
-                <div class="team-row">
-                    <div class="member">
-                        <img src="bernhard.png" alt="Bernhard">
-                        <h4>Bernhard</h4>
-                        <small>Visionär</small>
-                    </div>
-                    <div class="member">
-                        <img src="ela.png" alt="Ela">
-                        <h4>Ela</h4>
-                        <small>Kreative Seele</small>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="mitmachen">
-            <div class="glass-card">
-                <h2>Was dein Stein bewirkt</h2>
-                <p>Ab 100.000 Steinen beginnt die Realisierung auf dem Grundstück in Schirmitz. Sei dabei, wenn aus digitalen Pixeln echte Ziegel werden.</p>
-                <ul style="list-style: none; font-weight: 600; color: var(--primary);">
-                    <li>🧱 1€ = 1 physischer Stein</li>
-                    <li>🖼️ Name auf dem Community-Board</li>
-                    <li>🏡 Einladung zu Baustellen-Events</li>
-                </ul>
-                <br>
-                <a href="#" class="btn-apple" style="background: var(--primary);">Jetzt Stein spenden</a>
-            </div>
-        </section>
-    </div>
-
-    <div class="progress-fixed">
-        <div style="display: flex; justify-content: space-between; font-weight: 800;">
-            <span id="stone-label">0 Steine</span>
-            <span id="percent-label">0%</span>
-        </div>
-        <div class="bar-wrap">
-            <div id="bar-fill"></div>
-        </div>
-        <p style="font-size: 0.7rem; color: #86868b; text-align: center;">Ziel: 500.000 € für das Haus in Schirmitz</p>
-    </div>
 
     <script type="module">
         import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
 
-        // --- WORLD SETUP ---
+        // --- CONFIG ---
+        const STONES_MAX = 500000;
+        let currentCount = 142000; // Diesen Wert würdest du später aus deiner Datenbank laden
+
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0xf5f5f7);
@@ -176,100 +74,92 @@
         renderer.setPixelRatio(window.devicePixelRatio);
         container.appendChild(renderer.domElement);
 
-        const light = new THREE.DirectionalLight(0xffffff, 1.2);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+        const light = new THREE.PointLight(0xffffff, 1);
         light.position.set(10, 20, 10);
         scene.add(light);
-        scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 
-        // --- THE 500.000 STONES ENGINE (Instanced Mesh) ---
-        const MAX_STONES = 500000;
-        const stoneGeo = new THREE.BoxGeometry(0.15, 0.08, 0.08); // Ein winziger Ziegel
-        const stoneMat = new THREE.MeshStandardMaterial({ color: 0xffffff });
-        
-        // Wir erstellen das InstancedMesh (Alle 500k Steine in einem Rutsch)
-        const instancedMesh = new THREE.InstancedMesh(stoneGeo, stoneMat, MAX_STONES);
-        instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // Wichtig für Updates
-        scene.add(instancedMesh);
+        // --- ENGINE ---
+        const geo = new THREE.BoxGeometry(0.12, 0.06, 0.06);
+        const mat = new THREE.MeshStandardMaterial({ color: 0xffffff });
+        const mesh = new THREE.InstancedMesh(geo, mat, STONES_MAX);
+        scene.add(mesh);
 
         const dummy = new THREE.Object3D();
-        let currentStoneIndex = 0;
 
-        // --- GRID CALCULATION ---
-        // Wir definieren, wo die Steine sitzen sollen (Das "Skelett" des Hauses)
-        function getStonePosition(i) {
-            // Grundstück (Basis) - Erste 100.000 Steine
+        // Logik für die Platzierung (Wo kommt der nächste Stein hin?)
+        function getPos(i) {
+            const step = 0.14;
+            // 1. Fundament (0 - 100k)
             if (i < 100000) {
-                const x = (i % 316) * 0.18 - 28; // Breites Fundament
-                const z = Math.floor(i / 316) * 0.18 - 28;
-                return { x, y: 0, z };
-            }
-            // Hauswände - Ab 100.000 bis 400.000 Steine
-            else if (i < 400000) {
-                const wallI = i - 100000;
-                const layer = Math.floor(wallI / 2000); // 2000 Steine pro Schicht
-                const posInLayer = wallI % 2000;
-                
-                let x = 0, z = 0;
-                if(posInLayer < 500) { x = posInLayer * 0.16 - 4; z = -4; } // Wand Nord
-                else if(posInLayer < 1000) { x = 4; z = (posInLayer-500) * 0.16 - 4; } // Wand Ost
-                else if(posInLayer < 1500) { x = (posInLayer-1000) * 0.16 - 4; z = 4; } // Wand Süd
-                else { x = -4; z = (posInLayer-1500) * 0.16 - 4; } // Wand West
-                
-                return { x, y: layer * 0.1, z };
-            }
-            // Dach - Ab 400.000 bis 500.000
-            else {
-                const roofI = i - 400000;
-                const row = Math.floor(roofI / 500);
-                const col = roofI % 500;
-                const slope = col * 0.02;
-                return { x: col * 0.16 - 4, y: 15 + row * 0.1, z: 0 }; // Vereinfachtes Dach
-            }
+                return { x: (i % 316) * step - 22, y: 0, z: Math.floor(i / 316) * step - 22 };
+            } 
+            // 2. Wände (100k - 400k)
+            const wallI = i - 100000;
+            const layer = Math.floor(wallI / 1200);
+            const side = wallI % 1200;
+            let x=0, z=0;
+            if(side < 300) { x = side * step - 8; z = -8; }
+            else if(side < 600) { x = 8; z = (side-300) * step - 8; }
+            else if(side < 900) { x = (side-600) * step - 8; z = 8; }
+            else { x = -8; z = (side-900) * step - 8; }
+            return { x, y: layer * 0.07 + 0.1, z };
         }
 
-        function updateProgress(amount) {
-            const target = Math.min(amount, MAX_STONES);
-            
-            for (let i = currentStoneIndex; i < target; i++) {
-                const pos = getStonePosition(i);
-                dummy.position.set(pos.x, pos.y, pos.z);
+        // Initiales Haus laden (ohne Animation, blitzschnell)
+        function fastLoad(count) {
+            for (let i = 0; i < count; i++) {
+                const p = getPos(i);
+                dummy.position.set(p.x, p.y, p.z);
                 dummy.updateMatrix();
-                instancedMesh.setMatrixAt(i, dummy.matrix);
+                mesh.setMatrixAt(i, dummy.matrix);
             }
-            
-            instancedMesh.instanceMatrix.needsUpdate = true;
-            currentStoneIndex = target;
-
-            // UI
-            const p = (target / MAX_STONES) * 100;
-            document.getElementById('bar-fill').style.width = p + "%";
-            document.getElementById('percent-label').innerText = Math.round(p) + "%";
-            document.getElementById('stone-label').innerText = target.toLocaleString() + " Steine";
+            mesh.instanceMatrix.needsUpdate = true;
+            updateUI();
         }
 
-        // --- ANIMATION ---
+        // Ein einzelner Stein wird bei Klick/Spende hinzugefügt
+        window.donateStone = function() {
+            if (currentCount >= STONES_MAX) return;
+            const p = getPos(currentCount);
+            
+            // Animation: Stein fällt von oben herab
+            const startY = p.y + 5;
+            dummy.position.set(p.x, startY, p.z);
+            dummy.updateMatrix();
+            mesh.setMatrixAt(currentCount, dummy.matrix);
+            
+            let progress = 0;
+            function fall() {
+                progress += 0.1;
+                const currentY = startY - (5 * progress);
+                dummy.position.set(p.x, Math.max(p.y, currentY), p.z);
+                dummy.updateMatrix();
+                mesh.setMatrixAt(currentCount, dummy.matrix);
+                mesh.instanceMatrix.needsUpdate = true;
+                if(progress < 1) requestAnimationFrame(fall);
+            }
+            fall();
+
+            currentCount++;
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('counter').innerText = currentCount.toLocaleString();
+            const p = (currentCount / STONES_MAX) * 100;
+            document.getElementById('fill').style.width = p + "%";
+            document.getElementById('percent').innerText = Math.round(p) + "%";
+        }
+
         function animate() {
             requestAnimationFrame(animate);
-            instancedMesh.rotation.y += 0.001;
+            mesh.rotation.y += 0.001;
             renderer.render(scene, camera);
         }
 
-        window.addEventListener('resize', () => {
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        });
-
+        fastLoad(currentCount);
         animate();
-
-        // SIMULATION: Wir starten mit 50.000 Steinen (Grundstück wächst)
-        let simCount = 0;
-        const interval = setInterval(() => {
-            simCount += 1500; // Schnelles Wachstum für den Wow-Effekt
-            updateProgress(simCount);
-            if (simCount >= 145000) clearInterval(interval); // Stoppt bei Fundament + erste Wandreihe
-        }, 30);
-
     </script>
 </body>
 </html>
