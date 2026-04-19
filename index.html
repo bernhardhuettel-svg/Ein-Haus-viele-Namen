@@ -159,8 +159,8 @@
             </div>
 
             <div class="relative w-full rounded-2xl bg-[#020205] border border-white/10 overflow-hidden shadow-inner flex flex-col items-center p-4">
-                <div class="absolute top-4 left-4 z-10">
-                    <p class="text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] bg-cyan-400/10 px-2 py-1 rounded">Digital Twin: 830qm Plot</p>
+                <div class="absolute top-4 left-4 z-10 flex gap-2">
+                    <p class="text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] bg-cyan-400/10 px-2 py-1 rounded border border-cyan-400/20" id="canvas-phase-label">Phase 1: 830qm Land</p>
                 </div>
                 <canvas id="blueprint-canvas" width="800" height="350" class="max-w-full h-auto opacity-90"></canvas>
             </div>
@@ -301,7 +301,7 @@
                 </div>
             </div>
             <div class="text-center mt-12 syncopate text-[8px] text-white/20 tracking-[1em]">
-                SYS.VERSION 3.2 // POWERED BY COMMUNITY
+                SYS.VERSION 3.3 // POWERED BY COMMUNITY
             </div>
         </footer>
 
@@ -326,22 +326,42 @@
         // SIMULATION USER COUNT
         setInterval(() => { document.getElementById('user-count').innerText = Math.floor(Math.random() * 8) + 2; }, 15000);
 
-        // HOLOGRAPHIC 3D PLOT RENDERER
+        // HOLOGRAPHIC 3D PLOT RENDERER (PHASEN-BASIERT)
         const canvas = document.getElementById('blueprint-canvas');
         const ctx = canvas.getContext('2d');
 
-        function renderPlot(percentage) {
+        function renderPlot(aktuell) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Definition der Phasen
+            const zielLand = 160000;
+            const zielHaus = 400000;
+
+            // Prozentsätze für Land und Haus getrennt berechnen
+            let landPerc = Math.min(aktuell / zielLand, 1);
+            let hausPerc = Math.max(0, aktuell - zielLand) / zielHaus;
+
+            // UI Label anpassen
+            const phaseLabel = document.getElementById('canvas-phase-label');
+            if (hausPerc > 0) {
+                phaseLabel.innerText = "Phase 2: MassaHaus Aufbau";
+                phaseLabel.className = "text-white text-[10px] font-bold uppercase tracking-[0.3em] bg-blue-500/20 px-2 py-1 rounded border border-blue-400/30";
+            } else {
+                phaseLabel.innerText = "Phase 1: 830qm Land";
+                phaseLabel.className = "text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] bg-cyan-400/10 px-2 py-1 rounded border border-cyan-400/20";
+            }
+
             const cols = 25; 
             const rows = 15; 
             const tileW = 30; 
             const tileH = 15; 
             const totalTiles = cols * rows;
-            const filledTiles = Math.floor((percentage / 100) * totalTiles);
+            const filledTiles = Math.floor(landPerc * totalTiles);
 
             const startX = canvas.width / 2;
-            const startY = 50;
+            const startY = 80; // Etwas tiefer für das Haus
 
+            // 1. BODEN RENDER (Phase 1)
             let count = 0;
             for(let y = 0; y < rows; y++) {
                 for(let x = 0; x < cols; x++) {
@@ -356,22 +376,75 @@
                     ctx.closePath();
 
                     if(count < filledTiles) {
-                        ctx.fillStyle = 'rgba(0, 242, 254, 0.6)'; 
-                        ctx.strokeStyle = 'rgba(0, 242, 254, 1)';
-                        ctx.lineWidth = 1;
+                        ctx.fillStyle = 'rgba(0, 242, 254, 0.4)'; 
+                        ctx.strokeStyle = 'rgba(0, 242, 254, 0.8)';
                     } else {
                         ctx.fillStyle = 'rgba(255, 255, 255, 0.02)'; 
                         ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-                        ctx.lineWidth = 1;
                     }
+                    ctx.lineWidth = 1;
                     ctx.fill();
                     ctx.stroke();
                     count++;
                 }
             }
+
+            // 2. HAUS RENDER (Phase 2) - Baut sich vertikal auf!
+            if (hausPerc > 0) {
+                let hWidth = 8 * tileW;
+                let hLength = 6 * tileW;
+                let maxHouseHeight = 120;
+                let currentHeight = maxHouseHeight * hausPerc;
+
+                let centerX = startX;
+                let centerY = startY + (rows/2 + cols/2) * (tileH/2) - (rows/2 * tileH) + 20;
+
+                // Linke Hauswand
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(centerX - hWidth/2, centerY + hWidth/4);
+                ctx.lineTo(centerX - hWidth/2, centerY + hWidth/4 - currentHeight);
+                ctx.lineTo(centerX, centerY - currentHeight);
+                ctx.closePath();
+                ctx.fillStyle = 'rgba(79, 172, 254, 0.7)'; 
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.stroke();
+
+                // Rechte Hauswand
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(centerX + hLength/2, centerY + hLength/4);
+                ctx.lineTo(centerX + hLength/2, centerY + hLength/4 - currentHeight);
+                ctx.lineTo(centerX, centerY - currentHeight);
+                ctx.closePath();
+                ctx.fillStyle = 'rgba(0, 242, 254, 0.5)';
+                ctx.fill();
+                ctx.stroke();
+
+                // Dach-Fläche
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY - currentHeight);
+                ctx.lineTo(centerX - hWidth/2, centerY + hWidth/4 - currentHeight);
+                ctx.lineTo(centerX - hWidth/2 + hLength/2, centerY + hWidth/4 + hLength/4 - currentHeight);
+                ctx.lineTo(centerX + hLength/2, centerY + hLength/4 - currentHeight);
+                ctx.closePath();
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.fill();
+                ctx.stroke();
+                
+                // Fortschritts-Text über dem Haus
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 14px Syncopate";
+                ctx.textAlign = "center";
+                ctx.shadowColor = "rgba(0,0,0,0.8)";
+                ctx.shadowBlur = 4;
+                ctx.fillText((hausPerc*100).toFixed(1) + "% HAUS", centerX, centerY - currentHeight - 20);
+                ctx.shadowBlur = 0; // Reset
+            }
         }
 
-        renderPlot(0); 
+        renderPlot(0); // Start-Status
 
         db.collection("projektDaten").doc("stand").onSnapshot((doc) => {
             if (doc.exists) {
@@ -390,7 +463,8 @@
                 
                 document.getElementById('progress-bar').style.width = Math.max(perc, 1) + '%';
 
-                renderPlot(perc);
+                // Jetzt rufen wir den Renderer mit dem ECHTEN Euro-Betrag auf!
+                renderPlot(aktuell);
             }
         });
 
