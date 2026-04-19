@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Das Community-LEGO-Haus | Ela & Bernhard</title>
+    <title>Das Community-LEGO-Haus | Exakte Details</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js" type="module"></script>
     
     <style>
         :root {
             --primary: #FFD93D; /* LEGO Gelb */
-            --accent: #FF6B35;
             --glass: rgba(255, 255, 255, 0.7);
             --radius: 20px;
             --blur: 15px;
@@ -20,33 +19,50 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #2A3B4C; /* Dunklerer Hintergrund für Kontrast */
+            background: #2A3B4C; /* Hintergrundfarbe des Bildes */
             color: #1d1d1f;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
+        /* 1. DAS HOCHAUFLÖSENDE BILD ALS HINTERGRUND (PERFEKTE DETAILS) */
+        #perfect-house-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Bild wird perfekt skaliert */
+            z-index: 1;
+        }
+
+        /* 2. DER THREE.JS CANVAS (NUR FÜR DIE FLIEGENDEN STEINE) */
         #canvas-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            z-index: 1;
+            z-index: 2; /* Über dem Bild, aber transparent */
+            pointer-events: none; /* Klicks gehen durch auf die transparente Layer */
         }
 
+        /* 3. DIE UI UND INTERAKTIONS-LAYER */
         .ui-wrapper {
             position: relative;
-            z-index: 2;
-            pointer-events: none;
+            z-index: 3;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             height: 100vh;
             padding: 2rem;
+            width: 100%;
         }
 
         .glass-card {
-            pointer-events: auto;
             background: var(--glass);
             backdrop-filter: blur(var(--blur));
             border-radius: var(--radius);
@@ -54,6 +70,7 @@
             padding: 2rem;
             max-width: 450px;
             margin: 0 auto;
+            pointer-events: auto;
         }
 
         .btn-donate {
@@ -66,6 +83,7 @@
             display: inline-block;
             transition: transform 0.2s;
             box-shadow: 0 8px 15px rgba(255, 217, 61, 0.3);
+            border: none;
         }
 
         .btn-donate:hover { transform: translateY(-3px); }
@@ -90,7 +108,7 @@
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #FF6B35, #FFD93D);
-            transition: width 1s ease;
+            transition: width 0.5s ease;
         }
 
         #blockTooltip {
@@ -105,17 +123,21 @@
             z-index: 100;
         }
         .donor-name { font-weight: 800; color: #FFD93D; }
+
     </style>
 </head>
 <body>
 
     <div id="blockTooltip"></div>
+
+    <img src="image_0.png" id="perfect-house-image" alt="Perfektes LEGO Haus Details">
+
     <div id="canvas-container"></div>
 
     <div class="ui-wrapper">
         <div class="glass-card">
-            <h1 style="font-size: 1.8rem; letter-spacing:-0.03em;">Bauen wir das reale LEGO-Zuhause</h1>
-            <p style="color:#555; margin-bottom:1.5rem;">Ein Haus entsteht aus Noppen, Träumen und Vertrauen.</p>
+            <h1 style="font-size: 1.8rem; letter-spacing:-0.03em;">Bauen wir *exakt dieses* Haus</h1>
+            <p style="color:#555; margin-bottom:1.5rem;">Jede Noppe, jede Fliese – live simuliert.</p>
             
             <div class="lego-stat">
                 <strong>Fortschritt</strong>
@@ -125,12 +147,12 @@
                 <div id="progress-fill"></div>
             </div>
             <div class="lego-stat" style="color:#777;">
-                <span id="lego-module-count">0 Module montiert</span>
+                <span id="lego-stone-count">0 Steine gesetzt</span>
                 <span>500.000 € Ziel</span>
             </div>
 
             <div style="text-align: center; margin-top: 1.5rem;">
-                <a href="#mitmachen" class="btn-donate">💛 Teil werden & Spenden</a>
+                <button class="btn-donate" id="sim-donate-btn">💛 Stein setzen & Spenden</button>
             </div>
         </div>
     </div>
@@ -139,146 +161,104 @@
         import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
 
         // CONFIG & STATE
-        // Wir definieren 10 Haupt-LEGO-Module basierend auf dem Bild
-        const LEGO_MODULES = [
-            { name: "Ground Base Plate", color: 0x93b584, cost: 5000, geometry: new THREE.BoxGeometry(10, 0.1, 7) }, // Noppen-Textur unten
-            { name: "Rock Foundation", color: 0x808080, cost: 15000, geometry: new THREE.BoxGeometry(3, 1.5, 3) }, // Spender-Block Fels
-            { name: "Waterfall Feature", color: 0x4da6ff, cost: 5000, geometry: new THREE.BoxGeometry(0.8, 1, 1.2) },
-            { name: "Ground Floor White Module", color: 0xffffff, cost: 75000, geometry: new THREE.BoxGeometry(4, 2, 4) }, // Linkes Modul
-            { name: "Wood Facade Module (Left)", color: 0xc7a17a, cost: 80000, geometry: new THREE.BoxGeometry(2.5, 4, 1.2) },
-            { name: "Wood Facade Module (Right)", color: 0xc7a17a, cost: 80000, geometry: new THREE.BoxGeometry(2.5, 4, 1.2) },
-            { name: "Garage & Right Living", color: 0xeeeeee, cost: 120000, geometry: new THREE.BoxGeometry(4.5, 2.5, 4) },
-            { name: "Upper Floor Module", color: 0xffffff, cost: 95000, geometry: new THREE.BoxGeometry(5, 1.8, 4) },
-            { name: "Roof Garden", color: 0x2f7d32, cost: 15000, geometry: new THREE.BoxGeometry(4, 0.3, 3) },
-            { name: "Conifer Trees Assembly", cost: 10000 }, // Eigene Funktion für Bäume
-        ];
+        let builtStonesCount = 0;
+        const TOTAL_STONES_NEEDED = 500000;
 
-        let builtModulesCount = 0;
-        let totalCostNeeded = LEGO_MODULES.reduce((sum, m) => sum + (m.cost || 0), 0);
-        let currentBudget = 0; // Manuell steuern oder simulieren
-
-        // SCENE & RENDERER
+        // SCENE & RENDERER (Transparent)
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x2A3B4C); // Hintergrundfarbe des Bildes
+        // Wir brauchen keinen Hintergrund, da das Bild drunter liegt
         const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(-10, 8, 12);
-        camera.lookAt(0, 1, 0);
+        
+        // Wir richten die Kamera so aus, dass sie die "Mitte" des Bildes im 3D-Raum sieht
+        camera.position.set(0, 0, 10);
+        camera.lookAt(0, 0, 0);
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // Alpha=True für Transparenz
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        // LIGHTS (Ähnlich wie im Studio-Setup des Bildes)
-        scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-        const sun = new THREE.DirectionalLight(0xffffff, 1.2);
-        sun.position.set(5, 15, 8);
+        // LIGHTS (Studio-Beleuchtung für die fliegenden Steine)
+        scene.add(new THREE.AmbientLight(0xffffff, 1));
+        const sun = new THREE.DirectionalLight(0xffffff, 1);
+        sun.position.set(5, 10, 8);
         scene.add(sun);
 
-        // LEGO GROUP
-        const legoAssemblyGroup = new THREE.Group();
-        scene.add(legoAssemblyGroup);
+        // 3D LEGO STEIN (Ein hochdetaillierter 1x1 Brick mit Noppe)
+        // Wir bauen *einen* perfekten Stein über Code, um ihn zu replizieren.
+        function createDetailedLegoBrick(color = 0xFFD93D) {
+            const mat = new THREE.MeshStandardMaterial({ color: color, roughness: 0.5 });
+            const group = new THREE.Group();
 
-        // SIMULIERE LEGO NOPEPPEN (Simplified texture)
-        // Im realen Code würden wir hier Shader oder Bump-Maps nutzen.
-        // Für diese Demo nutzen wir eine helle, vereinfachte Farbe.
+            // Der Brick-Körper (1x1)
+            const brick = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), mat);
+            group.add(brick);
 
-        // HELPER FÜR BÄUME (wie im Bild)
-        function createLegoTree(pos) {
-            const trunkMat = new THREE.MeshStandardMaterial({ color: 0x5a3b1e });
-            const crownMat = new THREE.MeshStandardMaterial({ color: 0x2f7d32 });
-            
-            const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 1), trunkMat);
-            trunk.position.set(pos.x, 0.5, pos.z);
-            legoAssemblyGroup.add(trunk);
+            // Die Noppe oben (Zylinder)
+            const stud = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 0.25, 16), mat);
+            stud.position.set(0, 0.625, 0);
+            group.add(stud);
 
-            for(let i=0; i<3; i++) {
-                const crown = new THREE.Mesh(new THREE.CylinderGeometry(0, 0.7 - i*0.2, 1.2), crownMat);
-                crown.position.set(pos.x, 1.2 + i*0.8, pos.z);
-                legoAssemblyGroup.add(crown);
-            }
+            return group;
         }
 
-        // BUILD LOGIC
-        function assembleNextModule() {
-            if (builtModulesCount >= LEGO_MODULES.length) return;
+        const flyingStonesGroup = new THREE.Group();
+        scene.add(flyingStonesGroup);
 
-            const module = LEGO_MODULES[builtModulesCount];
-            let mesh;
+        // FUNCTION: FLY IN A NEW DETAILED STONE
+        function flyInStone() {
+            builtStonesCount++;
+            updateUI();
 
-            if (module.name === "Conifer Trees Assembly") {
-                // Sonderfall Bäume
-                createLegoTree({ x: -4, z: -3 });
-                createLegoTree({ x: 4, z: 3 });
-                createLegoTree({ x: 3, z: -2 });
-                // Keine Geometrie für Bäume-Modul selbst
-            } else if (module.geometry) {
-                const mat = new THREE.MeshStandardMaterial({ color: module.color, roughness: 0.6 });
-                mesh = new THREE.Mesh(module.geometry, mat);
-                
-                // Positionierungs-Logik basierend auf der LEGO Assembly
-                switch(builtModulesCount) {
-                    case 0: mesh.position.set(0, -0.05, 0); break; // Base
-                    case 1: mesh.position.set(-3, 0.75, -1.5); break; // Rock
-                    case 2: mesh.position.set(-3, 0.5, -2.5); break; // Waterfall
-                    case 3: mesh.position.set(-2, 1, 1.5); break; // GF White
-                    case 4: mesh.position.set(-0.8, 2, 2.5); break; // Wood Left
-                    case 5: mesh.position.set(1.5, 2, 2.5); break; // Wood Right
-                    case 6: mesh.position.set(3, 1.25, -1.5); break; // Garage
-                    case 7: mesh.position.set(0.5, 2.9, 0.5); break; // Upper
-                    case 8: mesh.position.set(-1, 3.8, 0.5); break; // Roof Garden
+            // Wir erstellen einen neuen, detaillierten Stein (LEGO Gelb)
+            const stone = createDetailedLegoBrick();
+            
+            // Start-Position (außerhalb des Bildschirms)
+            stone.position.set(
+                (Math.random() - 0.5) * 20, 
+                (Math.random() - 0.5) * 20, 
+                15
+            );
+            
+            // End-Position (Wir simulieren eine Stelle im Haus)
+            // Hier wählen wir eine zufällige Position im Haus-Bereich
+            const targetX = (Math.random() - 0.5) * 6; // Mitte des Bildes
+            const targetY = (Math.random() - 0.5) * 4; 
+            const targetZ = -2;
+
+            stone.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+            flyingStonesGroup.add(stone);
+
+            // ANIMATION (Fly In und Rotate)
+            let progress = 0;
+            function animateStone() {
+                progress += 0.02; // Geschwindigkeit
+                if(progress <= 1) {
+                    stone.position.x = stone.position.x * (1 - progress) + targetX * progress;
+                    stone.position.y = stone.position.y * (1 - progress) + targetY * progress;
+                    stone.position.z = stone.position.z * (1 - progress) + targetZ * progress;
+                    stone.rotation.y += 0.05;
+                    requestAnimationFrame(animateStone);
+                } else {
+                    // Stein ist angekommen, wir löschen ihn aus der fliegenden Gruppe
+                    // (Wir simulieren nur das Wachstum, wir bauen kein 3D Haus)
+                    flyingStonesGroup.remove(stone);
                 }
-                
-                mesh.userData.name = module.name;
-                mesh.userData.cost = module.cost;
-                mesh.userData.donor = "Spendergruppe " + builtModulesCount; // Simulierte Donor
-
-                // Optional: Noppen-Effekt simulieren
-                // Wir fügen hier keine Geometrie hinzu, um Performance zu sparen,
-                // aber der Shader würde das Noppen-Profil hinzufügen.
-
-                legoAssemblyGroup.add(mesh);
             }
-
-            builtModulesCount++;
-            currentBudget += module.cost || 0;
-            updateLegoUI();
+            animateStone();
         }
 
         // UI UPDATE
-        function updateLegoUI() {
-            const percent = Math.floor((currentBudget / totalCostNeeded) * 100);
+        function updateUI() {
+            const percent = ((builtStonesCount / TOTAL_STONES_NEEDED) * 100).toFixed(2);
             document.getElementById('progress-fill').style.width = percent + "%";
             document.getElementById('lego-percent').innerText = percent + "%";
-            document.getElementById('lego-module-count').innerText = builtModulesCount + " Module montiert";
+            document.getElementById('lego-stone-count').innerText = builtStonesCount.toLocaleString('de-DE') + " Steine gesetzt";
         }
-
-        // TOOLTIP (Raycaster)
-        const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2();
-        const tooltip = document.getElementById('blockTooltip');
-
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(legoAssemblyGroup.children);
-
-            if(intersects.length > 0 && intersects[0].object.userData.donor) {
-                const obj = intersects[0].object;
-                tooltip.style.display = 'block';
-                tooltip.style.left = (e.clientX + 15) + 'px';
-                tooltip.style.top = (e.clientY + 15) + 'px';
-                tooltip.innerHTML = `LEGO-Modul: <strong>${obj.userData.name}</strong><br>Ermöglicht durch <span class="donor-name">${obj.userData.donor}</span>`;
-            } else {
-                tooltip.style.display = 'none';
-            }
-        });
 
         // ANIMATION LOOP
         function animate() {
             requestAnimationFrame(animate);
-            legoAssemblyGroup.rotation.y += 0.001; // Sehr langsame Rotation
             renderer.render(scene, camera);
         }
 
@@ -289,18 +269,12 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // START ASSEMBLING (Simuliert)
-        // Wir starten die Montage aller Module mit einer Verzögerung
-        function simulatedAssemblyStart() {
-            let delay = 1000;
-            for(let i=0; i<LEGO_MODULES.length; i++) {
-                setTimeout(assembleNextModule, delay);
-                delay += 1000; // Jede Sekunde ein neues LEGO-Modul
-            }
-        }
+        // SIMULIERE SPENDE
+        document.getElementById('sim-donate-btn').addEventListener('click', flyInStone);
 
         animate();
-        simulatedAssemblyStart();
+        // Wir simulieren ein paar Steine beim Start
+        for(let i=0; i<10; i++) setTimeout(flyInStone, i * 200);
 
     </script>
 </body>
