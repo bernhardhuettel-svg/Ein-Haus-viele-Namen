@@ -3,266 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ein Haus – viele Namen | Community Projekt</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+    <title>Community Hausbau | Stein für Stein</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --primary: #FF6B35;
-            --secondary: #0071e3;
-            --bg: #f5f5f7;
-            --glass: rgba(255, 255, 255, 0.85);
-            --radius: 24px;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap');
         
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg);
-            color: #1d1d1f;
+        .pixel-font { font-family: 'Press Start 2P', cursive; }
+        .house-container {
+            perspective: 1000px;
+            height: 300px;
             display: flex;
-            flex-direction: row;
-            overflow: hidden;
-            height: 100vh;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 2px;
+            flex-wrap: wrap;
+            padding: 20px;
         }
-
-        /* SIDEBAR / CONTENT AREA */
-        .main-content {
-            width: 480px;
-            height: 100vh;
-            overflow-y: auto;
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-right: 1px solid rgba(0,0,0,0.1);
-            z-index: 10;
-            scroll-behavior: smooth;
+        .brick {
+            width: 15px; height: 10px;
+            background: #e74c3c; border: 1px solid #c0392b;
+            box-shadow: 2px 2px 0px #000;
+            transition: all 0.3s ease;
         }
-
-        /* SIMULATION AREA */
-        .simulation-container {
-            flex-grow: 1;
-            height: 100vh;
-            position: relative;
-            background: #fff;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* SECTIONS */
-        section {
-            padding: 60px 30px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .hero {
-            padding-top: 80px;
-            text-align: left;
-        }
-
-        h1 { font-size: 3.5rem; font-weight: 900; line-height: 1; letter-spacing: -0.05em; margin-bottom: 20px; }
-        h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 15px; }
-        p { font-size: 1.1rem; line-height: 1.5; color: #424245; margin-bottom: 20px; }
-
-        /* BADGES */
-        .badge {
-            display: inline-block;
-            background: #1d1d1f;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        /* CARD STYLE */
-        .card {
-            background: white;
-            border-radius: var(--radius);
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            margin-bottom: 20px;
-            border: 1px solid rgba(0,0,0,0.02);
-        }
-
-        /* TEAM AREA */
-        .team-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        .profile-pic { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
-
-        /* INTERACTION BUTTONS */
-        .btn-donate {
-            background: var(--primary);
-            color: white;
-            width: 100%;
-            padding: 18px;
-            border-radius: 18px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.1, 0.7, 1.0, 0.1);
-            box-shadow: 0 10px 20px rgba(255, 107, 53, 0.2);
-            text-align: center;
-            text-decoration: none;
-            display: block;
-        }
-        .btn-donate:hover { transform: scale(1.02); background: #e55a2b; }
-
-        /* IMPACT LIST */
-        .impact-list { list-style: none; }
-        .impact-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-        .icon { font-size: 1.5rem; }
-
-        /* PROGRESS FOOTER (STICKY) */
-        .sticky-stats {
-            position: sticky;
-            bottom: 0;
-            background: var(--glass);
-            padding: 25px 30px;
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .bar-outer { width: 100%; height: 12px; background: #e2e2e7; border-radius: 6px; overflow: hidden; margin: 10px 0; }
-        #bar-fill { height: 100%; width: 24%; background: linear-gradient(90deg, var(--primary), #FFD93D); border-radius: 6px; transition: width 1s ease; }
-
-        /* RESPONSIVE */
-        @media (max-width: 1000px) {
-            body { flex-direction: column; overflow-y: auto; }
-            .main-content { width: 100%; height: auto; border-right: none; }
-            .simulation-container { height: 50vh; order: -1; position: sticky; top: 0; }
+        .brick.empty { background: #eee; border: 1px solid #ddd; box-shadow: none; opacity: 0.3; }
+        
+        .progress-fill {
+            transition: width 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
         }
     </style>
 </head>
-<body>
+<body class="bg-slate-900 text-white font-sans">
 
-    <main class="main-content">
-        <section class="hero">
-            <span class="badge">LIVE: Community Build 🧱</span>
-            <h1>Ein Haus.<br>500k Steine.</h1>
-            <p>Sei dabei, wenn Ela & Bernhard Schirmitz verändern. Jeder Euro setzt einen Stein in unserer Simulation – und bald in der echten Welt.</p>
-            <a href="#donate" class="btn-donate">💛 Jetzt Stein setzen (1€)</a>
-        </section>
+    <nav class="p-6 flex justify-between items-center border-b border-slate-800">
+        <div class="pixel-font text-yellow-400 text-xs md:text-lg">COMMUNITY-HAUS</div>
+        <div class="text-sm bg-green-500 px-4 py-1 rounded-full animate-pulse">LIVE: 1€ = 1 STEIN</div>
+    </nav>
 
-        <section id="team">
-            <h2>Wer steckt dahinter?</h2>
-            <div class="card">
-                <div class="team-profile">
-                    <img src="ela.png" class="profile-pic" alt="Ela">
-                    <img src="bernhard.png" class="profile-pic" alt="Bernhard">
-                    <div>
-                        <p style="margin:0; font-weight:700;">Ela & Bernhard</p>
-                        <small style="color:#86868b;">Visionäre & Macher</small>
-                    </div>
-                </div>
-                <p style="font-size: 0.95rem; font-style: italic;">
-                    "Wir wollten nicht mehr warten, sondern machen. Gemeinsam mit euch bauen wir ein Haus, das zeigt, was eine Community erreichen kann."
-                </p>
+    <main class="max-w-4xl mx-auto mt-10 p-4">
+        <section class="text-center mb-12">
+            <h1 class="text-4xl font-bold mb-4">MassaHaus LifeStyle 16.01 W</h1>
+            <p class="text-slate-400 mb-8">Wir bauen gemeinsam ein Zuhause auf 830qm.</p>
+            
+            <div class="stats mb-2 flex justify-between pixel-font text-[10px]">
+                <span id="counter">0</span> € gesammelt
+                <span>Ziel: 560.000 €</span>
+            </div>
+            <div class="w-full bg-slate-800 h-8 rounded-lg overflow-hidden border-2 border-slate-700">
+                <div id="progress-bar" class="progress-fill h-full bg-gradient-to-r from-yellow-500 to-green-500" style="width: 0%"></div>
             </div>
         </section>
 
-        <section>
-            <h2>Dein Impact</h2>
-            <div class="impact-list">
-                <div class="impact-item"><span class="icon">🧱</span> 1€ = 1 echter Baustein</div>
-                <div class="impact-item"><span class="icon">📍</span> Standort: Schirmitz, Bayern</div>
-                <div class="impact-item"><span class="icon">📜</span> Dein Name wird im Haus verewigt</div>
-                <div class="impact-item"><span class="icon">🔒</span> Transparenz durch Live-Tracker</div>
+        <section id="construction-site" class="house-container bg-slate-800 rounded-3xl border-4 border-dashed border-slate-700">
+            </section>
+
+        <section class="mt-12 text-center bg-slate-800 p-8 rounded-2xl border border-slate-700">
+            <h2 class="text-2xl font-bold mb-4">Werde Teil des Fundaments!</h2>
+            <p class="mb-6 text-slate-300">Jeder Stein wird mit deinem Namen in der digitalen Wand verewigt.</p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="DEIN_PAYPAL_LINK" class="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 px-10 rounded-xl transition transform hover:scale-105">
+                    1 Stein setzen (1€)
+                </a>
+                <a href="#" class="bg-slate-700 hover:bg-slate-600 py-4 px-10 rounded-xl transition">
+                    Das Projekt teilen
+                </a>
             </div>
         </section>
-
-        <section id="donate">
-            <h2>Wähle deinen Support</h2>
-            <div class="card">
-                <h3>Bronze</h3>
-                <p>Dein Name auf einem virtuellen Stein.</p>
-                <div style="font-weight: 900; font-size: 1.5rem; margin-bottom:10px;">1 €</div>
-                <button class="btn-donate" style="padding: 10px;" onclick="addStone(1)">Wählen</button>
-            </div>
-            <div class="card" style="border: 2px solid var(--primary);">
-                <span class="badge" style="background:var(--primary);">POPULÄR</span>
-                <h3>Silber</h3>
-                <p>Ganzer Mauerabschnitt + Erwähnung im Video.</p>
-                <div style="font-weight: 900; font-size: 1.5rem; margin-bottom:10px;">100 €</div>
-                <button class="btn-donate" style="padding: 10px;" onclick="addStone(100)">Wählen</button>
-            </div>
-            <div class="card">
-                <h3>Gold</h3>
-                <p>Ewiger Name auf Bronzeplakette + Richtfest-VIP.</p>
-                <div style="font-weight: 900; font-size: 1.5rem; margin-bottom:10px;">500 €</div>
-                <button class="btn-donate" style="padding: 10px;" onclick="addStone(500)">Wählen</button>
-            </div>
-        </section>
-
-        <section>
-            <h2>Häufige Fragen</h2>
-            <details style="margin-bottom: 10px; cursor: pointer;">
-                <summary style="font-weight: 600;">Wann wird gebaut?</summary>
-                <p style="font-size: 0.9rem; margin-top:10px;">Sobald der Meilenstein von 100.000€ erreicht ist, wird das Grundstück gesichert und der Rohbau beginnt.</p>
-            </details>
-            <details style="margin-bottom: 10px; cursor: pointer;">
-                <summary style="font-weight: 600;">Was passiert bei 500k?</summary>
-                <p style="font-size: 0.9rem; margin-top:10px;">Das Haus wird schlüsselfertig fertiggestellt und steht der Community für Events und Besichtigungen offen.</p>
-            </details>
-        </section>
-
-        <div class="sticky-stats">
-            <div style="display:flex; justify-content:space-between; font-weight:900; font-size: 1.1rem;">
-                <span id="stone-label">120.000</span>
-                <span style="color:var(--primary);" id="percent-label">24%</span>
-            </div>
-            <div class="bar-outer">
-                <div id="bar-fill"></div>
-            </div>
-            <p style="font-size: 0.75rem; color: #86868b; text-align: center; margin-top:5px;">
-                🚀 Noch <span id="needed-label">380.000</span> Steine bis zum Ziel
-            </p>
-        </div>
     </main>
 
-    <div class="simulation-container">
-        <iframe src="simulation.html" id="sim-frame"></iframe>
-    </div>
-
     <script>
-        let currentStones = 120000;
-        const totalTarget = 500000;
+        // Simulation der Firebase-Logik für die Demo
+        const currentAmount = 145000; // Diesen Wert holen wir später aus Firebase
+        const totalAmount = 560000;
+        
+        // Fortschrittsbalken animieren
+        const percent = (currentAmount / totalAmount) * 100;
+        document.getElementById('progress-bar').style.width = percent + '%';
+        document.getElementById('counter').innerText = currentAmount.toLocaleString();
 
-        function addStone(amount) {
-            currentStones += amount;
-            updateUI();
-            
-            // Nachricht an die Simulation schicken
-            const frame = document.getElementById('sim-frame').contentWindow;
-            frame.postMessage({ type: 'ADD_STONE', amount: amount }, '*');
+        // Ein paar visuelle Steine generieren
+        const site = document.getElementById('construction-site');
+        for(let i=0; i<150; i++) {
+            const brick = document.createElement('div');
+            brick.className = i < 80 ? 'brick' : 'brick empty';
+            site.appendChild(brick);
         }
-
-        function updateUI() {
-            const percent = Math.min(100, (currentStones / totalTarget) * 100);
-            document.getElementById('stone-label').innerText = currentStones.toLocaleString('de-DE');
-            document.getElementById('percent-label').innerText = Math.round(percent) + '%';
-            document.getElementById('bar-fill').style.width = percent + '%';
-            document.getElementById('needed-label').innerText = (totalTarget - currentStones).toLocaleString('de-DE');
-        }
-
-        // Initiales Update
-        updateUI();
     </script>
 </body>
 </html>
