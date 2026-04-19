@@ -1,163 +1,103 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projekt Lifestyle 16.01 W | Community Hausbau</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: white; }
-        .pixel-font { font-family: 'Press Start 2P', cursive; }
-        
-        /* Stein-Animation */
-        .brick {
-            width: 12px; height: 8px;
-            background: #334155;
-            border-radius: 1px;
-            transition: all 0.4s ease;
-            cursor: pointer;
-        }
-        .brick:hover { transform: scale(1.5); z-index: 10; box-shadow: 0 0 10px #fbbf24; }
-        .brick.active { 
-            background: linear-gradient(45deg, #ef4444, #b91c1c); 
-            box-shadow: 1px 1px 0px #7f1d1d;
-        }
-        .brick.land { background: #22c55e; box-shadow: 1px 1px 0px #14532d; }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
-    </style>
-</head>
-<body class="antialiased">
-
-    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center text-black font-bold text-xl">M</div>
-                <div>
-                    <h1 class="font-extrabold text-lg leading-none">COMMUNITY HAUS</h1>
-                    <p class="text-[10px] text-slate-400 uppercase tracking-widest">MassaHaus Projekt 16.01 W</p>
-                </div>
-            </div>
-            <nav class="hidden md:flex gap-8 text-sm font-medium text-slate-300">
-                <a href="#vision" class="hover:text-yellow-500 transition">Vision</a>
-                <a href="#stats" class="hover:text-yellow-500 transition">Live-Bau</a>
-                <a href="#legal" class="hover:text-yellow-500 transition">Transparenz</a>
-            </nav>
-            <a href="#donate" class="bg-yellow-500 hover:bg-yellow-400 text-black px-5 py-2 rounded-full font-bold text-sm transition transform hover:scale-105">
-                Stein setzen
-            </a>
-        </div>
-    </header>
-
-    <main class="max-w-6xl mx-auto px-6 py-12">
-        
-        <section class="grid lg:grid-cols-2 gap-12 items-center mb-24">
-            <div>
-                <span class="text-yellow-500 font-semibold tracking-tighter uppercase text-sm">Der Traum vom Eigenheim – gemeinsam.</span>
-                <h2 class="text-5xl md:text-6xl font-extrabold mt-4 mb-6 leading-tight">
-                    Wir bauen ein Haus <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">für 1 Euro pro Stein.</span>
-                </h2>
-                <p class="text-slate-400 text-lg mb-8 leading-relaxed">
-                    Stell dir vor, eine ganze Community baut ein Haus. 830qm Grundstück, ein modernes MassaHaus Lifestyle – finanziert durch die Kraft vieler kleiner Beiträge. Sei Teil der ersten Social-Media Baustelle Deutschlands.
-                </p>
-                <div class="flex items-center gap-4 p-4 bg-slate-800/50 rounded-2xl border border-slate-700 inline-flex">
-                    <div class="flex -space-x-2">
-                        <div class="w-8 h-8 rounded-full bg-blue-500 border-2 border-slate-800"></div>
-                        <div class="w-8 h-8 rounded-full bg-green-500 border-2 border-slate-800"></div>
-                        <div class="w-8 h-8 rounded-full bg-red-500 border-2 border-slate-800"></div>
-                    </div>
-                    <span class="text-sm font-medium text-slate-200">Schon 1.240 Menschen sind dabei</span>
-                </div>
-            </div>
+<main class="max-w-6xl mx-auto px-6 py-12">
+    
+    <section id="stats" class="mb-24">
+        <div class="relative bg-slate-800 rounded-[3rem] p-1 border border-slate-700 overflow-hidden shadow-2xl">
             
-            <div class="bg-slate-800 rounded-3xl p-8 border border-slate-700 shadow-2xl relative overflow-hidden">
-                <div class="flex justify-between items-end mb-4">
-                    <div>
-                        <p class="text-slate-400 text-xs uppercase font-bold tracking-widest mb-1">Aktueller Stand</p>
-                        <p class="text-4xl font-black text-white" id="amount-display">0 €</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-slate-400 text-[10px] uppercase font-bold mb-1">Ziel</p>
-                        <p class="text-xl font-bold text-slate-300">560.000 €</p>
-                    </div>
-                </div>
+            <div class="relative h-[400px] md:h-[600px] w-full bg-slate-900 rounded-[2.8rem] overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000" 
+                     id="house-image"
+                     class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale transition-all duration-1000" 
+                     alt="MassaHaus LifeStyle 16.01 W">
                 
-                <div class="w-full bg-slate-900 h-6 rounded-full border border-slate-700 p-1 mb-8">
-                    <div id="progress-bar" class="h-full bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 rounded-full transition-all duration-1000" style="width: 5%"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+
+                <div class="absolute top-8 left-8 bg-black/60 backdrop-blur-md p-4 rounded-2xl border border-white/10">
+                    <p class="text-yellow-500 pixel-font text-[10px] mb-2 animate-pulse">Bau-Status: In Planung</p>
+                    <h3 class="text-2xl font-black" id="amount-display">0 €</h3>
+                    <p class="text-slate-400 text-xs">von 560.000 € finanziert</p>
                 </div>
+            </div>
 
-                <p class="text-[10px] text-slate-500 uppercase font-bold mb-3 flex justify-between">
-                    <span>Virtuelle Baustelle</span>
-                    <span id="stone-count">0 Steine gesetzt</span>
+            <div class="px-8 py-6 bg-slate-800">
+                <div class="flex justify-between text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">
+                    <span>Grundstück (160k)</span>
+                    <span>Hausbau (400k)</span>
+                </div>
+                <div class="w-full bg-slate-900 h-4 rounded-full border border-slate-700 p-0.5">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-green-500 via-yellow-500 to-orange-500 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vision" class="py-20 border-t border-slate-800">
+        <div class="grid md:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-3xl font-bold mb-6 italic text-yellow-500">#DieVision</h2>
+                <p class="text-slate-300 leading-relaxed mb-4">
+                    Warum machen wir das? Weil der Wohnraummarkt verrückt ist. Ich will zeigen, dass eine starke Community mehr erreichen kann als eine Bank. Jeder Stein, den du kaufst, ist ein Statement für moderne Finanzierung und Zusammenhalt.
                 </p>
-                <div id="grid-container" class="grid grid-cols-10 sm:grid-cols-20 gap-1 overflow-y-auto max-h-[250px] p-2 bg-slate-900/50 rounded-lg">
+                <ul class="space-y-3 text-slate-400">
+                    <li class="flex items-center gap-2"><span class="text-green-500">✓</span> 830qm Platz für Ideen</li>
+                    <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Nachhaltiges Modulhaus Prinzip</li>
+                    <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Volle Transparenz via TikTok Live</li>
+                </ul>
+            </div>
+            <div class="bg-slate-800/50 p-8 rounded-3xl border border-slate-700">
+                <h3 class="text-xl font-bold mb-4">Kostenaufstellung</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between border-b border-slate-700 pb-2">
+                        <span>Grundstück (ca. 830qm)</span>
+                        <span class="font-bold text-yellow-500">160.000 €</span>
                     </div>
+                    <div class="flex justify-between border-b border-slate-700 pb-2">
+                        <span>MassaHaus (Lifestyle 16.01 W)</span>
+                        <span class="font-bold text-yellow-500">400.000 €</span>
+                    </div>
+                    <div class="flex justify-between pt-2">
+                        <span class="font-bold">Gesamtziel</span>
+                        <span class="font-bold text-2xl text-green-500">560.000 €</span>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="donate" class="text-center py-16 bg-gradient-to-b from-slate-800 to-slate-900 rounded-[3rem] border border-slate-700 shadow-inner">
-            <h3 class="text-3xl font-bold mb-4">Bereit, deinen Stein zu setzen?</h3>
-            <p class="text-slate-400 mb-10 max-w-xl mx-auto">Wähle die Anzahl der Steine. Jeder Stein hilft, das Grundstück und das MassaHaus zu realisieren.</p>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-                <button onclick="updateSim(10)" class="p-6 bg-slate-700 hover:bg-slate-600 rounded-2xl border border-slate-600 transition">
-                    <span class="block text-2xl font-bold">10 €</span>
-                    <span class="text-xs text-slate-400 uppercase">10 Steine</span>
-                </button>
-                <button onclick="updateSim(50)" class="p-6 bg-slate-700 hover:bg-slate-600 rounded-2xl border border-slate-600 transition">
-                    <span class="block text-2xl font-bold">50 €</span>
-                    <span class="text-xs text-slate-400 uppercase">50 Steine</span>
-                </button>
-                <button onclick="updateSim(100)" class="p-6 border-2 border-yellow-500/50 bg-yellow-500/10 hover:bg-yellow-500/20 rounded-2xl transition">
-                    <span class="block text-2xl font-bold text-yellow-500">100 €</span>
-                    <span class="text-xs text-yellow-600 uppercase">VIP Paket</span>
-                </button>
-                <button class="p-6 bg-slate-700 hover:bg-slate-600 rounded-2xl border border-slate-600 transition">
-                    <span class="block text-2xl font-bold">Custom</span>
-                    <span class="text-xs text-slate-400 uppercase">Beliebig</span>
-                </button>
+    <footer id="legal" class="py-20 border-t border-slate-800 text-slate-500 text-sm">
+        <div class="grid md:grid-cols-3 gap-8">
+            <div>
+                <h4 class="text-white font-bold mb-4">Impressum</h4>
+                <p>Dein Name<br>Straße Hausnummer<br>PLZ Ort</p>
             </div>
-        </section>
+            <div>
+                <h4 class="text-white font-bold mb-4">Kontakt</h4>
+                <p>E-Mail: dein-projekt@email.de<br>TikTok: @deinaccount</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Hinweis</h4>
+                <p>Dies ist ein Crowdfunded-Projekt auf Schenkungsbasis. Jeder "Stein" ist eine virtuelle Repräsentation deiner Unterstützung.</p>
+            </div>
+        </div>
+    </footer>
+</main>
 
-    </main>
-
-    <script>
-        let current = 12500;
+<script>
+    // Aktualisierte Logik für das Haus-Bild
+    function updateUI() {
         const total = 560000;
-        const grid = document.getElementById('grid-container');
-
-        function initGrid() {
-            grid.innerHTML = '';
-            // Wir zeigen 400 Steine als Repräsentation
-            for(let i=0; i<400; i++) {
-                const b = document.createElement('div');
-                b.className = 'brick';
-                // Simulation: Erste Steine sind grün (Grundstück), dann rot (Haus)
-                if(i < current / 1000) {
-                    b.classList.add(i < 160 ? 'land' : 'active');
-                }
-                grid.appendChild(b);
-            }
-            updateUI();
-        }
-
-        function updateUI() {
-            const perc = (current / total) * 100;
-            document.getElementById('progress-bar').style.width = perc + '%';
-            document.getElementById('amount-display').innerText = current.toLocaleString() + ' €';
-            document.getElementById('stone-count').innerText = current.toLocaleString() + ' Steine gesetzt';
-        }
-
-        function updateSim(val) {
-            current += val;
-            initGrid();
-        }
-
-        initGrid();
-    </script>
-</body>
-</html>
+        const perc = (current / total) * 100;
+        
+        // Balken aktualisieren
+        document.getElementById('progress-bar').style.width = perc + '%';
+        document.getElementById('amount-display').innerText = current.toLocaleString() + ' €';
+        
+        // Haus-Bild Sichtbarkeit steuern
+        // Ab 5% fängt es an sichtbar zu werden, bei 100% ist es voll da
+        const img = document.getElementById('house-image');
+        const opacity = 0.2 + (perc / 100) * 0.8;
+        const grayscale = 100 - perc;
+        
+        img.style.opacity = opacity;
+        img.style.filter = `grayscale(${grayscale}%)`;
+    }
+</script>
