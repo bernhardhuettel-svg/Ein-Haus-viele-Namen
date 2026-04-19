@@ -23,16 +23,18 @@
             background: linear-gradient(90deg, #22d3ee 0%, #0ea5e9 100%);
             box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
         }
-        .step-gradient {
-            background: linear-gradient(180deg, rgba(34, 211, 238, 0.2) 0%, transparent 100%);
+        .phase-card {
+            transition: all 0.3s ease;
         }
-        .animate-pulse-slow {
-            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        .phase-card.active {
+            border: 1px solid #22d3ee;
+            background: rgba(34, 211, 238, 0.05);
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+        .live-item { animation: slideIn 0.5s ease-out forwards; }
     </style>
 </head>
 <body class="p-4 md:p-10">
@@ -40,133 +42,98 @@
     <div class="max-w-2xl mx-auto space-y-8">
         
         <header class="text-center space-y-4">
-            <div class="inline-block px-4 py-1.5 glass border-cyan-500/30 text-cyan-400 text-xs font-bold tracking-[0.2em] uppercase">
-                Community Projekt 830qm
+            <div class="inline-block px-4 py-1.5 glass border-cyan-500/30 text-cyan-400 text-[10px] font-bold tracking-[0.3em] uppercase">
+                Community Living Projekt
             </div>
-            <h1 class="text-4xl md:text-6xl font-black tracking-tighter">
-                Ein Stein für <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Emily's Zukunft.</span>
+            <h1 class="text-5xl md:text-7xl font-black tracking-tighter italic">
+                STEIN FÜR <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 text-glow">EMILY.</span>
             </h1>
-            <p class="text-slate-400 text-lg max-w-lg mx-auto leading-relaxed">
-                Wir sind <strong>Bernhard & Ela</strong>. Gemeinsam mit euch wollen wir ein Fundament für unsere Tochter Emily bauen – transparent, ehrlich und Stein für Stein.
-            </p>
+            <p class="text-slate-400 text-lg">Bernhard & Ela bauen die Zukunft.</p>
         </header>
 
         <section class="glass p-8 relative overflow-hidden">
-            <div class="absolute top-0 right-0 p-4">
-                <span class="flex h-3 w-3">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
-                </span>
-            </div>
-            
             <div class="flex justify-between items-end mb-6">
                 <div>
-                    <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Aktueller Baufortschritt</p>
-                    <h2 class="text-5xl font-black italic tracking-tighter" id="total-amount">0 €</h2>
+                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Finanzierter Status</p>
+                    <h2 class="text-5xl font-black tracking-tighter" id="total-amount">0 €</h2>
                 </div>
                 <div class="text-right">
-                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">Gesamtziel</p>
-                    <p class="text-xl font-bold text-slate-300">560.000 €</p>
+                    <p class="text-cyan-400 text-xs font-bold" id="percent-label">0.0%</p>
                 </div>
             </div>
 
-            <div class="relative w-full bg-slate-900 h-5 rounded-full border border-white/5 p-1 mb-6">
-                <div id="progress-bar" class="neo-cyan h-full w-[2%] rounded-full transition-all duration-1000"></div>
+            <div class="w-full bg-slate-900 h-6 rounded-full border border-white/5 p-1.5 mb-8">
+                <div id="progress-bar" class="neo-cyan h-full w-[1%] rounded-full transition-all duration-1000"></div>
             </div>
 
-            <div class="grid grid-cols-3 gap-4">
-                <div class="text-center">
-                    <p class="text-slate-500 text-[10px] uppercase font-bold">Steine</p>
-                    <p class="text-lg font-bold">0</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="phase-card active p-4 rounded-2xl glass border-cyan-500/50">
+                    <p class="text-cyan-400 text-[10px] font-bold uppercase">Phase 1</p>
+                    <p class="font-bold">Grundstück 830qm</p>
+                    <p class="text-xs text-slate-400 mt-1">Ziel: 160.000 €</p>
                 </div>
-                <div class="text-center border-x border-white/5">
-                    <p class="text-slate-500 text-[10px] uppercase font-bold">Grundstück</p>
-                    <p class="text-lg font-bold text-cyan-400">0%</p>
-                </div>
-                <div class="text-center">
-                    <p class="text-slate-500 text-[10px] uppercase font-bold">Haus</p>
-                    <p class="text-lg font-bold">0%</p>
+                <div class="phase-card p-4 rounded-2xl glass opacity-50">
+                    <p class="text-slate-500 text-[10px] font-bold uppercase">Phase 2</p>
+                    <p class="font-bold">MassaHaus 16.01 W</p>
+                    <p class="text-xs text-slate-400 mt-1">Ziel: 400.000 €</p>
                 </div>
             </div>
         </section>
 
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <a href="DEIN_PAYPAL_LINK_HIER" class="group relative flex flex-col items-center justify-center p-6 bg-white rounded-3xl transition-transform hover:scale-[1.02] active:scale-95">
-                <span class="text-black font-black text-xl italic tracking-tighter uppercase">Jetzt Stein setzen</span>
-                <span class="text-slate-500 text-xs font-bold tracking-widest">1 STEIN = 1 EURO</span>
+        <section class="space-y-4">
+            <a href="DEIN_PAYPAL_LINK" class="flex items-center justify-between p-6 bg-cyan-500 rounded-[2rem] text-black hover:scale-[1.02] transition transform">
+                <span class="font-black text-2xl italic tracking-tighter uppercase">Stein setzen (1€)</span>
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"/></svg>
             </a>
-            <div class="glass p-6 flex flex-col items-center justify-center text-center border-white/10 italic">
-                <p class="text-slate-300 text-sm">"Jeder Beitrag zählt für den ersten Spatenstich."</p>
-                <p class="text-cyan-400 font-bold text-xs mt-2">— Bernhard, Ela & Emily</p>
-            </div>
-        </section>
-
-        <section class="glass p-8 space-y-8">
-            <h3 class="text-2xl font-black tracking-tight underline decoration-cyan-500 decoration-4 underline-offset-8">Unser Sicherheits-Fahrplan</h3>
             
-            <div class="space-y-10">
-                <div class="flex gap-6">
-                    <div class="flex flex-col items-center">
-                        <div class="w-10 h-10 rounded-full bg-cyan-500 flex items-center justify-center text-black font-black">1</div>
-                        <div class="w-0.5 h-full step-gradient mt-2"></div>
-                    </div>
-                    <div class="pb-4">
-                        <h4 class="font-bold text-xl uppercase tracking-tighter">Grundstück (160.000 €)</h4>
-                        <p class="text-slate-400 text-sm leading-relaxed mt-1">Zuerst sichern wir Emily das 830qm große Grundstück. Erst wenn diese Summe erreicht ist, wird der Kaufvertrag beurkundet.</p>
-                    </div>
-                </div>
-
-                <div class="flex gap-6">
-                    <div class="flex flex-col items-center">
-                        <div class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 font-black italic">2</div>
-                        <div class="w-0.5 h-full step-gradient mt-2 opacity-20"></div>
-                    </div>
-                    <div class="pb-4">
-                        <h4 class="font-bold text-xl uppercase tracking-tighter opacity-50">Planung & Haus (400.000 €)</h4>
-                        <p class="text-slate-500 text-sm leading-relaxed mt-1">Sobald das Land uns gehört, folgt die Planung und der Bau unseres MassaHaus Lifestyle 16.01 W.</p>
+            <div class="glass p-5">
+                <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Letzte Bausteine</h4>
+                <div id="live-feed" class="space-y-3">
+                    <div class="live-item flex justify-between items-center text-sm">
+                        <span class="text-slate-300">Anonym hat 20 Steine gesetzt</span>
+                        <span class="text-slate-500 text-[10px]">gerade eben</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <footer class="glass p-8 space-y-6 border-white/5">
-            <div>
-                <h4 class="text-xs font-black uppercase tracking-[0.2em] text-cyan-500 mb-4">Rechtliche Transparenz</h4>
-                <p class="text-slate-400 text-[11px] leading-relaxed italic border-l-2 border-slate-700 pl-4">
-                    Dies ist ein privates Projekt. Jede Zahlung wird als freiwillige Schenkung an Bernhard [Dein Nachname] behandelt. Es besteht kein rechtlicher Anspruch auf Anteile am Bauprojekt oder eine Gegenleistung. Wir garantieren volle Transparenz über TikTok/Instagram, sobald die Meilensteine erreicht werden.
-                </p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-white/5 text-[11px]">
-                <div class="space-y-1">
-                    <p class="text-white font-bold uppercase tracking-widest">Impressum</p>
-                    <p class="text-slate-500">Bernhard [Nachname]<br>[Deine Straße & Nr]<br>[Dein PLZ & Ort]</p>
+        <section class="glass p-8">
+            <h3 class="text-2xl font-black mb-4">Warum 830qm?</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+                Wir wollen Emily einen Garten bieten, in dem sie aufwachsen kann. Wir bauen modular, nachhaltig und mit der Kraft der Community. Wenn wir das Grundstück (Phase 1) erreicht haben, dokumentieren wir jeden Schritt – vom Notartermin bis zum ersten Baggerbiss – live auf Social Media.
+            </p>
+        </section>
+
+        <footer class="text-[10px] text-slate-500 space-y-4 pt-10">
+            <div class="grid grid-cols-2 gap-8">
+                <div>
+                    <p class="text-white font-bold mb-1 uppercase tracking-widest">Bernhard & Ela [Nachname]</p>
+                    <p>[Strasse, PLZ Ort]</p>
+                    <p>E-Mail: [Deine Mail]</p>
                 </div>
-                <div class="space-y-1 md:text-right">
-                    <p class="text-white font-bold uppercase tracking-widest">Kontakt</p>
-                    <p class="text-slate-500">E-Mail: [Deine Mail]<br>Social: @[DeinTikTokName]</p>
+                <div class="text-right">
+                    <p class="text-white font-bold mb-1 uppercase tracking-widest">Rechtliches</p>
+                    <p>Private Schenkung. Kein Anspruch auf Gegenleistung. Transparenz via TikTok.</p>
                 </div>
             </div>
         </footer>
-
-        <p class="text-center text-slate-600 text-[10px] uppercase font-bold tracking-widest pb-10">
-            Made with ❤️ for Emily
-        </p>
-
     </div>
 
     <script>
-        // Logik zur UI Aktualisierung (später Firebase)
-        const currentAmount = 0; 
-        const totalAmount = 560000;
-        
-        function updateProgress() {
-            const perc = (currentAmount / totalAmount) * 100;
-            document.getElementById('progress-bar').style.width = Math.max(perc, 2) + '%';
-            document.getElementById('total-amount').innerText = currentAmount.toLocaleString('de-DE') + ' €';
+        // Diese Zahlen kommen später aus deiner Firebase
+        const data = {
+            current: 0,
+            target: 560000
+        };
+
+        function updateUI() {
+            const perc = (data.current / data.target) * 100;
+            document.getElementById('progress-bar').style.width = Math.max(perc, 1) + '%';
+            document.getElementById('total-amount').innerText = data.current.toLocaleString('de-DE') + ' €';
+            document.getElementById('percent-label').innerText = perc.toFixed(2) + '%';
         }
 
-        updateProgress();
+        updateUI();
     </script>
 </body>
 </html>
