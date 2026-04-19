@@ -19,7 +19,6 @@
         
         .syncopate { font-family: 'Syncopate', sans-serif; }
 
-        /* FUTURISTISCHES ARCHITEKTUR-RASTER */
         .blueprint-bg {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -30,7 +29,6 @@
             z-index: -2;
         }
 
-        /* ANIMIERTE LEUCHT-BLOBS IM HINTERGRUND */
         .blob {
             position: fixed;
             border-radius: 50%;
@@ -48,14 +46,13 @@
             100% { transform: translate(-50px, 150px) scale(0.8); }
         }
 
-        /* ULTRA GLASSMORPHISMUS (Das echte Zeug) */
         .ultra-glass {
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-top: 1px solid rgba(255, 255, 255, 0.2); /* Spiegelnde Kante oben */
-            border-left: 1px solid rgba(255, 255, 255, 0.15); /* Spiegelnde Kante links */
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.02);
             border-radius: 2rem;
             position: relative;
@@ -64,12 +61,10 @@
         }
 
         .ultra-glass:hover {
-            transform: translateY(-5px);
             box-shadow: 0 30px 60px -12px rgba(0, 242, 254, 0.15), inset 0 0 20px rgba(255, 255, 255, 0.05);
             border-top: 1px solid rgba(0, 242, 254, 0.4);
         }
 
-        /* Text Gradients & Glows */
         .text-gradient {
             background: linear-gradient(to right, #00f2fe, #4facfe, #fff);
             -webkit-background-clip: text;
@@ -82,11 +77,7 @@
             box-shadow: 0 0 25px #00f2fe, inset 0 0 10px rgba(255,255,255,0.5);
         }
 
-        /* Glanz-Effekt für Buttons */
-        .glare-btn {
-            position: relative;
-            overflow: hidden;
-        }
+        .glare-btn { position: relative; overflow: hidden; }
         .glare-btn::before {
             content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
             background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
@@ -94,6 +85,10 @@
             animation: glare 4s infinite;
         }
         @keyframes glare { 0% { left: -100%; } 20%, 100% { left: 200%; } }
+        
+        /* Zeitleisten-CSS */
+        .timeline-dot { width: 16px; height: 16px; border-radius: 50%; background: #050510; border: 4px solid #4facfe; position: absolute; left: -8px; top: 0; }
+        .timeline-line { position: absolute; left: 0; top: 16px; bottom: -32px; width: 2px; background: rgba(255,255,255,0.1); }
     </style>
 </head>
 <body class="pb-20 px-4 md:px-0">
@@ -108,7 +103,7 @@
             <div class="w-8 h-8 rounded-full border border-cyan-400 flex items-center justify-center shadow-[0_0_15px_rgba(0,242,254,0.3)]">
                 <span class="syncopate text-[10px] font-black text-cyan-400">8</span>
             </div>
-            <div class="syncopate text-[10px] tracking-[0.4em] font-bold text-white">PROJECT_830QM</div>
+            <div class="syncopate text-[10px] tracking-[0.4em] font-bold text-white hidden md:block">PROJECT_830QM</div>
         </div>
         <div class="flex items-center gap-4">
              <div id="live-status" class="hidden flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600/20 border border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.4)]">
@@ -118,24 +113,23 @@
         </div>
     </nav>
 
-    <div class="max-w-4xl mx-auto pt-36 space-y-16">
+    <div class="max-w-4xl mx-auto pt-36 space-y-20">
         
         <section class="text-center space-y-8">
             <div class="inline-block ultra-glass px-6 py-2 text-cyan-400 text-[10px] font-black tracking-[0.5em] uppercase shadow-2xl">
-                Eine Familie. Eine Vision. Kein Limit.
+                Schirmitz, Bayern
             </div>
             <h1 class="syncopate text-5xl md:text-8xl font-black leading-none tracking-tighter uppercase text-white drop-shadow-2xl">
                 BUILD<br>
                 <span class="text-gradient text-glow">THE IMPOSSIBLE.</span>
             </h1>
             <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed backdrop-blur-sm bg-black/10 p-4 rounded-2xl">
-                Bernhard, Ela & Emily brechen das Bankensystem. Wir erschaffen ein 830m² Grundstück und ein MassaHaus – getragen nur von der Community.
+                Der Wohnungsmarkt ist kaputt. Also haben wir beschlossen, unsere eigenen Regeln zu machen. Wir finanzieren ein Haus für unsere Tochter Emily – gemeinsam mit dem Internet.
             </p>
         </section>
 
         <section class="ultra-glass p-8 md:p-12">
             <div class="grid md:grid-cols-12 gap-10 items-center">
-                
                 <div class="md:col-span-7 space-y-6">
                     <div>
                         <p class="text-cyan-400 text-[12px] font-bold uppercase tracking-[0.4em] flex items-center gap-2">
@@ -168,10 +162,68 @@
                         <p class="text-3xl font-black text-cyan-400 syncopate" id="share-count">0</p>
                     </div>
                     <div class="col-span-2 ultra-glass p-4 text-center border-cyan-400/30 bg-cyan-500/5">
-                        <p class="text-[10px] text-cyan-400 uppercase font-bold tracking-widest">Nächstes Ziel: Grundstück (160k)</p>
+                        <p class="text-[10px] text-cyan-400 uppercase font-bold tracking-widest">Nächstes Ziel: Grundstück sichern (160k€)</p>
                     </div>
                 </div>
+            </div>
+        </section>
 
+        <section class="grid md:grid-cols-2 gap-10 items-center">
+            <div class="ultra-glass p-2 relative h-[400px] flex items-center justify-center bg-white/5">
+                <div class="text-center p-6">
+                    <span class="text-6xl block mb-4">📸</span>
+                    <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">[ Hier kommt ein emotionales Foto von Bernhard, Ela & Emily hin ]</p>
+                </div>
+            </div>
+            <div class="space-y-6">
+                <h3 class="text-3xl font-black syncopate uppercase tracking-tighter text-glow">Warum machen wir das?</h3>
+                <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
+                    <p>
+                        Jeden Tag hören wir, dass der Traum vom Eigenheim für normale Familien gestorben ist. Hohe Zinsen, extreme Baukosten, unerreichbares Eigenkapital. Wir standen genau vor dieser Wand.
+                    </p>
+                    <p>
+                        Aber wir wollten nicht akzeptieren, dass unsere Tochter <strong class="text-white">Emily</strong> ohne eigenen Garten aufwächst. Wenn das alte System nicht funktioniert, müssen wir ein neues bauen. Die Idee: <strong class="text-cyan-400">Crowdfunded Living.</strong>
+                    </p>
+                    <p>
+                        Jeder Baustein auf dieser Seite kostet genau <strong class="text-white">1 Euro</strong>. Wir rufen nicht zu Almosen auf, wir rufen zu einem Statement auf. Wenn Tausende Menschen sich zusammentun, können wir zeigen, dass Community-Power Bank-Kredite ersetzen kann. 
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="ultra-glass p-8 md:p-12 space-y-10">
+            <div class="text-center">
+                <h3 class="text-2xl font-black syncopate uppercase tracking-tighter">Der Masterplan</h3>
+                <p class="text-sm text-slate-400 mt-2">Wir bauen transparent. Jeder Euro hat einen klaren Bestimmungsort.</p>
+            </div>
+
+            <div class="relative pl-6 md:pl-10 space-y-12">
+                <div class="relative">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-dot bg-cyan-400 shadow-[0_0_15px_#4facfe]"></div>
+                    <div class="pl-8">
+                        <span class="text-[10px] font-bold text-cyan-400 uppercase tracking-widest">Phase 1 (Aktiv)</span>
+                        <h4 class="text-xl font-bold text-white mt-1">Sicherung des Grundstücks</h4>
+                        <p class="text-sm text-slate-400 mt-2">830qm in Schirmitz. Kaufpreis: ca. 160.000€. Sobald diese Summe steht, gehen wir live auf TikTok mit euch zum Notar.</p>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-dot border-slate-600"></div>
+                    <div class="pl-8">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Phase 2</span>
+                        <h4 class="text-xl font-bold text-white mt-1">Architektur & Baugenehmigung</h4>
+                        <p class="text-sm text-slate-400 mt-2">Planung des MassaHaus Lifestyle 16.01 W, Einreichen der Unterlagen und Bodenarbeiten.</p>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="timeline-dot border-slate-600"></div>
+                    <div class="pl-8">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Phase 3</span>
+                        <h4 class="text-xl font-bold text-white mt-1">Hausaufbau & Richtfest</h4>
+                        <p class="text-sm text-slate-400 mt-2">Die Module werden geliefert. Wir veranstalten ein riesiges digitales Richtfest für alle, die einen Stein gespendet haben!</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -204,6 +256,28 @@
         </section>
 
         <section class="space-y-6">
+            <h3 class="text-2xl font-black syncopate uppercase tracking-tighter text-center">Radikale Transparenz</h3>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="ultra-glass p-6">
+                    <h4 class="font-bold text-cyan-400 mb-2">Was passiert, wenn wir die 560k nicht erreichen?</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Wir bauen in Phasen. Erst das Grundstück. Sollte das Projekt vor Phase 1 stoppen, bleibt das Geld auf dem PayPal Konto und wir stimmen mit der Community über den weiteren Weg ab.</p>
+                </div>
+                <div class="ultra-glass p-6">
+                    <h4 class="font-bold text-cyan-400 mb-2">Warum schenke ich euch das Geld?</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Du schenkst es formell uns, aber ideell einer Idee. Wir beweisen gemeinsam, dass Crowdfunding mächtiger ist als Banken. Und du hilfst einer Familie, sich ihren Lebenstraum zu erfüllen.</p>
+                </div>
+                <div class="ultra-glass p-6">
+                    <h4 class="font-bold text-cyan-400 mb-2">Geht das rechtlich?</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Ja. Es handelt sich um eine freiwillige, zweckgebundene private Schenkung an Bernhard Hüttel. Steuern (Schenkungssteuer) werden von uns ordnungsgemäß abgeführt, falls Freibeträge überschritten werden.</p>
+                </div>
+                <div class="ultra-glass p-6">
+                    <h4 class="font-bold text-cyan-400 mb-2">Wird mein Name verewigt?</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Absolut. Jeder Name, der in unserem Live-Feed auftaucht, wird später in das digitale und physische "Buch der Visionäre" eingetragen, das im Haus einen Ehrenplatz bekommt.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-6">
             <h4 class="text-[12px] font-bold text-cyan-400 uppercase tracking-[0.5em] text-center syncopate">Live Database Activity</h4>
             <div id="live-feed" class="grid gap-4">
                 </div>
@@ -227,113 +301,7 @@
                 </div>
             </div>
             <div class="text-center mt-12 syncopate text-[8px] text-white/20 tracking-[1em]">
-                SYS.VERSION 3.0 // POWERED BY COMMUNITY
-            </div>
-        </footer>
-
-    </div>
-
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore-compat.js"></script>
-
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBXXNrbhTnRaWrm1KezV7M7ME1Az            background: linear-gradient(90deg, #22d3ee 0%, #0ea5e9 100%);
-            box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
-        }
-
-        .text-cyan { color: var(--cyan); }
-        .text-slate { color: #94a3b8; } /* Gut lesbares Grau */
-
-        /* Raster korrigiert */
-        .mini-dot { width: 5px; height: 5px; background: rgba(255,255,255,0.1); border-radius: 50%; }
-        .mini-dot.active { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
-    </style>
-</head>
-<body class="bg-mesh pb-20 px-4 md:px-0">
-
-    <nav class="fixed top-0 w-full z-50 p-6 flex justify-between items-center bg-[#020617]/80 backdrop-blur-md">
-        <div class="syncopate text-[10px] tracking-[0.4em] text-cyan-400 font-bold">HÜTTEL_FOUNDATION</div>
-        <div id="live-status" class="hidden flex items-center gap-2 px-3 py-1 rounded-full bg-red-600">
-            <span class="w-2 h-2 bg-white rounded-full animate-ping"></span>
-            <span class="text-[9px] font-black text-white uppercase tracking-widest">Bernhard Live</span>
-        </div>
-    </nav>
-
-    <div class="max-w-3xl mx-auto pt-32 space-y-16">
-        
-        <section class="text-center space-y-6">
-            <h1 class="syncopate text-3xl md:text-6xl font-black leading-tight tracking-tighter uppercase text-white">
-                THE <span class="text-cyan-400">830QM</span> <br>REVOLUTION.
-            </h1>
-            <p class="text-slate text-lg md:text-xl font-light max-w-xl mx-auto leading-relaxed">
-                Wir bauen Emily's Zukunft in Schirmitz. Stein für Stein. Quadratmeter für Quadratmeter. Ohne Banken – mit euch.
-            </p>
-            <div class="pt-4">
-                <a href="https://paypal.me/bernhardhuettel/1" target="_blank" class="neo-cyan inline-block px-10 py-5 rounded-full text-black font-black uppercase tracking-widest text-sm hover:scale-105 transition duration-300">
-                    Stein setzen (1€)
-                </a>
-            </div>
-        </section>
-
-        <section class="glass p-8 md:p-12">
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div class="space-y-6">
-                    <div>
-                        <p class="text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-2 italic">Aktueller Baufortschritt</p>
-                        <h2 class="text-5xl md:text-6xl font-black syncopate text-white" id="total-amount">0€</h2>
-                    </div>
-                    <div class="space-y-2">
-                        <div class="flex justify-between text-[10px] font-bold uppercase tracking-widest text-slate">
-                            <span>Community Power</span>
-                            <span id="percent-label" class="text-white">0%</span>
-                        </div>
-                        <div class="w-full bg-slate-900 h-4 rounded-full border border-white/5 p-1">
-                            <div id="progress-bar" class="neo-cyan h-full w-[2%] rounded-full transition-all duration-1000"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-white/5 p-4 rounded-2xl border border-white/5 text-center">
-                        <p class="text-[10px] text-slate uppercase font-bold mb-1">Steine</p>
-                        <p class="text-2xl font-black text-white italic" id="stone-total">0</p>
-                    </div>
-                    <div class="bg-white/5 p-4 rounded-2xl border border-white/5 text-center">
-                        <p class="text-[10px] text-slate uppercase font-bold mb-1">Garten</p>
-                        <p class="text-2xl font-black text-cyan-400 italic">830m²</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-20 gap-1 mt-10 opacity-40" id="brick-dots">
-                </div>
-        </section>
-
-        <section class="glass p-8 space-y-6">
-            <h3 class="text-xl font-black uppercase tracking-widest border-l-4 border-cyan-400 pl-4">Die Vision</h3>
-            <div class="space-y-4 text-slate leading-relaxed">
-                <p>Hi, wir sind <strong class="text-white underline decoration-cyan-400">Bernhard, Ela & Emily</strong>. Wir glauben nicht mehr an 30-jährige Kredite und starre Banken-Systeme.</p>
-                <p>Dieses Projekt ist eine private Bewegung. Ein 1€-Baustein-Prinzip, bei dem jeder Stein zählt. In Phase 1 sichern wir das Land (160k€), in Phase 2 bauen wir das MassaHaus (400k€).</p>
-                <p class="text-white font-bold italic">„Wir erschaffen Emily ein Zuhause – Quadratmeter für Quadratmeter.“</p>
-            </div>
-        </section>
-
-        <section class="space-y-4">
-            <h4 class="text-[10px] font-bold text-slate uppercase tracking-[0.3em] text-center">Die letzten Visionäre</h4>
-            <div id="live-feed" class="grid gap-2">
-                </div>
-        </section>
-
-        <footer class="pt-10 border-t border-white/10">
-            <div class="grid md:grid-cols-2 gap-8 text-[11px] font-bold uppercase tracking-widest text-slate">
-                <div class="space-y-2">
-                    <p class="text-white italic">Hüttel Foundation</p>
-                    <p>Bernhard Hüttel<br>Sandstraße 22<br>92718 Schirmitz</p>
-                </div>
-                <div class="md:text-right space-y-2">
-                    <p class="text-white tracking-widest">Schenkungs-Projekt</p>
-                    <p>Keine Gegenleistung.<br>100% Transparenz für Emily.</p>
-                </div>
+                SYS.VERSION 3.1 // POWERED BY COMMUNITY
             </div>
         </footer>
 
@@ -355,32 +323,26 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Raster erstellen (80 Punkte als Symbol)
-        const wall = document.getElementById('brick-dots');
-        for(let i=0; i<80; i++) {
-            const d = document.createElement('div');
-            d.className = 'mini-dot';
-            wall.appendChild(d);
-        }
-
         db.collection("projektDaten").doc("stand").onSnapshot((doc) => {
             if (doc.exists) {
                 const data = doc.data();
                 const aktuell = data.aktuell || 0;
                 const ziel = 560000;
+                const shares = data.shares || 0;
                 const perc = (aktuell / ziel) * 100;
 
                 document.getElementById('total-amount').innerText = aktuell.toLocaleString('de-DE') + '€';
                 document.getElementById('stone-total').innerText = aktuell.toLocaleString('de-DE');
+                document.getElementById('share-count').innerText = shares.toLocaleString('de-DE');
                 document.getElementById('percent-label').innerText = perc.toFixed(2) + '%';
-                document.getElementById('progress-bar').style.width = Math.max(perc, 2) + '%';
+                
+                document.getElementById('progress-bar').style.width = Math.max(perc, 1) + '%';
 
-                const dots = document.querySelectorAll('.mini-dot');
-                const fillTo = Math.floor((aktuell / ziel) * dots.length);
-                dots.forEach((dot, i) => { if(i < fillTo) dot.classList.add('active'); });
-
-                if(data.isLive) document.getElementById('live-status').classList.remove('hidden');
-                else document.getElementById('live-status').classList.add('hidden');
+                if(data.isLive) {
+                    document.getElementById('live-status').classList.remove('hidden');
+                } else {
+                    document.getElementById('live-status').classList.add('hidden');
+                }
             }
         });
 
@@ -390,11 +352,31 @@
             snap.forEach((doc) => {
                 const sp = doc.data();
                 const div = document.createElement('div');
-                div.className = "glass p-4 border-white/5 flex justify-between items-center";
-                div.innerHTML = `<span class="text-sm font-bold text-white uppercase tracking-tighter italic underline decoration-cyan-400">${sp.name || "Anonym"}</span><span class="text-cyan-400 font-black">+${sp.steine || 1}🧱</span>`;
+                div.className = "ultra-glass p-6 flex justify-between items-center transition duration-500 hover:scale-[1.01] hover:bg-white/5";
+                div.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full border border-cyan-400/50 flex items-center justify-center bg-[#050510] shadow-[inset_0_0_10px_rgba(0,242,254,0.2)]">
+                            <span class="text-cyan-400 text-lg">💎</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-black uppercase tracking-widest text-white">${sp.name || "Unknown Visionary"}</p>
+                            <p class="text-[9px] text-slate-400 uppercase tracking-widest">Neuer Meilenstein gesetzt</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-cyan-400 font-black syncopate text-xl text-glow">+${sp.steine || 1}</span>
+                        <p class="text-[9px] text-slate-500 uppercase tracking-widest">Steine</p>
+                    </div>
+                `;
                 feed.appendChild(div);
             });
         });
+
+        function shareForSteine() {
+            const text = "Bernhard, Ela & Emily brechen das System. Hausbau komplett ohne Bank. Sei dabei und setze deinen Stein für 1€: https://hausprojekt-4aa29.firebaseapp.com";
+            navigator.clipboard.writeText(text);
+            alert("🚀 Link in die Zwischenablage kopiert! Teile ihn auf TikTok, Insta oder WhatsApp. 1 Share = 10 Steine Power für Emily!");
+        }
     </script>
 </body>
 </html>
