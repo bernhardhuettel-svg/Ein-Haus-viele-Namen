@@ -155,7 +155,6 @@
         /* --- TIER CARDS --- */
         .tier-card { display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
         .tier-gold { background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(10, 10, 20, 0.8) 100%); border-color: rgba(251, 191, 36, 0.3); }
-        .tier-titan { background: linear-gradient(135deg, rgba(226, 232, 240, 0.1) 0%, rgba(10, 10, 20, 0.8) 100%); border-color: rgba(226, 232, 240, 0.3); }
 
         /* --- TEXT EFFECTS & BUTTONS --- */
         .text-gradient { background: linear-gradient(to right, var(--accent), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -317,7 +316,7 @@
                     <span class="text-cyan-400 god-text text-[10px] font-bold uppercase tracking-[0.5em] bg-white/5 px-2 py-1 rounded border border-white/10">Vermächtnis</span>
                     <h3 class="text-2xl md:text-4xl font-black syncopate uppercase tracking-tighter text-white glitch" data-text="Legacy Protocol">Legacy Protocol</h3>
                     <p class="text-sm md:text-base text-slate-300 leading-relaxed">
-                        Deine Unterstützung wird Teil der Architektur. Ab dem "Block"-Level hinterlässt du Emily eine symbolische Botschaft für die Zukunft. Wir speichern den gesamten Source Code, jede Transaktion und <strong>jeden eurer digitalen Briefe</strong> in einem Archiv. 
+                        Deine Unterstützung wird Teil der Architektur. Wir speichern den gesamten Source Code, jede Transaktion und <strong>jeden eurer digitalen Briefe</strong> in einem Archiv. 
                         Wenn sie 2044 ihren 18. Geburtstag feiert, wird sie wissen, dass DU dieses Fundament mit ermöglicht hast.
                     </p>
                 </div>
@@ -335,56 +334,88 @@
                 <p class="text-slate-400 text-sm mt-2">Unterstütze Phase 1 und verankere deinen Namen im System.</p>
             </div>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <div class="ultra-glass tier-card p-6 md:p-8 hover-sound spotlight-card">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                <div class="ultra-glass tier-card p-6 hover-sound spotlight-card">
                     <div>
-                        <div class="text-center space-y-2 border-b border-white/10 pb-5 mb-5">
-                            <h4 class="text-xl font-black uppercase tracking-widest text-white">Der Ziegel</h4>
-                            <p class="text-4xl font-black syncopate text-cyan-400 god-text text-glow">25 €</p>
+                        <div class="text-center space-y-2 border-b border-white/10 pb-4 mb-4">
+                            <h4 class="text-lg font-black uppercase tracking-widest text-white">Der Pixel</h4>
+                            <p class="text-3xl font-black syncopate text-cyan-400 god-text text-glow">1 €</p>
                         </div>
-                        <p class="text-xs text-slate-400 italic mb-4">Ein echter, greifbarer Teil des Grundstücks. Dein Name im digitalen Archiv.</p>
-                        <ul class="text-xs md:text-sm text-slate-300 space-y-4">
-                            <li class="flex items-start gap-3"><span class="text-cyan-400 god-text">✔</span> 25 digitale Pixel im System</li>
-                            <li class="flex items-start gap-3"><span class="text-cyan-400 god-text">✔</span> Dein Name in der Hall of Fame</li>
+                        <p class="text-[11px] text-slate-400 italic mb-4">Der Herzschlag. Jeder Impuls hilft, das System zu hacken.</p>
+                        <ul class="text-xs text-slate-300 space-y-3">
+                            <li class="flex items-start gap-2"><span class="text-cyan-400 god-text">✔</span> 1 Hardware-Pixel</li>
+                            <li class="flex items-start gap-2"><span class="text-cyan-400 god-text">✔</span> Name im digitalen Archiv</li>
                         </ul>
                     </div>
-                    <a href="https://paypal.me/bernhardhuettel/25" target="_blank" class="block w-full py-4 mt-8 bg-white/5 border border-white/20 rounded-xl text-white font-black uppercase tracking-widest text-xs hover:bg-white/10 transition text-center hover-click">Ziegel sichern</a>
+                    <a href="https://paypal.me/bernhardhuettel/1" target="_blank" class="block w-full py-3 mt-6 bg-white/5 border border-white/20 rounded-xl text-white font-black uppercase tracking-widest text-[10px] hover:bg-white/10 transition text-center hover-click">Pixel sichern</a>
                 </div>
 
-                <div class="ultra-glass tier-card p-6 md:p-8 border-cyan-400/40 god-border bg-cyan-900/10 relative shadow-[0_0_30px_rgba(0,242,254,0.1)] hover-sound spotlight-card">
-                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-cyan-400 god-bg text-black text-[10px] font-black uppercase tracking-widest px-4 py-1 rounded-full shadow-[0_0_15px_rgba(0,242,254,0.5)]">Beliebt</div>
+                <div class="ultra-glass tier-card p-6 hover-sound spotlight-card">
                     <div>
-                        <div class="text-center space-y-2 border-b border-white/10 pb-5 mb-5 mt-2">
-                            <h4 class="text-xl font-black uppercase tracking-widest text-white">Der Block</h4>
-                            <p class="text-4xl font-black syncopate text-cyan-400 god-text text-glow">50 €</p>
+                        <div class="text-center space-y-2 border-b border-white/10 pb-4 mb-4">
+                            <h4 class="text-lg font-black uppercase tracking-widest text-white">Der Ziegel</h4>
+                            <p class="text-3xl font-black syncopate text-cyan-400 god-text text-glow">25 €</p>
                         </div>
-                        <p class="text-xs text-slate-400 italic mb-4">Das Fundament. Deine Worte, symbolisch verewigt. Ein Kanal ins Jahr 2044.</p>
-                        <ul class="text-xs md:text-sm text-slate-300 space-y-4">
-                            <li class="flex items-start gap-3"><span class="text-cyan-400 god-text">✔</span> 50 Hardware-Pixel</li>
-                            <li class="flex items-start gap-3"><span class="text-cyan-400 god-text">✔</span> <strong>Deine 140-Zeichen Legacy für Emily</strong></li>
-                            <li class="flex items-start gap-3"><span class="text-cyan-400 god-text">✔</span> Eintrag im "Buch der Visionäre"</li>
+                        <p class="text-[11px] text-slate-400 italic mb-4">Ein echter, greifbarer Teil des Grundstücks.</p>
+                        <ul class="text-xs text-slate-300 space-y-3">
+                            <li class="flex items-start gap-2"><span class="text-cyan-400 god-text">✔</span> 25 Hardware-Pixel</li>
+                            <li class="flex items-start gap-2"><span class="text-cyan-400 god-text">✔</span> Name in der Hall of Fame</li>
                         </ul>
                     </div>
-                    <a href="https://paypal.me/bernhardhuettel/50" target="_blank" class="glare-btn block w-full py-4 mt-8 bg-cyan-400 god-bg rounded-xl text-black font-black uppercase tracking-widest text-xs shadow-[0_0_20px_rgba(0,242,254,0.4)] hover:scale-105 transition transform text-center hover-click">Block sichern</a>
+                    <a href="https://paypal.me/bernhardhuettel/25" target="_blank" class="block w-full py-3 mt-6 bg-white/5 border border-white/20 rounded-xl text-white font-black uppercase tracking-widest text-[10px] hover:bg-white/10 transition text-center hover-click">Ziegel sichern</a>
                 </div>
 
-                <div class="ultra-glass tier-card tier-gold p-6 md:p-8 relative overflow-hidden sm:col-span-2 md:col-span-1 hover-sound spotlight-card">
+                <div class="ultra-glass tier-card p-6 border-cyan-400/40 god-border bg-cyan-900/10 relative shadow-[0_0_30px_rgba(0,242,254,0.1)] hover-sound spotlight-card">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-cyan-400 god-bg text-black text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-[0_0_15px_rgba(0,242,254,0.5)]">Beliebt</div>
+                    <div>
+                        <div class="text-center space-y-2 border-b border-white/10 pb-4 mb-4 mt-2">
+                            <h4 class="text-lg font-black uppercase tracking-widest text-white">Der Block</h4>
+                            <p class="text-3xl font-black syncopate text-cyan-400 god-text text-glow">50 €</p>
+                        </div>
+                        <p class="text-[11px] text-slate-400 italic mb-4">Das Fundament. Ein Kanal ins Jahr 2044.</p>
+                        <ul class="text-xs text-slate-300 space-y-3">
+                            <li class="flex items-start gap-2"><span class="text-cyan-400 god-text">✔</span> 50 Hardware-Pixel</li>
+                            <li class="flex items-start gap-2"><span class="text-cyan-400 god-text">✔</span> <strong>Deine 140-Zeichen Legacy</strong></li>
+                            <li class="flex items-start gap-2"><span class="text-cyan-400 god-text">✔</span> "Buch der Visionäre"</li>
+                        </ul>
+                    </div>
+                    <a href="https://paypal.me/bernhardhuettel/50" target="_blank" class="glare-btn block w-full py-3 mt-6 bg-cyan-400 god-bg rounded-xl text-black font-black uppercase tracking-widest text-[10px] shadow-[0_0_20px_rgba(0,242,254,0.4)] hover:scale-105 transition transform text-center hover-click">Block sichern</a>
+                </div>
+
+                <div class="ultra-glass tier-card tier-gold p-6 relative overflow-hidden hover-sound spotlight-card sm:col-span-2 lg:col-span-1">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-amber-400/20 rotate-45 translate-x-10 -translate-y-10 blur-3xl pointer-events-none"></div>
                     <div class="relative z-10 h-full flex flex-col justify-between">
                         <div>
-                            <div class="text-center space-y-2 border-b border-amber-400/20 pb-5 mb-5">
-                                <h4 class="text-xl font-black uppercase tracking-widest text-gold-glow">Der m² (VIP)</h4>
-                                <p class="text-4xl font-black syncopate text-amber-400 drop-shadow-md">190 €</p>
+                            <div class="text-center space-y-2 border-b border-amber-400/20 pb-4 mb-4">
+                                <h4 class="text-lg font-black uppercase tracking-widest text-gold-glow">Der m² (VIP)</h4>
+                                <p class="text-3xl font-black syncopate text-amber-400 drop-shadow-md">190 €</p>
                             </div>
-                            <p class="text-xs text-slate-300 italic mb-4">Der Architekt der Freiheit. Dein Name tief im Code der Community verankert.</p>
-                            <ul class="text-xs md:text-sm text-slate-200 space-y-4">
-                                <li class="flex items-start gap-3"><span class="text-amber-400">👑</span> Alles aus "Der Block"</li>
-                                <li class="flex items-start gap-3"><span class="text-amber-400">👑</span> <strong class="text-white">Premium-Platzierung im System-Log</strong></li>
-                                <li class="flex items-start gap-3"><span class="text-amber-400">👑</span> VIP-Status in der Community</li>
+                            <p class="text-[11px] text-slate-300 italic mb-4">Der Architekt der Freiheit. Tief im Code verankert.</p>
+                            <ul class="text-xs text-slate-200 space-y-3">
+                                <li class="flex items-start gap-2"><span class="text-amber-400">👑</span> Alles aus "Der Block"</li>
+                                <li class="flex items-start gap-2"><span class="text-amber-400">👑</span> <strong>Platzierung im System-Log</strong></li>
+                                <li class="flex items-start gap-2"><span class="text-amber-400">👑</span> VIP-Status</li>
                             </ul>
                         </div>
-                        <a href="https://paypal.me/bernhardhuettel/190" target="_blank" class="block w-full py-4 mt-8 bg-gradient-to-r from-amber-400 to-amber-600 rounded-xl text-black font-black uppercase tracking-widest text-xs shadow-[0_0_25px_rgba(251,191,36,0.5)] hover:scale-105 transition transform text-center hover-click">VIP Status</a>
+                        <a href="https://paypal.me/bernhardhuettel/190" target="_blank" class="block w-full py-3 mt-6 bg-gradient-to-r from-amber-400 to-amber-600 rounded-xl text-black font-black uppercase tracking-widest text-[10px] shadow-[0_0_25px_rgba(251,191,36,0.5)] hover:scale-105 transition transform text-center hover-click">VIP Status</a>
                     </div>
+                </div>
+            </div>
+
+            <div class="ultra-glass p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden mt-8 hover-sound spotlight-card">
+                <div class="absolute -left-20 top-0 w-64 h-full bg-white/5 skew-x-[45deg] blur-3xl pointer-events-none"></div>
+                <div class="md:w-1/3 text-center md:text-left relative z-10 border-b md:border-b-0 md:border-r border-slate-700 pb-6 md:pb-0 md:pr-8">
+                    <span class="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400 mb-3 block">Custom Input</span>
+                    <h4 class="text-2xl font-black syncopate uppercase tracking-widest text-white">System Override</h4>
+                    <p class="text-3xl font-black syncopate text-cyan-400 mt-4 tracking-tighter">Flexibel</p>
+                </div>
+                <div class="md:w-2/3 relative z-10 space-y-6 text-center md:text-left">
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Du willst 10 € beitragen? Oder direkt 500 €? Hacke den Algorithmus mit deinem völlig eigenen Betrag. Jeder Euro wird in Hardware-Pixel umgerechnet und sichert dir deinen Platz im digitalen Archiv.
+                    </p>
+                    <a href="https://paypal.me/bernhardhuettel/" target="_blank" class="inline-block py-4 px-10 bg-white/10 text-white border border-white/20 font-black uppercase tracking-widest text-xs rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:bg-white/20 hover:scale-105 transition transform mt-2 hover-click w-full md:w-auto">
+                        Freien Betrag wählen
+                    </a>
                 </div>
             </div>
 
@@ -498,7 +529,7 @@
             <div class="ultra-glass p-8 flex flex-col justify-center items-center text-center space-y-6 border-t-2 border-cyan-400 god-border bg-gradient-to-b from-cyan-900/20 to-transparent hover-sound spotlight-card">
                 <h3 class="text-xl md:text-2xl font-black syncopate uppercase tracking-tighter text-glow">Initiiere Upload</h3>
                 <p class="text-slate-200 text-xs md:text-sm mt-3">Bereit, Geschichte zu schreiben? Logge deinen Namen ein.</p>
-                <a href="https://paypal.me/bernhardhuettel/25" target="_blank" class="glare-btn w-full py-5 bg-gradient-to-r from-[#00f2fe] to-[#4facfe] rounded-xl text-black font-black uppercase tracking-widest text-sm shadow-[0_0_25px_rgba(0,242,254,0.4)] hover:scale-105 transition hover-click">
+                <a href="https://paypal.me/bernhardhuettel/" target="_blank" class="glare-btn w-full py-5 bg-gradient-to-r from-[#00f2fe] to-[#4facfe] rounded-xl text-black font-black uppercase tracking-widest text-sm shadow-[0_0_25px_rgba(0,242,254,0.4)] hover:scale-105 transition hover-click">
                     Jetzt Verewigen
                 </a>
             </div>
@@ -823,7 +854,7 @@
         function renderPlot(aktuell) {
             ctx.clearRect(0, 0, internalWidth, internalHeight);
             const zielLand = 160000; 
-            const zielHaus = 400000; // Für später
+            const zielHaus = 400000;
             let landPerc = Math.min(aktuell / zielLand, 1);
             let hausPerc = Math.max(0, aktuell - zielLand) / zielHaus;
 
@@ -859,7 +890,6 @@
                 }
             }
 
-            // Haus wird erst gezeichnet, wenn das Land voll ist (aktuell > 160.000)
             if (hausPerc > 0) {
                 let hWidth = 8 * tileW; let hLength = 6 * tileW;
                 let maxHouseHeight = 120; let currentHeight = maxHouseHeight * hausPerc;
@@ -882,12 +912,11 @@
             }
         }
 
-        // Live-Daten Dashboard & Milestones (Phase 1 Fokus)
         db.collection("projektDaten").doc("stand").onSnapshot((doc) => {
             if (doc.exists) {
                 const data = doc.data(); 
                 const aktuell = data.aktuell || 0; 
-                const zielLand = 160000; // Neues Hauptziel für die %-Anzeige
+                const zielLand = 160000; 
                 let perc = (aktuell / zielLand) * 100; 
                 if(perc > 100) perc = 100;
 
@@ -900,7 +929,6 @@
 
                 renderPlot(aktuell);
                 
-                // Neue Meilensteine für Phase 1
                 const milestones = [
                     { id: 1, target: 5000 }, { id: 2, target: 20000 }, 
                     { id: 3, target: 80000 }, { id: 4, target: 160000 }
@@ -934,7 +962,6 @@
             }
         });
 
-        // LEADERBOARD & MATRIX LOG
         db.collection("spender").orderBy("steine", "desc").limit(20).onSnapshot((snap) => {
             const feed = document.getElementById('live-feed'); 
             feed.innerHTML = "";
