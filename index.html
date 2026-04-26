@@ -152,8 +152,8 @@
             .ultra-glass:hover { border-top: 1px solid var(--accent); }
         }
 
-        /* --- TIER CARDS --- */
-        .tier-card { display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+        /* --- TIER CARDS (FIXED: OVERFLOW VISIBLE) --- */
+        .tier-card { display: flex; flex-direction: column; justify-content: space-between; height: 100%; overflow: visible !important; }
         .tier-gold { background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(10, 10, 20, 0.8) 100%); border-color: rgba(251, 191, 36, 0.3); }
 
         /* --- TEXT EFFECTS & BUTTONS --- */
@@ -374,8 +374,7 @@
             </div>
         </section>
 
-        <section class="space-y-8 reveal">
-            <div class="text-center">
+        <section class="space-y-8 reveal pt-6"> <div class="text-center">
                 <h3 class="text-2xl md:text-4xl font-black syncopate uppercase tracking-tighter text-glow glitch" data-text="Wähle dein Protokoll">Wähle dein Protokoll</h3>
                 <p class="text-slate-400 text-sm mt-2">Unterstütze Phase 1 und verankere deinen Namen im System.</p>
             </div>
@@ -412,7 +411,7 @@
                 </div>
 
                 <div class="ultra-glass tier-card p-6 border-cyan-400/40 god-border bg-cyan-900/10 relative shadow-[0_0_30px_rgba(0,242,254,0.1)] hover-sound spotlight-card">
-                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-cyan-400 god-bg text-black text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-[0_0_15px_rgba(0,242,254,0.5)]">Beliebt</div>
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-cyan-400 god-bg text-black text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-[0_0_15px_rgba(0,242,254,0.5)] z-20">Beliebt</div>
                     <div>
                         <div class="text-center space-y-2 border-b border-white/10 pb-4 mb-4 mt-2">
                             <h4 class="text-lg font-black uppercase tracking-widest text-white">Der Block</h4>
@@ -443,7 +442,7 @@
                                 <li class="flex items-start gap-2"><span class="text-amber-400">👑</span> VIP-Status</li>
                             </ul>
                         </div>
-                        <a href="https://paypal.me/bernhardhuettel/190" target="_blank" class="block w-full py-3 mt-6 bg-gradient-to-r from-amber-400 to-amber-600 rounded-xl text-black font-black uppercase tracking-widest text-[10px] shadow-[0_0_25px_rgba(251,191,36,0.5)] hover:scale-105 transition transform text-center hover-click">VIP Status</a>
+                        <a href="https://paypal.me/bernhardhuettel/190" target="_blank" class="block w-full py-4 mt-8 bg-gradient-to-r from-amber-400 to-amber-600 rounded-xl text-black font-black uppercase tracking-widest text-xs shadow-[0_0_25px_rgba(251,191,36,0.5)] hover:scale-105 transition transform text-center hover-click">VIP Status</a>
                     </div>
                 </div>
             </div>
