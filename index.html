@@ -6,8 +6,9 @@
     
     <title>THE 830QM REVOLUTION | Für Emily</title>
     <meta property="og:title" content="THE 830QM REVOLUTION | Für Emily">
-    <meta property="og:description" content="Wir überschreiben den Code. Ein Haus, zu 100% crowdfunded. Verewige dich im Fundament. Keine Kredite. Keine Banken. Nur wir.">
-    <meta property="og:image" content="https://bernhardhuettel-svg.github.io/Ein-Haus-viele-Namen/preview.jpg"> <meta property="og:url" content="https://bernhardhuettel-svg.github.io/Ein-Haus-viele-Namen/index.html">
+    <meta property="og:description" content="Wir überschreiben den Code. Phase 1: Ein Grundstück, zu 100% crowdfunded. Verewige dich im Fundament. Keine Kredite. Keine Banken. Nur wir.">
+    <meta property="og:image" content="https://bernhardhuettel-svg.github.io/Ein-Haus-viele-Namen/preview.jpg"> 
+    <meta property="og:url" content="https://bernhardhuettel-svg.github.io/Ein-Haus-viele-Namen/index.html">
     <meta name="twitter:card" content="summary_large_image">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -168,6 +169,8 @@
         
         .timeline-dot { width: 16px; height: 16px; border-radius: 50%; background: #050510; border: 4px solid var(--accent); position: absolute; left: -8px; top: 0; transition: all 0.5s ease; z-index: 10;}
         .timeline-line { position: absolute; left: 0; top: 16px; bottom: -32px; width: 2px; background: rgba(255,255,255,0.1); transition: all 0.5s ease; z-index: 5;}
+        .timeline-locked .timeline-dot { border-color: #334155; background: #0f172a; }
+        .timeline-locked h4 { color: #64748b; }
 
         .fluid-number-huge { font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.03em; }
         .fluid-number-box { font-size: clamp(1.2rem, 3vw, 2.5rem); line-height: 1.1; }
@@ -232,14 +235,14 @@
         <section class="text-center space-y-6 md:space-y-8 reveal active">
             <div class="inline-flex items-center gap-3 ultra-glass px-6 py-2 text-cyan-400 god-text text-[10px] font-black tracking-[0.5em] uppercase shadow-2xl">
                 <span class="w-2 h-2 bg-cyan-400 god-bg rounded-full animate-ping"></span>
-                Schirmitz, Bayern
+                PHASE 1: DAS FUNDAMENT
             </div>
             <h1 class="syncopate text-5xl sm:text-7xl md:text-[100px] font-black leading-none tracking-tighter uppercase text-white drop-shadow-2xl glitch" data-text="DECODE THE FUTURE.">
                 DECODE<br><span class="text-gradient text-glow">THE FUTURE.</span>
             </h1>
             <p class="text-slate-300 text-sm sm:text-base md:text-lg font-light max-w-2xl mx-auto leading-relaxed px-4">
                 Banken diktieren die Regeln. Wir schreiben sie um. 
-                Wir bauen ein Zuhause für unsere Tochter Emily – zu 100% finanziert durch eine Community, die nicht an Zinsen, sondern an Visionen glaubt. 
+                Wir knacken das System Schritt für Schritt. <strong>Phase 1: Wir sichern 830qm Land für Emily.</strong> Zu 100% finanziert durch eine Community, die an Visionen glaubt. 
                 <strong>Keine Kredite. Keine Banken. Nur wir.</strong>
             </p>
         </section>
@@ -251,7 +254,7 @@
                     <h3 class="text-2xl md:text-3xl font-black syncopate uppercase tracking-tighter text-white glitch" data-text="Die Root-Datei">Die Root-Datei</h3>
                     <div class="space-y-4 text-slate-300 text-sm md:text-base leading-relaxed">
                         <p>Wir sind <strong>Bernhard & Ela</strong>. In wenigen Monaten wird <strong class="text-cyan-400 god-text text-glow">Emily</strong> geboren. Wir weigern uns, ihre Zukunft an einen 30-jährigen Kreditvertrag zu fesseln.</p>
-                        <p>Jeder Euro ist ein realer Baustein in einem Bollwerk gegen den Wahnsinn des Wohnungsmarkts. Dieses Projekt ist der Beweis: Wenn wir uns vernetzen, brauchen wir kein Erlaubnis-Schreiben von einer Bank, um ein Nest zu bauen.</p>
+                        <p>Jeder Euro ist ein realer Baustein in einem Bollwerk gegen den Wahnsinn des Immobilienmarkts. Dieses Projekt ist der Beweis: Wenn wir uns vernetzen, brauchen wir kein Erlaubnis-Schreiben von einer Bank, um ein Stück Erde zu sichern.</p>
                     </div>
                 </div>
                 <div class="md:col-span-4 bg-black/40 border border-white/10 rounded-2xl p-6 text-center shadow-inner hover-sound">
@@ -272,13 +275,13 @@
                     <div>
                         <p class="text-cyan-400 god-text text-[10px] sm:text-[12px] font-bold uppercase tracking-[0.4em] flex items-center gap-2 mb-2">
                             <span class="w-2 h-2 bg-cyan-400 god-bg rounded-full animate-pulse"></span>
-                            Live Ledger
+                            Live Ledger (Ziel Phase 1: 160.000 €)
                         </p>
                         <h2 class="font-black tracking-tighter number-gradient drop-shadow-lg fluid-number-huge glitch" data-text="0 €" id="total-amount">0 €</h2>
                     </div>
                     <div class="space-y-2 md:space-y-3">
                         <div class="flex justify-between text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400">
-                            <span>Missions-Fortschritt</span>
+                            <span>Fortschritt Grundstück</span>
                             <span id="percent-label" class="text-cyan-400 god-text text-glow">0%</span>
                         </div>
                         <div class="w-full bg-[#050510] h-5 sm:h-6 rounded-full border border-white/10 p-1 relative overflow-hidden shadow-[inset_0_4px_10px_rgba(0,0,0,0.8)]">
@@ -301,7 +304,7 @@
 
             <div class="relative w-full rounded-2xl bg-black border border-white/10 overflow-hidden shadow-[inset_0_0_50px_rgba(0,0,0,1)] flex flex-col items-center p-2 sm:p-4 z-10 hover-sound hover-click">
                 <div class="absolute top-4 left-4 z-20 flex gap-2">
-                    <p class="text-cyan-400 god-text text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.3em] bg-white/5 px-3 py-1.5 rounded border border-white/10 shadow-lg backdrop-blur-md" id="canvas-phase-label">Phase 1: 830qm Land</p>
+                    <p class="text-cyan-400 god-text text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.3em] bg-white/5 px-3 py-1.5 rounded border border-white/10 shadow-lg backdrop-blur-md" id="canvas-phase-label">Status: Terrain Mapping</p>
                 </div>
                 <canvas id="blueprint-canvas"></canvas>
             </div>
@@ -314,8 +317,8 @@
                     <span class="text-cyan-400 god-text text-[10px] font-bold uppercase tracking-[0.5em] bg-white/5 px-2 py-1 rounded border border-white/10">Vermächtnis</span>
                     <h3 class="text-2xl md:text-4xl font-black syncopate uppercase tracking-tighter text-white glitch" data-text="Legacy Protocol">Legacy Protocol</h3>
                     <p class="text-sm md:text-base text-slate-300 leading-relaxed">
-                        Deine Nachricht wird Teil der Architektur. Ab dem "Block"-Level (50€) hinterlässt du Emily eine Botschaft für die Zukunft. Wir speichern den gesamten Source Code, jede Transaktion und <strong>jeden eurer Briefe</strong> auf einem Titan-Stick und gießen ihn direkt in das Fundament. 
-                        Wenn sie 2044 ihren 18. Geburtstag feiert, wird sie wissen, dass DU dieses Haus mit ermöglicht hast.
+                        Deine Unterstützung wird Teil der Architektur. Ab dem "Block"-Level hinterlässt du Emily eine symbolische Botschaft für die Zukunft. Wir speichern den gesamten Source Code, jede Transaktion und <strong>jeden eurer digitalen Briefe</strong> in einem Archiv. 
+                        Wenn sie 2044 ihren 18. Geburtstag feiert, wird sie wissen, dass DU dieses Fundament mit ermöglicht hast.
                     </p>
                 </div>
                 <div class="md:col-span-4 flex justify-center">
@@ -328,24 +331,24 @@
 
         <section class="space-y-8 reveal">
             <div class="text-center">
-                <h3 class="text-2xl md:text-4xl font-black syncopate uppercase tracking-tighter text-glow glitch" data-text="Schreibe Geschichte">Schreibe Geschichte</h3>
-                <p class="text-slate-400 text-sm mt-2">Wähle, wie tief dein Vermächtnis verankert wird.</p>
+                <h3 class="text-2xl md:text-4xl font-black syncopate uppercase tracking-tighter text-glow glitch" data-text="Wähle dein Protokoll">Wähle dein Protokoll</h3>
+                <p class="text-slate-400 text-sm mt-2">Unterstütze Phase 1 und verankere deinen Namen im System.</p>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <div class="ultra-glass tier-card p-6 md:p-8 hover-sound spotlight-card">
                     <div>
                         <div class="text-center space-y-2 border-b border-white/10 pb-5 mb-5">
-                            <h4 class="text-xl font-black uppercase tracking-widest text-white">Der Pixel</h4>
-                            <p class="text-4xl font-black syncopate text-cyan-400 god-text text-glow">1 €</p>
+                            <h4 class="text-xl font-black uppercase tracking-widest text-white">Der Ziegel</h4>
+                            <p class="text-4xl font-black syncopate text-cyan-400 god-text text-glow">25 €</p>
                         </div>
-                        <p class="text-xs text-slate-400 italic mb-4">Der Herzschlag. Ein binärer Fingerabdruck in Emilys digitalem Erbe.</p>
+                        <p class="text-xs text-slate-400 italic mb-4">Ein echter, greifbarer Teil des Grundstücks. Dein Name im digitalen Archiv.</p>
                         <ul class="text-xs md:text-sm text-slate-300 space-y-4">
-                            <li class="flex items-start gap-3"><span class="text-cyan-400 god-text">✔</span> 1 digitaler Impuls</li>
-                            <li class="flex items-start gap-3"><span class="text-cyan-400 god-text">✔</span> Dein Name im digitalen Archiv</li>
+                            <li class="flex items-start gap-3"><span class="text-cyan-400 god-text">✔</span> 25 digitale Pixel im System</li>
+                            <li class="flex items-start gap-3"><span class="text-cyan-400 god-text">✔</span> Dein Name in der Hall of Fame</li>
                         </ul>
                     </div>
-                    <a href="https://paypal.me/bernhardhuettel/1" target="_blank" class="block w-full py-4 mt-8 bg-white/5 border border-white/20 rounded-xl text-white font-black uppercase tracking-widest text-xs hover:bg-white/10 transition text-center hover-click">Pixel sichern</a>
+                    <a href="https://paypal.me/bernhardhuettel/25" target="_blank" class="block w-full py-4 mt-8 bg-white/5 border border-white/20 rounded-xl text-white font-black uppercase tracking-widest text-xs hover:bg-white/10 transition text-center hover-click">Ziegel sichern</a>
                 </div>
 
                 <div class="ultra-glass tier-card p-6 md:p-8 border-cyan-400/40 god-border bg-cyan-900/10 relative shadow-[0_0_30px_rgba(0,242,254,0.1)] hover-sound spotlight-card">
@@ -355,7 +358,7 @@
                             <h4 class="text-xl font-black uppercase tracking-widest text-white">Der Block</h4>
                             <p class="text-4xl font-black syncopate text-cyan-400 god-text text-glow">50 €</p>
                         </div>
-                        <p class="text-xs text-slate-400 italic mb-4">Das Fundament. Deine Worte, verewigt in Beton. Ein Kanal ins Jahr 2044.</p>
+                        <p class="text-xs text-slate-400 italic mb-4">Das Fundament. Deine Worte, symbolisch verewigt. Ein Kanal ins Jahr 2044.</p>
                         <ul class="text-xs md:text-sm text-slate-300 space-y-4">
                             <li class="flex items-start gap-3"><span class="text-cyan-400 god-text">✔</span> 50 Hardware-Pixel</li>
                             <li class="flex items-start gap-3"><span class="text-cyan-400 god-text">✔</span> <strong>Deine 140-Zeichen Legacy für Emily</strong></li>
@@ -373,11 +376,11 @@
                                 <h4 class="text-xl font-black uppercase tracking-widest text-gold-glow">Der m² (VIP)</h4>
                                 <p class="text-4xl font-black syncopate text-amber-400 drop-shadow-md">190 €</p>
                             </div>
-                            <p class="text-xs text-slate-300 italic mb-4">Der Architekt der Freiheit. Dein Name, tief in die DNA des Hauses gemeißelt. Unlöschbar.</p>
+                            <p class="text-xs text-slate-300 italic mb-4">Der Architekt der Freiheit. Dein Name tief im Code der Community verankert.</p>
                             <ul class="text-xs md:text-sm text-slate-200 space-y-4">
                                 <li class="flex items-start gap-3"><span class="text-amber-400">👑</span> Alles aus "Der Block"</li>
-                                <li class="flex items-start gap-3"><span class="text-amber-400">👑</span> <strong class="text-white">Name physisch in Edelstahl graviert</strong></li>
-                                <li class="flex items-start gap-3"><span class="text-amber-400">👑</span> Zutritt zum System-Exit (Richtfest)</li>
+                                <li class="flex items-start gap-3"><span class="text-amber-400">👑</span> <strong class="text-white">Premium-Platzierung im System-Log</strong></li>
+                                <li class="flex items-start gap-3"><span class="text-amber-400">👑</span> VIP-Status in der Community</li>
                             </ul>
                         </div>
                         <a href="https://paypal.me/bernhardhuettel/190" target="_blank" class="block w-full py-4 mt-8 bg-gradient-to-r from-amber-400 to-amber-600 rounded-xl text-black font-black uppercase tracking-widest text-xs shadow-[0_0_25px_rgba(251,191,36,0.5)] hover:scale-105 transition transform text-center hover-click">VIP Status</a>
@@ -385,33 +388,16 @@
                 </div>
             </div>
 
-            <div class="ultra-glass tier-titan p-8 md:p-12 flex flex-col md:flex-row items-center gap-10 relative overflow-hidden mt-8 hover-sound spotlight-card">
-                <div class="absolute -left-20 top-0 w-64 h-full bg-white/5 skew-x-[45deg] blur-3xl pointer-events-none"></div>
-                <div class="md:w-1/3 text-center md:text-left relative z-10 border-b md:border-b-0 md:border-r border-slate-700 pb-8 md:pb-0 md:pr-10">
-                    <span class="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400 mb-3 block">Corporate Sponsor</span>
-                    <h4 class="text-2xl font-black syncopate uppercase tracking-widest text-titan-glow">Der Titan</h4>
-                    <p class="text-5xl font-black syncopate text-white mt-4 tracking-tighter">5k €<span class="text-2xl text-slate-500">+</span></p>
-                </div>
-                <div class="md:w-2/3 relative z-10 space-y-6">
-                    <p class="text-sm text-slate-300 leading-relaxed">
-                        Für Unternehmen und Visionäre, die Internet-Geschichte schreiben wollen. Sichert euch einen gigantischen physischen Fußabdruck an Emilys Haus. (Offizielle Rechnung möglich).
-                    </p>
-                    <ul class="text-sm text-white font-bold space-y-3 grid sm:grid-cols-2">
-                        <li class="flex items-center gap-3"><span class="text-slate-400">⚙️</span> Firmenlogo graviert in Edelstahl</li>
-                        <li class="flex items-center gap-3"><span class="text-slate-400">⚙️</span> Backlink auf Lebenszeit</li>
-                        <li class="flex items-center gap-3"><span class="text-slate-400">⚙️</span> Dediziertes Social-Media Video</li>
-                    </ul>
-                    <a href="mailto:info@projekt830qm.de?subject=Titanen Sponsoring Anfrage" class="inline-block py-4 px-10 bg-slate-100 text-black font-black uppercase tracking-widest text-xs rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:bg-white hover:scale-105 transition transform mt-2 hover-click">
-                        Business Anfrage
-                    </a>
-                </div>
+            <div class="ultra-glass p-6 text-center text-slate-400 text-xs mt-4">
+                Unterstützungen sind rein privat und gewähren keine materiellen Gegenleistungen. Jeder Beitrag ist ein freiwilliger Baustein für Emilys Zukunft.
             </div>
+
         </section>
 
         <section class="ultra-glass p-8 md:p-12 space-y-10 3d-card reveal spotlight-card">
             <div class="text-center relative z-10">
-                <h3 class="text-xl md:text-3xl font-black syncopate uppercase tracking-tighter glitch" data-text="Mission Log">Mission Log</h3>
-                <p class="text-xs md:text-sm text-slate-400 mt-2">Alle 8 Meilensteine. Transparenz in Echtzeit.</p>
+                <h3 class="text-xl md:text-3xl font-black syncopate uppercase tracking-tighter glitch" data-text="Mission Log">Mission Log: Phase 1</h3>
+                <p class="text-xs md:text-sm text-slate-400 mt-2">Der Weg zum eigenen Grundstück. Transparenz in Echtzeit.</p>
             </div>
 
             <div class="relative pl-6 md:pl-10 space-y-12 relative z-10">
@@ -419,18 +405,18 @@
                     <div class="timeline-line" id="ms-1-line"></div>
                     <div class="timeline-dot" id="ms-1-dot"></div>
                     <div class="pl-6 md:pl-8 transition-opacity duration-500 hover-sound" id="ms-1-text">
-                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-1-badge">Ziel: 2.500 €</span>
-                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Ping Test</h4>
-                        <p class="text-xs md:text-sm text-slate-400 mt-2">Der Beweis erbracht: Die Community antwortet.</p>
+                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-1-badge">Ziel: 5.000 €</span>
+                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">System-Boot</h4>
+                        <p class="text-xs md:text-sm text-slate-400 mt-2">Notar und Grunderwerbsteuer sind gedeckt. Das bürokratische Fundament steht.</p>
                     </div>
                 </div>
                 <div class="relative" id="ms-2-container">
                     <div class="timeline-line" id="ms-2-line"></div>
                     <div class="timeline-dot" id="ms-2-dot"></div>
                     <div class="pl-6 md:pl-8 transition-opacity duration-500 hover-sound" id="ms-2-text">
-                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-2-badge">Ziel: 25.000 €</span>
-                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Legal Layer</h4>
-                        <p class="text-xs md:text-sm text-slate-400 mt-2">Grundsteuer und Notar sind bezahlt. Das System akzeptiert uns.</p>
+                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-2-badge">Ziel: 20.000 €</span>
+                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Die ersten 100qm</h4>
+                        <p class="text-xs md:text-sm text-slate-400 mt-2">Ein handfester Meilenstein. Ein echtes Stück Erde gehört bereits der Community.</p>
                     </div>
                 </div>
                 <div class="relative" id="ms-3-container">
@@ -438,8 +424,8 @@
                     <div class="timeline-dot" id="ms-3-dot"></div>
                     <div class="pl-6 md:pl-8 transition-opacity duration-500 hover-sound" id="ms-3-text">
                         <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-3-badge">Ziel: 80.000 €</span>
-                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Halbzeit Grundstück</h4>
-                        <p class="text-xs md:text-sm text-slate-400 mt-2">Ein gewaltiger psychologischer Meilenstein.</p>
+                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Halbzeit Phase 1</h4>
+                        <p class="text-xs md:text-sm text-slate-400 mt-2">Der Wendepunkt. Der Beweis, dass wir das System knacken können.</p>
                     </div>
                 </div>
                 <div class="relative" id="ms-4-container">
@@ -447,43 +433,17 @@
                     <div class="timeline-dot" id="ms-4-dot"></div>
                     <div class="pl-6 md:pl-8 transition-opacity duration-500 hover-sound" id="ms-4-text">
                         <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-4-badge">Ziel: 160.000 €</span>
-                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Land-Aquisition</h4>
-                        <p class="text-xs md:text-sm text-slate-400 mt-2">830qm Schirmitz gehören Emily. Zu 100% schuldenfrei.</p>
+                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">System-Exit: Das Land</h4>
+                        <p class="text-xs md:text-sm text-cyan-400 mt-2">Mission Accomplished. Die 830qm in Schirmitz gehören Emily. Schuldenfrei.</p>
                     </div>
                 </div>
-                <div class="relative" id="ms-5-container">
-                    <div class="timeline-line" id="ms-5-line"></div>
-                    <div class="timeline-dot" id="ms-5-dot"></div>
-                    <div class="pl-6 md:pl-8 transition-opacity duration-500 hover-sound" id="ms-5-text">
-                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-5-badge">Ziel: 250.000 €</span>
-                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Erdarbeiten</h4>
-                        <p class="text-xs md:text-sm text-slate-400 mt-2">Die Bagger rollen an. Der Bau beginnt physisch.</p>
-                    </div>
-                </div>
-                <div class="relative" id="ms-6-container">
-                    <div class="timeline-line" id="ms-6-line"></div>
-                    <div class="timeline-dot" id="ms-6-dot"></div>
-                    <div class="pl-6 md:pl-8 transition-opacity duration-500 hover-sound" id="ms-6-text">
-                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-6-badge">Ziel: 350.000 €</span>
-                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Concrete Core</h4>
-                        <p class="text-xs md:text-sm text-slate-400 mt-2">Die Bodenplatte wird gegossen. Die Zeitkapsel geht online.</p>
-                    </div>
-                </div>
-                <div class="relative" id="ms-7-container">
-                    <div class="timeline-line" id="ms-7-line"></div>
-                    <div class="timeline-dot" id="ms-7-dot"></div>
-                    <div class="pl-6 md:pl-8 transition-opacity duration-500 hover-sound" id="ms-7-text">
-                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-7-badge">Ziel: 450.000 €</span>
-                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">Rohbau & Richtfest</h4>
-                        <p class="text-xs md:text-sm text-slate-400 mt-2">Das Dach ist dicht. Wir feiern mit der Community.</p>
-                    </div>
-                </div>
-                <div class="relative" id="ms-8-container">
-                    <div class="timeline-dot" id="ms-8-dot"></div>
-                    <div class="pl-6 md:pl-8 transition-opacity duration-500 hover-sound" id="ms-8-text">
-                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest" id="ms-8-badge">Ziel: 560.000 €</span>
-                        <h4 class="text-lg md:text-xl font-bold text-white mt-1">System Exit</h4>
-                        <p class="text-xs md:text-sm text-slate-400 mt-2">Emilys Zimmer ist fertig. Der Algorithmus der Banken wurde besiegt.</p>
+                
+                <div class="relative timeline-locked mt-16 pt-8 border-t border-white/5" id="ms-5-container">
+                    <div class="timeline-dot"></div>
+                    <div class="pl-6 md:pl-8 opacity-50">
+                        <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-slate-600">LOCKED</span>
+                        <h4 class="text-lg md:text-xl font-bold mt-1">Phase 2: Hausbau</h4>
+                        <p class="text-xs md:text-sm text-slate-500 mt-2">Wird freigeschaltet, sobald das Land gesichert ist.</p>
                     </div>
                 </div>
             </div>
@@ -492,7 +452,7 @@
         <section class="space-y-8 reveal">
             <div class="text-center">
                 <h3 class="text-2xl md:text-4xl font-black syncopate uppercase tracking-tighter text-glow glitch" data-text="Wall of Visionaries">Wall of Visionaries</h3>
-                <p class="text-slate-400 text-sm mt-2">Die Top 3. Sie werden für immer als Legenden in Emilys Fundament verankert.</p>
+                <p class="text-slate-400 text-sm mt-2">Die Top 3. Sie werden für immer als Legenden im System verankert.</p>
             </div>
             
             <div class="grid grid-cols-3 gap-3 md:gap-6 items-end">
@@ -528,17 +488,17 @@
 
         <section class="grid md:grid-cols-2 gap-6 reveal">
             <div class="ultra-glass p-8 flex flex-col justify-center items-center text-center space-y-6 bg-white/5 hover-sound spotlight-card">
-                <h3 class="text-xl md:text-2xl font-black syncopate uppercase tracking-tighter">Ohne Geld?</h3>
+                <h3 class="text-xl md:text-2xl font-black syncopate uppercase tracking-tighter">Ohne Budget?</h3>
                 <p class="text-slate-400 text-xs md:text-sm mt-3">Ein Share ist genauso mächtig. Hack den Algorithmus.</p>
                 <button onclick="shareForSteine()" class="w-full py-4 border border-cyan-400/50 god-border text-cyan-400 god-text rounded-xl font-black uppercase tracking-widest text-xs hover:bg-white/10 transition hover-click">
-                    Teilen (+10 Pixel)
+                    Netzwerk aktivieren
                 </button>
             </div>
 
             <div class="ultra-glass p-8 flex flex-col justify-center items-center text-center space-y-6 border-t-2 border-cyan-400 god-border bg-gradient-to-b from-cyan-900/20 to-transparent hover-sound spotlight-card">
                 <h3 class="text-xl md:text-2xl font-black syncopate uppercase tracking-tighter text-glow">Initiiere Upload</h3>
                 <p class="text-slate-200 text-xs md:text-sm mt-3">Bereit, Geschichte zu schreiben? Logge deinen Namen ein.</p>
-                <a href="https://paypal.me/bernhardhuettel/1" target="_blank" class="glare-btn w-full py-5 bg-gradient-to-r from-[#00f2fe] to-[#4facfe] rounded-xl text-black font-black uppercase tracking-widest text-sm shadow-[0_0_25px_rgba(0,242,254,0.4)] hover:scale-105 transition hover-click">
+                <a href="https://paypal.me/bernhardhuettel/25" target="_blank" class="glare-btn w-full py-5 bg-gradient-to-r from-[#00f2fe] to-[#4facfe] rounded-xl text-black font-black uppercase tracking-widest text-sm shadow-[0_0_25px_rgba(0,242,254,0.4)] hover:scale-105 transition hover-click">
                     Jetzt Verewigen
                 </a>
             </div>
@@ -564,13 +524,12 @@
         function initAudio() {
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                // Spielt ein tiefes, atmosphärisches Brummen beim ersten Klick ab
                 const osc = audioCtx.createOscillator(); 
                 const gain = audioCtx.createGain();
                 osc.connect(gain); 
                 gain.connect(audioCtx.destination);
                 osc.type = 'sine'; 
-                osc.frequency.value = 55; // Tiefer Bass
+                osc.frequency.value = 55; 
                 gain.gain.value = 0.02; 
                 osc.start();
             } else if (audioCtx.state === 'suspended') { 
@@ -585,7 +544,6 @@
             osc.connect(gain); 
             gain.connect(audioCtx.destination);
             
-            // Futuristische Frequenz-Ramp
             osc.type = 'square'; 
             osc.frequency.setValueAtTime(400, audioCtx.currentTime);
             osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.05);
@@ -604,7 +562,6 @@
             osc.connect(gain); 
             gain.connect(audioCtx.destination);
             
-            // Satter "Zapp"-Sound
             osc.type = 'sawtooth'; 
             osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
             osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
@@ -616,7 +573,6 @@
             osc.stop(audioCtx.currentTime + 0.1);
         }
 
-        // Event Listener für Sound anbinden
         document.querySelectorAll('.hover-sound').forEach(el => el.addEventListener('mouseenter', playHoverSound));
         document.querySelectorAll('.hover-click').forEach(el => el.addEventListener('click', playClickSound));
 
@@ -627,7 +583,7 @@
         let keyIndex = 0;
         
         window.addEventListener('keydown', (e) => {
-            initAudio(); // Aktiviert Audio
+            initAudio();
             if (e.key.toLowerCase() === secretCode[keyIndex]) {
                 keyIndex++;
                 if (keyIndex === secretCode.length) { 
@@ -645,7 +601,6 @@
             const alertBox = document.getElementById('god-mode-alert');
             alertBox.classList.add('active');
             
-            // Epischer Overdrive Sound
             if(audioCtx) {
                 const osc = audioCtx.createOscillator(); 
                 const gain = audioCtx.createGain();
@@ -661,7 +616,6 @@
             
             setTimeout(() => alertBox.classList.remove('active'), 3000);
             
-            // Farben flippen (Cyan zu Gold)
             document.querySelectorAll('.god-text').forEach(el => el.classList.replace('text-cyan-400', 'text-amber-400'));
             document.querySelectorAll('.god-bg').forEach(el => el.classList.replace('bg-cyan-400', 'bg-amber-400'));
             document.querySelectorAll('.god-border').forEach(el => el.classList.replace('border-cyan-400', 'border-amber-400'));
@@ -678,7 +632,6 @@
                 currentScroll = window.scrollY;
                 scrollVelocity = currentScroll - lastScroll;
                 
-                // Trägheitsmoment (Skew) berechnen und cappen
                 let skew = scrollVelocity * 0.05;
                 if(skew > 3) skew = 3; 
                 if(skew < -3) skew = -3;
@@ -742,7 +695,6 @@
             }
             animateTrail();
 
-            // Spotlight Tracker
             document.querySelectorAll('.spotlight-card').forEach(card => {
                 card.addEventListener('mousemove', e => {
                     const rect = card.getBoundingClientRect();
@@ -751,7 +703,6 @@
                 });
             });
 
-            // Hover States
             document.querySelectorAll('a, button, .interactive-hover, .hover-sound').forEach(el => {
                 el.addEventListener('mouseenter', () => {
                     cursorDot.style.transform = 'translate(-50%, -50%) scale(1.5)';
@@ -782,7 +733,6 @@
             }, 1200);
         });
 
-        // Zufälliger Glitch-Generator
         setInterval(() => {
             const glitches = document.querySelectorAll('.glitch');
             const randomGlitch = glitches[Math.floor(Math.random() * glitches.length)];
@@ -790,7 +740,6 @@
             setTimeout(() => randomGlitch.classList.remove('trigger'), 200);
         }, 3000);
 
-        // Partikel System
         const pCanvas = document.getElementById('particle-canvas');
         const pCtx = pCanvas.getContext('2d');
         function resizeParticles() { pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight; }
@@ -826,7 +775,6 @@
         }
         animateParticles();
 
-        // SCROLL REVEAL OBSERVER
         const revealElements = document.querySelectorAll('.reveal');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => { 
@@ -844,7 +792,7 @@
         // ==========================================
         
         const firebaseConfig = {
-            apiKey: "AIzaSyBXXNrbhTnRaWrm1KezV7M7ME1Az14FS70", // ACHTUNG: Bitte in Firebase mit "Domain Restrictions" absichern!
+            apiKey: "AIzaSyBXXNrbhTnRaWrm1KezV7M7ME1Az14FS70", 
             authDomain: "hausprojekt-4aa29.firebaseapp.com",
             projectId: "hausprojekt-4aa29", 
             storageBucket: "hausprojekt-4aa29.firebasestorage.app",
@@ -854,12 +802,10 @@
         firebase.initializeApp(firebaseConfig); 
         const db = firebase.firestore();
 
-        // Fake Live-Node Zähler oben rechts
         setInterval(() => { 
             document.getElementById('user-count').innerText = Math.floor(Math.random() * 25) + 8; 
         }, 5000);
 
-        // Retina-Safe Canvas Setup
         const canvas = document.getElementById('blueprint-canvas'); 
         const ctx = canvas.getContext('2d');
         const internalWidth = 800; 
@@ -877,7 +823,7 @@
         function renderPlot(aktuell) {
             ctx.clearRect(0, 0, internalWidth, internalHeight);
             const zielLand = 160000; 
-            const zielHaus = 400000;
+            const zielHaus = 400000; // Für später
             let landPerc = Math.min(aktuell / zielLand, 1);
             let hausPerc = Math.max(0, aktuell - zielLand) / zielHaus;
 
@@ -913,6 +859,7 @@
                 }
             }
 
+            // Haus wird erst gezeichnet, wenn das Land voll ist (aktuell > 160.000)
             if (hausPerc > 0) {
                 let hWidth = 8 * tileW; let hLength = 6 * tileW;
                 let maxHouseHeight = 120; let currentHeight = maxHouseHeight * hausPerc;
@@ -935,13 +882,13 @@
             }
         }
 
-        // Live-Daten Dashboard & Milestones
+        // Live-Daten Dashboard & Milestones (Phase 1 Fokus)
         db.collection("projektDaten").doc("stand").onSnapshot((doc) => {
             if (doc.exists) {
                 const data = doc.data(); 
                 const aktuell = data.aktuell || 0; 
-                const ziel = 560000;
-                let perc = (aktuell / ziel) * 100; 
+                const zielLand = 160000; // Neues Hauptziel für die %-Anzeige
+                let perc = (aktuell / zielLand) * 100; 
                 if(perc > 100) perc = 100;
 
                 document.getElementById('total-amount').innerText = aktuell.toLocaleString('de-DE') + ' €';
@@ -953,10 +900,10 @@
 
                 renderPlot(aktuell);
                 
+                // Neue Meilensteine für Phase 1
                 const milestones = [
-                    { id: 1, target: 2500 }, { id: 2, target: 25000 }, { id: 3, target: 80000 },
-                    { id: 4, target: 160000 }, { id: 5, target: 250000 }, { id: 6, target: 350000 },
-                    { id: 7, target: 450000 }, { id: 8, target: 560000 }
+                    { id: 1, target: 5000 }, { id: 2, target: 20000 }, 
+                    { id: 3, target: 80000 }, { id: 4, target: 160000 }
                 ];
 
                 milestones.forEach((ms, index) => {
@@ -1009,13 +956,11 @@
                 else if (rank <= 15) { 
                     const div = document.createElement('div');
                     let isVIP = (sp.steine >= 190); 
-                    let isTitan = (sp.steine >= 5000);
                     
                     let textColor = "text-cyan-400"; 
                     let prefix = "[NODE]";
                     
                     if(isVIP) { textColor = "text-amber-400"; prefix = "[VIP]"; }
-                    if(isTitan) { textColor = "text-white"; prefix = "[TITAN]"; }
                     if(document.body.classList.contains('god-mode')) textColor = "text-amber-400";
                     
                     div.className = "flex justify-between items-center py-2 px-2 border-b border-white/5 hover:bg-white/5 transition hover-sound interactive-hover";
@@ -1038,13 +983,12 @@
             if (rank <= 3) { document.getElementById('top-3-name').innerText = "Wartet auf..."; }
         });
 
-        // SOCIAL SHARE FUNKTION NEU
         async function shareForSteine() {
             playClickSound();
             
             const shareData = {
                 title: 'PROJECT 830QM',
-                text: 'Ich habe gerade den Code des Immobilienmarkts überschrieben. 🏗️ Wir bauen Emilys Haus zu 100% ohne Banken. Logge deinen Namen ins Fundament ein, bevor das System uns stoppt:',
+                text: 'Ich habe gerade den Code des Immobilienmarkts überschrieben. 🏗️ Wir sichern Emilys Fundament zu 100% ohne Banken. Logge deinen Namen ein, bevor das System uns stoppt:',
                 url: 'https://bernhardhuettel-svg.github.io/Ein-Haus-viele-Namen/index.html'
             };
 
@@ -1053,7 +997,6 @@
                     await navigator.share(shareData);
                     console.log('Erfolgreich geteilt');
                 } else {
-                    // Fallback für Desktop oder ältere Browser
                     navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
                     alert("🚀 System-Link in Zwischenablage kopiert! Verbreite den Code auf deinen Kanälen.");
                 }
