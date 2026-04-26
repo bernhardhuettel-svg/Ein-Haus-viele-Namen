@@ -183,6 +183,20 @@
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); text-align: center; border-radius: 1rem; 
         }
         #god-mode-alert.active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+
+        /* --- SEPA MODAL --- */
+        #sepa-modal {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px); z-index: 100000; opacity: 0; visibility: hidden;
+            display: flex; justify-content: center; align-items: center; transition: all 0.3s ease;
+        }
+        #sepa-modal.active { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: #050510; border: 1px solid var(--accent); border-radius: 1rem;
+            padding: 2rem; max-width: 500px; width: 90%; position: relative;
+            box-shadow: 0 0 50px rgba(0,242,254,0.2); transform: scale(0.95); transition: transform 0.3s ease;
+        }
+        #sepa-modal.active .modal-content { transform: scale(1); }
     </style>
 </head>
 <body class="pb-20 px-4 md:px-0" onmousedown="initAudio()" onkeydown="initAudio()">
@@ -194,6 +208,38 @@
     <div id="god-mode-alert">
         <h2 class="syncopate text-4xl font-black text-amber-400 mb-2">EMILY PROTOCOL: FREEDOM_LOADED.100%</h2>
         <p class="mono text-white tracking-widest">STATUS: DEBT_FREE_FUTURE_ENABLED</p>
+    </div>
+
+    <div id="sepa-modal">
+        <div class="modal-content text-center space-y-6">
+            <button onclick="closeSepaModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white hover-sound hover-click text-xl font-bold">&times;</button>
+            <div class="flex justify-center mb-4">
+                <div class="w-12 h-12 rounded-full border border-cyan-400 god-border flex items-center justify-center bg-cyan-900/20 shadow-[0_0_20px_rgba(0,242,254,0.2)]">
+                    <span class="text-xl">🏦</span>
+                </div>
+            </div>
+            <h3 class="text-2xl font-black syncopate uppercase tracking-tighter text-white">Analog Transfer</h3>
+            <p class="text-slate-300 text-sm leading-relaxed">
+                Du willst das System lieber auf dem klassischen Weg umgehen? Nutze diese Daten für deine Überweisung.
+            </p>
+            
+            <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-left space-y-3 font-mono text-sm">
+                <div><span class="text-slate-500 text-xs">Empfänger:</span> <br> <span class="text-cyan-400 god-text font-bold">Bernhard Hüttel</span></div>
+                <div><span class="text-slate-500 text-xs">IBAN (C24 Bank):</span> <br> <span class="text-white">DE12 3456 7890 1234 5678 90</span> </div>
+                <div><span class="text-slate-500 text-xs">BIC:</span> <br> <span class="text-white">C24B DE FF</span> </div>
+            </div>
+
+            <div class="bg-amber-900/20 border border-amber-500/50 rounded-xl p-4 text-left">
+                <p class="text-amber-400 font-bold text-xs uppercase tracking-widest mb-1 flex items-center gap-2">
+                    <span class="animate-pulse">⚠️</span> Wichtig für das Archiv!
+                </p>
+                <p class="text-slate-300 text-xs leading-relaxed">
+                    Damit wir dich im System loggen können, gib als Verwendungszweck unbedingt an:<br>
+                    <strong class="text-white mt-2 block font-mono bg-black p-2 rounded">Code Emily - [Gewählter Betrag/Tier] - [Dein Name]</strong>
+                </p>
+            </div>
+            <button onclick="closeSepaModal()" class="w-full py-3 mt-4 bg-white/10 border border-white/20 rounded-xl text-white font-black uppercase tracking-widest text-xs hover:bg-white/20 transition hover-click">Verstanden</button>
+        </div>
     </div>
 
     <div id="boot-screen">
@@ -413,9 +459,14 @@
                     <p class="text-sm text-slate-300 leading-relaxed">
                         Du willst 10 € beitragen? Oder direkt 500 €? Hacke den Algorithmus mit deinem völlig eigenen Betrag. Jeder Euro wird in Hardware-Pixel umgerechnet und sichert dir deinen Platz im digitalen Archiv.
                     </p>
-                    <a href="https://paypal.me/bernhardhuettel/" target="_blank" class="inline-block py-4 px-10 bg-white/10 text-white border border-white/20 font-black uppercase tracking-widest text-xs rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:bg-white/20 hover:scale-105 transition transform mt-2 hover-click w-full md:w-auto">
-                        Freien Betrag wählen
-                    </a>
+                    <div class="flex flex-col sm:flex-row gap-4 mt-4">
+                        <a href="https://paypal.me/bernhardhuettel/" target="_blank" class="inline-block py-4 px-8 bg-cyan-400 god-bg text-black font-black uppercase tracking-widest text-xs rounded-xl shadow-[0_0_20px_rgba(0,242,254,0.4)] hover:scale-105 transition transform hover-click flex-1 text-center">
+                            PayPal (Flexibel)
+                        </a>
+                        <button onclick="openSepaModal()" class="inline-block py-4 px-8 bg-white/10 text-white border border-white/20 font-black uppercase tracking-widest text-xs rounded-xl hover:bg-white/20 transition hover-click flex-1 text-center">
+                            Banküberweisung (SEPA)
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -547,6 +598,18 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore-compat.js"></script>
 
     <script>
+        // ==========================================
+        // 0. MODAL LOGIC (SEPA)
+        // ==========================================
+        function openSepaModal() {
+            playClickSound();
+            document.getElementById('sepa-modal').classList.add('active');
+        }
+        function closeSepaModal() {
+            playClickSound();
+            document.getElementById('sepa-modal').classList.remove('active');
+        }
+
         // ==========================================
         // 1. WEB AUDIO SYNTH ENGINE (PURE JS)
         // ==========================================
