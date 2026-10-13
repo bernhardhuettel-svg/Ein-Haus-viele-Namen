@@ -623,7 +623,7 @@
 <p class="small" style="margin-top:8px">Zusätzliches Eigenkapital · jeder Beitrag hilft</p>
 <div id="total" class="real-total">— €</div>
 <p class="small">Eine offene Sammlung für unseren Weg. Kein festgelegtes Finanzierungsziel.</p>
-<p id="data-status" class="tiny" role="status">Der bestätigte Stand wird abgerufen …</p>
+<p id="data-status" class="tiny" role="status">Vorbereitungsmodus: Der bestätigte Projektstand wird noch nicht abgerufen. Hier wird keine Summe als bestätigt angezeigt.</p>
 <p class="real-stones">
 <strong id="supporter-count">—</strong> virtuelle Steine aus vollen Euro</p>
 <button id="refresh-data" type="button" class="quiet-btn">Aktuellen Stand laden ↻</button>
@@ -902,7 +902,7 @@
 </div>
 <div id="public-wall" class="public-wall" hidden>
 </div>
-<p class="empty-wall" id="wall-status">Die freigegebenen Namen werden geladen. Hier erscheinen nur bestätigte Einträge mit Zustimmung.</p>
+<p class="empty-wall" id="wall-status">Vorbereitungsmodus: Die Namenswand ist noch nicht verbunden. Hier werden keine Namen automatisch veröffentlicht.</p>
 <div id="wall-placeholder" hidden>
 </div>
 <button id="wall-more" class="btn outline" type="button" hidden>Weitere Namen ansehen</button>
@@ -1332,7 +1332,7 @@ $('wish').addEventListener('input',()=>$('wish').setCustomValidity(''));
 
 $('support-button').hidden=false;
 $('runtime-note').setAttribute('data-ready','true');$('runtime-note').textContent='';$('runtime-note').hidden=true;
-if(FIREBASE_ACTIVE){loadPublicData();loadWall();loadSettings();setInterval(()=>{if(!document.hidden)loadPublicData();},60000);}
+if(FIREBASE_ACTIVE){$('data-status').textContent='Der bestätigte Stand wird abgerufen …';$('wall-status').textContent='Die freigegebenen Namen werden geladen. Hier erscheinen nur bestätigte Einträge mit Zustimmung.';loadPublicData();loadWall();loadSettings();setInterval(()=>{if(!document.hidden)loadPublicData();},60000);}
 </script>
 </body>
 </html>
