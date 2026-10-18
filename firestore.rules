@@ -1,0 +1,370 @@
+rules_version = '2';
+
+// Betreiberanschluss mit UID-Freigabe, atomarer Buchung und engem Lesevertrag – 18.10.2026
+// Veröffentlichung erst nach konkreter Zugriffsbestätigung.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function ownerEnabled() {
+      return signedIn()
+        && get(/databases/$(database)/documents/owners/$(request.auth.uid)).data.enabled == true;
+    }
+
+    function validLedgerEntry() {
+      return request.resource.data.keys().hasOnly([
+          'transactionId', 'amountCents', 'effectiveCents', 'refundCents',
+          'paidAt', 'supportCode', 'payerLabel', 'policyVersion', 'note',
+          'publicApproved', 'publicName', 'publicMessage', 'consentEvidence',
+          'consentGrantedAt', 'consentRevokedAt', 'revision', 'auditId',
+          'createdAt', 'updatedAt', 'paymentRefId'
+        ])
+        && request.resource.data.transactionId is string
+        && request.resource.data.transactionId.size() > 0
+        && request.resource.data.transactionId.size() <= 200
+        && request.resource.data.amountCents is int
+        && request.resource.data.amountCents > 0
+        && request.resource.data.effectiveCents is int
+        && request.resource.data.effectiveCents >= 0
+        && request.resource.data.refundCents is int
+        && request.resource.data.refundCents >= 0
+        && request.resource.data.refundCents <= request.resource.data.amountCents
+        && request.resource.data.effectiveCents
+             == request.resource.data.amountCents - request.resource.data.refundCents
+        && request.resource.data.policyVersion is string
+        && request.resource.data.policyVersion.size() > 0
+        && request.resource.data.publicApproved is bool
+        && request.resource.data.revision is int
+        && request.resource.data.revision >= 1
+        && request.resource.data.auditId is string
+        && request.resource.data.auditId.size() > 0
+        && request.resource.data.auditId.size() <= 200
+        && request.resource.data.paymentRefId is string
+        && request.resource.data.paymentRefId.matches('^pay_[0-9a-f]{64}$')
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.updatedAt is timestamp
+        && (!request.resource.data.publicApproved || (
+          request.resource.data.publicName is string
+          && request.resource.data.publicName.size() > 0
+          && request.resource.data.publicName.size() <= 40
+          && request.resource.data.publicMessage is string
+          && request.resource.data.publicMessage.size() <= 140
+          && request.resource.data.consentEvidence is string
+          && request.resource.data.consentEvidence.size() > 0
+          && request.resource.data.consentGrantedAt is timestamp
+        ));
+    }
+
+    function validPublicState(entryId) {
+      let publicPath = /databases/$(database)/documents/publicSupporters/$(entryId);
+      return (
+          request.resource.data.publicApproved == true
+          && existsAfter(publicPath)
+          && getAfter(publicPath).data.keys().hasOnly([
+            'name', 'message', 'publicApproved', 'updatedAt'
+          ])
+          && getAfter(publicPath).data.name == request.resource.data.publicName
+          && getAfter(publicPath).data.message == request.resource.data.publicMessage
+          && getAfter(publicPath).data.publicApproved == true
+          && getAfter(publicPath).data.updatedAt == request.resource.data.updatedAt
+        ) || (
+          request.resource.data.publicApproved == false
+          && !existsAfter(publicPath)
+        );
+    }
+
+    function hasNewPaymentReference(entryId) {
+      let refPath = /databases/$(database)/documents/paymentRefs/$(request.resource.data.paymentRefId);
+      let refAfter = getAfter(refPath).data;
+      return !exists(refPath)
+        && existsAfter(refPath)
+        && refAfter.keys().hasOnly(['ledgerId', 'createdAt'])
+        && refAfter.ledgerId == entryId
+        && refAfter.createdAt == request.resource.data.createdAt;
+    }
+
+    function validPaymentReference(refId) {
+      let ledgerPath = /databases/$(database)/documents/ledgerEntries/$(request.resource.data.ledgerId);
+      let ledgerAfter = getAfter(ledgerPath).data;
+      return refId.matches('^pay_[0-9a-f]{64}$')
+        && request.resource.data.keys().hasOnly(['ledgerId', 'createdAt'])
+        && request.resource.data.ledgerId is string
+        && request.resource.data.createdAt is timestamp
+        && ledgerAfter.paymentRefId == refId
+        && ledgerAfter.createdAt == request.resource.data.createdAt;
+    }
+
+    function hasNewMatchingAudit(entryId, beforeEffectiveCents, beforePublicApproved) {
+      let auditPath = /databases/$(database)/documents/ledgerAudit/$(request.resource.data.auditId);
+      let auditAfter = getAfter(auditPath).data;
+      return !exists(auditPath)
+        && existsAfter(auditPath)
+        && auditAfter.ledgerId == entryId
+        && auditAfter.beforeEffectiveCents == beforeEffectiveCents
+        && auditAfter.afterEffectiveCents == request.resource.data.effectiveCents
+        && auditAfter.beforePublicApproved == beforePublicApproved
+        && auditAfter.afterPublicApproved == request.resource.data.publicApproved
+        && auditAfter.revision == request.resource.data.revision
+        && auditAfter.changedAt == request.resource.data.updatedAt
+        && auditAfter.changedBy == request.auth.uid;
+    }
+
+    function validSupporterCountTransition(beforeCount, afterCount, beforeEffective, afterEffective) {
+      return (
+          beforeEffective == 0 && afterEffective > 0
+          && afterCount == beforeCount + 1
+        ) || (
+          beforeEffective > 0 && afterEffective == 0
+          && afterCount == beforeCount - 1
+        ) || (
+          ((beforeEffective == 0 && afterEffective == 0)
+            || (beforeEffective > 0 && afterEffective > 0))
+          && afterCount == beforeCount
+        );
+    }
+
+    function hasMatchingWebsiteUpdate(entryId, beforeEffectiveCents) {
+      let websitePath = /databases/$(database)/documents/publicProject/website;
+      let websiteBefore = get(websitePath).data;
+      let websiteAfter = getAfter(websitePath).data;
+      return websiteAfter.confirmedCents
+             == websiteBefore.confirmedCents
+                + request.resource.data.effectiveCents - beforeEffectiveCents
+        && validSupporterCountTransition(
+          websiteBefore.confirmedSupporters,
+          websiteAfter.confirmedSupporters,
+          beforeEffectiveCents,
+          request.resource.data.effectiveCents
+        )
+        && websiteAfter.lastLedgerId == entryId
+        && websiteAfter.lastAuditId == request.resource.data.auditId
+        && websiteAfter.updatedAt == request.resource.data.updatedAt;
+    }
+
+    function validPublicSupporter(entryId) {
+      let privateEntry = getAfter(
+        /databases/$(database)/documents/ledgerEntries/$(entryId)
+      ).data;
+      return request.resource.data.keys().hasOnly([
+          'name', 'message', 'publicApproved', 'updatedAt'
+        ])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 40
+        && request.resource.data.message is string
+        && request.resource.data.message.size() <= 140
+        && request.resource.data.publicApproved == true
+        && request.resource.data.updatedAt is timestamp
+        && privateEntry.publicApproved == true
+        && privateEntry.publicName == request.resource.data.name
+        && privateEntry.publicMessage == request.resource.data.message
+        && privateEntry.updatedAt == request.resource.data.updatedAt
+        && privateEntry.consentEvidence is string
+        && privateEntry.consentEvidence.size() > 0;
+    }
+
+    function validWebsiteStatus() {
+      return request.resource.data.keys().hasOnly([
+          'confirmedCents', 'confirmedSupporters', 'lastLedgerId',
+          'lastAuditId', 'updatedAt'
+        ])
+        && request.resource.data.confirmedCents is int
+        && request.resource.data.confirmedCents >= 0
+        && request.resource.data.confirmedSupporters is int
+        && request.resource.data.confirmedSupporters >= 0
+        && request.resource.data.lastLedgerId is string
+        && request.resource.data.lastLedgerId.size() > 0
+        && request.resource.data.lastAuditId is string
+        && request.resource.data.lastAuditId.size() > 0
+        && request.resource.data.updatedAt is timestamp;
+    }
+
+    function validAtomicWebsiteUpdate() {
+      let auditPath = /databases/$(database)/documents/ledgerAudit/$(request.resource.data.lastAuditId);
+      let auditAfter = getAfter(auditPath).data;
+      let ledgerAfter = getAfter(
+        /databases/$(database)/documents/ledgerEntries/$(request.resource.data.lastLedgerId)
+      ).data;
+      return !exists(auditPath)
+        && existsAfter(auditPath)
+        && auditAfter.ledgerId == request.resource.data.lastLedgerId
+        && ledgerAfter.auditId == request.resource.data.lastAuditId
+        && auditAfter.afterEffectiveCents == ledgerAfter.effectiveCents
+        && auditAfter.afterPublicApproved == ledgerAfter.publicApproved
+        && request.resource.data.confirmedCents
+             == resource.data.confirmedCents
+                + auditAfter.afterEffectiveCents - auditAfter.beforeEffectiveCents
+        && validSupporterCountTransition(
+          resource.data.confirmedSupporters,
+          request.resource.data.confirmedSupporters,
+          auditAfter.beforeEffectiveCents,
+          auditAfter.afterEffectiveCents
+        )
+        && request.resource.data.updatedAt == auditAfter.changedAt;
+    }
+
+    function validPublicSettings() {
+      return request.resource.data.keys().hasOnly([
+          'imprint', 'privacy', 'policyVersion', 'failurePolicy', 'updatedAt'
+        ])
+        && request.resource.data.imprint is string
+        && request.resource.data.privacy is string
+        && request.resource.data.policyVersion is string
+        && request.resource.data.failurePolicy is string
+        && request.resource.data.updatedAt is timestamp;
+    }
+
+    function validAuditFields() {
+      return request.resource.data.keys().hasOnly([
+          'ledgerId', 'action', 'beforeEffectiveCents', 'afterEffectiveCents',
+          'beforePublicApproved', 'afterPublicApproved', 'revision',
+          'changedAt', 'changedBy'
+        ])
+        && request.resource.data.ledgerId is string
+        && request.resource.data.action is string
+        && request.resource.data.beforeEffectiveCents is int
+        && request.resource.data.afterEffectiveCents is int
+        && request.resource.data.beforePublicApproved is bool
+        && request.resource.data.afterPublicApproved is bool
+        && request.resource.data.revision is int
+        && request.resource.data.revision >= 1
+        && request.resource.data.changedAt is timestamp
+        && request.resource.data.changedBy == request.auth.uid;
+    }
+
+    function validAuditTransition(auditId) {
+      let ledgerPath = /databases/$(database)/documents/ledgerEntries/$(request.resource.data.ledgerId);
+      let ledgerAfter = getAfter(ledgerPath).data;
+      let websitePath = /databases/$(database)/documents/publicProject/website;
+      return ledgerAfter.auditId == auditId
+        && ledgerAfter.revision == request.resource.data.revision
+        && ledgerAfter.effectiveCents == request.resource.data.afterEffectiveCents
+        && ledgerAfter.publicApproved == request.resource.data.afterPublicApproved
+        && ledgerAfter.updatedAt == request.resource.data.changedAt
+        && getAfter(websitePath).data.lastAuditId == auditId
+        && getAfter(websitePath).data.lastLedgerId == request.resource.data.ledgerId
+        && get(websitePath).data.lastAuditId != auditId
+        && (
+          (!exists(ledgerPath)
+            && request.resource.data.action == 'PAYMENT_CONFIRMED'
+            && request.resource.data.beforeEffectiveCents == 0
+            && request.resource.data.beforePublicApproved == false)
+          ||
+          (exists(ledgerPath)
+            && get(ledgerPath).data.effectiveCents == request.resource.data.beforeEffectiveCents
+            && get(ledgerPath).data.publicApproved == request.resource.data.beforePublicApproved
+            && (
+              (request.resource.data.beforeEffectiveCents
+                   != request.resource.data.afterEffectiveCents
+                && request.resource.data.action == 'REFUND_RECORDED')
+              ||
+              (request.resource.data.beforePublicApproved == false
+                && request.resource.data.afterPublicApproved == true
+                && request.resource.data.action == 'PUBLIC_CONSENT_GRANTED')
+              ||
+              (request.resource.data.beforePublicApproved == true
+                && request.resource.data.afterPublicApproved == false
+                && request.resource.data.action == 'PUBLIC_CONSENT_REVOKED')
+              ||
+              (request.resource.data.beforeEffectiveCents
+                   == request.resource.data.afterEffectiveCents
+                && request.resource.data.beforePublicApproved
+                   == request.resource.data.afterPublicApproved
+                && request.resource.data.action == 'METADATA_CORRECTED')
+            ))
+        );
+    }
+
+    // Altbestand bleibt privat und unverändert; niemals automatisch veröffentlichen.
+    match /projektDaten/{id} { allow read: if ownerEnabled(); allow write: if false; }
+    match /spender/{id} { allow read: if ownerEnabled(); allow write: if false; }
+
+    match /owners/{uid} {
+      allow get: if signedIn()
+        && request.auth.uid == uid
+        && resource.data.enabled == true;
+      allow list, create, update, delete: if false;
+    }
+
+    match /ledgerEntries/{entryId} {
+      allow read: if ownerEnabled();
+      allow create: if ownerEnabled()
+        && validLedgerEntry()
+        && request.resource.data.revision == 1
+        && request.resource.data.publicApproved == false
+        && request.resource.data.createdAt == request.resource.data.updatedAt
+        && hasNewPaymentReference(entryId)
+        && hasNewMatchingAudit(entryId, 0, false)
+        && hasMatchingWebsiteUpdate(entryId, 0)
+        && validPublicState(entryId);
+      allow update: if ownerEnabled()
+        && validLedgerEntry()
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.transactionId == resource.data.transactionId
+        && request.resource.data.paymentRefId == resource.data.paymentRefId
+        && request.resource.data.revision == resource.data.revision + 1
+        && request.resource.data.auditId != resource.data.auditId
+        && hasNewMatchingAudit(
+          entryId, resource.data.effectiveCents, resource.data.publicApproved
+        )
+        && hasMatchingWebsiteUpdate(entryId, resource.data.effectiveCents)
+        && validPublicState(entryId);
+      allow delete: if false;
+    }
+
+    match /paymentRefs/{refId} {
+      allow get: if ownerEnabled();
+      allow list: if false;
+      allow create: if ownerEnabled() && validPaymentReference(refId);
+      allow update, delete: if false;
+    }
+
+    match /ledgerAudit/{auditId} {
+      allow read: if ownerEnabled();
+      allow create: if ownerEnabled()
+        && validAuditFields()
+        && validAuditTransition(auditId);
+      allow update, delete: if false;
+    }
+
+    match /publicSupporters/{entryId} {
+      // Besucher lesen die bereinigte Namenswand seitenweise.
+      allow get: if false;
+      allow list: if request.query.limit != null
+        && request.query.limit <= 100;
+      allow create, update: if ownerEnabled() && validPublicSupporter(entryId);
+      allow delete: if ownerEnabled()
+        && getAfter(/databases/$(database)/documents/ledgerEntries/$(entryId))
+             .data.publicApproved == false;
+    }
+
+    match /publicProject/website {
+      allow get: if true;
+      allow list: if false;
+      // Einmaliger leerer Start; der öffentliche Client zeigt bootstrap als ungeprüft.
+      allow create: if ownerEnabled()
+        && validWebsiteStatus()
+        && request.resource.data.confirmedCents == 0
+        && request.resource.data.confirmedSupporters == 0
+        && request.resource.data.lastLedgerId == 'bootstrap'
+        && request.resource.data.lastAuditId == 'bootstrap';
+      allow update: if ownerEnabled()
+        && validWebsiteStatus()
+        && validAtomicWebsiteUpdate();
+      allow delete: if false;
+    }
+
+    match /publicProject/settings {
+      allow get: if true;
+      allow list: if false;
+      allow create, update: if ownerEnabled() && validPublicSettings();
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
