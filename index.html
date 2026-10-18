@@ -1161,6 +1161,7 @@ Deutschland</p>
 <span>Für Emily. Und all die Erinnerungen, die noch kommen.</span>
 </div>
 </div>
+<p><a href="betreiber.html">Betreiberbereich</a></p>
 </footer>
 <p id="runtime-note" class="runtime-note">Für die Hausvorschau kannst du die Baustufen direkt auswählen. Der aktuelle Projektstand und die Animation benötigen JavaScript.</p>
 <script>/* Die Haus-Demo läuft unabhängig von Zahlungsdiensten und Projektdaten. */
@@ -1294,9 +1295,10 @@ $('stone-prev').onclick=()=>{stonePage--;renderStonePage();};$('stone-next').onc
 let loading=false;
 async function loadPublicData(){if(loading)return;loading=true;$('refresh-data').disabled=true;try{
  const d=await getDoc('publicProject/website');const cents=d?.confirmedCents;
+ if(d?.lastAuditId==='bootstrap'){renderStats(null,null,'Noch kein Abgleich');renderStones(null);$('data-status').textContent='Datenanbindung bereit. Es wurde noch kein geprüfter Beitrag erfasst; der Altbestand ist nicht übernommen.';return;}
  if(!Number.isSafeInteger(cents)||cents<0)throw new Error('Kein bestätigter Stand');
  const date=d.updatedAt?new Date(d.updatedAt):null;const text=date&&!Number.isNaN(date.getTime())?date.toLocaleString('de-DE'):'Datum im bisherigen Stand nicht angegeben';
- renderStats(cents/100,null,text);renderStones(cents);$('data-status').textContent='Von Bernhard abgeglichener Stand · '+text;
+ renderStats(cents/100,Number.isSafeInteger(d.confirmedSupporters)?d.confirmedSupporters:null,text);renderStones(cents);$('data-status').textContent='Von Bernhard abgeglichener Stand · '+text;
  }catch(e){$('data-status').textContent=confirmedCents===null?'Der aktuelle Stand ist gerade nicht verfügbar. Bitte versuch es später noch einmal.':'Aktualisierung fehlgeschlagen; angezeigt bleibt der zuletzt geladene Stand.';if(confirmedCents===null)renderStones(null);}finally{loading=false;$('refresh-data').disabled=false;}
 }
 let wallEntries=[],wallNext='',wallLoading=false;
