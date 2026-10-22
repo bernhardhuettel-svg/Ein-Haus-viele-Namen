@@ -39,3 +39,20 @@ Transaktionen: https://firebase.google.com/docs/firestore/manage-data/transactio
 Google-Anmeldung: https://firebase.google.com/docs/auth/web/google-signin
 
 Datenschutzquellen geprüft am 19.10.2026: https://firebase.google.com/support/privacy/ ; https://firebase.google.com/docs/firestore/locations ; https://firebase.google.com/terms ; https://cloud.google.com/terms/data-processing-addendum .
+
+
+## Ergänzung 22. Oktober 2026: Zahlungsablauf vor Freischaltung
+
+`npm run test:payment` führt zehn lokale Prüfungen ohne Netzwerk, PayPal oder Produktionsdaten aus. Geprüft werden Startschalter, Einzelvoraussetzungen, EUR-Link und Betrag, Cent-Eingabe, manuelle Eingangsbestätigung, Kalenderdatum, doppelte Referenzen, anonyme Buchung, Einwilligung/Widerruf und Teil-/Vollrückzahlung. Ergebnis: 10/10 bestanden. Ungültige Kalenderdaten (z. B. 30. Februar) und nicht sicher darstellbare Cent-Ganzzahlen werden im Buchungskern nun abgewiesen.
+
+Diese Prüfungen ergänzen die zuvor dokumentierten Emulatorprüfungen. Sie sind kein neuer Live-Zahlungstest und keine Bestätigung von PayPal oder Google. Es wurde kein Produktionsdatensatz angelegt. Die Startschalter bleiben unverändert.
+
+### Ablauf zum ersten echten Beitrag
+
+1. Nach abgeschlossenen Startprüfungen den vorhandenen Zahlungsmodus aktivieren und die tatsächliche Empfänger-/Betragsanzeige bei PayPal kontrollieren. Die kostenlose Demo bleibt getrennt.
+2. Nach einem echten Eingang die abgeschlossene Transaktion in PayPal prüfen. Bruttobetrag, Transaktionsreferenz und Datum im Betreiberbereich erfassen; Gebühren separat nachvollziehbar halten. Ein Klick, Zuordnungscode oder Screenshot allein gilt nicht als Zahlungseingang.
+3. Nach Speichern neu laden und Gesamtbetrag prüfen. Dieselbe Referenz darf keine zweite Buchung erzeugen. Der Zähler zeigt Beiträge vor Gebühren und nach erfassten Rückzahlungen, kein verfügbares Guthaben.
+4. Einen Namen erst nach dokumentierter passender Einwilligung freigeben. Zahlungsreferenz und privater Zuordnungsname dürfen nicht im öffentlichen Datensatz erscheinen.
+5. Bereits erfolgte Rückzahlungen dokumentieren; die Betreiberfunktion löst selbst keine Geldbewegung aus. Ein Namenswiderruf entfernt den öffentlichen Eintrag unabhängig vom Betrag.
+
+Eine automatische PayPal-Verbuchung ist nicht eingerichtet. Der Zahlungsabgleich bleibt manuell. Die öffentliche Firebase-Anbindung ist trotz vorbereitetem Konfigurationswert durch die offene Diensteprüfung weiterhin effektiv gesperrt.
