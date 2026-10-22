@@ -2,7 +2,8 @@
   "name": "hausprojekt-betreiber",
   "private": true,
   "scripts": {
-    "test": "firebase emulators:exec --only firestore --project demo-haus-operator \"node --test operator.emulator.test.cjs\""
+    "test": "firebase emulators:exec --only firestore --project demo-haus-operator \"node --test operator.emulator.test.cjs\"",
+    "test:payment": "node --test payment-flow.test.cjs"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "6.0.0",
