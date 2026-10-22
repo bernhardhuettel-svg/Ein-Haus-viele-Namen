@@ -53,7 +53,7 @@
 
   function positiveCents(value, label) {
     const amount = Number(value);
-    if (!Number.isInteger(amount) || amount <= 0) fail(`${label} muss eine positive Cent-Ganzzahl sein.`);
+    if (!Number.isSafeInteger(amount) || amount <= 0) fail(`${label} muss eine positive Cent-Ganzzahl sein.`);
     return amount;
   }
 
@@ -66,8 +66,8 @@
 
   function validDate(value) {
     const date = String(value || "");
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(`${date}T00:00:00Z`))) {
-      fail("Das Zahlungsdatum muss im Format JJJJ-MM-TT vorliegen.");
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(`${date}T00:00:00Z`)) || new Date(`${date}T00:00:00Z`).toISOString().slice(0, 10) !== date) {
+      fail("Das Zahlungsdatum muss ein gültiges Kalenderdatum im Format JJJJ-MM-TT sein.");
     }
     return date;
   }
