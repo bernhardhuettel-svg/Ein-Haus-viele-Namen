@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="#fbf8f1"/><rect x="40" y="40" width="1120" height="550" rx="28" fill="none" stroke="#dedfd1"/><g fill="#30473d" font-family="serif"><text x="85" y="175" font-size="54">Ein Haus.</text><text x="85" y="243" font-size="54">Viele Namen.</text><text x="85" y="320" font-size="31" fill="#b66e50">Ein Zuhause für Emily.</text></g><g font-family="sans-serif" fill="#536451" font-size="21"><text x="85" y="393">Bernhard &amp; Ela · Schirmitz</text><text x="85" y="438">Unser privates Familienprojekt.</text><text x="85" y="480">Kostenlose Haus-Demo entdecken.</text><text x="85" y="554" font-size="17">Vorbereitung · Geldbeiträge noch nicht möglich</text></g><svg x="560" y="100" width="610" height="420" viewBox="0 0 900 610">
+<title id="hero-title">Ein freundliches Haus mit Garten – unsere Wunschvorstellung</title>
+<desc id="hero-desc">Symbolische Hausillustration aus 120 Modellsteinen, mit warmem Ziegeldach, grüner Haustür, Fenstern und einem Garten. Kein Foto oder Bauplan.</desc>
+<ellipse cx="458" cy="501" rx="349" ry="53" fill="#dfe7d4"/>
+<circle cx="658" cy="127" r="89" fill="#f2d79b" opacity=".72"/>
+<g fill="#fffdf7" opacity=".94">
+<path d="M92 135c0-15 11-27 26-27 6-25 43-30 55-7 21-2 31 12 29 28 22-1 29 27 10 32H111c-15 0-22-13-19-26Z"/>
+<path d="M704 189c-1-11 9-21 20-21 9-26 39-23 50-1 30-2 38 31 13 37h-73c-9-1-14-9-10-15Z"/>
+</g>
+<g stroke="#729180" fill="none" stroke-width="2.5" stroke-linecap="round">
+<path d="M490 85q9-10 17 0 9-10 17 0M752 100q6-8 13 0 7-8 14 0"/>
+</g>
+<g class="garden-back">
+<path d="M111 443 121 216" stroke="#917960" stroke-width="9" stroke-linecap="round"/>
+<path d="m117 332-31-40m32-37 34-24" stroke="#917960" stroke-width="5"/>
+<ellipse cx="102" cy="255" rx="52" ry="61" fill="#b4c4a3"/>
+<ellipse cx="128" cy="206" rx="48" ry="58" fill="#c5d1af"/>
+<ellipse cx="145" cy="271" rx="46" ry="53" fill="#a5bb99"/>
+<path d="M769 453V322" stroke="#9b8163" stroke-width="8"/>
+<ellipse cx="768" cy="317" rx="57" ry="72" fill="#b5c5a2"/>
+<ellipse cx="789" cy="286" rx="39" ry="49" fill="#c3ceab"/>
+</g>
+<path d="M220 486c60-17 174-12 250 17l58 40c-65 13-153 7-183-4Z" fill="#efe6d5"/>
+<path d="M356 477c-3 19-10 30-30 46" stroke="#f8f0e2" stroke-width="48" fill="none"/>
+<g style="display:none" fill="none" stroke="#a6b8a5" stroke-width="2" stroke-dasharray="6 8" opacity=".65">
+<path d="M210 465V255L360 115 550 65 700 208 680 212V416L510 465ZM210 255H510V465M360 115 525 255 700 208"/>
+</g>
+<path class="house-piece phase-1" data-piece="1" d="M210.00,465.00 L247.50,465.00 L247.50,477.00 L210.00,477.00 Z" fill="#c8b9a2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-1" data-piece="2" d="M247.50,465.00 L285.00,465.00 L285.00,477.00 L247.50,477.00 Z" fill="#c8b9a2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-1" data-piece="3" d="M285.00,465.00 L322.50,465.00 L322.50,477.00 L285.00,477.00 Z" fill="#c8b9a2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-1" data-piece="4" d="M322.50,465.00 L360.00,465.00 L360.00,477.00 L322.50,477.00 Z" fill="#c8b9a2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-1" data-piece="5" d="M360.00,465.00 L397.50,465.00 L397.50,477.00 L360.00,477.00 Z" fill="#c8b9a2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-1" data-piece="6" d="M397.50,465.00 L435.00,465.00 L435.00,477.00 L397.50,477.00 Z" fill="#c8b9a2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-1" data-piece="7" d="M435.00,465.00 L472.50,465.00 L472.50,477.00 L435.00,477.00 Z" fill="#c8b9a2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-1" data-piece="8" d="M472.50,465.00 L510.00,465.00 L510.00,477.00 L472.50,477.00 Z" fill="#c8b9a2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-1" data-piece="9" d="M510.00,465.00 L552.50,452.50 L552.50,464.50 L510.00,477.00 Z" fill="#b4a48e" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-1" data-piece="10" d="M552.50,452.50 L595.00,440.00 L595.00,452.00 L552.50,464.50 Z" fill="#b4a48e" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-1" data-piece="11" d="M595.00,440.00 L637.50,427.50 L637.50,439.50 L595.00,452.00 Z" fill="#b4a48e" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-1" data-piece="12" d="M637.50,427.50 L680.00,415.00 L680.00,427.00 L637.50,439.50 Z" fill="#b4a48e" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="13" d="M210.00,430.00 L247.50,430.00 L247.50,465.00 L210.00,465.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="14" d="M247.50,430.00 L285.00,430.00 L285.00,465.00 L247.50,465.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="15" d="M285.00,430.00 L322.50,430.00 L322.50,465.00 L285.00,465.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="16" d="M322.50,430.00 L360.00,430.00 L360.00,465.00 L322.50,465.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="17" d="M360.00,430.00 L397.50,430.00 L397.50,465.00 L360.00,465.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="18" d="M397.50,430.00 L435.00,430.00 L435.00,465.00 L397.50,465.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="19" d="M435.00,430.00 L472.50,430.00 L472.50,465.00 L435.00,465.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="20" d="M472.50,430.00 L510.00,430.00 L510.00,465.00 L472.50,465.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="21" d="M510.00,430.00 L552.50,417.50 L552.50,452.50 L510.00,465.00 Z" fill="#d9c9a9" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="22" d="M552.50,417.50 L595.00,405.00 L595.00,440.00 L552.50,452.50 Z" fill="#deceb1" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="23" d="M595.00,405.00 L637.50,392.50 L637.50,427.50 L595.00,440.00 Z" fill="#d4c4a5" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="24" d="M637.50,392.50 L680.00,380.00 L680.00,415.00 L637.50,427.50 Z" fill="#d9c9a9" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="25" d="M210.00,395.00 L247.50,395.00 L247.50,430.00 L210.00,430.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="26" d="M247.50,395.00 L285.00,395.00 L285.00,430.00 L247.50,430.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="27" d="M285.00,395.00 L322.50,395.00 L322.50,430.00 L285.00,430.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="28" d="M322.50,395.00 L360.00,395.00 L360.00,430.00 L322.50,430.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="29" d="M360.00,395.00 L397.50,395.00 L397.50,430.00 L360.00,430.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="30" d="M397.50,395.00 L435.00,395.00 L435.00,430.00 L397.50,430.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="31" d="M435.00,395.00 L472.50,395.00 L472.50,430.00 L435.00,430.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="32" d="M472.50,395.00 L510.00,395.00 L510.00,430.00 L472.50,430.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="33" d="M510.00,395.00 L552.50,382.50 L552.50,417.50 L510.00,430.00 Z" fill="#deceb1" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="34" d="M552.50,382.50 L595.00,370.00 L595.00,405.00 L552.50,417.50 Z" fill="#d4c4a5" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="35" d="M595.00,370.00 L637.50,357.50 L637.50,392.50 L595.00,405.00 Z" fill="#d9c9a9" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="36" d="M637.50,357.50 L680.00,345.00 L680.00,380.00 L637.50,392.50 Z" fill="#deceb1" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="37" d="M210.00,360.00 L247.50,360.00 L247.50,395.00 L210.00,395.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="38" d="M247.50,360.00 L285.00,360.00 L285.00,395.00 L247.50,395.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="39" d="M285.00,360.00 L322.50,360.00 L322.50,395.00 L285.00,395.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="40" d="M322.50,360.00 L360.00,360.00 L360.00,395.00 L322.50,395.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="41" d="M360.00,360.00 L397.50,360.00 L397.50,395.00 L360.00,395.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="42" d="M397.50,360.00 L435.00,360.00 L435.00,395.00 L397.50,395.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="43" d="M435.00,360.00 L472.50,360.00 L472.50,395.00 L435.00,395.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="44" d="M472.50,360.00 L510.00,360.00 L510.00,395.00 L472.50,395.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="45" d="M510.00,360.00 L552.50,347.50 L552.50,382.50 L510.00,395.00 Z" fill="#d4c4a5" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="46" d="M552.50,347.50 L595.00,335.00 L595.00,370.00 L552.50,382.50 Z" fill="#d9c9a9" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="47" d="M595.00,335.00 L637.50,322.50 L637.50,357.50 L595.00,370.00 Z" fill="#deceb1" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="48" d="M637.50,322.50 L680.00,310.00 L680.00,345.00 L637.50,357.50 Z" fill="#d4c4a5" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="49" d="M210.00,325.00 L247.50,325.00 L247.50,360.00 L210.00,360.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="50" d="M247.50,325.00 L285.00,325.00 L285.00,360.00 L247.50,360.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="51" d="M285.00,325.00 L322.50,325.00 L322.50,360.00 L285.00,360.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="52" d="M322.50,325.00 L360.00,325.00 L360.00,360.00 L322.50,360.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="53" d="M360.00,325.00 L397.50,325.00 L397.50,360.00 L360.00,360.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="54" d="M397.50,325.00 L435.00,325.00 L435.00,360.00 L397.50,360.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="55" d="M435.00,325.00 L472.50,325.00 L472.50,360.00 L435.00,360.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="56" d="M472.50,325.00 L510.00,325.00 L510.00,360.00 L472.50,360.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="57" d="M510.00,325.00 L552.50,312.50 L552.50,347.50 L510.00,360.00 Z" fill="#d9c9a9" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="58" d="M552.50,312.50 L595.00,300.00 L595.00,335.00 L552.50,347.50 Z" fill="#deceb1" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="59" d="M595.00,300.00 L637.50,287.50 L637.50,322.50 L595.00,335.00 Z" fill="#d4c4a5" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="60" d="M637.50,287.50 L680.00,275.00 L680.00,310.00 L637.50,322.50 Z" fill="#d9c9a9" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="61" d="M210.00,290.00 L247.50,290.00 L247.50,325.00 L210.00,325.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="62" d="M247.50,290.00 L285.00,290.00 L285.00,325.00 L247.50,325.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="63" d="M285.00,290.00 L322.50,290.00 L322.50,325.00 L285.00,325.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="64" d="M322.50,290.00 L360.00,290.00 L360.00,325.00 L322.50,325.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="65" d="M360.00,290.00 L397.50,290.00 L397.50,325.00 L360.00,325.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="66" d="M397.50,290.00 L435.00,290.00 L435.00,325.00 L397.50,325.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="67" d="M435.00,290.00 L472.50,290.00 L472.50,325.00 L435.00,325.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="68" d="M472.50,290.00 L510.00,290.00 L510.00,325.00 L472.50,325.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="69" d="M510.00,290.00 L552.50,277.50 L552.50,312.50 L510.00,325.00 Z" fill="#deceb1" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="70" d="M552.50,277.50 L595.00,265.00 L595.00,300.00 L552.50,312.50 Z" fill="#d4c4a5" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="71" d="M595.00,265.00 L637.50,252.50 L637.50,287.50 L595.00,300.00 Z" fill="#d9c9a9" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="72" d="M637.50,252.50 L680.00,240.00 L680.00,275.00 L637.50,287.50 Z" fill="#deceb1" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="73" d="M210.00,255.00 L247.50,255.00 L247.50,290.00 L210.00,290.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="74" d="M247.50,255.00 L285.00,255.00 L285.00,290.00 L247.50,290.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="75" d="M285.00,255.00 L322.50,255.00 L322.50,290.00 L285.00,290.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="76" d="M322.50,255.00 L360.00,255.00 L360.00,290.00 L322.50,290.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="77" d="M360.00,255.00 L397.50,255.00 L397.50,290.00 L360.00,290.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="78" d="M397.50,255.00 L435.00,255.00 L435.00,290.00 L397.50,290.00 Z" fill="#efdfc2" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="79" d="M435.00,255.00 L472.50,255.00 L472.50,290.00 L435.00,290.00 Z" fill="#f4e7d0" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="80" d="M472.50,255.00 L510.00,255.00 L510.00,290.00 L472.50,290.00 Z" fill="#f3e5cc" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="81" d="M510.00,255.00 L552.50,242.50 L552.50,277.50 L510.00,290.00 Z" fill="#d4c4a5" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="82" d="M552.50,242.50 L595.00,230.00 L595.00,265.00 L552.50,277.50 Z" fill="#d9c9a9" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="83" d="M595.00,230.00 L637.50,217.50 L637.50,252.50 L595.00,265.00 Z" fill="#deceb1" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="84" d="M637.50,217.50 L680.00,205.00 L680.00,240.00 L637.50,252.50 Z" fill="#d4c4a5" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="85" d="M195.00,255.00 L261.00,255.00 L285.75,220.00 L236.25,220.00 Z" fill="#f0e1c6" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="86" d="M261.00,255.00 L327.00,255.00 L335.25,220.00 L285.75,220.00 Z" fill="#f0e1c6" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="87" d="M327.00,255.00 L393.00,255.00 L384.75,220.00 L335.25,220.00 Z" fill="#f0e1c6" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="88" d="M393.00,255.00 L459.00,255.00 L434.25,220.00 L384.75,220.00 Z" fill="#f0e1c6" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="89" d="M459.00,255.00 L525.00,255.00 L483.75,220.00 L434.25,220.00 Z" fill="#f0e1c6" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="90" d="M236.25,220.00 L298.12,220.00 L318.75,185.00 L277.50,185.00 Z" fill="#f0e1c6" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="91" d="M298.12,220.00 L360.00,220.00 L360.00,185.00 L318.75,185.00 Z" fill="#f0e1c6" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="92" d="M360.00,220.00 L421.88,220.00 L401.25,185.00 L360.00,185.00 Z" fill="#f0e1c6" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="93" d="M421.88,220.00 L483.75,220.00 L442.50,185.00 L401.25,185.00 Z" fill="#f0e1c6" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="94" d="M277.50,185.00 L360.00,185.00 L360.00,150.00 L318.75,150.00 Z" fill="#f0e1c6" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="95" d="M360.00,185.00 L442.50,185.00 L401.25,150.00 L360.00,150.00 Z" fill="#f0e1c6" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-2" data-piece="96" d="M318.75,150.00 L401.25,150.00 L360.00,115.00 L360.00,115.00 Z" fill="#f0e1c6" stroke="#e7d9c0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="97" d="M360.00,115.00 L391.67,106.67 L432.29,141.79 L401.25,150.00 Z" fill="#c77c5c" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="98" d="M391.67,106.67 L423.33,98.33 L463.33,133.58 L432.29,141.79 Z" fill="#bd6e50" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="99" d="M423.33,98.33 L455.00,90.00 L494.38,125.38 L463.33,133.58 Z" fill="#cf8766" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="100" d="M455.00,90.00 L486.67,81.67 L525.42,117.17 L494.38,125.38 Z" fill="#c77c5c" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="101" d="M486.67,81.67 L518.33,73.33 L556.46,108.96 L525.42,117.17 Z" fill="#bd6e50" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="102" d="M518.33,73.33 L550.00,65.00 L587.50,100.75 L556.46,108.96 Z" fill="#cf8766" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="103" d="M401.25,150.00 L432.29,141.79 L472.92,176.92 L442.50,185.00 Z" fill="#bd6e50" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="104" d="M432.29,141.79 L463.33,133.58 L503.33,168.83 L472.92,176.92 Z" fill="#cf8766" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="105" d="M463.33,133.58 L494.38,125.38 L533.75,160.75 L503.33,168.83 Z" fill="#c77c5c" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="106" d="M494.38,125.38 L525.42,117.17 L564.17,152.67 L533.75,160.75 Z" fill="#bd6e50" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="107" d="M525.42,117.17 L556.46,108.96 L594.58,144.58 L564.17,152.67 Z" fill="#cf8766" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="108" d="M556.46,108.96 L587.50,100.75 L625.00,136.50 L594.58,144.58 Z" fill="#c77c5c" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="109" d="M442.50,185.00 L472.92,176.92 L513.54,212.04 L483.75,220.00 Z" fill="#cf8766" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="110" d="M472.92,176.92 L503.33,168.83 L543.33,204.08 L513.54,212.04 Z" fill="#c77c5c" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="111" d="M503.33,168.83 L533.75,160.75 L573.12,196.12 L543.33,204.08 Z" fill="#bd6e50" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="112" d="M533.75,160.75 L564.17,152.67 L602.92,188.17 L573.12,196.12 Z" fill="#cf8766" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="113" d="M564.17,152.67 L594.58,144.58 L632.71,180.21 L602.92,188.17 Z" fill="#c77c5c" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="114" d="M594.58,144.58 L625.00,136.50 L662.50,172.25 L632.71,180.21 Z" fill="#bd6e50" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="115" d="M483.75,220.00 L513.54,212.04 L554.17,247.17 L525.00,255.00 Z" fill="#c77c5c" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="116" d="M513.54,212.04 L543.33,204.08 L583.33,239.33 L554.17,247.17 Z" fill="#bd6e50" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="117" d="M543.33,204.08 L573.12,196.12 L612.50,231.50 L583.33,239.33 Z" fill="#cf8766" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="118" d="M573.12,196.12 L602.92,188.17 L641.67,223.67 L612.50,231.50 Z" fill="#c77c5c" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="119" d="M602.92,188.17 L632.71,180.21 L670.83,215.83 L641.67,223.67 Z" fill="#bd6e50" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<path class="house-piece phase-3" data-piece="120" d="M632.71,180.21 L662.50,172.25 L700.00,208.00 L670.83,215.83 Z" fill="#cf8766" stroke="#eac8b0" stroke-width="1.1" stroke-linejoin="round"/>
+<g class="house-detail walls-detail">
+<path d="M335 465V362q0-30 32-30t32 30v103" fill="#527763" stroke="#385a48" stroke-width="3"/>
+<path d="M344 458v-92q0-23 23-23t23 23v92" fill="none" stroke="#799785" stroke-width="2"/>
+<circle cx="386" cy="405" r="3.4" fill="#d5b96b"/>
+<path d="M328 466h78v9h-78Z" fill="#bdb397"/>
+<rect x="237" y="309" width="59" height="57" rx="2" fill="#a5c5bb" stroke="#fbf5e8" stroke-width="7"/>
+<path d="M266 309v57m-29-28h59" stroke="#fbf5e8" stroke-width="4"/>
+<path d="M221 308h11v61h-11m79-61h11v61h-11" fill="#638875"/>
+<rect x="438" y="309" width="48" height="57" rx="2" fill="#a5c5bb" stroke="#fbf5e8" stroke-width="7"/>
+<path d="M462 309v57m-24-28h48" stroke="#fbf5e8" stroke-width="4"/>
+<path d="M423 308h10v61h-10m58-61h11v61h-11" fill="#638875"/>
+<path d="m571 295 64-19v69l-64 19Z" fill="#92b6ad" stroke="#f1e7d2" stroke-width="6"/>
+<path d="m603 285v69m-32-24 64-19" stroke="#f1e7d2" stroke-width="4"/>
+<circle cx="360" cy="213" r="18" fill="#a5c5bb" stroke="#faf0dd" stroke-width="6"/>
+<path d="M342 213h36m-18-18v36" stroke="#faf0dd" stroke-width="3"/>
+</g>
+<g class="house-detail roof-detail">
+<path d="M192 256 360 112 527 256 704 207" fill="none" stroke="#9f5f48" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="m530 115 0-64 27-7 0 64" fill="#dbb28b"/>
+<path d="m557 44 16 9v62l-16-7" fill="#bd9476"/>
+<path d="m526 52 0-9 32-9 19 11v9l-19-10Z" fill="#a47359"/>
+</g>
+<g class="house-detail finished-detail">
+<g fill="#f5d286" opacity=".75">
+<rect x="241" y="313" width="21" height="21"/>
+<rect x="270" y="342" width="21" height="20"/>
+<rect x="442" y="313" width="16" height="21"/>
+<rect x="466" y="342" width="16" height="20"/>
+<path d="m574 300 25-7v27l-25 7Z"/>
+</g>
+<path d="M686 429v-28h17v28m-22-25h27l-13-12Z" fill="#839b77"/>
+<g fill="#cf9374">
+<path d="M297 462h22l-3 19h-16Z"/>
+<path d="M414 461h24l-4 20h-16Z"/>
+</g>
+<g stroke="#7c9668" stroke-width="3" fill="#c0cc9d">
+<path d="M307 462v-24m-1 13c-18 0-20-20-4-13m5 7c22-3 18-23 3-15M425 461v-29m0 12c-16-1-16-16-3-13m3 5c16-3 19-22 4-20"/>
+</g>
+<g fill="#d5ac53">
+<circle cx="156" cy="461" r="5"/>
+<circle cx="171" cy="447" r="5"/>
+<circle cx="727" cy="461" r="6"/>
+</g>
+<g stroke="#78936b" stroke-width="2">
+<path d="M156 466v13m15-27v21m556-6v13"/>
+</g>
+<path d="M86 384h69" stroke="#8c7b61" stroke-width="5" stroke-linecap="round"/>
+<path d="M94 385v-76m54 76v-84" stroke="#ae9974" stroke-width="2"/>
+<path d="M469 477q6-13 17-7t17 7" fill="none" stroke="#b8c69f" stroke-width="6"/>
+</g>
+</svg><text x="840" y="554" text-anchor="middle" fill="#536451" font-family="sans-serif" font-size="15">Symbolisches Wunschbild · kein gekauftes Haus</text></svg>
