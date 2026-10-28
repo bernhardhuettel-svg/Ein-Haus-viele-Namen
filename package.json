@@ -3,7 +3,9 @@
   "private": true,
   "scripts": {
     "test": "firebase emulators:exec --only firestore --project demo-haus-operator \"node --test operator.emulator.test.cjs\"",
-    "test:payment": "node --test payment-flow.test.cjs support-dialog.test.cjs"
+    "test:payment": "node --test payment-flow.test.cjs support-dialog.test.cjs",
+    "test:traffic": "node --test traffic.test.cjs",
+    "test:traffic-rules": "firebase emulators:exec --only firestore --project demo-haus-operator \"HOUSE_TEST_RULES=firestore.traffic-candidate.rules node --test --test-concurrency=1 operator.emulator.test.cjs traffic.emulator.test.cjs\""
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "6.0.0",

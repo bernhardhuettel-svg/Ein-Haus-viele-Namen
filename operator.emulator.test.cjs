@@ -3,7 +3,7 @@ const fs=require('node:fs'),test=require('node:test'),assert=require('node:asser
 const {initializeTestEnvironment,assertFails}=require('@firebase/rules-unit-testing');
 const sdk=require('firebase/firestore');const {doc,setDoc,getDoc,getDocs,collection,query,limit,Timestamp}=sdk;
 const D=require('./operator-data.js');let env;const ownerId='operator-test';
-test.before(async()=>{assert.equal(process.env.FIRESTORE_EMULATOR_HOST,'127.0.0.1:8087');env=await initializeTestEnvironment({projectId:'demo-haus-operator',firestore:{host:'127.0.0.1',port:8087,rules:fs.readFileSync(__dirname+'/firestore.rules','utf8')}});});
+test.before(async()=>{assert.equal(process.env.FIRESTORE_EMULATOR_HOST,'127.0.0.1:8087');env=await initializeTestEnvironment({projectId:'demo-haus-operator',firestore:{host:'127.0.0.1',port:8087,rules:fs.readFileSync(__dirname+'/'+(process.env.HOUSE_TEST_RULES||'firestore.rules'),'utf8')}});});
 test.beforeEach(async()=>{await env.clearFirestore();await env.withSecurityRulesDisabled(c=>setDoc(doc(c.firestore(),'owners',ownerId),{enabled:true}));});test.after(()=>env.cleanup());
 const owner=()=>env.authenticatedContext(ownerId).firestore();const visitor=()=>env.unauthenticatedContext().firestore();
 const initial=()=>({confirmedCents:0,confirmedSupporters:0,lastLedgerId:'bootstrap',lastAuditId:'bootstrap',updatedAt:Timestamp.now()});
