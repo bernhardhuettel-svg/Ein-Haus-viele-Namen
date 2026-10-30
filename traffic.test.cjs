@@ -26,3 +26,12 @@ test('HTTP rejection does not report success or retry',async()=>{
 test('declining remains final even if an old allow handler is invoked',async()=>{
  const c=partialClient();const allow=c.nodes.trafficAllow.onclick;c.nodes.trafficDecline.onclick();await allow();assert.equal(c.calls.length,0);assert.equal(c.nodes.trafficConsent.hidden,true);
 });
+
+function publicClient(response){
+ const nodes=Object.fromEntries(['trafficConsent','trafficAllow','trafficDecline','trafficStatus','trafficCount','trafficAvailability'].map(id=>[id,{hidden:true,disabled:false,textContent:'—'}]));let calls=0;
+ vm.runInNewContext(fs.readFileSync(__dirname+'/traffic-client.js','utf8'),{window:{HOUSE_TRAFFIC_CONFIG:{enabled:true,project:'hausprojekt-4aa29'},HouseTraffic:T},location:{origin:'https://bernhardhuettel-svg.github.io',pathname:'/Ein-Haus-viele-Namen/'},document:{getElementById:id=>nodes[id]},AbortSignal,fetch:async()=>{calls++;return response;}});
+ return {nodes,calls:()=>calls};
+}
+test('visible total comes from committed transform, with no public read',async()=>{const c=publicClient({ok:true,json:async()=>({writeResults:[{transformResults:[{integerValue:'7'}]}]})});assert.equal(c.calls(),0);await c.nodes.trafficAllow.onclick();assert.equal(c.nodes.trafficCount.textContent,'7');assert.equal(c.calls(),1);});
+test('invalid total never invents a number or loses successful-count message',async()=>{for(const raw of [undefined,'0','2001','abc']){const c=publicClient({ok:true,json:async()=>({writeResults:[{transformResults:[{integerValue:raw}]}]})});await c.nodes.trafficAllow.onclick();assert.equal(c.nodes.trafficCount.textContent,'—');assert.match(c.nodes.trafficStatus.textContent,/wurde mitgezählt/);}});
+test('daily cap is displayed as a lower bound',async()=>{const c=publicClient({ok:true,json:async()=>({writeResults:[{transformResults:[{integerValue:'2000'}]}]})});await c.nodes.trafficAllow.onclick();assert.equal(c.nodes.trafficCount.textContent,'≥ 2.000');});
