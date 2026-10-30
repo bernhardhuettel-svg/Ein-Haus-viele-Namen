@@ -363,6 +363,26 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // CANDIDATE ONLY: deploy after explicit security review/confirmation.
+    // Untrusted aggregate events, never identity, consent or payment evidence.
+    match /trafficDaily/{dayId} {
+      function validCount() {
+        return dayId == string(int(request.time.toMillis() / 86400000))
+          && request.resource.data.keys().hasOnly(['day', 'count'])
+          && request.resource.data.day is int
+          && request.resource.data.day == int(request.time.toMillis() / 86400000)
+          && request.resource.data.count is int
+          && request.resource.data.count >= 1 && request.resource.data.count <= 2000;
+      }
+      allow get: if ownerEnabled();
+      allow list: if request.query.limit != null && request.query.limit <= 30 && ownerEnabled();
+      allow create: if validCount() && request.resource.data.count == 1;
+      allow update: if validCount()
+        && request.resource.data.day == resource.data.day
+        && request.resource.data.count == resource.data.count + 1;
+      allow delete: if false;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
