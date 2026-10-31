@@ -35,3 +35,12 @@ function publicClient(response){
 test('visible total comes from committed transform, with no public read',async()=>{const c=publicClient({ok:true,json:async()=>({writeResults:[{transformResults:[{integerValue:'7'}]}]})});assert.equal(c.calls(),0);await c.nodes.trafficAllow.onclick();assert.equal(c.nodes.trafficCount.textContent,'7');assert.equal(c.calls(),1);});
 test('invalid total never invents a number or loses successful-count message',async()=>{for(const raw of [undefined,'0','2001','abc']){const c=publicClient({ok:true,json:async()=>({writeResults:[{transformResults:[{integerValue:raw}]}]})});await c.nodes.trafficAllow.onclick();assert.equal(c.nodes.trafficCount.textContent,'—');assert.match(c.nodes.trafficStatus.textContent,/wurde mitgezählt/);}});
 test('daily cap is displayed as a lower bound',async()=>{const c=publicClient({ok:true,json:async()=>({writeResults:[{transformResults:[{integerValue:'2000'}]}]})});await c.nodes.trafficAllow.onclick();assert.equal(c.nodes.trafficCount.textContent,'≥ 2.000');});
+
+test('saved yes counts automatically; saved no and expired choice do not',async()=>{
+ for(const [value,expires,expected] of [['yes',Date.now()+60000,1],['no',Date.now()+60000,0],['yes',0,0]]){
+ const nodes=Object.fromEntries(['trafficConsent','trafficAllow','trafficDecline','trafficStatus','trafficCount','trafficAvailability','trafficSettings','trafficNavCount'].map(id=>[id,{hidden:true,textContent:'—',scrollIntoView(){}}]));let calls=0,saved;
+ vm.runInNewContext(fs.readFileSync(__dirname+'/traffic-client.js','utf8'),{localStorage:{getItem:()=>JSON.stringify({value,expires}),setItem:(k,v)=>saved=JSON.parse(v)},window:{HOUSE_TRAFFIC_CONFIG:{enabled:true,project:'hausprojekt-4aa29'},HouseTraffic:T},location:{origin:'https://bernhardhuettel-svg.github.io',pathname:'/Ein-Haus-viele-Namen/'},document:{getElementById:id=>nodes[id]},AbortSignal,fetch:async()=>{calls++;return {ok:true,json:async()=>({writeResults:[{transformResults:[{integerValue:'12'}]}]})};}});
+ await new Promise(r=>setImmediate(r));assert.equal(calls,expected);
+ if(expected){assert.equal(nodes.trafficNavCount.textContent,'12');nodes.trafficSettings.onclick();nodes.trafficDecline.onclick();assert.equal(saved.value,'no');assert.equal(calls,1);}
+ }
+});
