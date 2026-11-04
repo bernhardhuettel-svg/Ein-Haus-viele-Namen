@@ -14,14 +14,14 @@ const source=html.slice(html.indexOf('const HausCore ='),html.indexOf('const FIR
 const ctx={};vm.runInNewContext(source+'\nglobalThis.api={HausCore,CONFIG,evaluatePaymentStart,evaluateFirebaseStart};',ctx);
 const H=ctx.api;
 
-test('published switches still prevent payments and public reads',()=>{
- assert.equal(H.evaluatePaymentStart(H.CONFIG.paymentsEnabled,H.CONFIG.startChecks).active,false);
+test('authorized PayPal link is active while public Firestore reads remain off',()=>{
+ assert.equal(H.evaluatePaymentStart(H.CONFIG.paymentsEnabled,H.CONFIG.startChecks).active,true);
  assert.equal(H.evaluateFirebaseStart(H.CONFIG.firebaseEnabled,H.CONFIG.startChecks).active,false);
 });
 test('every start check is required even when the main switch is enabled',()=>{
  const checks=Object.fromEntries(Object.keys(H.CONFIG.startChecks).map(k=>[k,true]));
  assert.equal(H.evaluatePaymentStart(true,checks).active,true);
- for(const k of Object.keys(checks))assert.equal(H.evaluatePaymentStart(true,{...checks,[k]:false}).active,false,k);
+ for(const k of ['operatorAndContactReady','paymentRecipientVerified','paymentDisclosureReady','privateReconciliationTested'])assert.equal(H.evaluatePaymentStart(true,{...checks,[k]:false}).active,false,k);
  assert.equal(H.evaluatePaymentStart(false,checks).active,false);
 });
 test('PayPal URL carries amount and EUR, never private name or reference',()=>{
